@@ -1,0 +1,987 @@
+<!-- Don't get too giddy at the sight of this. We are entirely too lazy to properly implement a stringtable. This is merely a courtesy for someone who requested it and will not be maintained by us. -->
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Project name="A3:AS - Public Version">
+	<Package name="Object Actions">
+		<Container name="Actions">
+			<Key ID="STR_ACT_OFFERTOJOIN">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Offer to Join</Original>
+			</Key>
+			<Key ID="STR_ACT_TALK">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Talk</Original>
+			</Key>
+			<Key ID="STR_ACT_BUY">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Buy</Original>
+			</Key>
+			<Key ID="STR_ACT_INTERROGATE">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Interrogate</Original>
+			</Key>
+			<Key ID="STR_ACT_LIBERATE">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Liberate POW</Original>
+			</Key>
+			<Key ID="STR_ACT_ORDERREFUGEE">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Order refugee to follow</Original>
+			</Key>
+			<Key ID="STR_ACT_TOGGLEDEVICE">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Turn Device On/Off</Original>
+			</Key>
+			<Key ID="STR_ACT_MISSIONREQUEST">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\attack_ca.paa' /&gt; Mission Request</Original>
+			</Key>
+			<Key ID="STR_ACT_HEALREPAIR">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\RscTitles\MPProgress\respawn_ca.paa' /&gt; Heal, Repair and Rearm</Original>
+			</Key>
+			<Key ID="STR_ACT_USEMED">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\heal_ca.paa' /&gt; Use Medical Supplies</Original>
+			</Key>
+			<Key ID="STR_ACT_RECRUITUNIT">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\MPTable\infantry_ca.paa' /&gt; Unit Recruitment</Original>
+			</Key>
+			<Key ID="STR_ACT_RETURNCONTROL">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\MPTable\infantry_ca.paa' /&gt; Return Control to AI</Original>
+			</Key>
+			<Key ID="STR_ACT_BUYVEHICLE">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\MPTable\soft_ca.paa' /&gt; Buy Vehicle</Original>
+			</Key>
+			<Key ID="STR_ACT_LOADAMMOBOX">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn2_ca.paa' /&gt; Load Ammobox to Truck</Original>
+			</Key>
+			<Key ID="STR_ACT_UNLOADCARGO">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn_ca.paa' /&gt; Unload Vehicle Cargo to Ammobox</Original>
+			</Key>
+			<Key ID="STR_ACT_ARSENAL">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\Logos\a_64_ca.paa' /&gt; Arsenal</Original>
+			</Key>
+			<Key ID="STR_ACT_TAKEFLAG">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\takeFlag_ca.paa' /&gt; Take the Flag</Original>
+			</Key>
+			<Key ID="STR_ACT_PERSGARAGE">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\rsc\rscdisplaysinglemission\source\backup\large_64x64\locked_ca.paa' /&gt; Personal Garage</Original>
+			</Key>
+			<Key ID="STR_ACT_REFUEL">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\refuel_ca.paa' /&gt; Refuel Vehicle</Original>
+			</Key>
+			<Key ID="STR_ACT_MOVEASSET">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Move this Asset</Original>
+			</Key>
+			<Key ID="STR_ACT_DROPASSET">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Drop Here</Original>
+			</Key>
+			<Key ID="STR_ACT_DEPLOYTOWROPES">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn_ca.paa' /&gt; Deploy Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_ACT_PUTAWAYTOWROPES">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn_ca.paa' /&gt; Put Away Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_ACT_ATTACHTOWROPES">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn2_ca.paa' /&gt; Attatch To Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_ACT_DROPTOWROPES">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\take_ca.paa' /&gt; Drop Ropes</Original>
+			</Key>
+			<Key ID="STR_ACT_PICKUPTOWROPES">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\take_ca.paa' /&gt; Pick Up Ropes</Original>
+			</Key>
+			<Key ID="STR_ACT_JAMCSAT">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\call_ca.paa' /&gt; Jam CSAT</Original>
+			</Key>
+			<Key ID="STR_ACT_REST">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Cursors\wait_gs.paa' /&gt; Rest for 8 Hours</Original>
+			</Key>
+			<Key ID="STR_ACT_HQOPTIONS">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Ranks\colonel_gs.paa' /&gt; HQ Options</Original>
+			</Key>
+			<Key ID="STR_ACT_GAMEOPTIONS">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\use_ca.paa' /&gt; Game Options</Original>
+			</Key>
+			<Key ID="STR_ACT_MAPINFO">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Hints\Map_ca.paa' /&gt; Map Info</Original>
+			</Key>
+			<Key ID="STR_ACT_BUILDPAD">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\Map\markers\military\objective_ca.paa' /&gt; Build Vehicle Zone</Original>
+			</Key>
+			<Key ID="STR_ACT_BUILDHQ">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\takeFlag_ca.paa' /&gt; Build HQ</Original>
+			</Key>
+			<Key ID="STR_ACT_PAMPHLETS">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\cfg\simpletasks\types\documents_ca.paa' /&gt; Box 'o Pams</Original>
+			</Key>
+			<Key ID="STR_ACT_TFAR">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\Map\VehicleIcons\iconVirtual_ca.paa' /&gt; TFAR Radio Menu</Original>
+			</Key>
+			<Key ID="STR_ACT_SELLMENU">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\HoldActions\holdAction_hack_ca.paa' /&gt; Bobby Ray's</Original>
+			</Key>
+		</Container>
+	</Package>
+
+	<Package name="Identifiers">
+		<Container name="Faction Identifiers">
+			<Key ID="STR_GENIDENT_AAF">
+				<Original>AAF</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_CSAT">
+				<Original>CSAT</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_NATO">
+				<Original>NATO</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_AFRF">
+				<Original>AFRF</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_VMF">
+				<Original>VMF</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_USAF">
+				<Original>USAF</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_USMC">
+				<Original>USMC</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_FIA">
+				<Original>FIA</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_RES">
+				<Original>Resistence</Original>
+			</Key>
+		</Container>
+	</Package>
+
+	<Package name="General">
+		<Container name="Info Texts">
+			<Key ID="STR_INFO_LOCALSUPPORT">
+				<Original>Local Support</Original>
+			</Key>
+			<Key ID="STR_INFO_SKILLADJ">
+				<Original>&lt;t color='#f59900' size='.45' align='center'&gt;Warning! You lack the proficiency to effectively operate this weapon.&lt;/t&gt;</Original>
+			</Key>
+		</Container>
+	</Package>
+
+	<Package name="UI">
+		<Container name="Start Menu">
+			<Key ID="STR_UI_SM_FRAMEL_TEXT">
+				<Original>Game Settings</Original>
+			</Key>
+			<Key ID="STR_UI_SM_FRAMER_TEXT">
+				<Original>Detected Mods</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_COM_0">
+				<Original>ComSwitch Disabled</Original>
+			</Key>
+			<Key ID="STR_UI_SM_COM_1">
+				<Original>ComSwitch Enabled</Original>
+			</Key>
+			<Key ID="STR_UI_SM_COM_TT">
+				<Original>Automatic Commander Switching&lt;br/&gt;In regular intervals, the highest ranking player will be assigned the role of Commander.</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_MEM_0">
+				<Original>Membership Enabled</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MEM_1">
+				<Original>Membership Disabled</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MEM_TT">
+				<Original>Only players on the member's list are illegible to become Commander, can access the arsenal inventory and have their rank saved.</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_LOAD_0">
+				<Original>Continuing Campaign</Original>
+			</Key>
+			<Key ID="STR_UI_SM_LOAD_1">
+				<Original>Restarting Campaign</Original>
+			</Key>
+			<Key ID="STR_UI_SM_LOAD_TT">
+				<Original>Continue your previous campaign or start a fresh one.</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_EAS_0">
+				<Original>Regular Conditions</Original>
+			</Key>
+			<Key ID="STR_UI_SM_EAS_1">
+				<Original>Easier Conditions</Original>
+			</Key>
+			<Key ID="STR_UI_SM_EAS_TT">
+				<Original>Easier conditions include more starting funds and additional gear available from the start.</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_TEXTF_DEF">
+				<Original>Please adjust the campaign settings.&lt;br/&gt;Press 'Start Mission' to continue.</Original>
+			</Key>
+			<Key ID="STR_UI_SM_TEXTF_LOADING">
+				<Original>&lt;br/&gt;Loading previous save...</Original>
+			</Key>
+			<Key ID="STR_UI_SM_TEXTF_LOADED">
+				<Original>&lt;br/&gt;Save successfully loaded.</Original>
+			</Key>
+
+			<Key ID="STR_UI_SM_ACE_TT">
+				<Original>Funky ACE info here.&lt;br/&gt;More funky ACE info.&lt;br/&gt;Funky town.</Original>
+			</Key>
+			<Key ID="STR_UI_SM_AFRF_TT">
+				<Original>Funky AFRF info here.&lt;br/&gt;More funky AFRF info.&lt;br/&gt;Funky town.</Original>
+			</Key>
+			<Key ID="STR_UI_SM_USAF_TT">
+				<Original>Funky USAF info here.&lt;br/&gt;More funky USAF info.&lt;br/&gt;Funky town.</Original>
+			</Key>
+			<Key ID="STR_UI_SM_RHS_TT">
+				<Original>Your guerilla movement fights against USAF/USMC.&lt;br/&gt;Russian VDV forces will assist you.</Original>
+			</Key>
+			<Key ID="STR_UI_SM_TFAR_TT">
+				<Original>Funky TFAR info here.&lt;br/&gt;More funky TFAR info.&lt;br/&gt;Funky town.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Menu Buttons">
+			<Key ID="STR_UI_MENU_COM_TT">
+				<Original>Commander Menu</Original>
+			</Key>
+			<Key ID="STR_UI_MENU_PLAYER_TT">
+				<Original>Player Menu</Original>
+			</Key>
+			<Key ID="STR_UI_MENU_ADMIN_TT">
+				<Original>Admin Menu</Original>
+			</Key>
+		</Container>
+
+		<Container name="Battle Menu">
+			<Key ID="STR_UI_BM_FRAMEL_TEXT">
+				<Original>Battle Menu</Original>
+			</Key>
+			<Key ID="STR_UI_BM_FRAMER_TEXT">
+				<Original>Current Options</Original>
+			</Key>
+
+			<Key ID="STR_UI_BM_NAV1_TEXT">
+				<Original>Fast Travel</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV1_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV2_TEXT">
+				<Original>Undercover</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV2_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV3_TEXT">
+				<Original>Vehicle Mgmt</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV3_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV4_TEXT">
+				<Original>AI Management</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV4_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV5_TEXT">
+				<Original>Player &#038; Money</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV5_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV6_TEXT">
+				<Original>Resign</Original>
+			</Key>
+			<Key ID="STR_UI_BM_NAV6_TT">
+				<Original>Resign from being commander.</Original>
+			</Key>
+
+			<Key ID="STR_UI_BM_TEXT_DEFAULT">
+				<Original></Original>
+			</Key>
+		</Container>
+
+		<Container name="AI Management">
+			<Key ID="STR_UI_AIMGMT_TEMP_TEXT">
+				<Original>Temp AI Control</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_TEMP_TT">
+				<Original>Temporarily take control of selected AI.&lt;br/&gt;Disabled when ACE is active.</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AH_TEXT">
+				<Original>Autoheal</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AH_TT">
+				<Original>Description required</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AH_TT_0">
+				<Original>AutoHeal deactivated</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AH_TT_1">
+				<Original>AutoHeal activated</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AR_TEXT">
+				<Original>Auto-Rearm</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_AR_TT">
+				<Original>Description required</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_DIS_TEXT">
+				<Original>Dismiss</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_DIS_TT">
+				<Original>Dismisses currently selected AI or group.</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_SCV_TEXT">
+				<Original>Scavenge</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_SCV_TT">
+				<Original>Coming soon™.</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_STG_TEXT">
+				<Original>Store Gear</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_STG_TT">
+				<Original>Have currently selected units store their gear. Point at vehicle to use for storage.</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_RST_TEXT">
+				<Original>Reset AI</Original>
+			</Key>
+			<Key ID="STR_UI_AIMGMT_RST_TT">
+				<Original>If AI gets stuck in an activity...</Original>
+			</Key>
+		</Container>
+
+		<Container name="Vehicle Management">
+			<Key ID="STR_UI_VEHMGMT_PGAR_TEXT">
+				<Original>Personal Garage</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_PGAR_TT">
+				<Original>Store the vehicle you are looking at in your personal garage.</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_UNL_TEXT">
+				<Original>Unlock Vehicle</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_UNL_TT">
+				<Original>Make the vehicle accessible to players not part of your group.</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_FGAR_TEXT">
+				<Original>FIA Garage</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_FGAR_TT">
+				<Original>Store the vehicle you are looking at in the FIA garage.</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_SELL_TEXT">
+				<Original>Sell Vehicle</Original>
+			</Key>
+			<Key ID="STR_UI_VEHMGMT_SELL_TT">
+				<Original>Sell the vehicle you are looking at.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Money">
+			<Key ID="STR_UI_MONEY_PLY_TEXT">
+				<Original>Donate 100&#8364; to Player</Original>
+			</Key>
+			<Key ID="STR_UI_MONEY_PLY_TT">
+				<Original>Donate 100&#8364; to the player you're looking at.</Original>
+			</Key>
+			<Key ID="STR_UI_MONEY_FIA_TEXT">
+				<Original>Donate 100&#8364; to FIA</Original>
+			</Key>
+			<Key ID="STR_UI_MONEY_FIA_TT">
+				<Original>Support the cause by donating some of your illegally acquired currency.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Commander Menu">
+			<Key ID="STR_UI_NAVCOM_NATO_TEXT">
+				<Original>%1</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_NATO_TT">
+				<Original>Call in %1 support.</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_SQR_TEXT">
+				<Original>Recruit Squad</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_SQR_TT">
+				<Original>Recruit squads to support your effort, including fireteams and mounted units.</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_SQM_TEXT">
+				<Original>Squad Mgmt</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_SQM_TT">
+				<Original>Supply squads with vehicles, check their current state.</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_BUILD_TEXT">
+				<Original>Emplacements</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_BUILD_TT">
+				<Original>Setup or take down camps, roadblocks and watchposts.</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_INFO_TEXT">
+				<Original>Details</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_INFO_TT">
+				<Original>Display additional details about the current state of your forces (arms, vehicles, etc).</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_MAINT_TEXT">
+				<Original>Maintenance</Original>
+			</Key>
+			<Key ID="STR_UI_NAVCOM_MAINT_TT">
+				<Original>Additonal maintenance functions.</Original>
+			</Key>
+		</Container>
+
+		<Container name="NATO Menu">
+			<Key ID="STR_UI_NATO_CA_TEXT">
+				<Original>Air Assault</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_CA_TT">
+				<Original>Price: 20 Points -- Air cavalry will assault the target location.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_ARM_TEXT">
+				<Original>Armoured Assault</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_ARM_TT">
+				<Original>Price: 20 Points -- Armoured cavalry will assault the target location.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_ART_TEXT">
+				<Original>Artillery</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_ART_TT">
+				<Original>Price: 10 Points -- A deployed battery will be at your command at a base of your choice.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_RB_TEXT">
+				<Original>Roadblock</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_RB_TT">
+				<Original>Price: 10 Points -- Mounted units will depart to the chosen location and setup a roadblock.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_UAV_TEXT">
+				<Original>UAV</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_UAV_TT">
+				<Original>Price: 10 Points -- An armed UAV will be placed under your command.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_AMMO_TEXT">
+				<Original>Resupply</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_AMMO_TT">
+				<Original>Price: 5 Points -- A basic resupply kit will be para-dropped at the chosen location.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_CAS_TEXT">
+				<Original>CAS</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_CAS_TT">
+				<Original>Price: 10 Points -- A Vic formation of CAS aircraft will be placed under your command.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_BOMB_TEXT">
+				<Original>Bomb Run</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_BOMB_TT">
+				<Original>Price: 10 Points -- A bomb run will be performed along the specified vector.</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_QRF_TEXT">
+				<Original>QRF</Original>
+			</Key>
+			<Key ID="STR_UI_NATO_QRF_TT">
+				<Original>Price: 10 Points -- A QRF will be dispatched from the chosen base/airport.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Squad Recruitment Menu">
+			<Key ID="STR_UI_SR_INFSQU_TEXT">
+				<Original>Inf. Squad</Original>
+			</Key>
+			<Key ID="STR_UI_SR_INFSQU_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_INFTEAM_TEXT">
+				<Original>Inf. Team</Original>
+			</Key>
+			<Key ID="STR_UI_SR_INFTEAM_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ATSQ_TEXT">
+				<Original>AT Team</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ATSQ_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_AATR_TEXT">
+				<Original>AA Truck</Original>
+			</Key>
+			<Key ID="STR_UI_SR_AATR_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_SNPR_TEXT">
+				<Original>Sniper Team</Original>
+			</Key>
+			<Key ID="STR_UI_SR_SNPR_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ATTR_TEXT">
+				<Original>AT Truck</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ATTR_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_SENTRY_TEXT">
+				<Original>Sentry</Original>
+			</Key>
+			<Key ID="STR_UI_SR_SENTRY_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_MORTAR_TEXT">
+				<Original>Mortar</Original>
+			</Key>
+			<Key ID="STR_UI_SR_MORTAR_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ENG_TEXT">
+				<Original>Engineers</Original>
+			</Key>
+			<Key ID="STR_UI_SR_ENG_TT">
+				<Original>placeholder</Original>
+			</Key>
+		</Container>
+
+		<Container name="Squad Management Menu">
+			<Key ID="STR_UI_SM_ADDVEH_TEXT">
+				<Original>Add Vehicle</Original>
+			</Key>
+			<Key ID="STR_UI_SM_ADDVEH_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SM_VEHSTATS_TEXT">
+				<Original>Vehicle Stats</Original>
+			</Key>
+			<Key ID="STR_UI_SM_VEHSTATS_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MOUNT_TEXT">
+				<Original>Mount/Dismount</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MOUNT_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_SM_AUTOT_TEXT">
+				<Original>Static Autotarget</Original>
+			</Key>
+			<Key ID="STR_UI_SM_AUTOT_TT">
+				<Original>placeholder</Original>
+			</Key>
+		</Container>
+
+		<Container name="Emplacement">
+			<Key ID="STR_UI_EMP_BLDRB_TEXT">
+				<Original>Create Roadblock/OP</Original>
+			</Key>
+			<Key ID="STR_UI_SM_BLDRB_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_DELRB_TEXT">
+				<Original>Remove Roadblock/OP</Original>
+			</Key>
+			<Key ID="STR_UI_SM_DELRB_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_MNAP_TEXT">
+				<Original>Deploy Minefield (AP)</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MNAP_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_MNAT_TEXT">
+				<Original>Deploy Minefield (AT)</Original>
+			</Key>
+			<Key ID="STR_UI_SM_MNAT_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_CMPEST_TEXT">
+				<Original>Establish Camp</Original>
+			</Key>
+			<Key ID="STR_UI_SM_CMPEST_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_CMPDEL_TEXT">
+				<Original>Remove Camp</Original>
+			</Key>
+			<Key ID="STR_UI_SM_CMPDEL_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_CMPREN_TEXT">
+				<Original>Rename Camp</Original>
+			</Key>
+			<Key ID="STR_UI_SM_CMPREN_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_EMP_HQFORT_TEXT">
+				<Original>HQ Fortifications</Original>
+			</Key>
+			<Key ID="STR_UI_SM_HQFORT_TT">
+				<Original>placeholder</Original>
+			</Key>
+		</Container>
+
+		<Container name="Info">
+			<Key ID="STR_UI_INFO_FIA_TEXT">
+				<Original>Status</Original>
+			</Key>
+			<Key ID="STR_UI_INFO_FIA_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_INFO_AXPREST_TEXT">
+				<Original>Current Restrictions</Original>
+			</Key>
+			<Key ID="STR_UI_INFO_AXPREST_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_INFO_AXPPRO_TEXT">
+				<Original>Current Progress</Original>
+			</Key>
+			<Key ID="STR_UI_INFO_AXPPRO_TT">
+				<Original>placeholder</Original>
+			</Key>
+		</Container>
+
+		<Container name="Maintenance">
+			<Key ID="STR_UI_MAINT_ARS_TEXT">
+				<Original>Arsenal</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_ARS_TT">
+				<Original>Fix minor issues with the arsenal.</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_PET_TEXT">
+				<Original>Reset Petros' position</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_PET_TT">
+				<Original>Terminate Petros' animation, move him next to the campfire at HQ.</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_MOV_TEXT">
+				<Original>Move Statics/HQ Items</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_MOV_TT">
+				<Original>Reinitialize your ability to move statics and HQ assets.</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_RES_TEXT">
+				<Original>Reset HQ</Original>
+			</Key>
+			<Key ID="STR_UI_MAINT_RES_TT">
+				<Original>If you managed to lose one of your HQ items, this will reset all of them near Petros.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Admin">
+			<Key ID="STR_UI_ADMIN_ADDMEM_TEXT">
+				<Original>Add Server Member</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_ADDMEM_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_REMMEM_TEXT">
+				<Original>Remove S. Member</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_REMMEM_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_GEARRES_TEXT">
+				<Original>Gear Reset</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_GEARRES_TT">
+				<Original>Checks the entire inventory of the ammo box as well as the arsenal, removes incorrect items.</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLAXP_TEXT">
+				<Original>Army XP System</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLAXP_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLFT_TEXT">
+				<Original>Old Fast Travel</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLFT_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLARS_TEXT">
+				<Original>Arsenal Access</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLARS_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLWPN_TEXT">
+				<Original>Weapon Proficiency</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLWPN_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLTM_TEXT">
+				<Original>Test Mode</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_TGLTM_TT">
+				<Original>placeholder</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_FORCE1ST_TEXT">
+				<Original>Disable 3rd Person</Original>
+			</Key>
+			<Key ID="STR_UI_ADMIN_FORCE1ST_TT">
+				<Original>placeholder</Original>
+			</Key>
+		</Container>
+
+		<Container name="Sell">
+			<Key ID="STR_UI_SELL_FRAME">
+				<Original>Sell Gear</Original>
+			</Key>
+			<Key ID="STR_UI_SELL_WEAPONS">
+				<Original>Weapons</Original>
+			</Key>
+			<Key ID="STR_UI_SELL_AMMO">
+				<Original>Ordnance</Original>
+			</Key>
+			<Key ID="STR_UI_SELL_ITEMS">
+				<Original>Items</Original>
+			</Key>
+			<Key ID="STR_UI_SELL_BACKPACKS">
+				<Original>Backpacks</Original>
+			</Key>
+		</Container>
+	</Package>
+
+	<Package name="Tasks">
+		<Container name="Titles and Descriptions">
+			<Key ID="STR_TSK_ASOFFICER">
+				<Original>Kill the Officer</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_ASOFFICER">
+				<Original>Our Spies have reported that a CSAT officer is inspecting %1. Now is the time to Strike! Make sure he is eliminated by any means possible before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_ASSPECOP">
+				<Original>CSAT SpecOps</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_ASSPECOP">
+				<Original>Reports have come in that a CSAT SpecOps ground team is currently patrolling near %1. From what we know, these are tough soldiers who usually make use of airial un-manned drones. A well executed strike will gain us some of their high tech equipment. Do this before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_ASSTRAITOR">
+				<Original>Kill the Traitor</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_ASSTRAITOR">
+				<Original>Bad news, one of our very own is planning to defect. We have tracked his movements to the nearby town of %1. We are not taking any chancs. Kill him before he provides the enemy with intel of the location of our soldiers homes and FIA cash stockpiles. Do this before %2:%3. We don't where exactly this meeting will happen. You will recognise the building by the nearby MRAP and CSAT presence.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_HQATTACK">
+				<Original>Defend Petros</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_HQATTACK">
+				<Original>CSAT knows the location of our HQ. We suspect that they have sent a SpecOps Air Squad in order to kill Petros. We have two choices - Either retreat and move HQ further than 1km away, or defend with all we have.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CONOPAA">
+				<Original>Clear the Outpost</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CONOPAA">
+				<Original>A CSAT %1 is disturbing our operations in the area. This heavily defended outpost has Mortar and UAV, from what our spies tell us. We advise the destruction of the Drone before engaging and elimination the majority of ground troops. If there is an AA tank, this is also a priorty target. The operation must be completed before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CONPOWER">
+				<Original>Take the Power Plant</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CONPOWER">
+				<Original>A %1 has a monopoly over the power supply to nearby towns. Nato might not like this, but we have no choice- We need the Towns on our side and to achieve this we will need the Powerplant. Capture it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CONOP">
+				<Original>Take the Outpost</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CONOP">
+				<Original>A %1 is disturbing our operations in the area. Go there and capture it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_AMMO">
+				<Original>%1 Ammo Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_AMMO">
+				<Original>A convoy from %1 is about to depart at %2:%3. It will provide ammunition to %4. Try to intercept it. Steal or destroy that truck before it reaches it's destination. Be careful, the enemy may provide an armoured escort.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_ARMOR">
+				<Original>%1 Armored Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_ARMOR">
+				<Original>A convoy from %1 is about to depart at %2:%3. It will reinforce %4 with armored vehicles. Try to intercept it. Steal or destroy the main Armoured Vehicle before it reaches it's destination.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_PRIS">
+				<Original>%1 Prisoner Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_PRIS">
+				<Original>A group of POW's is being transported from %1 to %4, departing at %2:%3. Sadly, it seems the enemy are planning their execution. We must intercept it and rescue them. Kill the driver or capture the truck to make them join you and bring them to HQ. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_MONEY">
+				<Original>%1 Money Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_MONEY">
+				<Original>The enemy have been spotted moving large amounts of money from %1 to %4 departing at %2:%3. Steal that truck and bring it to HQ. There aren't many better opportunities to acquire the funds we will need to build up our army, don't screw up! </Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_SUPPLY">
+				<Original>%1 Supply Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_SUPPLY">
+				<Original>A truck with medical supplies is about to depart from %1 to %4 at %2:%3. Steal the truck and bring it to %4 . Let the people there know of the FIA's 'benevolence' .</Original>
+			</Key>
+
+			<Key ID="STR_TSK_CVY_HVT">
+				<Original>%1 HVT Convoy</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_CVY_HVT">
+				<Original>From what we know, a high-value target will travel from %1 to %4. His departure is scheduled for %2:%3. Seize the opportunity and take him out! We believe he will use a decoy to obscure his exact vehicle.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_DEFCAMP">
+				<Original>Defend %1</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DEFCAMP">
+				<Original>A QRF has just been spotted taking off from %2. Their initial heading suggests that %1 is their target. We have no choice, assume defensive positions</Original>
+			</Key>
+
+			<Key ID="STR_TSK_DESANTENNA">
+				<Original>Destroy Radio Tower</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DESANTENNA">
+				<Original> An opportunity to strike a Radio Tower in %1 presents its self. If we manage this it will interrupt %4 Comms Nework in the AO. We can destroy the antenna or capture the outpost but must complete it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_DESHELI">
+				<Original>Destroy Air</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DESHELI">
+				<Original>We have downed air vehicle. This is a great chance to destroy it before it is recovered by a recovery team from %1 reaches the crash site </Original>
+			</Key>
+
+			<Key ID="STR_TSK_DESVEHICLE">
+				<Original>Steal or Destroy Armor</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DESVEHICLE">
+				<Original>We know an %4 is stationed in %1. This is a good chance to steal or destroy it before it causes more damage. Do it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_FNDCIV">
+				<Original>Contact the Corrupt Politician</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_FNDCIV">
+				<Original>A local politician who is sympathetic to our cause is willing to meet us near %1 until %2:%3. As it happens, he has a couple of jobs he's offering to undermine %4 control in this AO. He has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_FNDEXP">
+				<Original>Find the Crazy Irishman</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_FNDEXP">
+				<Original>Black Market dealer Devin Connell has been spotted near %1. He's scheduled for a flight to Metavira or Arulco at %2:%3, so you better hurry up if you wish to acquire some of his fine products. From our recent meetings with him, he has agreed to meet with FIA overt soldiers only, apparently he doesnt like civilians all that much. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_FNDMIL">
+				<Original>Contact the Corrupt Officer</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_FNDMIL">
+				<Original>A disgruntled %4 officer is trying to leave Altis. His departure is scheduled for %2:%3. If you manage to get to him in time, you might be able to convince him to stay and support our case. He was spotted near %1 and has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
+			</Key>
+			<Key ID="STR_TSK_LOGAMMO">
+				<Original>Steal or Destroy Ammotruck</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_LOGAMMO">
+				<Original>We've spotted an enemy Ammotruck in an %1. This is a great opportunity to scavange some well-needed gear from the enemy. We have until  %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_LOGBANK">
+				<Original>Bank Robbery</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_LOGBANK">
+				<Original>We know %4 is guarding a large amount of money in the bank of %1. Take this getaway vehicle and go there before %2:%3, hold the truck close to thw bank's main entrance for 2 minutes and the money will be transferred to the truck. Bring it back to HQ and the money will be ours.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_LOGMEDICAL">
+				<Original>Supply Recovery</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_LOGMEDICAL">
+				<Original>We've had word from our informant that a sympathetic cell has sent supplies to %1. They ran into an %5 patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in %1 before %2:%3. %5 command has probably dispatched a patrol from %4 to retrieve the goods, so you better hurry. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_LOGSUPPLY">
+				<Original>City Supplies</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_LOGSUPPLY">
+				<Original>%1 population is in need of supplies. As it happens, we have just what they need and it may improve our relationship with them. I reserved a transport truck with supplies near our HQ. Drive the transport truck to %1 city center. Hold it there for 2 minutes before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_NATOSUPPLY">
+				<Original>%1 Ammodrop</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_NATOSUPPLY">
+				<Original>Our Commander has asked %1 for a supply drop. Command the transport with your HC module and bring it to the designated position. Once it has landed you are free to use the equipment or bring it back to HQ. We dont think they will be able to supply us again for some time. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_PRBRAIN">
+				<Original>Establish Propaganda Station</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRBRAIN">
+				<Original>We have noticed that the town of %1 is sympathetic to our cause. Travel there with this Truck and establish a semi-permanent propaganda station in order to spread the word. Once established, stay with and guard the station for as long as you deem necessary to raise town support. It would be wise to expect a number of enemy military responses to this action. You have until %2:%3 to arrive and set it up.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRBRAIN_FAIL">
+				<Original>You failed to set up the gear before %2:%3.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRBRAIN_HOLD">
+				<Original>Protect the station for as long as you can. We have enough battery capacity to run this station until %2:%3, so don't drag this out.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRBRAIN_FAIL2">
+				<Original>You held the position for less than 10 minutes.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRBRAIN_SUCCESS">
+				<Original>You managed to hold the position long enough to inspire the population.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_PRPAMPHLET">
+				<Original>Leaflet Drop</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRPAMPHLET">
+				<Original>Supporters of our cause have been working hard to bring the population of %1 over to our side. Help these brave volunteers by delivering these leaflets to safe drop locations. Pick up will take place at %2:%3, so you better have them in place by then. This might be easier if you manage to remain undetected for as long as possible.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRPAMPHLET_FAIL">
+				<Original>You failed to provide leaflets for our volunteers in %1.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRPAMPHLET_DROP">
+				<Original>Drop a crate within 20m of the marked position, do this before %2:%3.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_PRPAMPHLET_SUCCESS">
+				<Original>Well done. Our volunteers in %1 are now spreading the word.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_REPANTENNA">
+				<Original>Tower Rebuild Disrupt</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_REPANTENNA">
+				<Original>%4 is rebuilding a radio tower in %1. If we want to keep up the enemy comms breakdown, the work must be stopped. Destroy the repair truck parked nearby or capture the zone. Work will be finished at %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_RESPRISONERS">
+				<Original>POW Rescue</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_RESPRISONERS">
+				<Original>A group of POWs is awaiting execution at %1. We must rescue them before %2:%3 and bring them to HQ. It would be wise to avoid using anything explosive in your rescue attempt for fear of collateral damage. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_RESREFUGEES">
+				<Original>Refugees Evac</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_RESREFUGEES">
+				<Original>A group of FIA supportes are hidden in a house in %1. We have to get there and find them before %2 does and bring them back to base.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_INTREINF">
+				<Original>Intercept Reinforcements</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_INTREINF">
+				<Original>In response to the casualties suffered by the garrison at the %2, %1 are preparing to send reinforcements from %3. They will be ready to roll out within minutes. Try to catch them on the move!</Original>
+			</Key>
+		</Container>
+	</Package>
+</Project>
