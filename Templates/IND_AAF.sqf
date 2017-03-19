@@ -71,6 +71,7 @@ vehIFV = 			["I_APC_tracked_03_cannon_F"]; // IFVs
 vehTank = 			["I_MBT_03_cannon_F"]; // MBTs
 vehSupply = 		["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"]; // supply vehicles (ammo, fuel, med)
 vehAmmo = 			"I_Truck_02_ammo_F"; // ammo truck, for special missions
+vehFuel = 			["I_Truck_02_fuel_F"]; // fuel truck for missions
 vehLead = 			["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"]; // lead vehicle for convoys, preferably armed MRAP/car
 standardMRAP = 		["I_MRAP_03_F"]; // default transport MRAP/car
 vehTruckBox = 		["I_Truck_02_box_F"]; // repair truck or at least a prop
