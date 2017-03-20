@@ -64,8 +64,7 @@ if (isNil "_weights") then {
 };
 
 // add a delay, depending on the number of places you control
-//_delay = (round (5 - (count mrkFIA)/10)) + (round random 10);
-_delay = 1;
+_delay = (round (5 - (count mrkFIA)/10)) + (round random 10);
 _startTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _delay];
 _startTimeNumber = dateToNumber _startTime;
 
@@ -121,9 +120,6 @@ _tsk = ["CONVOY",[side_blue,civilian],[format [_tskDesc,_originName,numberToDate
 
 misiones pushBack _tsk; publicVariable "misiones";
 
-/*_group = createGroup side_green;
-_groups pushBack _group;*/
-
 _posData = [_posbase, _posDestination] call AS_fnc_findSpawnSpots;
 _posRoad = _posData select 0;
 _dir = _posData select 1;
@@ -155,16 +151,8 @@ _units = _vehData select 2;
 
 [_vehData select 3] call _addWaypoint;
 
-/*_wp0 = (_groups select 0) addWaypoint [_posDestination, 0];
-_wp0 setWaypointType "MOVE";
-_wp0 setWaypointBehaviour "SAFE";
-_wp0 setWaypointSpeed "LIMITED";
-_wp0 setWaypointFormation "COLUMN";*/
-
 _counter = [1, (round random 2) + 1] select ([_destination] call AS_fnc_isFrontline);
-
 _HVTveh = 0;
-
 _tempMP = [];
 if (hayRHS) then {
 	if (count (vehAAFAT arrayIntersect vehIFV) > 0) then {
