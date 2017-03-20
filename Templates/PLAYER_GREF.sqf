@@ -1,5 +1,5 @@
 side_blue = independent;
-guer_respawn = "respawn_guerrila";
+guer_respawn = "respawn_guer";
 guer_marker_colour = "ColorGUER";
 guer_marker_type = "rhs_flag_che";
 guer_flag_texture = "rhsafrf\addons\rhs_main\data\flag_vdv_co.paa";
