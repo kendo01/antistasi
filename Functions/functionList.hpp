@@ -106,6 +106,7 @@ class CfgFunctions {
 			class reinforcementTimer {};
 			class adjustGroupSize {};
 			class protectCamoNet {};
+			class IslandCheck {};
 		};
 		class QRF {
 			file = "Functions";

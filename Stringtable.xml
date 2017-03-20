@@ -355,10 +355,10 @@
 				<Original>Store the vehicle you are looking at in your personal garage.</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_UNL_TEXT">
-				<Original>Unlock Vehicle</Original>
+				<Original>(Un)lock Vehicle</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_UNL_TT">
-				<Original>Make the vehicle accessible to players not part of your group.</Original>
+				<Original>Lock or unlock the vehicle.</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_FGAR_TEXT">
 				<Original>FIA Garage</Original>
