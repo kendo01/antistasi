@@ -71,6 +71,14 @@ if (_tipo == "LOG") then
 				};
 			if (_pos distance _posbase < 4000) then {
 				if (_sitio in ciudades) then {
+					/*
+					_datos = server getVariable _sitio;
+					_prestigeOPFOR = _datos select 2;
+					_prestigeBLUFOR = _datos select 3;
+					if (_prestigeOPFOR + _prestigeBLUFOR < 90) then {
+						_posibles pushBack _sitio;
+					};
+					*/
 					_posibles pushBack _sitio;
 				}
 				else {

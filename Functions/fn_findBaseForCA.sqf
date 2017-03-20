@@ -1,8 +1,7 @@
 params ["_marker", ["_force", false]];
 private ["_position","_basesAAF","_bases","_base","_posBase","_busy","_radio"];
 
-if (typeName _marker == "STRING") then {_position = getMarkerPos _marker} else {_position = _marker};
-
+_position = [_marker, getMarkerPos _marker] select (typeName _marker == "STRING");
 _basesAAF = bases - mrkFIA;
 _bases = [];
 _base = "";

@@ -31,7 +31,7 @@ if (isMultiplayer) exitWith
 	_unit setDamage 1;
 	};
 private ["_posicion","_tam","_roads","_road","_pos"];
-_posicion = getMarkerPos guer_respawn;
+_posicion = getMarkerPos "respawn_guerrila";
 if (_unit getVariable "inconsciente") then {_unit setVariable ["inconsciente",false,true]};
 _unit setVariable ["ayudado",nil];
 _unit setVariable ["ayudando",nil];

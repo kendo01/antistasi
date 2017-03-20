@@ -3,7 +3,7 @@ private ["_roads", "_startRoad"];
 _startRoad = _origin;
 _roads = [];
 
-if ((_spot) && (worldName == "Altis")) exitWith {
+if (_spot) exitWith {
 	[_origin, "none"] call fnc_getpresetSpawnPos;
 };
 
