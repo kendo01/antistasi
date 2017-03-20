@@ -35,8 +35,6 @@ if (_resourcesAAF > 5000) then
 		}
 	else
 		{
-		diag_log format ["Antenna - number of destroyed antennas: %1", count antenasMuertas];
-		diag_log format ["Antenna - coordinates of destroyed antennas: %1", antenasMuertas];
 		if ((count antenasMuertas > 0) and (not("REP" in misiones))) then
 			{
 			{
