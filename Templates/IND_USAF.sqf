@@ -73,6 +73,7 @@ vehIFV = 			["RHS_M2A2","RHS_M2A2","RHS_M2A3_BUSKI","RHS_M2A2"]; // IFVs
 vehTank = 			["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskiid_usarmy","rhsusf_m1a2sep1tuskid_usarmy"]; // MBTs
 vehSupply = 		["rhsusf_M977A4_AMMO_BKIT_M2_usarmy_d","rhsusf_M977A4_BKIT_M2_usarmy_d","rhsusf_M978A4_usarmy_d","rhsusf_M977A4_REPAIR_usarmy_d","rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy"]; // supply vehicles (ammo, fuel, med)
 vehAmmo = 			"rhsusf_M977A4_AMMO_BKIT_M2_usarmy_d"; // ammo truck, for special missions
+vehFuel = 			["rhsusf_M978A4_BKIT_usarmy_d","rhsusf_M978A4_usarmy_d"]; // fuel truck for missions
 vehLead = 			["rhsusf_M1117_D"]; // lead vehicle for convoys, preferably armed MRAP/car
 standardMRAP = 		["rhsusf_rg33_d","rhsusf_m1025_d"]; // default transport MRAP/car
 vehTruckBox = 		["rhsusf_M977A4_REPAIR_usarmy_d"]; // repair truck or at least a prop

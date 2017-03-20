@@ -83,6 +83,7 @@ LOG_Ammo = compile preProcessFileLineNumbers "Missions\LOG_Ammo.sqf";
 DES_Vehicle = compile preProcessFileLineNumbers "Missions\DES_Vehicle.sqf";
 DES_Heli = compile preProcessFileLineNumbers "Missions\DES_Heli.sqf";
 DES_Antena = compile preProcessFileLineNumbers "Missions\DES_Antena.sqf";
+DES_EnemySuppression = compile preProcessFileLineNumbers "Missions\DES_EnemySuppression.sqf";
 CON_Puestos = compile preProcessFileLineNumbers "Missions\CON_Puestos.sqf";
 ataqueHQ = compile preProcessFileLineNumbers "Missions\ataqueHQ.sqf";
 AS_Oficial = compile preProcessFileLineNumbers "Missions\AS_Oficial.sqf";
@@ -176,6 +177,7 @@ misReqMil = compile preProcessFileLineNumbers "Missions\misReqMil.sqf";
 missionSelect = compile preProcessFileLineNumbers "Missions\missionSelect.sqf";
 PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
 PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";
+DES_fuel = compile preProcessFileLineNumbers "Missions\DES_Fuel.sqf";
 
 HQ_adds = compile preprocessFileLineNumbers "Compositions\HQ_adds.sqf";
 compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
