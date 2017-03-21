@@ -62,7 +62,7 @@ fn_SetStat = {
 			if(_varName == 'AS_session_server') exitWith {server setVariable ["AS_session_server",_varValue,true]; AS_session_server = _varValue; publicVariable "AS_session_server";};
 			if(_varName == 'AS_session_client') exitWith {player setVariable ["AS_session_client",_varValue,true]};
 
-			if(_varName == 'AS_destroyedZones') exitWith {AS_destroyedZones = _varvalue};
+			if(_varName == 'AS_destroyedZones') exitWith {AS_destroyedZones = _varvalue; publicVariable "AS_destroyedZones";};
 			if(_varName == 'unlockedWeapons') exitWith {
 				unlockedWeapons = _varvalue;
 				lockedWeapons = lockedWeapons - unlockedWeapons;
