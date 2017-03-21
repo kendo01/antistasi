@@ -355,10 +355,10 @@
 				<Original>Store the vehicle you are looking at in your personal garage.</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_UNL_TEXT">
-				<Original>Unlock Vehicle</Original>
+				<Original>(Un)lock Vehicle</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_UNL_TT">
-				<Original>Make the vehicle accessible to players not part of your group.</Original>
+				<Original>Lock or unlock the vehicle.</Original>
 			</Key>
 			<Key ID="STR_UI_VEHMGMT_FGAR_TEXT">
 				<Original>FIA Garage</Original>
@@ -982,6 +982,21 @@
 			<Key ID="STR_TSKDESC_INTREINF">
 				<Original>In response to the casualties suffered by the garrison at the %2, %1 are preparing to send reinforcements from %3. They will be ready to roll out within minutes. Try to catch them on the move!</Original>
 			</Key>
+
+			<Key ID="STR_TSK_DESSuppression">
+				<Original>Destroy the enemy taskforce.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DESSuppression">
+				<Original>We have received word that the enemy are supressing a community at their local church. If we wipe them out we will surely bring some support to our cause. Go to the location and kill the squad. </Original>
+			</Key>
+
+			<Key ID="STR_TSK_DESfuel">
+				<Original> Destroy the enemy fuel truck.</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_DESfuel">
+				<Original>The enemy is buying fuel from the civilians to supply their war machine. The truck is leaving from %1 and will return there once it is full. We have a contact who will let us know when the truck is at the fuel station. Destroy the fuel truck to show the enemy and the population that we will not stand for collaboration.</Original>
+			</Key>
+
 		</Container>
 	</Package>
 </Project>

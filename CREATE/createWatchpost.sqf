@@ -8,7 +8,7 @@ _vehiculos = [];
 _grupos = [];
 _soldados = [];
 _grupo = createGroup side_green;
-
+_size = [_marcador] call sizeMarker;
 
 _posicion = getMarkerPos (_marcador);
 
