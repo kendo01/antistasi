@@ -69,6 +69,7 @@ if (!isDedicated) then
 	["unlockedItems", unlockedItems] call fn_SaveStat;
 	["unlockedMagazines", unlockedMagazines] call fn_SaveStat;
 	["unlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
+	["AS_destroyedZones", AS_destroyedZones] call fn_SaveStat;
 
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 

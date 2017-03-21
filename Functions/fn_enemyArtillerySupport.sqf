@@ -31,7 +31,7 @@ _endTimeNumber = dateToNumber _endTime;
 
 while {count _artyPositions > 0} do {
 	_artyPos = [artyEmplacements, _positionTarget] call BIS_fnc_nearestPosition;
-	if (([ciudades, _artyPos] call BIS_fnc_nearestPosition) in mrkAAF) exitWith {_artyAvailable = true};
+	if (([ciudades, _artyPos] call BIS_fnc_nearestPosition) in mrkAAF) AND !(_artyPos in AS_destroyedZones)) exitWith {_artyAvailable = true};
 	_artyPositions = _artyPositions - [_artyPos];
 };
 
@@ -103,7 +103,7 @@ _allGroups pushBackUnique _groupGunners;
 	_groupType = [opGroup_Security, side_red] call AS_fnc_pickGroup;
 	_group = [_x, side_red, _groupType] call BIS_Fnc_spawnGroup;
 	sleep 1;
-	[leader _group, _mrk, "SAFE","SPAWNED","NOFOLLOW","NOMOVE"] execVM "scripts\UPSMON.sqf";
+	[leader _group, _mrk, "SAFE","SPAWNED","NOFOLLOW","NOMOVE","NOVEH"] execVM "scripts\UPSMON.sqf";
 	_allGroups pushBackUnique _group;
 } forEach _spawnPoints;
 
@@ -111,7 +111,7 @@ for "_i" from 1 to 2 do {
 	_groupType = [opGroup_Recon_Team, side_red] call AS_fnc_pickGroup;
 	_group = [_posArty, side_red, _groupType] call BIS_Fnc_spawnGroup;
 	sleep 1;
-	[leader _group, _artyPos, "STEALTH","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+	[leader _group, _artyPos, "STEALTH","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
 	_allGroups pushBackUnique _group;
 };
 
@@ -177,6 +177,8 @@ diag_log (_positionTarget inRangeOfArtillery [[_howitzer], ((getArtilleryAmmo [_
 sleep 30;
 
 waitUntil {sleep 1; (dateToNumber date > _endTimeNumber) OR (count (allUnits select {((side _x == side_green) OR (side _x == side_red)) AND (_x distance _posArty <= _sizeArty)}) < 1) OR !(server getVariable ["artillerySupport", false])};
+
+if !(alive _howitzer) then {AS_destroyedZones pushBackUnique _artyPos};
 
 [_allGroups, _soldiers, _vehicles] spawn AS_fnc_despawnUnits;
 
