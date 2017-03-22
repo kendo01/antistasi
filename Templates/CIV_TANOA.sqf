@@ -33,9 +33,7 @@ CIV_vehicles = [
 	"C_Truck_02_transport_F",
 	"C_Truck_02_covered_F",
 	"C_Offroad_02_unarmed_F",
-	"C_man_sport_1_F_tanoan",
 	"C_Offroad_01_repair_F",
-	"C_man_1",
 	"B_GEN_Offroad_01_gen_F"
 ];
 
