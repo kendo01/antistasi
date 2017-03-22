@@ -201,8 +201,8 @@ call {
 		};
 
 		if (hayUSAF) then {
-			call compile preprocessFileLineNumbers "Templates\IND_USAF.sqf";
-			call compile preprocessFileLineNumbers "Templates\RED_USMC.sqf";
+			call compile preprocessFileLineNumbers "Templates\IND_USMC.sqf";
+			call compile preprocessFileLineNumbers "Templates\RED_SOC.sqf";
 		} else {
 			call compile preprocessFileLineNumbers "Templates\IND_NATO.sqf";
 			call compile preprocessFileLineNumbers "Templates\RED_NATO_SF.sqf";
@@ -214,13 +214,6 @@ call {
 			call compile preprocessFileLineNumbers "Templates\BLUE_CSAT.sqf";
 		};
 	};
-
-	/*if (replaceFIA) exitWith {
-		call compile preprocessFileLineNumbers "Templates\PLAYER_GREF.sqf";
-		call compile preprocessFileLineNumbers "Templates\IND_USAF.sqf";
-		call compile preprocessFileLineNumbers "Templates\RED_USMC.sqf";
-		call compile preprocessFileLineNumbers "Templates\BLUE_VMF.sqf";
-	};*/
 
 	call compile preprocessFileLineNumbers "Templates\PLAYER_FIA.sqf";
 
@@ -365,6 +358,7 @@ resourcesIsChanging = false;
 savingServer = false;
 misiones = [];
 revelar = false;
+AS_destroyedZones = [];
 
 vehInGarage = ["C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",guer_veh_quad,guer_veh_quad,guer_veh_quad]; // initial motorpool
 destroyedBuildings = []; publicVariable "destroyedBuildings";

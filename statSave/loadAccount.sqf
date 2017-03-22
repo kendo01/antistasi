@@ -88,6 +88,7 @@ petros allowdamage false;
 ["vehInGarage"] call fn_LoadStat;
 ["destroyedBuildings"] call fn_LoadStat;
 ["idleBases"] call fn_LoadStat;
+["AS_destroyedZones"] call fn_LoadStat;
 //===========================================================================
 
 unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - srifles - mguns; publicVariable "unlockedRifles";
