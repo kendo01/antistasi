@@ -52,7 +52,7 @@ while {true} do {
 						if ((_marcador in recursos) or (_marcador in fabricas)) exitWith {[_marcador] remoteExec ["createResources",HCGarrisons]};
 						if ((_marcador in _puestos) or (_marcador in puertos)) exitWith {[_marcador] remoteExec ["createOutpost",HCGarrisons]};
 						if (_marcador in puestosAA) exitWith {[_marcador] remoteExec ["createOutpostAA",HCGarrisons]};
-						//if (_marcador in artyEmplacements) exitWith {[_marcador] remoteExec ["createArtillery",HCGarrisons]};
+						if ((_marcador in artyEmplacements) AND (_marcador in forcedSpawn)) exitWith {[_marcador] remoteExec ["createArtillery",HCGarrisons]};
 					};
 				};
 			} else {

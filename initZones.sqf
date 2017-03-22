@@ -106,27 +106,28 @@ if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then/
     };
 }foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
 
+_mtnCounter = 1;
 {
-_nombre = text _x;
-if ((_nombre != "") and (_nombre != "Magos")) then//Magos is blacklisted can't remember why, blacklist any hill you desire here
-    {
-    _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
-    _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
-    if (_sizeX > _sizeY) then {_size = _sizeX} else {_size = _sizeY};
-    _pos = getPos _x;
-    if (_size < 10) then {_size = 50};
+    _nombre = text _x;
+    if ((_nombre == "") AND !(worldName == "Altis")) then {_nombre = format ["mtn_%1", _mtnCounter]; _mtnCounter = _mtnCounter + 1};
+    if ((_nombre != "Magos") AND !(_nombre == "")) then {
+        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
+        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
+        if (_sizeX > _sizeY) then {_size = _sizeX} else {_size = _sizeY};
+        _pos = getPos _x;
+        if (_size < 10) then {_size = 50};
 
-    _mrk = createmarker [format ["%1", _nombre], _pos];
-    _mrk setMarkerSize [_size, _size];
-    _mrk setMarkerShape "ELLIPSE";
-    _mrk setMarkerBrush "SOLID";
-    _mrk setMarkerColor "ColorRed";
-    _mrk setMarkerText _nombre;
-    colinas pushBack _nombre;
-    spawner setVariable [_nombre,false,true];
-    _mrk setMarkerAlpha 0;
+        _mrk = createmarker [format ["%1", _nombre], _pos];
+        _mrk setMarkerSize [_size, _size];
+        _mrk setMarkerShape "ELLIPSE";
+        _mrk setMarkerBrush "SOLID";
+        _mrk setMarkerColor "ColorRed";
+        _mrk setMarkerText _nombre;
+        colinas pushBack _nombre;
+        spawner setVariable [_nombre,false,true];
+        _mrk setMarkerAlpha 0;
     };
-}foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["Hill"], worldSize/1.414]);
+} foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["Hill"], worldSize/1.414]);
 
 marcadores = marcadores + colinas + ciudades;
 //esto de abajo hay que hacerlo con foreach particulares sin if, en lugar de un foreach general
