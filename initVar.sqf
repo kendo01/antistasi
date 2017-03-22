@@ -187,6 +187,10 @@ call {
 	if (worldName == "Altis") exitWith {
 		call compile preprocessFileLineNumbers "Templates\CIV_ALTIS.sqf";
 	};
+	if (worldName == "Tanoa") exitWith {
+ 		call compile preprocessFileLineNumbers "Templates\CIV_TANOA.sqf";
+	};
+
 
 	call compile preprocessFileLineNumbers "Templates\CIV_ALTIS.sqf"; // default
 };
