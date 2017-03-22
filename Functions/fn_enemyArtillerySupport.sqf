@@ -31,7 +31,7 @@ _endTimeNumber = dateToNumber _endTime;
 
 while {count _artyPositions > 0} do {
 	_artyPos = [artyEmplacements, _positionTarget] call BIS_fnc_nearestPosition;
-	if (([ciudades, _artyPos] call BIS_fnc_nearestPosition) in mrkAAF) AND !(_artyPos in AS_destroyedZones)) exitWith {_artyAvailable = true};
+	if ((([ciudades, _artyPos] call BIS_fnc_nearestPosition) in mrkAAF) AND !(_artyPos in AS_destroyedZones)) exitWith {_artyAvailable = true};
 	_artyPositions = _artyPositions - [_artyPos];
 };
 
