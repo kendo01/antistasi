@@ -10,7 +10,7 @@
 forcedSpawn = [];
 ciudades = [];
 colinas = [];
-colinasAA = ["Agela","Agia Stemma","Agios Andreas","Agios Minas","Amoni","Didymos","Kira","Pyrsos","Riga","Skopos","Synneforos","Thronos"];
+colinasAA = [];
 power = ["power","power_1","power_2","power_3","power_5","power_6","power_8","power_9","power_10"];//powerplants "power_4", has been changed by "factory_5"
 bases = ["base","base_1","base_2","base_3","base_4","base_5","base_6","base_7","base_9","base_10","base_11","base_12"];//bases: if the island uses Arma 3 vanilla buildings, they will get popukated, if not, or no static weapons, or heavy modification
 aeropuertos = ["airport","airport_1","airport_2","airport_3","airport_4","airport_5"];//airports
@@ -29,6 +29,9 @@ if (worldName == "Altis") then {
     "control_51","control_52","control_53","control_54","control_55","control_56","control_57","control_58","control_59","control_60",
     "control_61","control_62","control_63","control_64","control_65","control_66","control_67","control_68","control_69","control_70",
     "control_71","control_72","control_73","control_74","control_75"];
+    colinasAA = ["Agela","Agia Stemma","Agios Andreas","Agios Minas","Amoni","Didymos","Kira","Pyrsos","Riga","Skopos","Synneforos","Thronos"];
+} else {
+    colinas = ["mtn_1","mtn_2","mtn_3","mtn_4","mtn_5"]; // for use if you wish to manually place zones on hilltops -- add as many as you need
 };
 artyEmplacements = ["artillery_1", "artillery_2", "artillery_3", "artillery_4", "artillery_5"];
 
@@ -106,10 +109,8 @@ if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then/
     };
 }foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
 
-_mtnCounter = 1;
 {
     _nombre = text _x;
-    if ((_nombre == "") AND !(worldName == "Altis")) then {_nombre = format ["mtn_%1", _mtnCounter]; _mtnCounter = _mtnCounter + 1};
     if ((_nombre != "Magos") AND !(_nombre == "")) then {
         _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
         _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
@@ -199,6 +200,7 @@ if (worldName == "Altis") then {
 } forEach puertos;
 
 mrkAAF = marcadores - ["FIA_HQ"];
+marcadores = marcadores arrayIntersect marcadores;
 publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 publicVariable "marcadores";
