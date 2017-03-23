@@ -8,6 +8,8 @@ if (debug) then {stavros globalChat format ["AutoGarrison en marcha, destino %1"
 _destino = getMarkerPos _marcador;
 _origen = getMarkerPos guer_respawn;
 
+if ((worldName == "Tanoa") AND !([_origen, _destino] call AS_fnc_IslandCheck)) exitWith {};
+
 _grupos = [];
 _soldados = [];
 _vehiculos = [];

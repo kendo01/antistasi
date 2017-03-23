@@ -30,12 +30,18 @@ _bases = [];
 _base = "";
 {
 	_base = _x;
-	_posbase = getMarkerPos _base;
-	if ((_targetPosition distance _posbase < 7500) and (_targetPosition distance _posbase > 1500) and (not (spawner getVariable _base))) then {_bases = _bases + [_base]}
+	_posBase = getMarkerPos _base;
+	if ((_targetPosition distance _posBase < 7500) and (_targetPosition distance _posBase > 1500) and !(spawner getVariable _base)) then {
+		if (worldName == "Tanoa") then {
+			if ([_posBase, _targetPosition] call AS_fnc_IslandCheck) then {_bases pushBack _base};
+		} else {
+			_bases pushBack _base;
+		};
+	};
 } forEach _basesAAF;
 if (count _bases > 0) then {_base = [_bases,_targetPosition] call BIS_fnc_nearestPosition;} else {_base = ""};
 
-_posbase = getMarkerPos _base;
+_posBase = getMarkerPos _base;
 
 _airportsAAF = aeropuertos - mrkFIA;
 _airports = [];

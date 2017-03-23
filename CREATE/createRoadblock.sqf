@@ -71,6 +71,7 @@ _tipoGrupo = [infAT, side_green] call AS_fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 {[_x] join _grupo} forEach units _grupoE;
 _soldier = ([_posicion, 0, sol_MED, _grupo] call bis_fnc_spawnvehicle) select 0;
+_soldier = ([_posicion, 0, sol_LAT, _grupo] call bis_fnc_spawnvehicle) select 0;
 _grupo selectLeader (units _grupo select 1);
 deleteGroup _grupoE;
 if (random 10 < 2.5) then
