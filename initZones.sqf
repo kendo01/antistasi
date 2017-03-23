@@ -26,6 +26,14 @@ antenas = [];
 mrkAntenas = [];
 bancos = [];
 posbancos = [];
+<<<<<<< HEAD
+safeDistance_undercover = 350;
+safeDistance_garage = 500;
+safeDistance_recruit = 500;
+safeDistance_garrison = 500;
+safeDistance_fasttravel = 500;
+=======
+>>>>>>> origin/FIA_Unit_Overhaul
 
 call {
     if (worldName == "Altis") exitWith {
@@ -134,19 +142,22 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
         _pos = getPos _x;
         if (_size < 10) then {_size = 50};
 
-        _mrk = createmarker [format ["%1", _name], _pos];
-        _mrk setMarkerSize [_size, _size];
-        _mrk setMarkerShape "ELLIPSE";
-        _mrk setMarkerBrush "SOLID";
-        _mrk setMarkerColor "ColorRed";
-        _mrk setMarkerText _name;
         colinas pushBack _name;
-        spawner setVariable [_name,false,true];
-        _mrk setMarkerAlpha 0;
     };
 } foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["Hill"], worldSize/1.414]);
 
-colinas = colinas arrayIntersect colinasAA;
+{
+    _mrk = createmarker [format ["%1", _x], _pos];
+    _mrk setMarkerSize [_size, _size];
+    _mrk setMarkerShape "ELLIPSE";
+    _mrk setMarkerBrush "SOLID";
+    _mrk setMarkerColor "ColorRed";
+    _mrk setMarkerText _x;
+    spawner setVariable [_x,false,true];
+    _mrk setMarkerAlpha 0;
+} forEach colinas;
+
+colinas = colinas - (colinas arrayIntersect colinasAA);
 
 marcadores = marcadores + colinas + ciudades;
 
