@@ -198,11 +198,7 @@ call {
 call {
 
 	if (replaceFIA) exitWith {
-		if (hayGREF) then {
-			call compile preprocessFileLineNumbers "Templates\PLAYER_GREF.sqf";
-		} else {
-			call compile preprocessFileLineNumbers "Templates\PLAYER_IND_FIA.sqf";
-		};
+		call compile preprocessFileLineNumbers "Templates\PLAYER_IND_FIA.sqf";
 
 		if (hayUSAF) then {
 			call compile preprocessFileLineNumbers "Templates\IND_USMC.sqf";
