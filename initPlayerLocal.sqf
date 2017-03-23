@@ -475,7 +475,7 @@ if !(isnil "XLA_fnc_addVirtualItemCargo") then {
 if ((hayTFAR) && !(isnil "XLA_fnc_addVirtualItemCargo")) then {
 	[missionNamespace, "arsenalClosed", {
 		if !(count (player call TFAR_fnc_radiosList) > 0) then {
-			player linkItem ([AS_radio_tfar_B, AS_radio_tfar_G] select replaceFIA);
+			player linkItem guer_radio_TFAR;
 			[player] spawn AS_fnc_loadTFARsettings;
 		};
 	}] call BIS_fnc_addScriptedEventHandler;

@@ -58,6 +58,7 @@ guer_vehicleArray = guer_vehicleArray + [guer_veh_quad,guer_veh_technical,guer_s
 
 // ===== GEAR ===== \\
 guer_radio_TFAR = "tf_anprc148jem";
+
 if !(hayGREF) then {
 	/*
 	These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
