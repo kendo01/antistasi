@@ -26,11 +26,14 @@ antenas = [];
 mrkAntenas = [];
 bancos = [];
 posbancos = [];
+<<<<<<< HEAD
 safeDistance_undercover = 350;
 safeDistance_garage = 500;
 safeDistance_recruit = 500;
 safeDistance_garrison = 500;
 safeDistance_fasttravel = 500;
+=======
+>>>>>>> origin/FIA_Unit_Overhaul
 
 call {
     if (worldName == "Altis") exitWith {
