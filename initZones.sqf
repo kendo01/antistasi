@@ -70,7 +70,7 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
         _numVeh = round (_numCiv / 3);
         _nroads = count _roads;
         _nearRoadsFinalSorted = [_roads, [], { _pos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
-        _pos = _nearRoadsFinalSorted select 0;
+		if (count _nearRoadsFinalSorted > 0) then {_pos = _nearRoadsFinalSorted select 0};
         _mrk = createmarker [format ["%1", _name], _pos];
         _mrk setMarkerSize [_size, _size];
         _mrk setMarkerShape "RECTANGLE";
@@ -245,6 +245,7 @@ for "_i" from 0 to (count posantenas - 1) do {
 publicVariable "antenas";
 antenasmuertas = [];
 
+posbancos = [];
 // Pre-defined bank positions, you'll have to define your own.
 call {
     if (worldName == "Altis") exitWith {
@@ -253,12 +254,14 @@ call {
 };
 
 bancos = [];
-for "_i" from 0 to (count posbancos - 1) do {
-    _bankArray = nearestObjects [posbancos select _i,["Land_Offices_01_V1_F"], 25];
-    if (count _bankArray > 0) then {
-        _bank = _bankArray select 0;
-        bancos = bancos + [_bank];
-    };
+if (count posbancos > 0) then {
+	for "_i" from 0 to (count posbancos - 1) do {
+		_bankArray = nearestObjects [posbancos select _i,["Land_Offices_01_V1_F"], 25];
+		if (count _bankArray > 0) then {
+			_bank = _bankArray select 0;
+			bancos = bancos + [_bank];
+		};
+	};
 };
 
 //the following is the console code snippet I use to pick positions of any kind of building. You may do this for gas stations, banks, radios etc.. markerPos "Base_4" is because it's in the middle of the island, and inside the array you may find the type of building I am searching for. Paste the result in a txt and add it to the corresponding arrays.
