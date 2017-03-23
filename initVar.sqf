@@ -362,7 +362,6 @@ resourcesIsChanging = false;
 savingServer = false;
 misiones = [];
 revelar = false;
-AS_destroyedZones = [];
 
 vehInGarage = ["C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",guer_veh_quad,guer_veh_quad,guer_veh_quad]; // initial motorpool
 destroyedBuildings = []; publicVariable "destroyedBuildings";

@@ -1,142 +1,128 @@
-//usage: place on the map markers covering the areas where you want the AAF operate, and put names depending on if they are powerplants,resources, bases etc.. The marker must cover the whole operative area, it's buildings etc.. (for example in an airport, you must cover more than just the runway, you have to cover the service buildings etc..)
-//markers cannot have more than 500 mts size on any side or you may find "insta spawn in your nose" effects.
-//do not do it on cities and hills, as the mission will do it automatically
-//the naming convention must be as the following arrays, for example: first power plant is "power", second is "power_1" thir is "power_2" after you finish with whatever number.
-//to test automatic zone creation, init the mission with debug = true in init.sqf
-//of course all the editor placed objects (petros, flag, respawn marker etc..) have to be ported to the new island
-//deletion of a marker in the array will require deletion of the corresponding marker in the editor
-//only touch the commented arrays
+private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank"];
 
-forcedSpawn = [];
-ciudades = [];
-colinas = [];
-colinasAA = [];
-power = ["power","power_1","power_2","power_3","power_5","power_6","power_8","power_9","power_10"];//powerplants "power_4", has been changed by "factory_5"
-bases = ["base","base_1","base_2","base_3","base_4","base_5","base_6","base_7","base_9","base_10","base_11","base_12"];//bases: if the island uses Arma 3 vanilla buildings, they will get popukated, if not, or no static weapons, or heavy modification
-aeropuertos = ["airport","airport_1","airport_2","airport_3","airport_4","airport_5"];//airports
-recursos = ["resource","resource_1","resource_2","resource_3","resource_4","resource_5","resource_6","resource_7"];//economic resources
-fabricas = ["factory","factory_1","factory_2","factory_3","factory_4","factory_5"];//factories
-puestos = ["puesto","puesto_1","puesto_2","puesto_3","puesto_4","puesto_5","puesto_6","puesto_7","puesto_8","puesto_9","puesto_10","puesto_11","puesto_12","puesto_13","puesto_14","puesto_15","puesto_16","puesto_17","puesto_18","puesto_19","puesto_20","puesto_21","puesto_22","puesto_23","puesto_24","puesto_25","puesto_26","puesto_27"];//any small zone with mil buildings
-puestosAA = ["puesto_1","puesto_2","puesto_6","puesto_17","puesto_23","puesto_27"];
-puertos = ["puerto","puerto_1","puerto_2","puerto_3","puerto_4"];//seaports, adding a lot will affect economics, 5 is ok
-controles = ["control","control_1","control_2","control_3","control_4","control_5","control_6","control_7","control_8","control_9","control_10",
-    "control_11","control_12","control_13","control_14","control_15","control_16","control_17","control_18","control_19","control_20"]; //use this for points where you want a roadblock (logic/strategic points, such as crossroads, airport or bases entrances etc..) game will add some more automatically
-if (worldName == "Altis") then {
-    controles = controles + [
-    "control_21","control_22","control_23","control_24","control_25","control_26","control_27","control_28","control_29","control_30",
-    "control_31","control_32","control_33","control_34","control_35","control_36","control_37","control_38","control_39","control_40",
-    "control_41","control_42","control_43","control_44","control_45","control_46","control_47","control_48","control_49","control_50",
-    "control_51","control_52","control_53","control_54","control_55","control_56","control_57","control_58","control_59","control_60",
-    "control_61","control_62","control_63","control_64","control_65","control_66","control_67","control_68","control_69","control_70",
-    "control_71","control_72","control_73","control_74","control_75"];
-    colinasAA = ["Agela","Agia Stemma","Agios Andreas","Agios Minas","Amoni","Didymos","Kira","Pyrsos","Riga","Skopos","Synneforos","Thronos"];
-} else {
-    colinas = ["mtn_1","mtn_2","mtn_3","mtn_4","mtn_5"]; // for use if you wish to manually place zones on hilltops -- add as many as you need
-};
-artyEmplacements = ["artillery_1", "artillery_2", "artillery_3", "artillery_4", "artillery_5"];
+{
+    missionNamespace setVariable [_x, []];
+} forEach ["AS_destroyedZones","forcedSpawn","ciudades","colinas","colinasAA","power","bases","aeropuertos","recursos","fabricas","puestos","puestosAA","puertos","controles","artyEmplacements","seaMarkers","puestosFIA","puestosNATO","campsFIA","mrkAAF","destroyedCities","posAntenas","antenas","mrkAntenas","bancos"];
 
-seaMarkers = ["seaPatrol","seaPatrol_1","seaPatrol_2","seaPatrol_3","seaPatrol_4","seaPatrol_5","seaPatrol_6","seaPatrol_7","seaPatrol_8","seaPatrol_9","seaPatrol_10","seaPatrol_11","seaPatrol_12","seaPatrol_13","seaPatrol_14","seaPatrol_15","seaPatrol_16","seaPatrol_17","seaPatrol_18","seaPatrol_19","seaPatrol_20","seaPatrol_21","seaPatrol_22","seaPatrol_23","seaPatrol_24","seaPatrol_25","seaPatrol_26","seaPatrol_27"];
-puestosFIA = [];
-puestosNATO = [];
-campsFIA = [];
+// Search the markers placed within the SQM for each type and create corresponding lists. A pre-defined list is available for Altis.
+/*if (worldName == "Altis") then {
+    call compile preprocessFileLineNumbers "Zones\AltisZones.sqf";
+} else {*/
+    _allMarkers = allMapMarkers;
+    {
+        call {
+            if (toLower _x find "control" >= 0) exitWith {controles pushBackUnique _x};
+            if (toLower _x find "puestoAA" >= 0) exitWith {puestosAA pushBackUnique _x};
+            if (toLower _x find "puesto" >= 0) exitWith {puestos pushBackUnique _x};
+            if (toLower _x find "seaPatrol" >= 0) exitWith {seaMarkers pushBackUnique _x};
+            if (toLower _x find "base" >= 0) exitWith {bases pushBackUnique _x};
+            if (toLower _x find "power" >= 0) exitWith {power pushBackUnique _x};
+            if (toLower _x find "airport" >= 0) exitWith {aeropuertos pushBackUnique _x};
+            if (toLower _x find "resource" >= 0) exitWith {recursos pushBackUnique _x};
+            if (toLower _x find "factory" >= 0) exitWith {fabricas pushBackUnique _x};
+            if (toLower _x find "artillery" >= 0) exitWith {artyEmplacements pushBackUnique _x};
+            if (toLower _x find "mtn_comp" >= 0) exitWith {colinasAA pushBackUnique _x};
+            if (toLower _x find "mtn" >= 0) exitWith {colinas pushBackUnique _x};
+            if (toLower _x find "puerto" >= 0) exitWith {puertos pushBackUnique _x};
+        };
+    } forEach _allMarkers;
+/*};*/
+
 mrkFIA = ["FIA_HQ"];
 garrison setVariable ["FIA_HQ",[],true];
-mrkAAF = [];
-destroyedCities = [];
+marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puertos + controles + colinasAA + puestosAA + ["FIA_HQ"];
 
-marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puertos + controles + ["FIA_HQ"];
+// Make sure all markers are invisible and not currently marked as having been spawned in.
 {_x setMarkerAlpha 0;
-spawner setVariable [_x,false,true];
+    spawner setVariable [_x,false,true];
 } forEach (marcadores + artyEmplacements);
 {_x setMarkerAlpha 0} forEach seaMarkers;
-private ["_sizeX","_sizeY","_size"];
 
+// Detect cities, set their population to the number of houses within their city limits, create a database of roads, set number of civilian vehicles to spawn with regards to number of roads. Pre-defined for Altis.
 {
-//_nombre = text _x;
-_nombre = [text _x, true] call AS_fnc_location;
-if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then//sagonisi is blacklisted in Altis for some reason. If your island has a city in a small island you should blacklist it (road patrols will try to reach it)
-    {
-    _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
-    _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
-    if (_sizeX > _sizeY) then {_size = _sizeX} else {_size = _sizeY};
-    _pos = getPos _x;
-    if (_size < 200) then {_size = 200};
-    _roads = [];
-    _numCiv = 0;
-    if (worldName != "Altis") then//If Altis, data is picked from a DB in initVar.sqf, if not, is built on the fly.
-        {
-        _numCiv = (count (nearestObjects [_pos, ["house"], _size]));
-        _roadsProv = _pos nearRoads _size;
-        //_roads = [];
-        {
-        _roadcon = roadsConnectedto _x;
-        if (count _roadcon == 2) then
+    _name = [text _x, true] call AS_fnc_location;
+    if ((_name != "") and (_name != "sagonisi") and (_name != "hill12")) then {
+        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
+        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
+        _size = [_sizeX, _sizeY] select (_sizeX < _sizeY);
+        if (_size < 200) then {_size = 200};
+
+        _pos = getPos _x;
+        _roads = [];
+        _numCiv = 0;
+        if (worldName != "Altis") then {
+            _numCiv = (count (nearestObjects [_pos, ["house"], _size]));
+            _roadsProv = _pos nearRoads _size;
             {
-            _roads pushBack (getPosATL _x);
-            };
-        } forEach _roadsProv;
-        carreteras setVariable [_nombre,_roads];
-        }
-    else
-        {
-        _roads = carreteras getVariable _nombre;
-        _numCiv = server getVariable _nombre;
-        if (isNil "_numCiv") then {hint format ["A mi no me sale en %1",_nombre]};
-        if (typeName _numCiv != typeName 0) then {hint format ["Datos erróneos en %1. Son del tipo %2",_nombre, typeName _numCiv]};
-        //if (isNil "_roads") then {hint format ["A mi no me sale en %1",_nombre]};
+                _roadcon = roadsConnectedto _x;
+                if (count _roadcon == 2) then {
+                    _roads pushBack (getPosATL _x);
+                };
+            } forEach _roadsProv;
+            carreteras setVariable [_name,_roads];
+        } else {
+            _roads = carreteras getVariable _name;
+            _numCiv = server getVariable _name;
+            if (isNil "_numCiv") then {hint format ["Error in initZones.sqf -- population not set for: %1",_name]};
+            if (typeName _numCiv != typeName 0) then {hint format ["Error in initZones.sqf -- wrong datatype for population. City: %1; datatype: %2",_name, typeName _numCiv]};
         };
-    _numVeh = round (_numCiv / 3);
-    _nroads = count _roads;
-    _nearRoadsFinalSorted = [_roads, [], { _pos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
-    _pos = _nearRoadsFinalSorted select 0;
-    _mrk = createmarker [format ["%1", _nombre], _pos];
-    _mrk setMarkerSize [_size, _size];
-    _mrk setMarkerShape "RECTANGLE";
-    _mrk setMarkerBrush "SOLID";
-    _mrk setMarkerColor IND_marker_colour;
-    _mrk setMarkerText _nombre;
-    _mrk setMarkerAlpha 0;
-    ciudades pushBack _nombre;
-    spawner setVariable [_nombre,false,true];
-    _dmrk = createMarker [format ["Dum%1",_nombre], _pos];
-    _dmrk setMarkerShape "ICON";
-    _dmrk setMarkerType "loc_Cross";
-    _dmrk setMarkerColor IND_marker_colour;
-    if (_nroads < _numVeh) then {_numVeh = _nroads};
 
-    _info = [_numCiv, _numVeh, prestigeOPFOR,prestigeBLUFOR];
-    server setVariable [_nombre,_info,true];
+        _numVeh = round (_numCiv / 3);
+        _nroads = count _roads;
+        _nearRoadsFinalSorted = [_roads, [], { _pos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+        _pos = _nearRoadsFinalSorted select 0;
+        _mrk = createmarker [format ["%1", _name], _pos];
+        _mrk setMarkerSize [_size, _size];
+        _mrk setMarkerShape "RECTANGLE";
+        _mrk setMarkerBrush "SOLID";
+        _mrk setMarkerColor IND_marker_colour;
+        _mrk setMarkerText _name;
+        _mrk setMarkerAlpha 0;
+        ciudades pushBack _name;
+        spawner setVariable [_name,false,true];
+        _dmrk = createMarker [format ["Dum%1",_name], _pos];
+        _dmrk setMarkerShape "ICON";
+        _dmrk setMarkerType "loc_Cross";
+        _dmrk setMarkerColor IND_marker_colour;
+
+        if (_nroads < _numVeh) then {_numVeh = _nroads};
+        _info = [_numCiv, _numVeh, prestigeOPFOR,prestigeBLUFOR];
+        server setVariable [_name,_info,true];
     };
-}foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
+} foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], worldSize/1.414]);
 
+// Detect named mountaintops and automatically add them as zones to spawn a watchpost at. If your map has a shortage of named mountains, place markers within the SQM, with incremental names starting with "mtn_1" for automatic watchpost placement or "mtn_comp_1" for positions with pre-defined compositions.
 {
-    _nombre = text _x;
-    if ((_nombre != "Magos") AND !(_nombre == "")) then {
+    _name = text _x;
+    if ((_name != "Magos") AND !(_name == "")) then {
         _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
         _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
         if (_sizeX > _sizeY) then {_size = _sizeX} else {_size = _sizeY};
         _pos = getPos _x;
         if (_size < 10) then {_size = 50};
 
-        _mrk = createmarker [format ["%1", _nombre], _pos];
+        _mrk = createmarker [format ["%1", _name], _pos];
         _mrk setMarkerSize [_size, _size];
         _mrk setMarkerShape "ELLIPSE";
         _mrk setMarkerBrush "SOLID";
         _mrk setMarkerColor "ColorRed";
-        _mrk setMarkerText _nombre;
-        colinas pushBack _nombre;
-        spawner setVariable [_nombre,false,true];
+        _mrk setMarkerText _name;
+        colinas pushBack _name;
+        spawner setVariable [_name,false,true];
         _mrk setMarkerAlpha 0;
     };
 } foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["Hill"], worldSize/1.414]);
 
+colinas = colinas arrayIntersect colinasAA;
+
 marcadores = marcadores + colinas + ciudades;
-//esto de abajo hay que hacerlo con foreach particulares sin if, en lugar de un foreach general
+
 planesAAFmax = count aeropuertos;
 helisAAFmax = 2* (count aeropuertos);
 tanksAAFmax = count bases;
 APCAAFmax = 2* (count bases);
 
+// Place visible markers on the map for zones of interest. Additional roadblocks will be created automatically on every map except Altis, where enough have been placed in the SQM.
 _fnc_marker = {};
 if (worldName == "Altis") then {
     _fnc_marker = {
@@ -199,8 +185,8 @@ if (worldName == "Altis") then {
     [_x, "b_naval", "Sea Port"] call _fnc_marker;
 } forEach puertos;
 
-mrkAAF = marcadores - ["FIA_HQ"];
 marcadores = marcadores arrayIntersect marcadores;
+mrkAAF = marcadores - ["FIA_HQ"];
 publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 publicVariable "marcadores";
@@ -223,49 +209,58 @@ publicVariable "seaMarkers";
 publicVariable "campsFIA";
 publicVariable "puestosNATO";
 
+// Pre-defined radio tower positions, you'll have to define your own.
+call {
+    if (worldName == "Altis") exitWith {
+        posAntenas = [[16085.1,16998,7.08781],[14451.5,16338,0.000358582],[15346.7,15894,-3.62396e-005],[9496.2,19318.5,0.601898],[20944.9,19280.9,0.201118],[17856.7,11734.1,0.863045],[20642.7,20107.7,0.236603],[9222.87,19249.1,0.0348206],[18709.3,10222.5,0.716034],[6840.97,16163.4,0.0137177],[19319.8,9717.04,0.215622],[19351.9,9693.04,0.639175],[10316.6,8703.94,0.0508728],[8268.76,10051.6,0.0100708],[4583.61,15401.1,0.262543],[4555.65,15383.2,0.0271606],[4263.82,20664.1,-0.0102234],[26274.6,22188.1,0.0139847],[26455.4,22166.3,0.0223694]];
+    };
+    if (worldName == "Napf") exitWith {
+        posAntenas = [[16070.8,18728.7,0.954071],[16105.7,18770.7,1.18446],[15110.4,16165.1,0.776001],[16855,13751.4,0.000402451],[11110.4,11832.6,0],[10978.9,16997.1,7.60431],[9907.12,16868.7,0],[8410.67,17166.2,-3.8147e-006],[5809.04,15678,-1.90735e-005],[6539.08,13680.5,0],[6993.03,9640.53,-3.8147e-006],[4971,12145.6,19.5774],[8862.57,11069.1,-0.00062561],[10142.6,7573.33,0.892677],[13022.3,7666.49,0],[16135.4,8015.4,0.00234985],[17036.6,9705.19,-0.00144958],[15731.1,11408.6,0.000213623],[14745.5,14058.3,15.58],[12787.8,5307.9,0.67067],[8886.64,5414,-8.39233e-005],[5151.94,4478.55,0.272263],[8086.47,2926.47,0],[9683.31,2941.17,1.07095],[1915.22,2531.94,4.76837e-007],[2911.67,6244.56,-0.000724792],[2484.53,8348.84,3.8147e-006],[2339.39,11281.3,-0.00195313],[14653,3201.34,0.000709534],[18109.9,2065.21,0.470627],[17163.8,3466.25,0.000549316],[19112.5,6732.14,0],[11691.7,10256.6,-0.00038147]];
+    };
+    if (worldName == "Tanoa") exitWith {
+        posAntenas = [[10113.9,11743.3,0],[2682.73,2592.63,0],[10950,11518,0],[9118.67,10182,0.000680923],[9565.26,9109.53,2.04544],[12705.9,7460.76,-0.00025177],[6882.55,7518.02,-2.38419e-007],[10756.4,6314,0.000848293],[6029.12,10158.8,0],[14183.9,8544.25,-3.91006e-005],[13186.6,11974.7,0],[11741.6,13086.5,-1.04904e-005],[11527.3,13155.8,0],[8379.38,13613,-0.000881195],[4209.16,11728.2,0.00281525],[2666.99,11680,0],[2671.42,12314.2,-0.000335693],[2327.81,13462.8,2.00272e-005],[2196.15,13196,9.53674e-007],[3921.22,13869.6,0.000519753],[2012.83,6502.85,0.914762],[2068.3,3431.05,1.77652],[5468.16,4848.56,0],[9350.2,4185.88,0.991756],[12528.7,2441.39,-0.000589848],[11770.4,2975.41,-7.39098e-005],[11196.7,5084.55,0.000939369],[12806.7,4898.42,3.98159e-005],[12432.9,14247.8,1.07415]];
+    };
+};
 
-posAntenas = [[16085.1,16998,7.08781],[14451.5,16338,0.000358582],[15346.7,15894,-3.62396e-005],[9496.2,19318.5,0.601898],[20944.9,19280.9,0.201118],[17856.7,11734.1,0.863045],[20642.7,20107.7,0.236603],[9222.87,19249.1,0.0348206],[18709.3,10222.5,0.716034],[6840.97,16163.4,0.0137177],[19319.8,9717.04,0.215622],[19351.9,9693.04,0.639175],[10316.6,8703.94,0.0508728],[8268.76,10051.6,0.0100708],[4583.61,15401.1,0.262543],[4555.65,15383.2,0.0271606],[4263.82,20664.1,-0.0102234],[26274.6,22188.1,0.0139847],[26455.4,22166.3,0.0223694]];//those are predefined Radio Tower positions, to avoid a heavy search of the tower config types all around the island which may take a few minutes. You will have to build your own data base with RT positions.
-antenas = [];
-mrkAntenas = [];
-
-for "_i" from 0 to (count posantenas - 1) do
-    {
-    _antenaProv = nearestObjects [posantenas select _i,["Land_TTowerBig_1_F","Land_TTowerBig_2_F","Land_Communication_F"], 25];
-    if (count _antenaProv > 0) then
-        {
-        _antena = _antenaProv select 0;
-        antenas = antenas + [_antena];
+for "_i" from 0 to (count posantenas - 1) do {
+    _antennaArray = nearestObjects [posantenas select _i,["Land_TTowerBig_1_F","Land_TTowerBig_2_F","Land_Communication_F"], 25];
+    if (count _antennaArray > 0) then {
+        _antenna = _antennaArray select 0;
+        antenas = antenas + [_antenna];
         _mrkfin = createMarker [format ["Ant%1", _i], posantenas select _i];
         _mrkfin setMarkerShape "ICON";
         _mrkfin setMarkerType "loc_Transmitter";
         _mrkfin setMarkerColor "ColorBlack";
         _mrkfin setMarkerText "Radio Tower";
         mrkAntenas = mrkAntenas + [_mrkfin];
-        _antena addEventHandler ["Killed",
-            {
-            _antena = _this select 0;
-            _mrk = [mrkAntenas, _antena] call BIS_fnc_nearestPosition;
-            antenas = antenas - [_antena]; antenasmuertas = antenasmuertas + [getPos _antena]; deleteMarker _mrk;
+        _antenna addEventHandler ["Killed", {
+            _antenna = _this select 0;
+            _mrk = [mrkAntenas, _antenna] call BIS_fnc_nearestPosition;
+            antenas = antenas - [_antenna]; antenasmuertas = antenasmuertas + [getPos _antenna]; deleteMarker _mrk;
             if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
-            [["TaskSucceeded", ["", "Radio Tower Destroyed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-            }
-        ];
-        };
+            [["TaskSucceeded", ["", localize "STR_TSK_RADIO_DESTROYED"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+        }];
     };
+};
 publicVariable "antenas";
 antenasmuertas = [];
 
-posbancos = [[16633.3,12807,-0.635017],[3717.34,13391.2,-0.164862],[3692.49,13158.3,-0.0462093],[3664.31,12826.5,-0.379545]];//same as RT for Bank buildings, select the biggest buildings in your island, and make a DB with their positions.
-bancos = [];
-for "_i" from 0 to (count posbancos - 1) do
-    {
-    _bancoProv = nearestObjects [posbancos select _i,["Land_Offices_01_V1_F"], 25];
-    if (count _bancoProv > 0) then
-        {
-        _banco = _bancoProv select 0;
-        bancos = bancos + [_banco];
-        };
+// Pre-defined bank positions, you'll have to define your own.
+call {
+    if (worldName == "Altis") exitWith {
+        posbancos = [[16633.3,12807,-0.635017],[3717.34,13391.2,-0.164862],[3692.49,13158.3,-0.0462093],[3664.31,12826.5,-0.379545]];
     };
+};
+
+bancos = [];
+for "_i" from 0 to (count posbancos - 1) do {
+    _bankArray = nearestObjects [posbancos select _i,["Land_Offices_01_V1_F"], 25];
+    if (count _bankArray > 0) then {
+        _bank = _bankArray select 0;
+        bancos = bancos + [_bank];
+    };
+};
+
 //the following is the console code snippet I use to pick positions of any kind of building. You may do this for gas stations, banks, radios etc.. markerPos "Base_4" is because it's in the middle of the island, and inside the array you may find the type of building I am searching for. Paste the result in a txt and add it to the corresponding arrays.
 /*
 pepe = nearestObjects [markerPos "base_4", ["Land_Offices_01_V1_F"], 16000];
@@ -273,4 +268,4 @@ pospepe = [];
 {pospepe = pospepe + getPos _x} forEach pepe;
 copytoclipboard str pospepe;
 */
-if (isMultiplayer) then {[[petros,"hint","Zones Init Completed"],"commsMP"] call BIS_fnc_MP;}
+if (isMultiplayer) then {[[petros,"hint", localize "STR_INFO_INITZONES"],"commsMP"] call BIS_fnc_MP;}
