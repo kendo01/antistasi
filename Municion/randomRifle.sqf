@@ -59,7 +59,6 @@ if (_changeRifle) then {
 };
 
 if (hayTFAR) then {
-	_radio = [AS_radio_tfar_B, AS_radio_tfar_G] select replaceFIA;
-	_unit addItem _radio;
-	_unit assignItem _radio;
+	_unit addItem guer_radio_TFAR;
+	_unit assignItem guer_radio_TFAR;
 };

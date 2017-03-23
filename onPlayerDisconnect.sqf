@@ -29,7 +29,7 @@ if (_unit == stavros) then
 						}
 					else
 						{
-						if (_tipoVeh in vehFIA) then {_recursos = _recursos + ([_tipoVeh] call vehiclePrice);};
+						if (_tipoVeh in guer_vehicleArray) then {_recursos = _recursos + ([_tipoVeh] call vehiclePrice);};
 						if (_tipoVeh in (vehTrucks + vehPatrol + vehSupply)) then {_recursos = _recursos + 300};
 						if (_tipoVeh in vehAAFAT) then {
 							call {

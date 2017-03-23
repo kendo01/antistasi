@@ -178,7 +178,7 @@ fn_SetStat = {
 						_coste = round (_coste + (_coste * (_i/280)));
 					};
 					server setVariable [_x,_coste,true];
-				} forEach soldadosFIA;
+				} forEach guer_soldierArray;
 			};
 			if(_varName == 'skillAAF') exitWith {
 				skillAAF = _varvalue;

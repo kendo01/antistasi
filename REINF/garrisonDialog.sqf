@@ -47,7 +47,7 @@ if (_tipo == "rem") then
 				{
 				if (!alive _x) then
 					{
-					if (typeOf _x in soldadosFIA) then
+					if (typeOf _x in guer_soldierArray) then
 						{
 						if (typeOf _x == guer_sol_UN) then {_coste = _coste - ([guer_stat_mortar] call vehiclePrice)};
 						_hr = _hr - 1;

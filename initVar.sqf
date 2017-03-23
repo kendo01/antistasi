@@ -181,7 +181,7 @@ lrRadio = "";
 vfs = [];
 
 // Initialisation of units and gear
-vehFIA = [];
+guer_vehicleArray = [];
 
 call {
 	if (worldName == "Altis") exitWith {
@@ -309,7 +309,7 @@ server setVariable [guer_veh_quad,50,true];//50
 server setVariable [guer_veh_offroad,200,true];//200
 server setVariable [guer_veh_truck,450,true];//300
 server setVariable [guer_veh_technical,700,true];//700
-{server setVariable [_x,400,true]} forEach [guer_stat_MGH,"B_G_Boat_Transport_01_F",guer_veh_engineer];//400
+{server setVariable [_x,400,true]} forEach [guer_stat_MGH,guer_veh_dinghy,guer_veh_engineer];//400
 {server setVariable [_x,800,true]} forEach [guer_stat_mortar,guer_stat_AT,guer_stat_AA];//800
 
 server setVariable [vfs select 0,300,true];
@@ -375,7 +375,7 @@ if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then
     {
     hayTFAR = true;
     unlockedItems pushBackUnique "ItemRadio";//making this items Arsenal available.
-	unlockedItems pushBackUnique ([AS_radio_tfar_B, AS_radio_tfar_G] select replaceFIA);
+	unlockedItems pushBackUnique guer_radio_TFAR;
     tf_no_auto_long_range_radio = true; publicVariable "tf_no_auto_long_range_radio";//set to false and players will start with LR radio, uncomment the last line of so.
 	//tf_give_personal_radio_to_regular_soldier = false;
 	tf_west_radio_code = "";publicVariable "tf_west_radio_code";//to make enemy vehicles usable as LR radio

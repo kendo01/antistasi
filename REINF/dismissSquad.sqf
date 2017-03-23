@@ -39,7 +39,7 @@ sleep 100;
 				_veh = assignedVehicle _x;
 				if !((typeOf _veh) in _vs) then {
 					_vs pushBack (typeOf _veh);
-					if ((typeOf _veh) in vehFIA) then {
+					if ((typeOf _veh) in guer_vehicleArray) then {
 						_resourcesFIA = _resourcesFIA + ([(typeOf _veh)] call vehiclePrice);
 						if (count attachedObjects _veh > 0) then {
 							_subVeh = (attachedObjects _veh) select 0;

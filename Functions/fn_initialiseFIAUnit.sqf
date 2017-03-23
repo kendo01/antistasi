@@ -11,9 +11,14 @@ _skill = 0.2 + (_skillFIA * 0.04);
 if ((!isMultiplayer) and (leader _unit == stavros)) then {_skill = _skill + 0.2};
 _unit setSkill _skill;
 
-{
-	_x = _skill;
-} forEach ["_aiming","_spotD","_spotT","_cour","_comm","_aimingSh","_aimingSp","_reload"];
+_aiming = _skill;
+_spotD = _skill;
+_spotT = _skill;
+_cour = _skill;
+_comm = _skill;
+_aimingSh = _skill;
+_aimingSp = _skill;
+_reload = _skill;
 
 _unitType = typeOf _unit;
 _skillSet = 0;
@@ -181,7 +186,7 @@ call {
 		if (hayRHS) then {
 			_unit removeMagazines (currentMagazine _unit);
 			_unit removeWeaponGlobal (primaryWeapon _unit);
-			[_unit, selectRandom guer_gear_SNPR, 6, 0] call BIS_fnc_addWeapon;
+			[_unit, selectRandom guer_gear_SNPR_camo, 6, 0] call BIS_fnc_addWeapon;
 		};
 		_skillSet = 6;
 	};
