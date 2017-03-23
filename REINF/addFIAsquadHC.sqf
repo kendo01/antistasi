@@ -5,7 +5,7 @@ if (markerAlpha guer_respawn == 0) exitWith {hint "You cant recruit a new squad 
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 _chequeo = false;
 {
-	if (((side _x == side_red) or (side _x == side_green)) and (_x distance petros < 500) and (not(captive _x))) then {_chequeo = true};
+	if (((side _x == side_red) or (side _x == side_green)) and (_x distance petros < safeDistance_recruit) and (not(captive _x))) then {_chequeo = true};
 } forEach allUnits;
 
 if (_chequeo) exitWith {Hint "You cannot Recruit Squads with enemies near your HQ"};

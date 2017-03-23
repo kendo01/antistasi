@@ -39,7 +39,7 @@ else
 
 if (_cambiar != "") exitWith {};
 
-if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < 500)) or (_x distance player < 350))} count allUnits > 0) exitWith
+if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < safeDistance_undercover)) or (_x distance player < safeDistance_undercover))} count allUnits > 0) exitWith
 	{
 	hint "You cannot become Undercover while some enemies are spotting you";
 	if (vehicle player != player) then
@@ -97,7 +97,7 @@ while {_cambiar == ""} do
 							{
 							if (count (_veh nearRoads 50) == 0) then
 								{
-								if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < 350))} count allUnits > 0) then {_cambiar = "Carretera"};
+								if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < safeDistance_undercover))} count allUnits > 0) then {_cambiar = "Carretera"};
 								};
 							};
 						if (hayACE) then
@@ -119,7 +119,7 @@ while {_cambiar == ""} do
 			{
 			if ((primaryWeapon player != "") or (secondaryWeapon player != "") or (handgunWeapon player != "") or (vest player != "") or (headgear player in genHelmets) or (hmd player != "") or (not(uniform player in civUniforms))) then
 				{
-				if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < 350))} count allUnits > 0) then {_cambiar = "Vestido2"} else {_cambiar = "Vestido"};
+				if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < safeDistance_undercover))} count allUnits > 0) then {_cambiar = "Vestido2"} else {_cambiar = "Vestido"};
 				};
 			if (dateToNumber date < _compromised) then
 				{
@@ -136,7 +136,7 @@ while {_cambiar == ""} do
 			}
 			else {
 				_loc = [_locs,_player] call BIS_fnc_nearestPosition;
-				if (_player distance2d getMarkerPos _loc < 300) then {
+				if (_player distance2d getMarkerPos _loc < safeDistance_undercover) then {
 						_cambiar = "Distancia";
 				};
 			};
