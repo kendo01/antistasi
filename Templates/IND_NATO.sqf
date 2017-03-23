@@ -78,7 +78,7 @@ vehTruckBox = 		["B_Truck_01_box_F"]; // repair truck or at least a prop
 /*
 Not in use with AAF
 vehTruckAA = 		"";
-vehFIA pushBackUnique vehTruckAA;
+guer_vehicleArray pushBackUnique vehTruckAA;
 */
 
 var_AAF_groundForces = vehTrucks + vehPatrol + vehAPC + vehIFV + vehTank + vehLead + standardMRAP;

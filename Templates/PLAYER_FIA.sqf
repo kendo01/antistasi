@@ -11,6 +11,7 @@ guer_veh_engineer = "B_G_Offroad_01_repair_F";
 guer_veh_technical = "B_G_Offroad_01_armed_F";
 guer_veh_quad = "B_G_Quadbike_01_F"; // default transport for snipers
 guer_veh_offroad = "B_G_Offroad_01_F"; // default transport for teams
+guer_veh_dinghy = "B_G_Boat_Transport_01_F";
 
 guer_sol_AA = "B_G_Soldier_lite_F"; // AA trooper in player groups
 guer_sol_AM = "B_G_Soldier_A_F"; // playable, player-only
@@ -51,7 +52,12 @@ guer_grp_team = "IRG_InfTeam";
 
 guer_flag = "Flag_FIA_F";
 
+guer_soldierArray = [guer_sol_RFL,guer_sol_R_L,guer_sol_UN,guer_sol_AR,guer_sol_MED,guer_sol_ENG,guer_sol_EXP,guer_sol_GL,guer_sol_TL,guer_sol_AM,guer_sol_MRK,guer_sol_LAT,guer_sol_SL,guer_sol_OFF,guer_sol_SN,guer_sol_AA];
+
+guer_vehicleArray = guer_vehicleArray + [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
+
 // ===== GEAR ===== \\
+guer_radio_TFAR = "tf_anprc152";
 if !(hayRHS) then {
 	/*
 	These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
@@ -118,7 +124,7 @@ if !(hayRHS) then {
 	guer_gear_LAT = "rhs_weap_rpg26";
 	guer_gear_AA = "rhs_weap_igla";
 	guer_gear_SNPR = "rhs_weap_svdp_wd";
-	guer_gear_SNPR_camo = "srifle_GM6_SOS_F";
+	guer_gear_SNPR_camo = "rhs_weap_svdp_wd";
 	guer_gear_GL = "rhs_weap_akms_gp25";
 	guer_gear_LMG = "rhs_weap_pkm";
 	guer_gear_Carbine = "rhs_weap_aks74u";

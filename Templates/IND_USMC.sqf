@@ -79,7 +79,7 @@ standardMRAP = 		["rhsusf_rg33_usmc_wd","rhsusf_m1025_w_s"]; // default transpor
 vehTruckBox = 		["rhsusf_M977A4_REPAIR_BKIT_usarmy_wd"]; // repair truck or at least a prop
 
 vehTruckAA = 		"rhs_gaz66_zu23_msv";
-vehFIA pushBackUnique vehTruckAA;
+guer_vehicleArray pushBackUnique vehTruckAA;
 
 var_AAF_groundForces = vehTrucks + vehPatrol + vehAPC + vehIFV + vehTank + vehLead + standardMRAP;
 var_AAF_groundForces = var_AAF_groundForces arrayIntersect var_AAF_groundForces;
