@@ -36,7 +36,7 @@ _base	  = "";
 	// finding location and making markers
 
 
-	_range = 1000;
+	_range = 2000;
 	while {true} do {
 		sleep 0.1;
 		while {true} do {
