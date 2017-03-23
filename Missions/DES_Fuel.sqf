@@ -41,7 +41,7 @@ _base	  = "";
 		sleep 0.1;
 		while {true} do {
 			sleep 0.1;
-			_range	   = _range + 5000;
+			_range	   = _range + 500;
 			_fuelstops = nearestTerrainObjects [_InitialPos, ["FUELSTATION"], _range];
 			if (count _fuelstops > 0) exitwith {};
 		};
