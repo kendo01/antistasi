@@ -401,7 +401,7 @@ if (!isNil "ace_common_settingFeedbackIcons") then
 		if (ace_medical_level != 0) then
 			{
 			hayACEMedical = true;
-			unlockedItems = unlockedItems + ["ACE_fieldDressing","ACE_bloodIV_500","ACE_bloodIV","ACE_epinephrine","ACE_morphine","ACE_bodyBag"];
+			unlockedItems = unlockedItems + ["ACE_fieldDressing","ACE_bloodIV_500","ACE_bloodIV","ACE_epinephrine","ACE_morphine","ACE_bodyBag","ACE_fieldDressing","ACE_elasticBandage","ACE_quikclot","ACE_bloodIV_250","ACE_packingBandage","ACE_personalAidKit","ACE_plasmaIV","ACE_plasmaIV_500","ACE_plasmaIV_250","ACE_salineIV","ACE_salineIV_500","ACE_salineIV_250","ACE_surgicalKit","ACE_tourniquet","ACE_adenosine"];
 			};
 		};
 	};
