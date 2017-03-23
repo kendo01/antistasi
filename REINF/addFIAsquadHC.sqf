@@ -210,7 +210,7 @@ else
 
 };
 
-{[_x] call FIAinit} forEach units _grupo;
+{[_x] call AS_fnc_initialiseFIAUnit} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
 Stavros hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];

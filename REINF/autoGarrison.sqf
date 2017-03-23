@@ -42,7 +42,7 @@ while {(_size > 0)} do
 		_vehicle=[_pos, random 360,_tipoVeh, side_blue] call bis_fnc_spawnvehicle;
 		_veh = _vehicle select 0;
 		_vehCrew = _vehicle select 1;
-		{[_x] spawn FIAinit} forEach _vehCrew;
+		{[_x] spawn AS_fnc_initialiseFIAUnit} forEach _vehCrew;
 		[_veh] spawn VEHinit;
 		[_veh,"Reinf"] spawn inmuneConvoy;
 		_grupoVeh = _vehicle select 2;
@@ -55,7 +55,7 @@ while {(_size > 0)} do
 			if (_tipoVeh == guer_veh_quad) then
 				{
 				_soldado = _grupoVeh createUnit [guer_sol_SN, _pos, [], 0, "NONE"];
-				[_soldado] spawn FIAinit;
+				[_soldado] spawn AS_fnc_initialiseFIAUnit;
 				_soldados pushBack _soldado;
 				_soldado moveInCargo _veh;
 				}
@@ -64,7 +64,7 @@ while {(_size > 0)} do
 				_tipoGrupo = guer_grp_squad;
 				if (_tipoVeh == guer_veh_offroad) then {_tipoGrupo = [guer_grp_team,guer_grp_AT] call BIS_fnc_selectRandom};
 				_grupo = [_origen, side_blue, ([_tipoGrupo, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
-				{[_x] call FIAinit; [_x] join _grupoVeh; _x moveInCargo _veh; _soldados pushBack _x} forEach units _grupo;
+				{[_x] call AS_fnc_initialiseFIAUnit; [_x] join _grupoVeh; _x moveInCargo _veh; _soldados pushBack _x} forEach units _grupo;
 				deleteGroup _grupo;
 				};
 			//[_marcador,_grupoVeh] spawn attackDrill;

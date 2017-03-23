@@ -49,44 +49,51 @@ guer_grp_AT = "IRG_InfTeam_AT";
 guer_grp_squad = "IRG_InfSquad";
 guer_grp_team = "IRG_InfTeam";
 
-/*
-These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
-0-2: civilian vehicles
-3-10: military vehicles and statics
-*/
-vfs = [
-	"C_Offroad_01_F",
-	"C_Van_01_transport_F",
-	"C_Heli_Light_01_civil_F",
-	"B_G_Quadbike_01_F",
-	"B_G_Offroad_01_F",
-	"B_G_Van_01_transport_F",
-	"B_G_Offroad_01_armed_F",
-	"B_HMG_01_high_F",
-	"B_G_Mortar_01_F",
-	"B_static_AT_F",
-	"B_static_AA_F"
-];
-
 guer_flag = "Flag_FIA_F";
 
 // ===== GEAR ===== \\
-guer_vestAdv = "V_PlateCarrierIAGL_oli";
-guer_AT = "launch_I_Titan_short_F";
-guer_LAT = "launch_NLAW_F";
-guer_AA = "launch_I_Titan_F";
-guer_SNPR = "srifle_GM6_F";
-guer_SNPR_camo = "srifle_GM6_SOS_F";
-guer_GL_gren = "1Rnd_HE_Grenade_shell";
-guer_grenSmoke = "SmokeShell";
-guer_grenHE = "HandGrenade";
+if !(hayRHS) then {
+	/*
+	These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
+	0-2: civilian vehicles
+	3-10: military vehicles and statics
+	*/
+	vfs = [
+		"C_Offroad_01_F",
+		"C_Van_01_transport_F",
+		"C_Heli_Light_01_civil_F",
+		"B_G_Quadbike_01_F",
+		"B_G_Offroad_01_F",
+		"B_G_Van_01_transport_F",
+		"B_G_Offroad_01_armed_F",
+		"B_HMG_01_high_F",
+		"B_G_Mortar_01_F",
+		"B_static_AT_F",
+		"B_static_AA_F"
+	];
 
-guer_FAK = "FirstAidKit";
+	guer_gear_vestAdv = "V_PlateCarrierIAGL_oli";
+	guer_gear_vestMedic = "";
+	guer_gear_vestEngineer = "";
 
-guer_BP = "B_AssaultPack_blk";
-guer_BP_AT = "B_AssaultPack_blk";
+	guer_gear_AT = "launch_I_Titan_short_F";
+	guer_gear_LAT = "launch_NLAW_F";
+	guer_gear_AA = "launch_I_Titan_F";
+	guer_gear_SNPR = "srifle_GM6_F";
+	guer_gear_SNPR_camo = "srifle_GM6_SOS_F";
+	guer_gear_GL = "arifle_TRG21_GL_F";
+	guer_gear_LMG = "LMG_Mk200_F";
+	guer_gear_Carbine = "arifle_Mk20C_F";
+	guer_gear_GL_gren = "1Rnd_HE_Grenade_shell";
+	guer_gear_grenSmoke = "SmokeShell";
+	guer_gear_grenHE = "HandGrenade";
+	guer_gear_defOptic = "optic_ACO_grn";
 
-if (hayRHS) then {
+	guer_gear_BP = "B_AssaultPack_blk";
+	guer_gear_BP_AT = "B_AssaultPack_blk";
+	guer_gear_BP_Medic = "";
+	guer_gear_BP_Engineer = "";
+} else {
 	vfs = [
 		"C_Offroad_01_F",
 		"C_Van_01_transport_F",
@@ -102,6 +109,28 @@ if (hayRHS) then {
 		"rhs_bmd1_chdkz",
 		"rhs_gaz66_r142_vdv"
 	];
+
+	guer_gear_vestAdv = "rhs_6b23_6sh116_flora";
+	guer_gear_vestMedic = "rhs_6b23_digi_medic";
+	guer_gear_vestEngineer = "rhs_6b23_digi_engineer";
+
+	guer_gear_AT = "rhs_weap_rpg7";
+	guer_gear_LAT = "rhs_weap_rpg26";
+	guer_gear_AA = "rhs_weap_igla";
+	guer_gear_SNPR = "rhs_weap_svdp_wd";
+	guer_gear_SNPR_camo = "srifle_GM6_SOS_F";
+	guer_gear_GL = "rhs_weap_akms_gp25";
+	guer_gear_LMG = "rhs_weap_pkm";
+	guer_gear_Carbine = "rhs_weap_aks74u";
+	guer_gear_GL_gren = "rhs_VOG25";
+	guer_gear_grenSmoke = "rhs_mag_rdg2_white";
+	guer_gear_grenHE = "rhs_mag_rgd5";
+	guer_gear_defOptic = "rhs_acc_1p29";
+
+	guer_gear_BP = "rhs_sidor";
+	guer_gear_BP_AT = "rhs_rpg_empty";
+	guer_gear_BP_Medic = "rhs_assault_umbts_medic";
+	guer_gear_BP_Engineer = "rhs_assault_umbts_engineer";
 };
 
 // Name of the faction

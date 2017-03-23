@@ -75,7 +75,7 @@ _pos = position _road findEmptyPosition [1,30,guer_veh_truck];
 _camion = guer_veh_truck createVehicle _pos;
 
 _grupo addVehicle _camion;
-{[_x] spawn FIAinit; [_x] orderGetIn true} forEach units _grupo;
+{[_x] spawn AS_fnc_initialiseFIAUnit; [_x] orderGetIn true} forEach units _grupo;
 [_camion] spawn VEHinit;
 leader _grupo setBehaviour "SAFE";
 Stavros hcSetGroup [_grupo];

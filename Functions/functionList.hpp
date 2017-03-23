@@ -108,6 +108,8 @@ class CfgFunctions {
 			class protectCamoNet {};
 			class IslandCheck {};
 			class despawnUnits {};
+			class initialiseFIAUnit {};
+			class initialiseFIAGarrisonUnit {};
 		};
 		class QRF {
 			file = "Functions";
