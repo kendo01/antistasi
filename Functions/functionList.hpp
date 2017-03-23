@@ -107,6 +107,7 @@ class CfgFunctions {
 			class adjustGroupSize {};
 			class protectCamoNet {};
 			class IslandCheck {};
+			class despawnUnits {};
 		};
 		class QRF {
 			file = "Functions";
