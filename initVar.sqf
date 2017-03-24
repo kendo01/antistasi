@@ -32,6 +32,11 @@ enableRestart = true;
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
+AS_customGroups = false;
+if (isClass (configFile >> "CfgPatches" >> "javelinTest")) then {
+	AS_customGroups = true;
+};
+
 /*
  	Gear initialisation
  	- all weapons provided by mods will be detected
@@ -55,11 +60,6 @@ missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
  	- ACE settings can be adjusted through mission parameters or a serverconfig.hpp
 */
 [] call AS_fnc_detectACE;
-
-AS_customGroups = false;
-if (isClass (configFile >> "CfgPatches" >> "javelinTest")) then {
-	AS_customGroups = true;
-};
 
 call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
 #include "Compositions\spawnPositions.sqf"

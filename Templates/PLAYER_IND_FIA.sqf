@@ -37,10 +37,10 @@ guer_stat_MGH = "I_HMG_01_high_F";
 guer_stat_AT = "I_static_AT_F";
 guer_stat_AA = "I_static_AA_F";
 
-statics_allMGs pushBackUnique guer_stat_MGH;
-statics_allATs pushBackUnique guer_stat_AT;
-statics_allAAs pushBackUnique guer_stat_AA;
-statics_allMortars pushBackUnique guer_stat_mortar;
+statics_allMGs = [guer_stat_MGH];
+statics_allATs = [guer_stat_AT];
+statics_allAAs = [guer_stat_AA];
+statics_allMortars = [guer_stat_mortar];
 
 guer_cfg_inf = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry"); //unused
 
