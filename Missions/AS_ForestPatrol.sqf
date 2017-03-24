@@ -13,7 +13,7 @@ _source = _this select 1;
 _Outpost = getMarkerPos _mrkOutpost;
 _ClearPosOutpost = _Outpost findEmptyPosition [0, 200, "I_Truck_02_covered_F"];
 
-_distance = 3000;
+_distance = 2000;
 while {true} do {
 	sleep 0.1;
 	_Forest = selectBestPlaces [_Outpost, _distance, "forest", 10, 1] select 0 select 0;
@@ -50,15 +50,18 @@ _group1 = [_ClearPosOutpost, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _group1, _mrkfin, "SPAWNED", "NOVEH2", "NOFOLLOW", "AWARE"] execVM "scripts\UPSMON.sqf";
 {[_x] spawn genInit; _x allowFleeing 0} forEach units _group1;
+sleep 2;
+_group1 setFormation "STAG COLUMN";
 
 _group2 = createGroup side_red;
+_group2 setFormation "STAG COLUMN";
 _target1 = _group2 createUnit [opI_RFL1, _ClearPosOutpost, [], 0, "NONE"];
 _target2 = _group2 createUnit [opI_AR, _ClearPosOutpost, [], 0, "NONE"];
 _target3 = _group2 createUnit [opI_OFF, _ClearPosOutpost, [], 0, "NONE"];
 _target4 = _group2 createUnit [opI_LAT, _ClearPosOutpost, [], 0, "NONE"];
 {[_x] spawn CSATinit; _x allowFleeing 0} forEach units _group2;
 [_target1,_target2,_target3,_target4] join _group1;
-_group1 setFormation "STAG COLUMN";
+
 
 
 waitUntil  {sleep 5; ((!alive _target1) && (!alive _target2) && (!alive _target3) && (!alive _target4)) or (dateToNumber date > _fechalimnum)};
