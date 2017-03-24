@@ -18,7 +18,7 @@ _addedMagazines = [];
 			_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgMagazines" >> _mag >> "displayName")]
 		};
 	};
-} forEach AS_allMagazines;
+} forEach gear_allMagazines;
 
 _baseWeapons = [];
 {
@@ -67,11 +67,11 @@ if (!("Rangefinder" in unlockedWeapons) || !(indRF in unlockedWeapons)) then {
 
 if (count _addedMagazines > 0) then {
 	if ((atMine in _addedMagazines) || (apMine in _addedMagazines)) then {
-		if (hayBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
+		if (activeBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
 	};
 	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 		// XLA fixed arsenal
-		if (hayXLA) then {
+		if (activeXLA) then {
 			[caja,_addedMagazines,true,false] call XLA_fnc_addVirtualMagazineCargo;
 		} else {
 			[caja,_addedMagazines,true,false] call BIS_fnc_addVirtualMagazineCargo;
@@ -91,10 +91,10 @@ for "_i" from 0 to (count _magazines) - 1 do {
 
 if (count _addedWeapons > 0) then {
 	lockedWeapons = lockedWeapons - _addedWeapons;
-	if (hayBE) then {["unl_wpn", count _addedWeapons] remoteExec ["fnc_BE_XP", 2]};
+	if (activeBE) then {["unl_wpn", count _addedWeapons] remoteExec ["fnc_BE_XP", 2]};
 	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 		// XLA fixed arsenal
-		if (hayXLA) then {
+		if (activeXLA) then {
 			[caja,_addedWeapons,true,false] call XLA_fnc_addVirtualWeaponCargo;
 		} else {
 			[caja,_addedWeapons,true,false] call BIS_fnc_addVirtualWeaponCargo;
@@ -143,7 +143,7 @@ if (count _addedBackpacks > 0) then {
 	genBackpacks = genBackpacks - _addedBackpacks;
 	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 		// XLA fixed arsenal
-		if (hayXLA) then {
+		if (activeXLA) then {
 			[caja,_addedBackpacks,true,false] call XLA_fnc_addVirtualBackpackCargo;
 		} else {
 			[caja,_addedBackpacks,true,false] call BIS_fnc_addVirtualBackpackCargo;
@@ -176,7 +176,7 @@ _addedItems = [];
 			_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> _item >> "displayName")];
 			if (_item in genOptics) then {unlockedOptics pushBackUnique _item; publicVariable "unlockedOptics"};
 			if (_item in genVests) then {
-				if (hayBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
+				if (activeBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
 			};
 		};
 	};
@@ -187,7 +187,7 @@ if !("NVGoggles" in unlockedItems) then {
 		_addedItems = _addedItems + ["NVGoggles","NVGoggles_OPFOR","NVGoggles_INDEP",indNVG];
 		unlockedItems = unlockedItems + ["NVGoggles","NVGoggles_OPFOR","NVGoggles_INDEP",indNVG];
 		_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> "NVGoggles" >> "displayName")];
-		if (hayBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
+		if (activeBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
 	};
 };
 
@@ -209,14 +209,14 @@ if !("Rangefinder" in unlockedItems) then {
 	};
 };
 
-if ((hayACE) && ("ItemGPS" in unlockedItems)) then {
+if ((activeACE) && ("ItemGPS" in unlockedItems)) then {
 	unlockedItems pushBackUnique "ACE_DAGR";
 };
 
 if (count _addedItems >0) then {
 	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 		// XLA fixed arsenal
-		if (hayXLA) then {
+		if (activeXLA) then {
 			[caja,_addedItems,true,false] call XLA_fnc_addVirtualItemCargo;
 		} else {
 			[caja,_addedItems,true,false] call BIS_fnc_addVirtualItemCargo;
@@ -238,7 +238,7 @@ if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 	if (count _weapons != count _weaponCargo) then {
 		clearWeaponCargoGlobal caja;
 		{caja addWeaponCargoGlobal [_x,1]} forEach _weaponCargo;
-		unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - srifles - mguns; publicVariable "unlockedRifles";
+		unlockedRifles = unlockedweapons -  gear_sidearms -  gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
 	};
 
 	if (count _backpacks != count _backpackCargo) then {
@@ -257,7 +257,7 @@ if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 	};
 };
 
-unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - srifles - mguns; publicVariable "unlockedRifles";
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
 publicVariable "unlockedWeapons";
 publicVariable "unlockedRifles";
 publicVariable "unlockedItems";

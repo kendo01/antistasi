@@ -12,7 +12,7 @@ _escarretera = false;
 if (isOnRoad _posicion) then {_escarretera = true};
 
 // BE module
-if (hayBE) then {
+if (activeBE) then {
 	if (BE_current_FIA_RB_Style == 1) exitWith {_advanced = true};
 };
 // BE module

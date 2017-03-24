@@ -17,7 +17,7 @@ if (_changeHelmet) then {
 	} else {
 		if (_changeUniform) then {
 			// BE module
-			if (hayBE) then {
+			if (activeBE) then {
 				_result = ["outfit"] call fnc_BE_getCurrentValue;
 				if (random 100 > _result) then {
 					_unit forceAddUniform (selectRandom civUniforms);
@@ -58,7 +58,7 @@ if (_changeRifle) then {
 	};
 };
 
-if (hayTFAR) then {
+if (activeTFAR) then {
 	_unit addItem guer_radio_TFAR;
 	_unit assignItem guer_radio_TFAR;
 };

@@ -87,7 +87,7 @@ while {true} do
 		[["TaskSucceeded", ["", format ["%1 joined FIA",[_ciudad, false] call AS_fnc_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		mrkAAF = mrkAAF - [_ciudad];
 		mrkFIA = mrkFIA + [_ciudad];
-		if (hayBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
+		if (activeBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
 		publicVariable "mrkAAF";
 		publicVariable "mrkFIA";
 		[0,5] remoteExec ["prestige",2];
@@ -163,7 +163,7 @@ while {true} do
 	_recAddBLUFOR = (round _recAddBLUFOR);
 
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		if (_hrAddBLUFOR > 0) then {
 			_hrAddBLUFOR = _hrAddBLUFOR min (["HR"] call fnc_BE_permission);
 		};
@@ -179,7 +179,7 @@ while {true} do
 	_hrAddBLUFOR = _hrAddBLUFOR + (server getVariable "hr");
 	_recAddBLUFOR = _recAddBLUFOR + (server getVariable "resourcesFIA");
 
-	if !(hayBE) then {
+	if !(activeBE) then {
 		if (_hrAddBLUFOR > 100) then {_hrAddBLUFOR = 100}; // HR capped to 100
 	};
 

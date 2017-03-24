@@ -2,7 +2,7 @@ if (player != Stavros) exitWith {hint "Only Commander Stavros has access to this
 
 // BE module
 _permission = true;
-if (hayBE) then {
+if (activeBE) then {
 	_permission = ["skill"] call fnc_BE_permission;
 };
 

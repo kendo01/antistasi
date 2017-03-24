@@ -293,7 +293,7 @@ else {
 	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,stavros] call playerScoreAdd;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

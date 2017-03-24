@@ -102,7 +102,7 @@ if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) the
 		publicVariable "FIA_WP_list";
 		// BE module
 		_advanced = false;
-		if (hayBE) then {
+		if (activeBE) then {
 			if (BE_current_FIA_RB_Style == 1) then {_advanced = true};
 		};
 		if (_advanced) then {

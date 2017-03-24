@@ -152,7 +152,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 	if ((diag_fps > minimoFPS) or (_cuenta == 0)) then {
 		_tipoGrupo = [infSquad, side_green] call AS_fnc_pickGroup;
 		_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
+		if (activeAFRF) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
 		if (_reduced) then {[_grupo] call AS_fnc_adjustGroupSize};
 		sleep 1;
 		_stance = "RANDOM";

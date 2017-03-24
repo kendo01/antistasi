@@ -21,7 +21,7 @@ if (!isMultiPlayer) then
 
 
     // XLA fixed arsenal
-    if (hayXLA) then {
+    if (activeXLA) then {
         [caja,unlockedItems,true,false] call XLA_fnc_addVirtualItemCargo;
         [caja,unlockedMagazines,true,false] call XLA_fnc_addVirtualMagazineCargo;
         [caja,unlockedWeapons,true,false] call XLA_fnc_addVirtualWeaponCargo;

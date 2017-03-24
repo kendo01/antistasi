@@ -1,4 +1,4 @@
-//if (hayACE) exitWith {hint "Feature disabled with ACE Mod"};
+//if (activeACE) exitWith {hint "Feature disabled with ACE Mod"};
 if (player != Stavros) exitWith {hint "Only Commander has the ability to control HC units"};
 if ({((side _x == side_green) or (side _x == side_red)) and (not (captive _x)) and (_x distance player < 500)} count allUnits > 0) exitWith {hint "You cannot remote control with enemies nearby"};
 

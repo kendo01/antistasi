@@ -1,5 +1,12 @@
 if !(worldName == "Altis") exitWith {};
 
+{
+	server setVariable [_x select 0,_x select 1]
+} forEach [
+	["Therisa",154],["Zaros",371],["Poliakko",136],["Katalaki",95],["Alikampos",115],["Neochori",309],["Stavros",122],["Lakka",173],["AgiosDionysios",84],["Panochori",264],["Topolia",33],["Ekali",9],["Pyrgos",531],["Orino",45],["Neri",242],["Kore",133],["Kavala",660],["Aggelochori",395],["Koroni",32],["Gravia",291],["Anthrakia",143],["Syrta",151],["Negades",120],["Galati",151],["Telos",84],["Charkia",246],["Athira",342],["Dorida",168],["Ifestiona",48],["Chalkeia",214],["AgiosKonstantinos",39],["Abdera",89],["Panagia",91],["Nifi",24],["Rodopoli",212],["Kalithea",36],["Selakano",120],["Frini",69],["AgiosPetros",11],["Feres",92],["AgiaTriada",8],["Paros",396],["Kalochori",189],["Oreokastro",63],["Ioannina",48],["Delfinaki",29],["Sofia",179],["Molos",188]
+	];
+call compile preprocessFileLineNumbers "roadsDB.sqf";
+
 power = ["power","power_1","power_2","power_3","power_5","power_6","power_8","power_9","power_10"];
 bases = ["base","base_1","base_2","base_3","base_4","base_5","base_6","base_7","base_9","base_10","base_11","base_12"];
 aeropuertos = ["airport","airport_1","airport_2","airport_3","airport_4","airport_5"];

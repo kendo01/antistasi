@@ -56,6 +56,9 @@ class CfgFunctions {
 			class punishPlayer {};
 			class deployMinefield {};
 			class getMarkerInfo {};
+			class setupGearDB {};
+			class detectRHS {};
+			class detectACE {};
 		};
 		class server {
 			file = "Functions";
@@ -110,6 +113,7 @@ class CfgFunctions {
 			class despawnUnits {};
 			class initialiseFIAUnit {};
 			class initialiseFIAGarrisonUnit {};
+			class detectTFAR {};
 		};
 		class QRF {
 			file = "Functions";

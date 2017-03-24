@@ -93,7 +93,7 @@ if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) a
 	mrkFIA = mrkFIA + [_marcador];
 	publicVariable "mrkAAF";
 	publicVariable "mrkFIA";
-	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+	if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 };
 
 waitUntil {sleep 1; !(spawner getVariable _marcador)};
