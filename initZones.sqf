@@ -26,14 +26,11 @@ antenas = [];
 mrkAntenas = [];
 bancos = [];
 posbancos = [];
-<<<<<<< HEAD
 safeDistance_undercover = 350;
 safeDistance_garage = 500;
 safeDistance_recruit = 500;
 safeDistance_garrison = 500;
 safeDistance_fasttravel = 500;
-=======
->>>>>>> origin/FIA_Unit_Overhaul
 
 call {
     if (worldName == "Altis") exitWith {
@@ -269,7 +266,7 @@ if (count posAntenas > 0) then {
                 _antenna = _this select 0;
                 _mrk = [mrkAntenas, _antenna] call BIS_fnc_nearestPosition;
                 antenas = antenas - [_antenna]; antenasmuertas = antenasmuertas + [getPos _antenna]; deleteMarker _mrk;
-                if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+                if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
                 [["TaskSucceeded", ["", localize "STR_TSK_RADIO_DESTROYED"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
             }];
         };

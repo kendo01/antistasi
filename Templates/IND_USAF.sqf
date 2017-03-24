@@ -127,10 +127,10 @@ statMGlow = 		"RHS_M2StaticMG_MiniTripod_WD";
 statMGtower = 		"RHS_M2StaticMG_WD";
 
 // Lists of statics to determine the defensive capabilities at locations
-allStatMGs = 		allStatMGs + [statMG];
-allStatATs = 		allStatATs + [statAT];
-allStatAAs = 		allStatAAs + [statAA];
-allStatMortars = 	allStatMortars + [statMortar];
+statics_allMGs = 		statics_allMGs + [statMG];
+statics_allATs = 		statics_allATs + [statAT];
+statics_allAAs = 		statics_allAAs + [statAA];
+statics_allMortars = 	statics_allMortars + [statMortar];
 
 // Backpacks of dismantled statics -- 0: weapon, 1: tripod/support
 statMGBackpacks = 		["RHS_M2_Gun_Bag","RHS_M2_Tripod_Bag"];
@@ -385,10 +385,10 @@ unlockedBackpacks = [
 unlockedOptics = [];
 
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
-mguns = mguns + ["rhs_weap_m240G","rhs_weap_m249_pip_L_para", "rhs_weap_m249_pip_S_vfg"];
-mguns = mguns arrayIntersect mguns;
-srifles = srifles + ["rhs_weap_M107_d","rhs_weap_m24sws","rhs_weap_sr25"];
-srifles = srifles arrayIntersect srifles;
+gear_machineGuns = gear_machineGuns + ["rhs_weap_m240G","rhs_weap_m249_pip_L_para", "rhs_weap_m249_pip_S_vfg"];
+gear_machineGuns = gear_machineGuns arrayIntersect gear_machineGuns;
+gear_sniperRifles = gear_sniperRifles + ["rhs_weap_M107_d","rhs_weap_m24sws","rhs_weap_sr25"];
+gear_sniperRifles = gear_sniperRifles arrayIntersect gear_sniperRifles;
 genGL = ["rhs_weap_m16a4_carryhandle_M203","rhs_weap_m4a1_carryhandle_m203S","rhs_weap_m4a1_m203s_d"];
 
 // Standard rifles for your troops to be equipped with

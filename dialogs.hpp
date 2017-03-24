@@ -11,7 +11,7 @@ AS_BOX_D(BOX_H_8);
 AS_FRAME_D(FRAME_H_8, "FIA HQ Options - Commander Only");
 BTN_BACK(A_CLOSE);
 
-#define STR_HQ_FIA "if (hayBE) then {[] remoteExec [""fnc_BE_buyUpgrade"", 2]} else {closeDialog 0; [] call FIAskillAdd;}"
+#define STR_HQ_FIA "if (activeBE) then {[] remoteExec [""fnc_BE_buyUpgrade"", 2]} else {closeDialog 0; [] call FIAskillAdd;}"
 
 BTN_L1(-1, "Grab 100 € from Pool", "", "if (isMultiPlayer) then {nul=call stavrosSteal} else {hint ""This function is MP only""};");
 BTN_L2(-1, "Manage Garrisons", "", "closeDialog 0; nul=CreateDialog ""garrison_menu"";");
@@ -101,7 +101,7 @@ BTN_R2(109, "Buy Mortar", "", "closedialog 0; [vfs select 8] call addFIAveh");
 BTN_R3(108, "Buy MG", "", "closedialog 0; [vfs select 7] call addFIAveh");
 BTN_R4(111, "Buy Static AA", "", "closedialog 0; [vfs select 10] call addFIAveh");
 
-BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (hayRHS) then {if (player == Stavros) then {closeDialog 0; [vfs select 11] call addFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
+BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (activeAFRF) then {if (player == Stavros) then {closeDialog 0; [vfs select 11] call addFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
 
 	};
 };
@@ -707,7 +707,7 @@ class boost_menu // 390
 	AS_FRAME_D(FRAME_H_2, "Is the start too hard for you?");
 
 	#define STR_BST_YES "closeDialog 0; if (player == stavros) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == stavros) and (isNil ""placementDone"")) then {[] spawn placementselection};"
-	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""AS_fnc_MAINT_arsenal"", 2]; if (hayBE) then {[] call fnc_BE_refresh}; if ((player == stavros) and (isNil ""placementDone"")) then {[] spawn placementselection};"
+	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""AS_fnc_MAINT_arsenal"", 2]; if (activeBE) then {[] call fnc_BE_refresh}; if ((player == stavros) and (isNil ""placementDone"")) then {[] spawn placementselection};"
 
 	BTN_L1(-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
 	BTN_R1(-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);
@@ -1078,7 +1078,7 @@ class maintenance_menu
 	#define STR_MAINT_PAN "closeDialog 0; [] remoteExec [""AS_fnc_togglePetrosAnim"", 2];"
 	#define STR_MAINT_PET "closeDialog 0; [true] remoteExec [""fn_togglePetrosAnim"", 2]; [] remoteExec [""AS_fnc_MAINT_resetPetros"", 2];"
 	#define STR_MAINT_MOV "closeDialog 0; [] remoteExec ['AS_fnc_addMoveObjAction',stavros];"
-	#define STR_MAINT_AXP "if (hayBe) then {hayBe = true} else {hayBe = false}; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
+	#define STR_MAINT_AXP "if (activeBE) then {activeBE = true} else {activeBE = false}; hint format [""Current setting: %1"", [""off"", ""on""] select activeBE];"
 
 	BTN_L1(-1, "Arsenal", "Fix minor issues with the arsenal.", STR_MAINT_ARS);
 	BTN_L2(-1, "Toggle Petros' animations", "Turn the idle animation of Petros on/off.", STR_MAINT_PAN);
@@ -1105,7 +1105,7 @@ class com_options
 	#define STR_COM_OPT_FT "if (server getVariable ""enableFTold"") then {server setVariable [""enableFTold"",false,true]; [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""enableFTold"",true,true]; [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_INC "if (server getVariable ""easyMode"") then {server setVariable [""easyMode"",false,true]; [[petros,""hint"",""Easy Mode disabled.""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""easyMode"",true,true]; [[petros,""hint"",""FIA income permanently increased.""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_ARS "if (server getVariable ""enableMemAcc"") then {server setVariable [""enableMemAcc"",false,true]; [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""enableMemAcc"",true,true]; [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_AXP "if (hayBe) then {hayBe = false} else {hayBe = true}; publicVariable ""hayBE""; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
+	#define STR_COM_OPT_AXP "if (activeBE) then {activeBE = false} else {activeBE = true}; publicVariable ""activeBE""; hint format [""Current setting: %1"", [""off"", ""on""] select activeBE];"
 	#define STR_COM_OPT_WPP "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""AS_fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""on"", ""off""] select (server getVariable [""enableWpnProf"",false])];"
 
 	BTN_L1(-1, "FT On/Off", "Toggle the old Fast Travel system on/off", STR_COM_OPT_FT);

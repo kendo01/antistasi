@@ -123,7 +123,7 @@ if ({(alive _x) and (_x distance getMarkerPos guer_respawn < 50)} count _POWs > 
 	[round (_cuenta/2),stavros] call playerScoreAdd;
 	{[_x] join _grpPOW; [_x] orderGetin false} forEach _POWs;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

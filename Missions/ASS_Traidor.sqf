@@ -137,7 +137,7 @@ if (not alive _traidor) then
 	} forEach ([_tam,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[5,stavros] call playerScoreAdd;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

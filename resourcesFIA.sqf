@@ -10,7 +10,7 @@ _hrT = server getVariable "hr";
 _resourcesFIAT = server getVariable "resourcesFIA";
 
 // BE module
-if (hayBE) then {
+if (activeBE) then {
 	if (_hr > 0) then {
 		_hr = _hr min (["HR"] call fnc_BE_permission);
 	};

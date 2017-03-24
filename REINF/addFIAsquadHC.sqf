@@ -47,7 +47,7 @@ else
 	_costeHR = 2;
 	_coste = _coste + ([_tipogrupo] call vehiclePrice) + ([guer_veh_truck] call vehiclePrice);
 
-	if ((hayRHS) && (_tipogrupo == guer_stat_AA)) then {
+	if ((activeAFRF) && (_tipogrupo == guer_stat_AA)) then {
 		_coste = 3*(server getVariable guer_sol_R_L);
 		_costeHR = 3;
 		_coste = _coste + ([vehTruckAA] call vehiclePrice);
@@ -72,7 +72,7 @@ while {true} do
 	};
 _road = _roads select 0;
 
-if (hayRHS) then {
+if (activeAFRF) then {
 	if (_esinf) then {
 		_pos = [(getMarkerPos guer_respawn), 30, random 360] call BIS_Fnc_relPos;
 		_grupo = [_pos, side_blue, ([_tipogrupo, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;

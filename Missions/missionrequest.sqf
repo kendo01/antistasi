@@ -74,7 +74,7 @@ if (_tipo == "LOG") then
 				else {
 					if (_sitio in puestos) then {
 						_nmbr = (count unlockedWeapons) + (count unlockedMagazines) + (count unlockedItems) + (count unlockedBackpacks);
-						_threshold = [125, 175] select hayACE;
+						_threshold = [125, 175] select activeACE;
 						if (_nmbr < _threshold) then {_posibles = _posibles + [_sitio];};
 					}
 					else {

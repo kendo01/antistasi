@@ -100,7 +100,7 @@ while {_cambiar == ""} do
 								if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < safeDistance_undercover))} count allUnits > 0) then {_cambiar = "Carretera"};
 								};
 							};
-						if (hayACE) then
+						if (activeACE) then
 							{
 			  				if (((position player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_green) then
 								{

@@ -134,7 +134,7 @@ _base	  = "";
 					{if (_x distance _veh < 1500) then { [10, _x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 					 [5, stavros] call playerScoreAdd;
 						// BE module
-					 if (hayBE) then { ["mis"] remoteExec ["fnc_BE_XP", 2]};
+					 if (activeBE) then { ["mis"] remoteExec ["fnc_BE_XP", 2]};
 					};
 
 					if (time >= _returntime) then
@@ -159,7 +159,7 @@ _base	  = "";
 							{if (_x distance _veh < 1500) then { [10, _x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 							 [5, stavros] call playerScoreAdd;
 								// BE module
-							 if (hayBE) then { ["mis"] remoteExec ["fnc_BE_XP", 2]};
+							 if (activeBE) then { ["mis"] remoteExec ["fnc_BE_XP", 2]};
 							};
 							if (_veh distance _posbase < 75) then
 								{

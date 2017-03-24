@@ -121,10 +121,10 @@ statMGlow = 		"B_HMG_01_F";
 statMGtower = 		"B_HMG_01_high_F";
 
 // Lists of statics to determine the defensive capabilities at locations
-allStatMGs = 		allStatMGs + [statMG];
-allStatATs = 		allStatATs + [statAT];
-allStatAAs = 		allStatAAs + [statAA];
-allStatMortars = 	allStatMortars + [statMortar];
+statics_allMGs = 		statics_allMGs + [statMG];
+statics_allATs = 		statics_allATs + [statAT];
+statics_allAAs = 		statics_allAAs + [statAA];
+statics_allMortars = 	statics_allMortars + [statMortar];
 
 // Backpacks of dismantled statics -- 0: weapon, 1: tripod/support
 statMGBackpacks = 		["B_HMG_01_high_weapon_F","B_HMG_01_support_high_F"];
@@ -459,10 +459,10 @@ unlockedBackpacks = [
 unlockedOptics = [];
 
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
-mguns = mguns + ["LMG_Mk200_F","LMG_Zafir_F","arifle_MX_SW_F"];
-mguns = mguns arrayIntersect mguns;
-srifles = srifles + ["srifle_DMR_01_F","srifle_EBR_F","srifle_GM6_F","srifle_LRR_F","arifle_MXM_F","srifle_DMR_06_olive_F"];
-srifles = srifles arrayIntersect srifles;
+gear_machineGuns = gear_machineGuns + ["LMG_Mk200_F","LMG_Zafir_F","arifle_MX_SW_F"];
+gear_machineGuns = gear_machineGuns arrayIntersect gear_machineGuns;
+gear_sniperRifles = gear_sniperRifles + ["srifle_DMR_01_F","srifle_EBR_F","srifle_GM6_F","srifle_LRR_F","arifle_MXM_F","srifle_DMR_06_olive_F"];
+gear_sniperRifles = gear_sniperRifles arrayIntersect gear_sniperRifles;
 genGL = ["arifle_Katiba_GL_F","arifle_MX_GL_F","arifle_Mk20_GL_F","arifle_TRG21_GL_F"];
 
 // Standard rifles for your troops to be equipped with

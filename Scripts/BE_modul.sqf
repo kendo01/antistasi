@@ -60,7 +60,7 @@ fnc_BE_initialize = {
 };
 
 fnc_BE_gearUpdate = {
-	BE_defWeap = unlockedWeapons arrayIntersect (arifles + mguns + srifles);
+	BE_defWeap = unlockedWeapons arrayIntersect (gear_assaultRifles + gear_machineGuns + gear_sniperRifles);
 	BE_defVests = unlockedItems select {(getNumber (configfile >> "CfgWeapons" >> _x >> "ItemInfo" >> "type")) == 701};
 	BE_defHelmets = unlockedItems select {(getNumber (configfile >> "CfgWeapons" >> _x >> "ItemInfo" >> "type")) == 605};
 	BE_defOptics = unlockedOptics;
@@ -123,7 +123,7 @@ fnc_BE_pushVariables = {
 	publicVariable "BE_class_MRAP";
 	publicVariable "BE_mil_vehicles";
 
-	publicVariable "hayBE";
+	publicVariable "activeBE";
 	publicVariable "BE_currentStage";
 	publicVariable "BE_currentPrice";
 };
@@ -559,7 +559,7 @@ fnc_BE_C_TER = {
 #define BE_STR_CWPN2 "At least 4 primary weapons unlocked in the arsenal"
 #define BE_STR_CWPN3 "At least 6 primary weapons unlocked in the arsenal"
 fnc_BE_C_WPN = {
-	private _base = arifles + mguns + srifles - BE_defWeap;
+	private _base = gear_assaultRifles + gear_machineGuns + gear_sniperRifles - BE_defWeap;
 	private _minVal = 6;
 	BE_STR_CWPN = BE_STR_CWPN3;
 	call {

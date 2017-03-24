@@ -26,7 +26,7 @@ _skillSet = 0;
 if !("ItemRadio" in unlockedItems) then {_unit unlinkItem "ItemRadio"};
 
 call {
-	if (hayRHS) then {
+	if (activeAFRF) then {
 		removeVest _unit;
 		_unit addVest "V_Chestrig_oli";
 		_unit addItem "FirstAidKit";
@@ -42,7 +42,7 @@ call {
 			_unit removeWeaponGlobal (secondaryWeapon _unit);
 			[_unit, guer_gear_AT, 4, 0] call BIS_fnc_addWeapon;
 		} else {
-			if ((guer_gear_LAT in unlockedWeapons) OR (hayRHS)) then {
+			if ((guer_gear_LAT in unlockedWeapons) OR (activeAFRF)) then {
 				{if ( _x in secondaryWeaponMagazine _unit) then {_unit removeMagazine _x}} forEach magazines _unit;
 				_unit removeWeaponGlobal (secondaryWeapon _unit);
 				[_unit, guer_gear_LAT, 4, 0] call BIS_fnc_addWeapon;
@@ -121,7 +121,7 @@ call {
 	};
 
 	if (_unitType == guer_sol_MED) exitWith {
-		if (hayRHS) then {
+		if (activeAFRF) then {
 			removeVest _unit;
 			_unit addVest guer_gear_vestMedic;
 			removeAllItemsWithMagazines _unit;
@@ -140,7 +140,7 @@ call {
 	};
 
 	if (_unitType == guer_sol_ENG) exitWith {
-		if (hayRHS) then {
+		if (activeAFRF) then {
 			removeVest _unit;
 			_unit addVest guer_gear_vestEngineer;
 			removeAllItemsWithMagazines _unit;
@@ -167,21 +167,21 @@ call {
 	};
 
 	if (_unitType == guer_sol_MRK) exitWith {
-		if (hayRHS) then {
+		if (activeAFRF) then {
 			_unit removeMagazines (currentMagazine _unit);
 			_unit removeWeaponGlobal (primaryWeapon _unit);
 			[_unit, selectRandom guer_gear_SNPR, 6, 0] call BIS_fnc_addWeapon;
 		};
-		if ((srifles arrayIntersect unlockedWeapons) > 0) then {
+		if ((gear_sniperRifles arrayIntersect unlockedWeapons) > 0) then {
 			_unit removeMagazines (currentMagazine _unit);
 			_unit removeWeaponGlobal (primaryWeapon _unit);
-			[_unit, selectRandom (srifles arrayIntersect unlockedWeapons), 6, 0] call BIS_fnc_addWeapon;
+			[_unit, selectRandom (gear_sniperRifles arrayIntersect unlockedWeapons), 6, 0] call BIS_fnc_addWeapon;
 		};
 		_skillSet = 6;
 	};
 
 	if (_unitType == guer_sol_SN) exitWith {
-		if (hayRHS) then {
+		if (activeAFRF) then {
 			_unit removeMagazines (currentMagazine _unit);
 			_unit removeWeaponGlobal (primaryWeapon _unit);
 			[_unit, selectRandom guer_gear_SNPR_camo, 6, 0] call BIS_fnc_addWeapon;

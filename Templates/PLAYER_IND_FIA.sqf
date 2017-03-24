@@ -37,10 +37,10 @@ guer_stat_MGH = "I_HMG_01_high_F";
 guer_stat_AT = "I_static_AT_F";
 guer_stat_AA = "I_static_AA_F";
 
-allStatMGs pushBackUnique guer_stat_MGH;
-allStatATs pushBackUnique guer_stat_AT;
-allStatAAs pushBackUnique guer_stat_AA;
-allStatMortars pushBackUnique guer_stat_mortar;
+statics_allMGs = [guer_stat_MGH];
+statics_allATs = [guer_stat_AT];
+statics_allAAs = [guer_stat_AA];
+statics_allMortars = [guer_stat_mortar];
 
 guer_cfg_inf = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry"); //unused
 
@@ -54,12 +54,11 @@ guer_flag = "Flag_FIA_F";
 
 guer_soldierArray = [guer_sol_RFL,guer_sol_R_L,guer_sol_UN,guer_sol_AR,guer_sol_MED,guer_sol_ENG,guer_sol_EXP,guer_sol_GL,guer_sol_TL,guer_sol_AM,guer_sol_MRK,guer_sol_LAT,guer_sol_SL,guer_sol_OFF,guer_sol_SN,guer_sol_AA];
 
-guer_vehicleArray = guer_vehicleArray + [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
+guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
 
 // ===== GEAR ===== \\
 guer_radio_TFAR = "tf_anprc148jem";
-
-if !(hayGREF) then {
+if !(activeGREF) then {
 	/*
 	These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
 	0-2: civilian vehicles
@@ -142,3 +141,6 @@ if !(hayGREF) then {
 
 // Name of the faction
 A3_Str_PLAYER = localize "STR_GENIDENT_RES";
+
+// Position of your HQ
+posHQ = getMarkerPos guer_respawn;
