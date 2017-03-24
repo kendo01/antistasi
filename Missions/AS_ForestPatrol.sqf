@@ -61,7 +61,7 @@ _target4 = _group2 createUnit [opI_LAT, _ClearPosOutpost, [], 0, "NONE"];
 _group1 setFormation "STAG COLUMN";
 
 
-waitUntil  {sleep 5; (!alive _target1) && (!alive _target2) && (!alive _target3) && (!alive _target4)};
+waitUntil  {sleep 5; ((!alive _target1) && (!alive _target2) && (!alive _target3) && (!alive _target4)) or (dateToNumber date > _fechalimnum)};
 
 if (dateToNumber date > _fechalimnum) then
 	{
