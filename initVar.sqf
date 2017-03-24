@@ -20,7 +20,6 @@ minimoFPS = 15;//initial FPS minimum.
 autoHeal = false;
 allowPlayerRecruit = true;
 recruitCooldown = 0;
-AAFpatrols = 0;//0
 planesAAFcurrent = 0;
 helisAAFcurrent = 0;
 APCAAFcurrent = 0;
