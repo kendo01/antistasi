@@ -18,8 +18,8 @@ posAntenas = [[10113.9,11743.3,0],[2682.73,2592.63,0],[10950,11518,0],[9118.67,1
 
 posbancos = [];
 
-safeDistance_undercover = 350;
-safeDistance_garage = 500;
-safeDistance_recruit = 500;
-safeDistance_garrison = 500;
-safeDistance_fasttravel = 500;
+safeDistance_undercover = 150;
+safeDistance_garage = 100;
+safeDistance_recruit = 100;
+safeDistance_garrison = 100;
+safeDistance_fasttravel = 100;
