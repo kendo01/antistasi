@@ -8,7 +8,7 @@ if (!isDedicated) then {
 	{player removeWeaponGlobal _x} forEach weapons player;
 	removeBackpackGlobal player;
 	if ("ItemGPS" in (assignedItems player)) then {player unlinkItem "ItemGPS"};
-	if ((!hayTFAR) and ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
+	if ((!activeTFAR) and ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
 	player setPos getMarkerPos guer_respawn;
 
 	waitUntil {!isNil "sessionIDloaded"};
@@ -91,7 +91,7 @@ petros allowdamage false;
 ["AS_destroyedZones"] call fn_LoadStat;
 //===========================================================================
 
-unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - srifles - mguns; publicVariable "unlockedRifles";
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
 
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 

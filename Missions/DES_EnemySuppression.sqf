@@ -87,7 +87,7 @@ while {true} do {
 
 			_MRAP = "";
 			{if (_x in standardMRAP) exitWith {_MRAP = _x};
-			} forEach vehAAFAT;
+			} forEach enemyMotorpool;
 			if (_MRAP != "") then {_tipoVeh = selectRandom standardMRAP;
 				} else                                                        {_tipoVeh = selectRandom vehTrucks;
 				};
@@ -162,7 +162,7 @@ while {true} do {
 			 [10, stavros] call playerScoreAdd;
 			 [2, 0] remoteExec ["prestige", 2];
 				// BE module
-			 if (hayBE) then {
+			 if (activeBE) then {
 					 ["mis"] remoteExec ["fnc_BE_XP", 2];
 				 };
 			// BE module

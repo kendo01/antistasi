@@ -59,9 +59,9 @@ if (((planesAAFcurrent < planesAAFmax) and (helisAAFcurrent > 3)) and (_cuenta >
 	{
 	if (_resourcesAAF > (17500*_multiplicador)) then
 		{
-		if (count planesAAF < 2) then {
-			planesAAF = planesAAF + planes;
-			publicVariable "planesAAF"
+		if (count indAirForce < 2) then {
+			indAirForce = indAirForce + planes;
+			publicVariable "indAirForce"
 			};
 		diag_log format ["Econ: airplanes. Current number: %1; current resources: %2", planesAAFcurrent, _resourcesAAF];
 		planesAAFcurrent = planesAAFcurrent + 1;
@@ -73,10 +73,10 @@ if (((tanksAAFcurrent < tanksAAFmax) and (APCAAFcurrent > 3)) and (_cuenta > 5) 
 	{
 	if (_resourcesAAF > (10000*_multiplicador)) then
 		{
-		_length = count (vehAAFAT - vehTank);
-		if (_length == count vehAAFAT) then {
-			vehAAFAT = vehAAFAT + vehTank;
-			publicVariable "vehAAFAT";
+		_length = count (enemyMotorpool - vehTank);
+		if (_length == count enemyMotorpool) then {
+			enemyMotorpool = enemyMotorpool + vehTank;
+			publicVariable "enemyMotorpool";
 			};
 		diag_log format ["Econ: tanks. Current number: %1; current resources: %2", tanksAAFcurrent, _resourcesAAF];
 		tanksAAFcurrent = tanksAAFcurrent + 1; publicVariable "tanksAAFcurrent";
@@ -87,10 +87,10 @@ if (((helisAAFcurrent < helisAAFmax) and ((helisAAFcurrent < 4) or (planesAAFcur
 	{
 	if (_resourcesAAF > (10000*_multiplicador)) then
 		{
-		_length = count (planesAAF - heli_armed);
-		if (_length == count planesAAF) then {
-			planesAAF = planesAAF + heli_armed;
-			publicVariable "planesAAF"
+		_length = count (indAirForce - heli_armed);
+		if (_length == count indAirForce) then {
+			indAirForce = indAirForce + heli_armed;
+			publicVariable "indAirForce"
 			};
 		diag_log format ["Econ: helicopters. Current number: %1; current resources: %2", helisAAFcurrent, _resourcesAAF];
 		helisAAFcurrent = helisAAFcurrent + 1; publicVariable "helisAAFcurrent";
@@ -101,15 +101,15 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 	{
 	if (_resourcesAAF > (5000*_multiplicador)) then
 		{
-		_length = count (vehAAFAT - vehAPC);
-		if (_length == count vehAAFAT) then {
-	        vehAAFAT = vehAAFAT +  vehAPC;
-			publicVariable "vehAAFAT";
+		_length = count (enemyMotorpool - vehAPC);
+		if (_length == count enemyMotorpool) then {
+	        enemyMotorpool = enemyMotorpool +  vehAPC;
+			publicVariable "enemyMotorpool";
 	        };
-		_length = count (vehAAFAT - vehIFV);
-	    if (_length == count vehAAFAT) then {
-	        vehAAFAT = vehAAFAT +  vehIFV;
-			publicVariable "vehAAFAT";
+		_length = count (enemyMotorpool - vehIFV);
+	    if (_length == count enemyMotorpool) then {
+	        enemyMotorpool = enemyMotorpool +  vehIFV;
+			publicVariable "enemyMotorpool";
 	        };
 	    diag_log format ["Econ: APCs/IFVs. Current number: %1; current resources: %2", APCAAFcurrent, _resourcesAAF];
 	    APCAAFcurrent = APCAAFcurrent + 1; publicVariable "APCAAFcurrent";
@@ -129,7 +129,7 @@ if ((skillAAF < (_skillFIA + 2)) && (skillAAF < 17)) then {
 			_coste = server getVariable _x;
 			_coste = round (_coste + (_coste * (skillAAF/280)));
 			server setVariable [_x,_coste,true];
-		} forEach soldadosAAF;
+		} forEach units_enemySoldiers;
 	};
 };
 

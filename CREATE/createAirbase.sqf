@@ -91,7 +91,7 @@ if (!_busy) then
 		_cuenta = 0;
 		while {(spawner getVariable _marcador) and (_cuenta < 5)} do
 			{
-			_tipoveh = planesAAF call BIS_fnc_selectRandom;
+			_tipoveh = indAirForce call BIS_fnc_selectRandom;
 			_veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
 			sleep 1;
@@ -116,7 +116,7 @@ _veh = "I_supplyCrate_F" createVehicle _posicion;
 [_veh] call cajaAAF;
 _vehiculos = _vehiculos + [_veh];
 
-_arrayVeh = vehPatrol + vehSupply + vehAAFAT - [heli_default];
+_arrayVeh = vehPatrol + vehSupply + enemyMotorpool - [heli_default];
 _tipoVeh = "";
 _nVeh = round (_size/60);
 _cuenta = 0;
@@ -138,7 +138,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nVeh)} do
 _tipoGrupo = [infSquad, side_green] call AS_fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
-if (hayRHS) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
+if (activeAFRF) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
 [leader _grupo, _marcador, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
 {[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
@@ -157,7 +157,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 			};
 		_tipoGrupo = [infSquad, side_green] call AS_fnc_pickGroup;
 		_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
+		if (activeAFRF) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
 		if (random 10 < 2.5) then
 			{
 			_perro = _grupo createUnit ["Fin_random_F",_pos,[],0,"FORM"];

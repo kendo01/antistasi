@@ -41,7 +41,7 @@ if (not alive _oficial) then {
 	[5,stavros] call playerScoreAdd;
 	[_marcador,30] spawn AS_fnc_addTimeForIdle;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

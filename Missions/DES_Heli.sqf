@@ -28,7 +28,7 @@ while {true} do
 	if ((!surfaceIsWater _poscrash) and (_poscrash distance _posHQ < 4000)) exitWith {};
 	};
 
-_tipoVeh = planesAAF call BIS_fnc_selectRandom;
+_tipoVeh = indAirForce call BIS_fnc_selectRandom;
 
 _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
 _posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
@@ -156,7 +156,7 @@ if (not alive _heli) then
 	{if (_x distance _heli < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,stavros] call playerScoreAdd;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

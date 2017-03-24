@@ -105,7 +105,7 @@ if (_hasSPAA) then {
 		publicVariable "mrkAAF";
 		publicVariable "mrkFIA";
 		[_posMarker] remoteExec ["patrolCA",HCattack];
-		if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+		if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 	};
 } else {
 	waitUntil {sleep 1; !(spawner getVariable _marker) OR ((3*count (allUnits select {((side _x == side_green) OR (side _x == side_red)) AND (_x distance _posMarker <= _size)}) == 0) AND ({alive _x} count units _groupGunners == 0))};
@@ -121,7 +121,7 @@ if (_hasSPAA) then {
 		publicVariable "mrkAAF";
 		publicVariable "mrkFIA";
 		[_posMarker] remoteExec ["patrolCA",HCattack];
-		if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+		if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 	};
 };
 

@@ -38,7 +38,7 @@ _viejo setVariable ["BLUFORSpawn",nil,true];
 _nuevo setCaptive false;
 _nuevo setRank (_rango);
 _nuevo setVariable ["rango",_rango,true];
-//if (!hayACEMedical) then {[_nuevo] call initRevive};
+//if (!activeACEMedical) then {[_nuevo] call initRevive};
 disableUserInput false;
 //_nuevo enableSimulation true;
 if (_viejo == stavros) then
@@ -52,7 +52,7 @@ removeAllItemsWithMagazines _nuevo;
 removeBackpackGlobal _nuevo;
 removeVest _nuevo;
 if ((not("ItemGPS" in unlockedItems)) and ("ItemGPS" in (assignedItems _nuevo))) then {_nuevo unlinkItem "ItemGPS"};
-if ((!hayTFAR) and ("ItemRadio" in (assignedItems player)) and (not("ItemRadio" in unlockedItems))) then {player unlinkItem "ItemRadio"};
+if ((!activeTFAR) and ("ItemRadio" in (assignedItems player)) and (not("ItemRadio" in unlockedItems))) then {player unlinkItem "ItemRadio"};
 if (!isPlayer (leader group player)) then {(group player) selectLeader player};
 player addEventHandler ["FIRED",
 	{
@@ -178,7 +178,7 @@ player addEventHandler ["Take",{
 	[] spawn AS_fnc_skillAdjustments;
 }] call BIS_fnc_addScriptedEventHandler;
 
-if (!(isMultiplayer) && (hayACEMedical)) then {
+if (!(isMultiplayer) && (activeACEMedical)) then {
 	player setVariable ["inconsciente",false,true];
 	player setVariable ["respawning",false];
 	player addEventHandler ["HandleDamage", {

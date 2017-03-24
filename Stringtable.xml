@@ -155,6 +155,9 @@
 			<Key ID="STR_INFO_SKILLADJ">
 				<Original>&lt;t color='#f59900' size='.45' align='center'&gt;Warning! You lack the proficiency to effectively operate this weapon.&lt;/t&gt;</Original>
 			</Key>
+			<Key ID="STR_INFO_INITZONES">
+				<Original>Zones initialized.</Original>
+			</Key>
 		</Container>
 	</Package>
 
@@ -996,15 +999,15 @@
 			<Key ID="STR_TSKDESC_DESfuel">
 				<Original>The enemy is buying fuel from the civilians to supply their war machine. The truck is leaving from %1 and will return there once it is full. We have a contact who will let us know when the truck is at the fuel station. Destroy the fuel truck to show the enemy and the population that we will not stand for collaboration.</Original>
 			</Key>
-
-			<Key ID="STR_TSK_ASFOREST">
+      <Key ID="STR_TSK_ASFOREST">
 				<Original>Forest Patrol</Original>
 			</Key>
 			<Key ID="STR_TSKDESC_ASFOREST">
 				<Original>Reports have come in that a patrol is being dispatched from the %1 to this location. There will be a CSAT SpecOps ground team in the patrol training them in Forest warfare. We know they are patrolling within approximately 150 meters of this point. Go there and assassinate them. Do this before %2:%3. </Original>
 			</Key>
-
-
+			<Key ID="STR_TSK_RADIO_DESTROYED">
+				<Original>Radio Tower Destroyed</Original>
+			</Key>
 		</Container>
 	</Package>
 </Project>

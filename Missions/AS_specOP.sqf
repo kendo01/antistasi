@@ -60,7 +60,7 @@ else
 	[10,stavros] call playerScoreAdd;
 	[0,3] remoteExec ["prestige",2];
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

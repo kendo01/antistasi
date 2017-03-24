@@ -144,7 +144,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 
 if (!_busy) then
 	{
-	_arrayVehAAF = vehAPC + vehPatrol + vehAAFAT - [heli_default];
+	_arrayVehAAF = vehAPC + vehPatrol + enemyMotorpool - [heli_default];
 	_tipoVeh = "";
 	_nVeh = round (_size/30);
 	if (_nVeh < 1) then {_nVeh = 1};
@@ -198,7 +198,7 @@ while {(spawner getVariable _marcador) and (_cuenta < 4)} do
 
 _tipoGrupo = [infSquad, side_green] call AS_fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-if (hayRHS) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
+if (activeAFRF) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
 sleep 1;
 [leader _grupo, _marcador, "SAFE", "RANDOMUP","SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
@@ -216,7 +216,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 			};
 		_tipoGrupo = [infSquad, side_green] call AS_fnc_pickGroup;
 		_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
+		if (activeAFRF) then {_grupo = [_grupo, _posicion] call AS_fnc_expandGroup};
 		sleep 1;
 		[leader _grupo, _marcador, "SAFE","SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
