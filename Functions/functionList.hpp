@@ -114,6 +114,7 @@ class CfgFunctions {
 			class initialiseFIAUnit {};
 			class initialiseFIAGarrisonUnit {};
 			class detectTFAR {};
+			class spawnBunker {};
 		};
 		class QRF {
 			file = "Functions";
