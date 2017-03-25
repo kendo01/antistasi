@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_position","_size","_reduced","_buildings","_groupGunners","_building","_type","_vehicle","_unit","_flag","_crate","_isFrontline","_vehicleData","_vehCrew","_base","_roads","_data","_strength","_currentStrength","_groupType","_group","_stance","_observer"];
+private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_position","_size","_reduced","_buildings","_groupGunners","_building","_type","_vehicle","_unit","_flag","_crate","_isFrontline","_vehicleData","_vehCrew","_base","_roads","_data","_strength","_currentStrength","_groupType","_group","_patrolParams","_observer"];
 
 _allVehicles = [];
 _allGroups = [];
@@ -122,6 +122,14 @@ _strength = 1 max (round (_size/50));
 _currentStrength = 0;
 if (_isFrontline) then {_strength = _strength * 2};
 
+if (_marker in puestosAA) then {
+	_groupType = [infAA, side_green] call AS_fnc_pickGroup;
+	_group = [_markerPos, side_green, _groupType] call BIS_Fnc_spawnGroup;
+	[leader _group, _marker, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	_allGroups pushBack _group;
+	sleep 1;
+};
+
 while {(spawner getVariable _marker) AND (_currentStrength < _strength)} do {
 	if ((diag_fps > minimoFPS) OR (_currentStrength == 0)) then {
 		_groupType = [infSquad, side_green] call AS_fnc_pickGroup;
@@ -129,15 +137,12 @@ while {(spawner getVariable _marker) AND (_currentStrength < _strength)} do {
 		if (activeAFRF) then {_group = [_group, _markerPos] call AS_fnc_expandGroup};
 		if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 		sleep 1;
-		_stance = "RANDOM";
-		if (_currentStrength == 0) then {_stance = "RANDOMUP"};
-		[leader _group, _marker, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		_patrolParams = [leader _group, _marker, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"];
+		if (_currentStrength == 0) then {_patrolParams pushBack "FORTIFY"; _patrolParams pushBack "RANDOMUP"};
+		_patrolParams execVM "scripts\UPSMON.sqf";
 		_allGroups pushBack _group;
 		if (_currentStrength == 0) then {
-			{[_x] spawn genInitBASES; _allSoldiers = _allSoldiers + [_x]; _x setUnitPos "MIDDLE";} forEach units _group;
-		}
-		else {
-			{[_x] spawn genInitBASES; _allSoldiers = _allSoldiers + [_x]} forEach units _group;
+			{_x setUnitPos "MIDDLE"} forEach units _group;
 		};
 	};
 	_currentStrength = _currentStrength + 1;
@@ -147,6 +152,14 @@ if (_marker in puertos) then {
 	_crate addItemCargo ["V_RebreatherIA",round random 5];
 	_crate addItemCargo ["G_I_Diving",round random 5];
 };
+
+{
+	_group = _x;
+	{
+		[_x] spawn genInitBASES;
+		_allSoldiers pushBack _x;
+	} forEach units _group;
+} forEach _allGroups;
 
 _observer = objNull;
 if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))/10)) AND (spawner getVariable _marker)) then {
