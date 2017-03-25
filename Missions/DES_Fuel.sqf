@@ -53,7 +53,6 @@ _base	  = "";
 	};
 
 	_clearPOSbase = _posbase findEmptyPosition [0, 200, "I_Truck_02_covered_F"];
-	_clearPOSbase = _posbase findEmptyPosition [0, 200, "I_Truck_02_covered_F"];
 	_mrkfuelstop  = createMarker [format ["Fuel%1", random 100], _posfuelstop];
 	_mrkfuelstop setMarkerSize [150, 150];
 
