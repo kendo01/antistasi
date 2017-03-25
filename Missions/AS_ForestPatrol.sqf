@@ -99,3 +99,4 @@ waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x
 } forEach units _group1;
 deleteGroup _group1;
+deletemarker _mrkfin;
