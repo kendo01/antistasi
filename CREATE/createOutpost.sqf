@@ -49,7 +49,6 @@ for "_i" from 0 to (count _buildings) - 1 do {
 			_unit = ([_markerPos, 0, infGunner, _groupGunners] call bis_fnc_spawnvehicle) select 0;
 			_unit moveInGunner _vehicle;
 			_allSoldiers = _allSoldiers + [_unit];
-			[_unit] spawn genInitBASES;
 			sleep 1;
 			_allVehicles = _allVehicles + [_vehicle];
 			_vehicle = createVehicle [statMGtower, (_building buildingPos 17), [], 0, "CAN_COLLIDE"];
@@ -185,4 +184,4 @@ waitUntil {sleep 1; !(spawner getVariable _marker)};
 } forEach _buildings;
 
 [_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
-if (!isNull _observer) then {deleteVehicle _observer};
+if !(isNull _observer) then {deleteVehicle _observer};
