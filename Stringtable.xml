@@ -144,6 +144,12 @@
 			<Key ID="STR_GENIDENT_RES">
 				<Original>Resistence</Original>
 			</Key>
+			<Key ID="STR_GENIDENT_SOC">
+				<Original>SOCON</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_SF">
+				<Original>Special Forces</Original>
+			</Key>
 		</Container>
 	</Package>
 
@@ -1012,6 +1018,12 @@
 			</Key>
 			<Key ID="STR_TSK_RB_DESTROYED">
 				<Original>Roadblock cleansed.</Original>
+			</Key>
+			<Key ID="STR_TSK_WP_DESTROYED">
+				<Original>Observation camp cleansed.</Original>
+			</Key>
+			<Key ID="STR_TSK_AAWP_DESTROYED">
+				<Original>%1 emplacement destroyed.</Original>
 			</Key>
 		</Container>
 	</Package>
