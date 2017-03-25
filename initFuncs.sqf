@@ -136,7 +136,6 @@ createArtillery = compile preProcessFileLineNumbers "CREATE\createArtillery.sqf"
 createBase = compile preProcessFileLineNumbers "CREATE\createBase.sqf";
 createCity = compile preProcessFileLineNumbers "CREATE\createCity.sqf";
 createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
-createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
 createPower = compile preProcessFileLineNumbers "CREATE\createPower.sqf";
 createResources = compile preProcessFileLineNumbers "CREATE\createResources.sqf";
 createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
