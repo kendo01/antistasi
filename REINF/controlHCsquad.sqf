@@ -1,4 +1,4 @@
-//if (hayACE) exitWith {hint "Feature disabled with ACE Mod"};
+//if (activeACE) exitWith {hint "Feature disabled with ACE Mod"};
 if (player != Stavros) exitWith {hint "Only Commander has the ability to control HC units"};
 if ({((side _x == side_green) or (side _x == side_red)) and (not (captive _x)) and (_x distance player < 500)} count allUnits > 0) exitWith {hint "You cannot remote control with enemies nearby"};
 
@@ -9,7 +9,7 @@ _unit = leader _grupo;
 
 if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
-if ((not(typeOf _unit in soldadosFIA)) and (typeOf _unit != guer_POW)) exitWith {hint "You cannot control a unit which does not belong to FIA"};
+if ((not(typeOf _unit in guer_soldierArray)) and (typeOf _unit != guer_POW)) exitWith {hint "You cannot control a unit which does not belong to FIA"};
 
 while {(count (waypoints _grupo)) > 0} do
  {

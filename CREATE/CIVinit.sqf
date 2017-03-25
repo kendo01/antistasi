@@ -9,7 +9,7 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 	_muerto = _this select 0;
 	_killer = _this select 1;
 
-	if (hayACE) then {
+	if (activeACE) then {
 		if ((isNull _killer) || (_killer == _muerto)) then {
 			_killer = _muerto getVariable ["ace_medical_lastDamageSource", _killer];
 		};

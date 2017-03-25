@@ -37,7 +37,7 @@ if (!isNil "_weaponsItemsCargo") then
 			_weapon = [(_x select 0)] call BIS_fnc_baseWeapon;
 		_armas pushBack ([(_x select 0)] call BIS_fnc_baseWeapon);
 
-		if ((hayRHS) && (isNumber (configFile >> "CfgWeapons" >> (_x select 0) >> "rhs_disposable"))) then {
+		if ((activeAFRF) && (isNumber (configFile >> "CfgWeapons" >> (_x select 0) >> "rhs_disposable"))) then {
 			_ammo = (getArray (configFile >> "CfgWeapons" >> (_x select 0) >> "magazines")) select 0;
 			_municion pushBack _ammo;
 		}

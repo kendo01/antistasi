@@ -84,7 +84,7 @@ call {
 		_tskTitle = localize "STR_TSK_CVY_ARMOR";
 		_tskDesc = localize "STR_TSKDESC_CVY_ARMOR";
 		_icon = "Destroy";
-		_objectiveType = [selectRandom vehIFV, selectRandom vehTank] select ({(_x in vehTank)} count vehAAFAT > 0);
+		_objectiveType = [selectRandom vehIFV, selectRandom vehTank] select ({(_x in vehTank)} count enemyMotorpool > 0);
 	};
 
 	if (_convoyType == "Prisoners") exitWith {
@@ -154,15 +154,15 @@ _units = _vehData select 2;
 _counter = [1, (round random 2) + 1] select ([_destination] call AS_fnc_isFrontline);
 _HVTveh = 0;
 _tempMP = [];
-if (hayRHS) then {
-	if (count (vehAAFAT arrayIntersect vehIFV) > 0) then {
+if (activeAFRF) then {
+	if (count (enemyMotorpool arrayIntersect vehIFV) > 0) then {
 		for "_j" from 1 to 4 do {
 			_tempMP pushBack selectRandom vehIFV;
 		};
 	};
 };
 
-_motorpool =+ vehAAFAT;
+_motorpool =+ enemyMotorpool;
 if (count _tempMP > 0) then {_motorpool = _motorpool - vehIFV + _tempMP};
 
 if (_convoyType == "HVT") then {
@@ -400,7 +400,7 @@ if (_convoyType == "HVT") then {
 		[5,stavros] call playerScoreAdd;
 		[position _hvt] spawn patrolCA;
 		// BE module
-		if (hayBE) then {
+		if (activeBE) then {
 			["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 		// BE module
@@ -427,7 +427,7 @@ if (_convoyType == "Municion") then {
 		[5,stavros] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
 		// BE module
-		if (hayBE) then {
+		if (activeBE) then {
 			["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 		// BE module
@@ -452,7 +452,7 @@ if (_convoyType == "Armor") then {
 		[5,stavros] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
 		// BE module
-		if (hayBE) then {
+		if (activeBE) then {
 			["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 		// BE module
@@ -491,7 +491,7 @@ if (_convoyType == "Prisoners") then {
 			{[_counter,_x] call playerScoreAdd} forEach (allPlayers - hcArray);
 			[round (_counter/2),stavros] call playerScoreAdd;
 			// BE module
-			if (hayBE) then {
+			if (activeBE) then {
 				["mis"] remoteExec ["fnc_BE_XP", 2];
 			};
 			// BE module
@@ -543,7 +543,7 @@ if (_convoyType == "Money") then {
 			{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 			[5,stavros] call playerScoreAdd;
 			// BE module
-			if (hayBE) then {
+			if (activeBE) then {
 				["mis"] remoteExec ["fnc_BE_XP", 2];
 			};
 			// BE module
@@ -578,7 +578,7 @@ if (_convoyType == "Supplies") then {
 				{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 				[5,stavros] call playerScoreAdd;
 				// BE module
-				if (hayBE) then {
+				if (activeBE) then {
 					["mis"] remoteExec ["fnc_BE_XP", 2];
 				};
 				// BE module

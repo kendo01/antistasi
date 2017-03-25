@@ -85,7 +85,7 @@ else
 	[round (_cuenta/2),stavros] call playerScoreAdd;
 	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
 	// BE module
-	if (hayBE) then {
+	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module

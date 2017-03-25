@@ -146,7 +146,7 @@ player setVariable ["rango",rank player,true];
 if (player!=stavros) then {player setVariable ["score", 0,true]} else {player setVariable ["score", 25,true]};
 rezagados = creategroup WEST;
 (group player) enableAttack false;
-if (!hayACE) then
+if (!activeACE) then
 	{
 	[player] execVM "Revive\initRevive.sqf";
 	tags = [] execVM "tags.sqf";
@@ -154,12 +154,12 @@ if (!hayACE) then
 	}
 else
 	{
-	if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
-	if (!hayACEMedical) then {[player] execVM "Revive\initRevive.sqf"} else {player setVariable ["inconsciente",false,true]};
+	if (activeACEhearing) then {player addItem "ACE_EarPlugs"};
+	if (!activeACEMedical) then {[player] execVM "Revive\initRevive.sqf"} else {player setVariable ["inconsciente",false,true]};
 	[] execVM "playerMarkers.sqf";
 	};
 gameMenu = (findDisplay 46) displayAddEventHandler ["KeyDown",AS_fnc_keyDownMain];
-if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
+if (activeAFRF) then {[player] execVM "Municion\RHSdress.sqf"};
 player setvariable ["compromised",0];
 player addEventHandler ["FIRED",
 	{
@@ -292,7 +292,7 @@ player addEventHandler ["GetOutMan",{
 	};
 }];
 
-if (hayACE) then {
+if (activeACE) then {
 	player addEventHandler ["GetInMan", {
 		private ["_unit","_veh"];
 		_unit = _this select 0;
@@ -472,17 +472,17 @@ if !(isnil "XLA_fnc_addVirtualItemCargo") then {
 };
 
 // add a new TFAR radio to your loadout everytime you close the XLA arsenal -- if anyone knows of a way to actually keep your radio with the current XLA setting, give us a shout
-if ((hayTFAR) && !(isnil "XLA_fnc_addVirtualItemCargo")) then {
+if ((activeTFAR) && !(isnil "XLA_fnc_addVirtualItemCargo")) then {
 	[missionNamespace, "arsenalClosed", {
 		if !(count (player call TFAR_fnc_radiosList) > 0) then {
-			player linkItem ([AS_radio_tfar_B, AS_radio_tfar_G] select replaceFIA);
+			player linkItem guer_radio_TFAR;
 			[player] spawn AS_fnc_loadTFARsettings;
 		};
 	}] call BIS_fnc_addScriptedEventHandler;
 };
 
 if !(isMultiplayer) then {
-	if (hayACEMedical) then {
+	if (activeACEMedical) then {
 		player setVariable ["inconsciente",false,true];
 		player setVariable ["respawning",false];
 		player addEventHandler ["HandleDamage", {

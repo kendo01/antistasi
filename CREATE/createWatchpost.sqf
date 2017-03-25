@@ -12,6 +12,8 @@ _size = [_marcador] call sizeMarker;
 
 _posicion = getMarkerPos (_marcador);
 
+if (_posicion isEqualTo [0,0,0]) exitWith {diag_log "working"};
+
 _veh = createVehicle ["Land_BagBunker_Tower_F", _posicion, [],0, "NONE"];
 _veh setVectorUp (surfacenormal (getPosATL _veh));
 //_veh setVectorDirAndUp [[0, 0, 1],[0, 1, 0]];
@@ -62,7 +64,7 @@ if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) a
 	publicVariable "mrkFIA";
 	//[_marcador] spawn patrolCA;
 	[_posicion] remoteExec ["patrolCA",HCattack];
-	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+	if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 };
 
 waitUntil {sleep 1; !(spawner getVariable _marcador)};

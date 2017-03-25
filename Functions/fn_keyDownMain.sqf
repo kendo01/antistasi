@@ -41,7 +41,7 @@ call {
 
 	if (isMultiplayer) then {
 		if (_key == 207) exitWith {
-			if (!hayACEhearing) then {
+			if (!activeACEhearing) then {
 				if (soundVolume <= 0.5) then {
 					0.5 fadeSound 1;
 					hintSilent "You've taken out your ear plugs.";
@@ -54,7 +54,7 @@ call {
 	};
 
 	if !(isMultiplayer) then {
-		if (!hayACEhearing) exitWith {
+		if (!activeACEhearing) exitWith {
 			if (_key == 207) then {
 				0.5 fadeSound 0.1;
 				hintSilent "You've inserted your ear plugs.";
