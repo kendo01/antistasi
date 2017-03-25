@@ -53,7 +53,7 @@ while {true} do {
 	};
 
 	_clearspot = _posmissionchurch findEmptyPosition [10, 100, "I_Truck_02_covered_F"];
-	_mrkchurch = createMarker ["Marker2", _posmissionchurch];
+	_mrkchurch = createMarker [format ["Church%1", random 100], _posmissionchurch];
 	_mrkchurch setMarkerSize [100, 100];
 
 	_mrkfin = createMarker [format ["DES%1", random 100], _missionchurch];
