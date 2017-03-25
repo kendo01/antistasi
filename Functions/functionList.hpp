@@ -116,6 +116,7 @@ class CfgFunctions {
 			class detectTFAR {};
 			class spawnBunker {};
 			class respawnRoadblock {};
+			class createPatrolMarker {};
 		};
 		class QRF {
 			file = "Functions";
