@@ -115,6 +115,7 @@ class CfgFunctions {
 			class initialiseFIAGarrisonUnit {};
 			class detectTFAR {};
 			class spawnBunker {};
+			class respawnRoadblock {};
 		};
 		class QRF {
 			file = "Functions";
