@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_size","_position","_bunker","_vehicle","_group","_unit","_groupType","_tempGroup"];
+private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_size","_position","_bunker","_vehicle","_group","_unit","_groupType","_tempGroup","_patrolMarker"];
 
 _allVehicles = [];
 _allGroups = [];
@@ -40,11 +40,11 @@ _allGroups pushBack _group;
 _group allowFleeing 0;
 sleep 1;
 
+_patrolMarker = [_marker, [50, 50]] call AS_fnc_createPatrolMarker;
 _position = _markerPos findEmptyPosition [15,50,enemyMotorpoolDef];
 _groupType = [infTeamATAA, side_green] call AS_fnc_pickGroup;
 _group = [_position, side_green, _groupType] call BIS_Fnc_spawnGroup;
-diag_log (units _group);
-[leader _group, _marker, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+[leader _group, _patrolMarker, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 _allGroups pushBack _group;
 _group allowFleeing 0;
 
@@ -73,4 +73,5 @@ if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) a
 };
 
 waitUntil {sleep 1; !(spawner getVariable _marker)};
+deleteMarker _patrolMarker;
 [_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
