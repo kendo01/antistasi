@@ -36,11 +36,14 @@ call {
     if (worldName == "Altis") exitWith {
         call compile preprocessFileLineNumbers "Worlds\AltisData.sqf";
     };
-    if (worldName == "Napf") exitWith {
+    if ((worldName == "Napf") OR (worldName == "NapfWinter")) exitWith {
         call compile preprocessFileLineNumbers "Worlds\NapfData.sqf";
     };
     if (worldName == "Tanoa") exitWith {
         call compile preprocessFileLineNumbers "Worlds\TanoaData.sqf";
+    };
+    if (worldName == "Bornholm") exitWith {
+        call compile preprocessFileLineNumbers "Worlds\BornholmData.sqf";
     };
 };
 
