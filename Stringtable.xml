@@ -1027,4 +1027,21 @@
 			</Key>
 		</Container>
 	</Package>
+
+	<Package name="Information">
+		<Container name="Move Assets">
+			<Key ID="STR_INFO_MOVEASSETS_1">
+				<Original>Only the Commander may move assets.</Original>
+			</Key>
+			<Key ID="STR_INFO_MOVEASSETS_2">
+				<Original>You need to be on foot and not controlling AI to move assets.</Original>
+			</Key>
+			<Key ID="STR_INFO_MOVEASSETS_3">
+				<Original>This asset is too far from the zone.</Original>
+			</Key>
+			<Key ID="STR_INFO_MOVEASSETS_4">
+				<Original>You cannot move assets farther than %1m from the zone.</Original>
+			</Key>
+		</Container>
+	</Package>
 </Project>
