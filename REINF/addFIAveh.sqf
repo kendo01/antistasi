@@ -56,7 +56,7 @@ else
 		};
 	};
 [_veh] spawn VEHinit;
-if (_tipoVeh in _milstatics) then {staticsToSave pushBackUnique _veh; publicVariable "staticsToSave"; _veh addAction [localize "Str_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == stavros)"];};
+if (_tipoVeh in _milstatics) then {staticsToSave pushBackUnique _veh; publicVariable "staticsToSave"; _veh addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2,"static"] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == stavros)"];};
 hint "Vehicle Purchased";
 player reveal _veh;
 petros directSay "SentGenBaseUnlockVehicle";

@@ -222,7 +222,7 @@ player addEventHandler ["HandleHeal",
 player addEventHandler ["WeaponAssembled",{
 	params ["_EHunit", "_EHobj"];
 	if (_EHunit isKindOf "StaticWeapon") then {
-		_EHobj addAction [localize "Str_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == stavros)"];
+		_EHobj addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2,"static"] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == stavros)"];
 		if !(_EHunit in staticsToSave) then {
 			staticsToSave pushBack _EHunit;
 			publicVariable "staticsToSave";
@@ -495,7 +495,7 @@ if !(isMultiplayer) then {
 };
 
 caja addAction [localize "STR_ACT_UNLOADCARGO", "[] call vaciar"];
-caja addAction [localize "STR_ACT_MOVEASSET", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"];
+caja addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == stavros)"];
 //caja addAction [localize "STR_ACT_SELLMENU", "UI\sellMenu.sqf",nil,0,false,true,"","(_this == stavros)", 5];
 
 [player] execVM "OrgPlayers\unitTraits.sqf";

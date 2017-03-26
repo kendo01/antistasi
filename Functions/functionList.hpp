@@ -59,6 +59,7 @@ class CfgFunctions {
 			class setupGearDB {};
 			class detectRHS {};
 			class detectACE {};
+			class moveObject {};
 		};
 		class server {
 			file = "Functions";
