@@ -29,6 +29,11 @@ opTruck = 			"B_Truck_01_covered_F";
 
 opMRAPu = 			"B_MRAP_01_F";
 
+opIFV = 			["B_APC_Tracked_01_rcws_F"];
+
+opArtillery = 		"B_MBT_01_arty_F";
+opArtilleryAmmoHE = "32Rnd_155mm_Mo_shells";
+
 // infantry classes, to allow for class-specific skill adjustments and pricing
 opI_OFF = 	"B_officer_F"; // officer/official
 opI_PIL = 	"B_helipilot_F"; // pilot

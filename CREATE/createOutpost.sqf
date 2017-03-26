@@ -130,7 +130,6 @@ while {(spawner getVariable _marker) AND (_currentStrength < _strength)} do {
 		_groupType = [infSquad, side_green] call AS_fnc_pickGroup;
 		_group = [_markerPos, side_green, _groupType] call BIS_Fnc_spawnGroup;
 		if (activeAFRF) then {_group = [_group, _markerPos] call AS_fnc_expandGroup};
-		if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 		sleep 1;
 		_patrolParams = [leader _group, _marker, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"];
 		if (_currentStrength == 0) then {_patrolParams pushBack "FORTIFY"; _patrolParams pushBack "RANDOMUP"};
@@ -150,6 +149,7 @@ if (_marker in puertos) then {
 
 {
 	_group = _x;
+	if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 	{
 		[_x] spawn genInitBASES;
 		_allSoldiers pushBack _x;

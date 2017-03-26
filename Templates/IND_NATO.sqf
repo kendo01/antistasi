@@ -483,6 +483,7 @@ AAmissile = 	"Titan_AA";
 
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";
+indRF = 		"Rangefinder";
 indFL = 		"acc_flashlight";
 indLaser = 		"acc_pointer_IR";
 atMine = 		"ATMine_Range_Mag";
