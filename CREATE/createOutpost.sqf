@@ -107,11 +107,6 @@ if (_marker in puertos) then {
 	};
 };
 
-{
-	[_x] spawn genInitBASES;
-	_allSoldiers pushBack _x;
-} forEach units _groupGunners;
-
 _position = _markerPos findEmptyPosition [5, _size, enemyMotorpoolDef];
 _vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
 _vehicle setDir random 360;

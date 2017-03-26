@@ -1,8 +1,7 @@
-if (!isServer and hasInterface) exitWith{};
+if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-
-private ["_markerPos","_size","_isFrontline","_reduced","_allVehicles","_allGroups","_allSoldiers","_workers","_civType","_patrolMarker","_currentStrength","_spawnPos","_groupType","_group","_dog","_flag","_truck","_maxStrength","_patrolParams","_observer","_unit"];
+private ["_markerPos","_size","_isFrontline","_reduced","_allVehicles","_allGroups","_allSoldiers","_workers","_patrolMarker","_currentStrength","_spawnPos","_groupType","_group","_dog","_flag","_truck","_maxStrength","_patrolParams","_observer","_unit"];
 
 _allVehicles = [];
 _allGroups = [];
@@ -15,7 +14,6 @@ _reduced = [false, true] select (_marker in reducedGarrisons);
 _patrolMarker = [_marker] call AS_fnc_createPatrolMarker;
 
 _workers = [];
-_civType = "";
 
 _currentStrength = 0;
 while {(spawner getVariable _marker) AND (_currentStrength < 2)} do {
@@ -118,4 +116,4 @@ waitUntil {sleep 1; !(spawner getVariable _marker)};
 
 deleteMarker _patrolMarker;
 [_allGroups, _allSoldiers + _workers, _allVehicles] spawn AS_fnc_despawnUnits;
-if !(isNull _observer) then {deleteVehicle _observer};
+if (!isNull _observer) then {deleteVehicle _observer};
