@@ -79,6 +79,7 @@ if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "p
 
 {
 	_group = _x;
+	if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 	{
 		[_x] spawn genInitBASES;
 		_allSoldiers pushBack _x;

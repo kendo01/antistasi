@@ -14,8 +14,6 @@ _reduced = [false, true] select (_marker in reducedGarrisons);
 _patrolMarker = [_marker] call AS_fnc_createPatrolMarker;
 _busy = if (dateToNumber date > server getVariable _marker) then {false} else {true};
 
-_spatrol = [];
-
 _buildings = nearestObjects [_markerPos, listMilBld, _size*1.5];
 _groupGunners = createGroup side_green;
 
@@ -126,7 +124,6 @@ if (!_busy) then {
 
 {[_x] spawn genVEHinit} forEach _allVehicles;
 
-
 _currentCount = 0;
 while {(spawner getVariable _marker) AND (_currentCount < 4)} do {
 	while {true} do {
@@ -174,11 +171,14 @@ while {(spawner getVariable _marker) AND (_currentCount < _vehicleCount)} do {
 
 {
 	_group = _x;
+	if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 	{
 		[_x] spawn genInitBASES;
 		_allSoldiers pushBack _x;
 	} forEach units _group;
 } forEach _allGroups;
+
+[_marker, _allSoldiers] spawn AS_fnc_garrisonMonitor;
 
 _observer = objNull;
 if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))/10)) AND (spawner getVariable _marker)) then {
@@ -209,5 +209,6 @@ waitUntil {sleep 1; !(spawner getVariable _marker)};
 	};
 } forEach _buildings;
 
+deleteMarker _patrolMarker;
 [_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
-if (!isNull _observer) then {deleteVehicle _observer};
+if !(isNull _observer) then {deleteVehicle _observer};
