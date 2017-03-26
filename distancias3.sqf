@@ -12,7 +12,7 @@ while {true} do {
 
 	_colinas = colinas - colinasAA;
 
-	waitUntil {!isNil "stavros"};
+	waitUntil {!isNil "Dolvich"};
 
 	_bluUnits = [];
 	_opUnits = [];

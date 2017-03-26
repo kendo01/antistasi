@@ -69,14 +69,14 @@ if(isServer) then
         [] execVM "orgPlayers\mList.sqf";
         ["miembros"] call fn_LoadStat;
         {
-            if (([_x] call isMember) and (isNull stavros)) then {
-                stavros = _x;
+            if (([_x] call isMember) and (isNull Dolvich)) then {
+                Dolvich = _x;
                 _x setRank "LIEUTENANT";
                 [_x,"LIEUTENANT"] remoteExec ["ranksMP"];
             };
         } forEach playableUnits;
-        publicVariable "stavros";
-        if (isNull stavros) then
+        publicVariable "Dolvich";
+        if (isNull Dolvich) then
             {
                 [] spawn AS_fnc_autoStart;
             //[] execVM "statSave\loadAccount.sqf"; switchCom = false; publicVariable "switchCom";
@@ -89,8 +89,8 @@ if(isServer) then
         }
     else
         {
-        waitUntil {!isNil "stavros"};
-        waitUntil {isPlayer stavros};
+        waitUntil {!isNil "Dolvich"};
+        waitUntil {isPlayer Dolvich};
         };
     fpsCheck = [] execVM "fpsCheck.sqf";
     [caja] call cajaAAF;

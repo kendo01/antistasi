@@ -36,7 +36,7 @@ diag_log "Antistasi MP Server. Arsenal config finished";
 
 addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDisconnect;false}];
 
-stavros = objNull;
+Dolvich = objNull;
 maxPlayers = playableSlotsNumber west;
 if (serverName in servidoresOficiales) then
     {
@@ -53,8 +53,8 @@ else
         }
     else
         {
-        stavros = _x;
-        publicVariable "stavros";
+        Dolvich = _x;
+        publicVariable "Dolvich";
         _x setRank "CORPORAL";
         [_x,"CORPORAL"] remoteExec ["ranksMP"];
         //_x setVariable ["score", 25,true];

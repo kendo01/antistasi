@@ -1,4 +1,4 @@
-if (!isPlayer stavros) exitWith {};
+if (!isPlayer Dolvich) exitWith {};
 
 private ["_resourcesAAF","_coste"];
 

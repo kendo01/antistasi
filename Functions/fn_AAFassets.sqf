@@ -1,4 +1,4 @@
-if !(isPlayer stavros) exitWith {};
+if !(isPlayer Dolvich) exitWith {};
 
 params ["_veh"];
 private _tipo = typeOf _veh;

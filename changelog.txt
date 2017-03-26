@@ -1,5 +1,5 @@
 02/02/15
-- Fixed bug in SP on initial HQ enplacement, Stavros did not teleport to the new position.
+- Fixed bug in SP on initial HQ enplacement, Dolvich did not teleport to the new position.
 - FPS change now applies logical parameters.
 - Solved Dedi Issues on initial selection of HQ emplacement and Build HQ option.
 03/02/15
@@ -70,9 +70,9 @@
 - Same thing with Fast Travel. Now only from flags.
 - Retaken flags no longer show optons except Take the Flag.
 - Petros no longer goes on hiking when spots an enemy, but looks a bit uglier now.
-- Added feature: via action menu you can join other players group to create an only players group (no AI). Only for players not using Stavros.
+- Added feature: via action menu you can join other players group to create an only players group (no AI). Only for players not using Dolvich.
 - Added punishment to trolls who shot at Petros.
-- Added feature: Stavros can order roadblocks and Watchposts in order to bother the enemy or spot convoys and counterattacks.
+- Added feature: Dolvich can order roadblocks and Watchposts in order to bother the enemy or spot convoys and counterattacks.
 11/02/15
 - Body deletion on player disconnected
 - Recover money and HR on player disconnected
@@ -87,7 +87,7 @@
 - Second try on body deletion for disconnected players.
 - Fixed fast travel in big outposts.
 - Raised a bit distance detection for Undercover.
-- Now Stavros cannot rest in campfire if one of the units is near enemies.
+- Now Dolvich cannot rest in campfire if one of the units is near enemies.
 13/02/15
 - Bit rework on statistics on top of the screen, under test...
 - Now you cannot rest in campfire while a CA or HQ attack is on course...
@@ -99,8 +99,8 @@
 14/02/15
 - Less artillery rounds on CSAT CA/NATO attack.
 - Vehicle Persistent Save now saves when you have some unit in it.
-- NEW FEATURE: MP player ranks system. The highest rank player may become commander (Stavros). Players gain rank on killing enemies and accomplishing missions, commanders too. You loose rank dying or failing missions. This gives an interesting social component in MP.
-- NEW FEATURE: Stavros no longer needed. Any player may be stavros. On server init, first slot will take it. On advanced game, rank system may change Stavros to another player.
+- NEW FEATURE: MP player ranks system. The highest rank player may become commander (Dolvich). Players gain rank on killing enemies and accomplishing missions, commanders too. You loose rank dying or failing missions. This gives an interesting social component in MP.
+- NEW FEATURE: Dolvich no longer needed. Any player may be Dolvich. On server init, first slot will take it. On advanced game, rank system may change Dolvich to another player.
 - Now player weapons go to the ammobox upon disconnect. AI Squadmates get deleted but money and HR recovers.
 - "Hard Coded" statistics. Now if you loose the info, just call the radio trigger (until I find a finer solution)
 - Now all the sidemissions except HQ Defend and Refugees Evac have a timeout, in case AI gets stuck eternally or you rest in campfire.
@@ -123,7 +123,7 @@
 - Solving the persistent load marker update made the vehicles in hq not spawning again. Fixed, again.
 - Some sidemissions could appear on places were the player already is, spawning enemies in front of him. Solved.
 - Other fixes on some sidemissions.
-- Now Stavros build options (minefields, roadblocks, observation posts) are available on a menu opened from Radio 0-0-2.
+- Now Dolvich build options (minefields, roadblocks, observation posts) are available on a menu opened from Radio 0-0-2.
 - Now player will be asked to Load on the begining of the mission.
 - Some dialog buttons obsolete and free (until I find a use for them)
 16/02/15 V 0.7.4 Alpha
@@ -204,7 +204,7 @@
 - QuadBikes are now considered "civilian" for Undercover operations.
 - No dynamic missions if you are moving your HQ.
 - Rescue / Evac prisoners now accept new HQ positions if you moved your HQ while the mission was in progress.
-- Stavros references in briefing removes (God bless him, now it's COMMANDER)
+- Dolvich references in briefing removes (God bless him, now it's COMMANDER)
 - Roads are ALIVE: Now civilians like to pick their cars and do their life traveling to another cities, populating the roads too.
 - Added some lines in the briefing.
 30/03/15 0.8.8 Alpha
