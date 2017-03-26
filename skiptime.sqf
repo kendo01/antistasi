@@ -1,4 +1,4 @@
-if (player!= Dolvich) exitWith {hint "Only the Commander can order to rest"};
+if (player!= Slowhand) exitWith {hint "Only the Commander can order to rest"};
 _presente = false;
 
 {

@@ -87,8 +87,8 @@ petros addMPEventHandler ["mpkilled",
 
                 [] remoteExec ["AS_fnc_MAINT_arsenal", 2];
 
-                waitUntil {sleep 6; isPlayer Dolvich};
-                [] remoteExec ["placementSelection",Dolvich];
+                waitUntil {sleep 6; isPlayer Slowhand};
+                [] remoteExec ["placementSelection",Slowhand];
                };
             }
         else

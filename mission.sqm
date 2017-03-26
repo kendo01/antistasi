@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3610.7651,26.822268,10260.632};
-		dir[]={0.37087211,-0.58417368,0.72194123};
-		up[]={0.26693681,0.81162667,0.51962048};
-		aside[]={0.88949579,-7.6717697e-008,-0.45694757};
+		pos[]={3616.5139,31.907839,10266.799};
+		dir[]={0.18587691,-0.80337799,0.56572056};
+		up[]={0.25077483,0.59546191,0.76324046};
+		aside[]={0.95003647,9.2491973e-008,-0.31215009};
 	};
 };
 binarizationWanted=0;
@@ -34,7 +34,6 @@ addons[]=
 	"A3_Structures_F_Mil_Flags",
 	"A3_Structures_F_Civ_InfoBoards",
 	"A3_Structures_F_Civ_Camping",
-	"cba_xeh",
 	"A3_Modules_F",
 	"A3_Characters_F",
 	"A3_Modules_F_Hc",
@@ -1431,7 +1430,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.2;
-				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_HQOPTIONS"",{nul=[] execVM ""Dialogs\dialogHQ.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (player == Dolvich) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""];  " \n "this addAction [localize ""STR_ACT_RECRUITUNIT"", {nul=[] execVM ""Dialogs\unit_recruit.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_BUYVEHICLE"", {nul = createDialog ""vehicle_option""},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "if (isMultiplayer) then {this addAction [localize ""STR_ACT_PERSGARAGE"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]};  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Dolvich)"", 5];";
+				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_HQOPTIONS"",{nul=[] execVM ""Dialogs\dialogHQ.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (player == Slowhand) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""];  " \n "this addAction [localize ""STR_ACT_RECRUITUNIT"", {nul=[] execVM ""Dialogs\unit_recruit.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_BUYVEHICLE"", {nul = createDialog ""vehicle_option""},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "if (isMultiplayer) then {this addAction [localize ""STR_ACT_PERSGARAGE"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]};  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Slowhand)"", 5];";
 				name="bandera";
 			};
 			id=96;
@@ -1451,7 +1450,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.2;
-				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_GAMEOPTIONS"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_commander"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == Dolvich) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_GAMEOPTIONS"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_player"";},nil,0,false,true,"""",""(isPlayer _this) and !(_this == Dolvich) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_MAPINFO"", {[] spawn AS_fnc_getMarkerInfo;},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_TFAR"", {nul=CreateDialog ""tfar_menu"";},nil,0,false,true,"""",""(isClass (configFile >> """"CfgPatches"""" >> """"task_force_radio""""))"", 5];  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Dolvich)"", 5];";
+				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_GAMEOPTIONS"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_commander"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == Slowhand) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_GAMEOPTIONS"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_player"";},nil,0,false,true,"""",""(isPlayer _this) and !(_this == Slowhand) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_MAPINFO"", {[] spawn AS_fnc_getMarkerInfo;},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_TFAR"", {nul=CreateDialog ""tfar_menu"";},nil,0,false,true,"""",""(isClass (configFile >> """"CfgPatches"""" >> """"task_force_radio""""))"", 5];  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Slowhand)"", 5];";
 				name="mapa";
 			};
 			id=97;
@@ -1491,7 +1490,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.60000002;
-				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_HEALREPAIR"", ""healandrepair.sqf"",nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Dolvich)"",5];";
+				init="this allowDamage false;  " \n "this addAction [localize ""STR_ACT_HEALREPAIR"", ""healandrepair.sqf"",nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""];  " \n "this addAction [localize ""STR_ACT_MOVEASSET"", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"""",""(_this == Slowhand)"",5];";
 				name="cajaveh";
 			};
 			id=99;

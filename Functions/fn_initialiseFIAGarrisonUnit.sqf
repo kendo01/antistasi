@@ -8,7 +8,7 @@ _skillFIA = server getVariable ["skillFIA", 1];
 
 _unit allowFleeing 0;
 _skill = 0.2 + (_skillFIA * 0.025);
-if ((!isMultiplayer) and (leader _unit == Dolvich)) then {_skill = _skill + 0.2};
+if ((!isMultiplayer) and (leader _unit == Slowhand)) then {_skill = _skill + 0.2};
 _unit setSkill _skill;
 
 _aiming = _skill;
