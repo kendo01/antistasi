@@ -30,15 +30,17 @@ _vehicle setDir random 360;
 _allVehicles pushBack _vehicle;
 sleep 1;
 
-_position = [_markerPos] call mortarPos;
-_vehicle = statMortar createVehicle _position;
-_unit = ([_markerPos, 0, infGunner, _group] call bis_fnc_spawnvehicle) select 0;
-_unit moveInGunner _vehicle;
-[_vehicle] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-_allVehicles pushBack _vehicle;
-_allGroups pushBack _group;
-_group allowFleeing 0;
-sleep 1;
+if !(worldName == "Tanoa") then {
+	_position = [_markerPos] call mortarPos;
+	_vehicle = statMortar createVehicle _position;
+	_unit = ([_markerPos, 0, infGunner, _group] call bis_fnc_spawnvehicle) select 0;
+	_unit moveInGunner _vehicle;
+	[_vehicle] execVM "scripts\UPSMON\MON_artillery_add.sqf";
+	_allVehicles pushBack _vehicle;
+	_allGroups pushBack _group;
+	_group allowFleeing 0;
+	sleep 1;
+};
 
 _patrolMarker = [_marker, [50, 50]] call AS_fnc_createPatrolMarker;
 _position = [_markerPos findEmptyPosition [15,50,enemyMotorpoolDef],_markerPos] select (worldName == "Tanoa");
