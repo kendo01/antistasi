@@ -6,7 +6,6 @@ _emptySeats = _vehicle emptyPositions "cargo";
 for "_i" from 1 to _emptySeats do {
 	_unitType = (infList_sniper + infList_special + infList_auto + infList_regular + infList_regular) call BIS_fnc_selectRandom;
 	_unit = ([_position, 0, _unitType, _group] call bis_fnc_spawnvehicle) select 0;
-	[_unit] spawn genInit;
 	_unit assignAsCargo _vehicle;
 	_unit moveInCargo _vehicle;
 	_unitArray pushBack _unit;

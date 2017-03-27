@@ -247,7 +247,7 @@ if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "p
 
 // experimental
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) > 3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
+waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) > 2*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
 
 
 if (spawner getVariable _marcador) then
@@ -255,6 +255,9 @@ if (spawner getVariable _marcador) then
 	if (_marcador != "FIA_HQ") then {[_marcador] remoteExec ["mrkLOOSE",2]};
 	};
 
+if (count ([distanciaSPWN,0,_posicion,"BLUFORSpawn"] call distanceUnits) < 1) then {
+	spawner setVariable [_marcador,false,true];
+};
 // /experimental
 
 waitUntil {sleep 1; not (spawner getVariable _marcador)};
