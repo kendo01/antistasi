@@ -10,6 +10,6 @@ _patrolMarker setMarkerTypeLocal "hd_warning";
 _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 _patrolMarker setMarkerDirLocal (markerDir _marker);
-_patrolMarker setMarkerAlpha = 0;
+_patrolMarker setMarkerAlpha 0;
 
 _patrolMarker
