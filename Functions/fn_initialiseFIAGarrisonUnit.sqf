@@ -279,7 +279,7 @@ if (sunOrMoon < 1) then {
 	};
 };
 
-if ((_tipo != guer_sol_MRK) and (_tipo != guer_sol_SN)) then {if (_aiming > 0.35) then {_aiming = 0.35}};
+if ((_unitType != guer_sol_MRK) and (_unitType != guer_sol_SN)) then {if (_aiming > 0.35) then {_aiming = 0.35}};
 _unit setskill ["aimingAccuracy",_aiming];
 _unit setskill ["spotDistance",_spotD];
 _unit setskill ["spotTime",_spotT];
