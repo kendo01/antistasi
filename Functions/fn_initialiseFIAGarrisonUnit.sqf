@@ -172,7 +172,7 @@ call {
 			_unit removeWeaponGlobal (primaryWeapon _unit);
 			[_unit, guer_gear_SNPR, 6, 0] call BIS_fnc_addWeapon;
 		};
-		if ((gear_sniperRifles arrayIntersect unlockedWeapons) > 0) then {
+		if (count (gear_sniperRifles arrayIntersect unlockedWeapons) > 0) then {
 			_unit removeMagazines (currentMagazine _unit);
 			_unit removeWeaponGlobal (primaryWeapon _unit);
 			[_unit, selectRandom (gear_sniperRifles arrayIntersect unlockedWeapons), 6, 0] call BIS_fnc_addWeapon;
