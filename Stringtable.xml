@@ -1025,6 +1025,16 @@
 			<Key ID="STR_TSK_AAWP_DESTROYED">
 				<Original>%1 emplacement destroyed.</Original>
 			</Key>
+
+			<Key ID="STR_TSK_CA_CREATE">
+				<Original>Significant activity is being reported at %2. %1 appear to be preparing a major assault. Get ready.</Original>
+			</Key>
+			<Key ID="STR_TSK_CA_CREATE_RED">
+				<Original>Sources near %4 report of an imminent attack by %1 and %2 on %3. Setup defences immediatly!</Original>
+			</Key>
+			<Key ID="STR_TSK_CA_TARGET">
+				<Original>%1 is under attack!</Original>
+			</Key>
 		</Container>
 	</Package>
 
