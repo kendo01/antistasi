@@ -422,7 +422,7 @@ if (_aeropuerto != "") then
 				_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 				_vehiculos = _vehiculos + [_pad];
 
-				[_grupoVeh, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] call AS_fnc_QRF_dismountTroops;
+				[_grupoVeh, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] spawn AS_fnc_QRF_dismountTroops;
 
 				/*_wp0 = _grupoVeh addWaypoint [_landpos, 0];
 				_wp0 setWaypointType "TR UNLOAD";
@@ -450,7 +450,7 @@ if (_aeropuerto != "") then
 				{[_x] spawn genInit;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x]} forEach units _grupo1;
 				_grupos = _grupos + [_grupo1];
 				//[_veh,_grupo,_grupo1,_posdestino,_posorigen,_grupoVeh] spawn fastropeAAF;
-				[_grupoVeh, _pos, _posdestino, _mrkdestino, [_grupo, _grupo1], 25*60] call AS_fnc_QRF_fastrope;
+				[_grupoVeh, _pos, _posdestino, _mrkdestino, [_grupo, _grupo1], 25*60] spawn AS_fnc_QRF_fastrope;
 				};
 			};
 		sleep 15;
