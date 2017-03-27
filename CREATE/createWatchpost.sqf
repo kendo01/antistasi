@@ -41,7 +41,7 @@ _group allowFleeing 0;
 sleep 1;
 
 _patrolMarker = [_marker, [50, 50]] call AS_fnc_createPatrolMarker;
-_position = _markerPos findEmptyPosition [15,50,enemyMotorpoolDef];
+_position = [_markerPos findEmptyPosition [15,50,enemyMotorpoolDef],_markerPos] select (worldName == "Tanoa");
 _groupType = [infTeamATAA, side_green] call AS_fnc_pickGroup;
 _group = [_position, side_green, _groupType] call BIS_Fnc_spawnGroup;
 [leader _group, _patrolMarker, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
