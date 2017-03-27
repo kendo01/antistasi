@@ -118,6 +118,7 @@ class CfgFunctions {
 			class spawnBunker {};
 			class respawnRoadblock {};
 			class createPatrolMarker {};
+			class groundTransport {};
 		};
 		class QRF {
 			file = "Functions";
