@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker",["_forceAirport",""]];
-private ["_scriptID","_markerPos","_size","_allVehicles","_allGroups","_allSoldiers","_prestigeCSAT","_base","_airport","_involveCSAT","_threatEvaluationAir","_threatEvaluationLand","_originName","_targetName","_originMarker","_task","_attackDuration","_resourcesAAF","_originPosition","_maxCounter","_vehicleType","_timeOut","_spawnPosition","_vehicleData","_vehicle","_vehicleGroup","_redVehicles","_redGroups","_redSoldiers","_wp_01","_wp_02","_wp_03","_groupType","_group","_dismountPosition","_helipad","_posData","_initVehicle","_posRoad","_dir","_vehicleArray","_basesFIA","_initData","_groupCounter","_uav","_groupUAV","_seats","_groupTwo","_wpRTB"];
+private ["_markerPos","_size","_allVehicles","_allGroups","_allSoldiers","_prestigeCSAT","_base","_airport","_involveCSAT","_threatEvaluationAir","_threatEvaluationLand","_originName","_targetName","_originMarker","_task","_attackDuration","_resourcesAAF","_originPosition","_maxCounter","_vehicleType","_timeOut","_spawnPosition","_vehicleData","_vehicle","_vehicleGroup","_redVehicles","_redGroups","_redSoldiers","_wp_01","_wp_02","_wp_03","_groupType","_group","_dismountPosition","_helipad","_posData","_initVehicle","_posRoad","_dir","_vehicleArray","_basesFIA","_initData","_groupCounter","_uav","_groupUAV","_seats","_groupTwo","_wpRTB"];
 
 _allVehicles = [];
 _allGroups = [];
