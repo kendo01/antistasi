@@ -419,7 +419,7 @@ if (_hayCSAT) then
 					_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 					_vehiculos = _vehiculos + [_pad];
 
-					[_grupoheli, _posorigen, _landpos, _marcador, _grupo, 25*60, "air"] call AS_fnc_QRF_dismountTroops;
+					[_grupoheli, _posorigen, _landpos, _marcador, _grupo, 25*60, "air"] spawn AS_fnc_QRF_dismountTroops;
 
 					/*_wp0 = _grupoheli addWaypoint [_landpos, 0];
 					_wp0 setWaypointType "TR UNLOAD";
