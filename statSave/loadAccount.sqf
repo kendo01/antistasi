@@ -204,6 +204,7 @@ publicVariable "mrkFIA";
 ["posHQ"] call fn_LoadStat;
 ["estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
+sleep 1;
 if (isMultiplayer) then
 	{
 	{
