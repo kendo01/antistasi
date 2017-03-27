@@ -137,11 +137,11 @@ if (_CSAT) then
 					_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 					_vehiculos = _vehiculos + [_pad];
 
-					[_grupoheli, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] call AS_fnc_QRF_dismountTroops;
+					[_grupoheli, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] spawn AS_fnc_QRF_dismountTroops;
 					}
 				else
 					{
-						[_grupoheli, _posorigen, _posdestino, _mrkdestino, _grupo, 25*60] call AS_fnc_QRF_fastrope;
+						[_grupoheli, _posorigen, _posdestino, _mrkdestino, _grupo, 25*60] spawn AS_fnc_QRF_fastrope;
 					};
 				};
 			};
