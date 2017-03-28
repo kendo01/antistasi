@@ -77,6 +77,7 @@ vehFuel = 			["RHS_Ural_Fuel_VDV_01"]; // fuel truck for missions
 vehLead = 			["rhs_tigr_sts_3camo_vdv"]; // lead vehicle for convoys, preferably armed MRAP/car
 standardMRAP = 		["rhs_tigr_vdv","rhs_uaz_vdv"]; // default transport MRAP/car
 vehTruckBox = 		["rhs_gaz66_repair_vdv"]; // repair truck or at least a prop
+vehPatrolBoat = 	["I_Boat_Armed_01_minigun_F"];
 
 vehTruckAA = 		"rhs_gaz66_zu23_msv";
 guer_vehicleArray pushBackUnique vehTruckAA;

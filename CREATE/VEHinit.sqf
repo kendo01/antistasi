@@ -29,9 +29,9 @@ if ((_tipo in vehNATO) or (_tipo in planesNATO)) then
 	}
 else
 	{
-	if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in enemyMotorpool) or (_tipo == "I_Boat_Armed_01_minigun_F")) then
+	if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in enemyMotorpool) or (_tipo in vehPatrolBoat)) then
 		{
-		if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo == "I_Boat_Armed_01_minigun_F")) then
+		if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in vehPatrolBoat)) then
 			{
 			if (_tipo == vehAmmo) then
 				{
