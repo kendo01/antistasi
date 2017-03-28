@@ -9,7 +9,7 @@ if (!isDedicated) then {
 	removeBackpackGlobal player;
 	if ("ItemGPS" in (assignedItems player)) then {player unlinkItem "ItemGPS"};
 	if ((!activeTFAR) and ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
-	player setPos getMarkerPos guer_respawn;
+	player setPos (server getVariable ["posHQ", getMarkerPos guer_respawn]);
 
 	waitUntil {!isNil "sessionIDloaded"};
 	[format ["server ID: %1; player ID: %2", (server getVariable ["AS_session_server", -2]), (player getVariable ["AS_session_client", -1])]] remoteExec ["AS_fnc_logOutput", 2];
@@ -204,6 +204,7 @@ publicVariable "mrkFIA";
 ["posHQ"] call fn_LoadStat;
 ["estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
+sleep 1;
 if (isMultiplayer) then
 	{
 	{

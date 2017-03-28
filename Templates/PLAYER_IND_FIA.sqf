@@ -143,4 +143,4 @@ if !(activeGREF) then {
 A3_Str_PLAYER = localize "STR_GENIDENT_RES";
 
 // Position of your HQ
-posHQ = getMarkerPos guer_respawn;
+posHQ = server getVariable ["posHQ", getMarkerPos guer_respawn];
