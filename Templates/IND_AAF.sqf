@@ -75,6 +75,7 @@ vehFuel = 			["I_Truck_02_fuel_F"]; // fuel truck for missions
 vehLead = 			["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"]; // lead vehicle for convoys, preferably armed MRAP/car
 standardMRAP = 		["I_MRAP_03_F"]; // default transport MRAP/car
 vehTruckBox = 		["I_Truck_02_box_F"]; // repair truck or at least a prop
+vehPatrolBoat = 	["I_Boat_Armed_01_minigun_F"];
 
 /*
 Not in use with AAF
