@@ -29,6 +29,7 @@ incomeRep = false;
 closeMarkersUpdating = 0;
 altVersion = "";
 enableRestart = true;
+status_templatesLoaded = false;
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
@@ -52,6 +53,7 @@ if (isClass (configFile >> "CfgPatches" >> "javelinTest")) then {
  	- RHS AFRF replaces AAF/CSAT
 */
 [] call AS_fnc_detectRHS;
+waitUntil {status_templatesLoaded};
 
 /*
  	ACE detection/initialisation
@@ -223,5 +225,7 @@ publicVariable "activeBE";
 publicVariable "FIA_WP_list";
 publicVariable "FIA_RB_list";
 publicVariable "reducedGarrisons";
+publicVariable "replaceFIA";
+publicVariable "altVersion";
 
 if (isMultiplayer) then {[[petros,"hint","Variables Init Completed"],"commsMP"] call BIS_fnc_MP;};
