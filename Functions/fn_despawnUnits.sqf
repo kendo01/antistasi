@@ -8,6 +8,10 @@ if (count _vehicles > 0) then {
 				deleteVehicle (_this select 0);
 			};
 		};
+		if (_x in reportedVehs) then {
+			reportedVehs = reportedVehs - [_x];
+			publicVariable "reportedVehs";
+		};
 	} forEach _vehicles;
 };
 

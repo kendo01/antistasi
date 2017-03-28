@@ -1025,6 +1025,9 @@
 			<Key ID="STR_TSK_AAWP_DESTROYED">
 				<Original>%1 emplacement destroyed.</Original>
 			</Key>
+			<Key ID="STR_TSK_CAMP_DESTROYED">
+				<Original>Camp %1 was destroyed by hostile forces.</Original>
+			</Key>
 
 			<Key ID="STR_TSK_CA_CREATE">
 				<Original>Significant activity is being reported at %2. %1 appear to be preparing a major assault. Get ready.</Original>

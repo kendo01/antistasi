@@ -1,6 +1,5 @@
-private ["_unit","_muerto","_killer","_skill","_caja","_tipo","_chance"];
-
-_unit = _this select 0;
+params ["_unit"];
+private ["_skill","_aiming","_spotD","_spotT","_cour","_comm","_aimingSh","_aimingSp","_reload","_skillSet","_unitType","_resourcesAAF"];
 
 if (typeOf _unit == "Fin_random_F") exitWith {};
 
@@ -16,19 +15,14 @@ _aimingSp = _skill;
 _reload = _skill;
 _skillSet = 0;
 
-
-_divisor = 20000;
-if (indNVG in unlockedItems) then {_divisor = 8000};
-
-_tipo = typeOf _unit;
-
-switch _tipo do {
+_unitType = typeOf _unit;
+switch _unitType do {
 	case sol_A_AA: {_skillSet = 0;}; // assistant AA
 	case sol_A_AR: {_skillSet = 3;}; // assistant autorifle
 	case sol_A_AT: {_skillSet = 0;}; // assistant AT
 	case sol_AA: {_skillSet = 0;}; // AA
 	case sol_AR: {_skillSet = 3;}; // autorifle
-	case sol_AT: {_skillSet = 0; if (activeACE && replaceFIA) then {[_unit, _tipo] call AS_fnc_gear_loadoutAAF}}; // AT
+	case sol_AT: {_skillSet = 0; if (activeACE AND replaceFIA) then {[_unit, _unitType] call AS_fnc_gear_loadoutAAF}}; // AT
 	/*case sol_AMMO: {}; // ammo bearer*/
 	/*case sol_GL: {}; // grenade launcher*/
 	/*case sol_GL2: {}; // grenade launcher*/
@@ -113,10 +107,7 @@ switch _skillSet do {
 	};
 };
 
-_resourcesAAF = server getVariable "resourcesAAF";
-_chance = (_resourcesAAF / _divisor);
 
-//if (random 1 > (_chance max 0.15)) then {
 if (round random 13 > skillAAF) then {
 	_unit unassignItem indNVG;
 	_unit removeItem indNVG;
@@ -130,20 +121,17 @@ if (round random 13 > skillAAF) then {
 		_spotD = ((_spotD - 0.2) max 0.2);
 		_spotT = ((_spotT - 0.2) max 0.2);
 	};
-}
-else {
+} else {
 	if (sunOrMoon < 1) then {
 		if (indLaser in primaryWeaponItems _unit) then {
 			if (random 1 > 0.6) then {
 				_unit enableIRLasers true;
-			}
-			else {
+			} else {
 				_unit enableIRLasers false;
 			};
 		};
 	};
 };
-
 
 _unit setskill ["aimingAccuracy",_aiming];
 _unit setskill ["spotDistance",_spotD];
