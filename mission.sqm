@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=858;
+		nextID=859;
 	};
 	class MarkerIDProvider
 	{
@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3616.5139,31.907839,10266.799};
-		dir[]={0.18587691,-0.80337799,0.56572056};
-		up[]={0.25077483,0.59546191,0.76324046};
-		aside[]={0.95003647,9.2491973e-008,-0.31215009};
+		pos[]={3612.9255,75.115379,10210.068};
+		dir[]={0.19254862,-0.71678793,0.67018485};
+		up[]={0.19793251,0.69728374,0.68892533};
+		aside[]={0.96112317,7.8027369e-008,-0.27613717};
 	};
 };
 binarizationWanted=0;
@@ -31,19 +31,25 @@ addons[]=
 {
 	"A3_Ui_F",
 	"A3_Weapons_F_Ammoboxes",
+	"ace_cargo",
 	"A3_Structures_F_Mil_Flags",
 	"A3_Structures_F_Civ_InfoBoards",
 	"A3_Structures_F_Civ_Camping",
+	"cba_xeh",
+	"ace_rearm",
+	"ace_dragging",
 	"A3_Modules_F",
 	"A3_Characters_F",
 	"A3_Modules_F_Hc",
+	"ace_explosives",
+	"FIA_replacment",
 	"A3_Modules_F_Curator_Curator"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=7;
+		items=12;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -60,33 +66,66 @@ class AddonsMetaData
 		};
 		class Item2
 		{
+			className="ace_cargo";
+			name="ACE3 - Cargo";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item3
+		{
 			className="A3_Structures_F_Mil";
 			name="Arma 3 - Military Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item3
+		class Item4
 		{
 			className="A3_Structures_F";
 			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item4
+		class Item5
 		{
 			className="A3_Characters_F";
 			name="Arma 3 Alpha - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item5
+		class Item6
+		{
+			className="ace_rearm";
+			name="ACE3 - Rearm";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item7
+		{
+			className="ace_dragging";
+			name="ACE3 - Dragging";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item8
 		{
 			className="A3_Modules_F";
 			name="Arma 3 Alpha - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item6
+		class Item9
+		{
+			className="ace_explosives";
+			name="ACE3 - Explosives";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item10
+		{
+			className="FIA_replacment";
+			name="FIA_replacment";
+		};
+		class Item11
 		{
 			className="A3_Modules_F_Curator";
 			name="Arma 3 Zeus Update - Scripted Modules";
@@ -1435,7 +1474,7 @@ class Mission
 			};
 			id=96;
 			type="Flag_FIA_F";
-			atlOffset=0.017999649;
+			atlOffset=0.017998695;
 		};
 		class Item97
 		{
@@ -1455,7 +1494,7 @@ class Mission
 			};
 			id=97;
 			type="MapBoard_altis_F";
-			atlOffset=-0.0050001144;
+			atlOffset=-0.0050010681;
 		};
 		class Item98
 		{

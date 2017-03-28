@@ -69,19 +69,21 @@ _crate = "I_supplyCrate_F" createVehicle _markerPos;
 _allVehicles pushBack _crate;
 
 if (_marker in puertos) then {
-	_position = [_markerPos,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
+	_position = [_markerPos,_size,_size*3,25,2,0,0] call BIS_Fnc_findSafePos;
 	_vehicleData = [_position, 0, (selectRandom vehPatrolBoat), side_green] call bis_fnc_spawnvehicle;
 	_vehicle = _vehicleData select 0;
 	_vehCrew = _vehicleData select 1;
 	_groupVehicle = _vehicleData select 2;
 
-	_PP1 = [_position, 100, 120, 20, 2, 45, 0] call BIS_fnc_findSafePos;
+	_beach = [_vehicle,0,200,0,0,90,1] call BIS_Fnc_findSafePos;
+	_vehicle setdir ((_vehicle getRelDir _beach) + 180);
+
+	_PP1 = [_position, 100, 200, 25, 2, 45, 0] call BIS_fnc_findSafePos;
 	_pWP1 = _groupVehicle addWaypoint [_PP1, 5];
 	_pWP1 setWaypointType "MOVE";
 	_pWP1 setWaypointBehaviour "AWARE";
 	_pWP1 setWaypointSpeed "LIMITED";
 
-	_PP1 = [_PP1, 100, 120, 20, 2, 45, 0] call BIS_fnc_findSafePos;
 	_pWP1 = _groupVehicle addWaypoint [_PP1, 5];
 	_pWP1 setWaypointType "CYCLE";
 	_pWP1 setWaypointBehaviour "AWARE";
