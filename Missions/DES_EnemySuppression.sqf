@@ -144,7 +144,7 @@ while {true} do {
 	// mission win/fail and closing mission; calls QRF
 
 	waitUntil  {sleep 5;
-		    (dateToNumber date > _fechalimnum)or ({alive _x} count units _group1 == 0)};
+		    (dateToNumber date > _fechalimnum)or ({alive _x} count units _group1 < 4)};
 
 	if (dateToNumber date > _fechalimnum) then
 		{

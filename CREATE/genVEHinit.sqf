@@ -10,7 +10,7 @@ _tipo = typeOf _veh;
 
 if ((activeACE) && (random 8 < 7)) then {_veh setVariable ["ace_cookoff_enable", false, true]};
 
-if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in enemyMotorpool) or (_tipo == "I_Boat_Armed_01_minigun_F")) then
+if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in enemyMotorpool) or (_tipo in vehPatrolBoat)) then
 	{
 	if !(_tipo in enemyMotorpool) then
 		{
