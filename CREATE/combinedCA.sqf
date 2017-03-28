@@ -73,6 +73,7 @@ if (_involveCSAT) then {
 			sleep 1;
 		};
 		if (count _spawnPosition == 0) then {_spawnPosition = _originPosition};
+
 		_vehicleData = [_originPosition, 0, _vehicleType, side_red] call bis_fnc_spawnvehicle;
 		_vehicle = _vehicleData select 0;
 		_vehicleGroup = _vehicleData select 2;
@@ -139,27 +140,24 @@ if (_involveCSAT) then {
 	} forEach _redVehicles;
 };
 
-if (_base != "") then {
+if !(_base == "") then {
 	[_base,60] spawn AS_fnc_addTimeForIdle;
 	_originPosition = getMarkerPos _base;
 	_size = [_base] call sizeMarker;
 	_maxCounter = 1 max (round (_size/30));
 
-	_posData = [_originPosition, _markerPos] call AS_fnc_findSpawnSpots;
-	_posRoad = _posData select 0;
-	_dir = _posData select 1;
-
 	for "_i" from 1 to _maxCounter do {
-		if (count enemyMotorpool > 1) then {
-			_vehicleArray =+ enemyMotorpool;
+		if (count (enemyMotorpool - vehPatrol) > 1) then {
+			_vehicleType = enemyMotorpoolDef;
+			_vehicleArray =+ (enemyMotorpool - vehPatrol);
 			if (_i == _maxCounter) then {
 				_basesFIA = count (mrkFIA arrayIntersect (bases + aeropuertos));
 				call {
 					if (_basesFIA < 1) exitWith {
-						_vehicleArray = enemyMotorpool - vehTank - vehIFV;
+						_vehicleArray = _vehicleArray - vehTank - vehIFV;
 					};
 					if (_basesFIA < 3) exitWith {
-						_vehicleArray = enemyMotorpool - vehTank;
+						_vehicleArray = _vehicleArray - vehTank;
 					};
 					_vehicleArray = vehTank;
 				};
@@ -168,29 +166,37 @@ if (_base != "") then {
 					if ((_threatEvaluationLand > 5) AND (count (enemyMotorpool arrayIntersect (vehTank + vehIFV)) > 0)) then {
 						_vehicleArray = _vehicleArray - vehPatrol - vehTrucks;
 					};
-					if (_threatEvaluationLand > 3) then {
+					if ((_threatEvaluationLand > 3) AND (count (enemyMotorpool arrayIntersect (vehIFV + vehAPC)) > 0)) then {
 						_vehicleArray = _vehicleArray - vehTrucks;
 					};
 				};
 			};
+
 			_vehicleType = _vehicleArray call BIS_fnc_selectRandom;
-		} else {
-			_vehicleType = enemyMotorpoolDef;
 		};
 
 		if !(_vehicleType in vehTank) then {
-			if (_vehicleType in vehIFV) then {
-				_groupType = [infTeam, side_green] call AS_fnc_pickGroup;
-				_groupCounter = 1;
-			} else {
-				_groupType = [infSquad, side_green] call AS_fnc_pickGroup;
-				_groupCounter = 2;
+			call {
+				if (_vehicleType in vehIFV) then {
+					_groupType = [infTeam, side_green] call AS_fnc_pickGroup;
+					_groupCounter = 1;
+				};
+				if (_vehicleType in vehAPC) then {
+					_groupType = [infSquad, side_green] call AS_fnc_pickGroup;
+					_groupCounter = 1;
+				};
+				if (_vehicleType in vehTrucks) then {
+					_groupType = [infSquad, side_green] call AS_fnc_pickGroup;
+					_groupCounter = 2;
+				};
 			};
-
 			_initData = [_vehicleType,_groupType,_groupCounter,_originPosition,_marker] call AS_fnc_groundTransport;
 			_allVehicles = _allVehicles + (_initData select 0);
 			_allGroups = _allGroups + (_initData select 1);
 		} else {
+			_posData = [_originPosition, _markerPos] call AS_fnc_findSpawnSpots;
+			_posRoad = _posData select 0;
+			_dir = _posData select 1;
 			_initData = [_posRoad, _dir, _vehicleType, side_green] call bis_fnc_spawnvehicle;
 			_allVehicles = _allVehicles + (_initData select 0);
 			_allGroups = _allGroups + (_initData select 1);
@@ -205,7 +211,7 @@ if (_base != "") then {
 	};
 };
 
-if (_airport != "") then {
+if !(_airport == "") then {
 	[_airport,60] spawn AS_fnc_addTimeForIdle;
 	if (_base != "") then {sleep ((_originPosition distance _markerPos)/16)};
 	_originPosition = getMarkerPos _airport;
@@ -218,9 +224,6 @@ if (_airport != "") then {
 	_groupUAV = group (crew _uav select 0);
 	_allGroups pushBack _groupUAV;
 	[_groupUAV, _originPosition, _markerPos, 600, 60] spawn AS_fnc_QRF_loiter;
-	/*_wp_01 = _groupUAV addWayPoint [_markerPos,0];
-	_wp_01 setWaypointBehaviour "AWARE";
-	_wp_01 setWaypointType "MOVE";*/
 	_uav removeMagazines "6Rnd_LG_scalpel";
 	sleep 5;
 
@@ -228,12 +231,14 @@ if (_airport != "") then {
 		if (_i == 3) then {
 			_vehicleType = heli_unarmed call BIS_fnc_selectRandom;
 		} else {
-			_vehicleArray =+ indAirForce;
+			_vehicleArray =+ indAirForce arrayIntersect (heli_armed + heli_unarmed);
 			call {
-				if ((_threatEvaluationAir > 14) AND (count (_vehicleArray arrayIntersect planes) > 0)) exitWith {
+				if ((_threatEvaluationAir > 7) AND (count (_vehicleArray arrayIntersect heli_armed) > 0)) then {
+					_vehicleArray = heli_armed;
+				};
+				if ((_threatEvaluationAir > 14) AND (count (_vehicleArray arrayIntersect planes) > 0)) then {
 					_vehicleArray = planes;
 				};
-				if ((_threatEvaluationAir > 7) AND (count (_vehicleArray arrayIntersect heli_armed) > 0)) exitWith {_vehicleArray = _vehicleArray - heli_unarmed};
 
 				if !(count _vehicleArray > 0) then {
 					_vehicleArray = heli_unarmed;
@@ -259,15 +264,10 @@ if (_airport != "") then {
 		_allGroups pushBack _vehicleGroup;
 		_allVehicles pushBack _vehicle;
 
-		if !((_vehicleType in heli_unarmed) OR (_vehicleType == heli_default)) then {
-			_wp_01 = _vehicleGroup addWaypoint [_markerPos, 0];
-			_wp_01 setWaypointBehaviour "AWARE";
-			_wp_01 setWaypointType "SAD";
-			_wp_01 setWaypointLoiterType "CIRCLE";
+		if !(_vehicleType in heli_unarmed) then {
+			[_vehicleGroup, _originPosition, _markerPos, 400, 60] spawn AS_fnc_QRF_loiter;
 			[_vehicle,"Air Attack"] spawn inmuneConvoy;
-		};
-
-		if ((_vehicleType in heli_unarmed) OR (_vehicleType == heli_default)) then {
+		} else {
 			_seats = ([_vehicleType,true] call BIS_fnc_crewCount) - ([_vehicleType,false] call BIS_fnc_crewCount);
 			if (_seats <= 12) then {
 				if (_seats <= 7) then {
