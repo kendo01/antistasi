@@ -269,7 +269,6 @@ fnc_BE_upgrade = {
 	params [["_price", 10000]];
 
 	private _tempFunds = server getVariable "resourcesFIA";
-	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
 	server setVariable ["skillFIA", BE_current_FIA_Skill_Cap, true];
 	server setVariable ["resourcesFIA", _tempFunds - _price, true];
 	BE_currentStage = BE_currentStage + 1;
@@ -311,8 +310,6 @@ fnc_BE_save = {
 	_result pushBack [BE_defWeap, BE_defVests, BE_defHelmets, BE_defOptics];
 	_result pushBack BE_progressLock;
 
-	diag_log format ["BE - module save -- save: %1", _result];
-
 	_result
 };
 
@@ -333,7 +330,6 @@ fnc_BE_load = {
 	{
 		if ((_x distance (getMarkerPos guer_respawn) < 50) && (typeOf _x in BE_current_vehicles)) then {
 			_x setVariable ["BE_mil_veh", true, true];
-			diag_log format ["VEHICLE: %1; TYPE: %2", _x, typeOf _x];
 			for "_i" from 0 to (count BE_current_vehicles - 1) do {
 				if ((BE_current_vehicles select _i) == typeOf _x) exitWith {
 					BE_current_vehicles set [_i, -1];
@@ -354,8 +350,6 @@ fnc_BE_load = {
 	};
 
 	[] call fnc_BE_refresh;
-
-	diag_log format ["BE - module load -- save: %1", _save];
 };
 
 fnc_BE_permission = {
@@ -382,7 +376,6 @@ fnc_BE_permission = {
 		};
 		case "vehicle": {
 			_result = true;
-			diag_log format ["BE - module permission -- value: %1; \n vehicle: %2", _value, _vehicle];
 
 			if ((_value in BE_class_MBT) && ("MBT" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_APC) && ("APC" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
@@ -465,8 +458,6 @@ publicVariable "fnc_BE_getCurrentValue";
 
 fnc_BE_checkVehicle = {
 	params ["_vehicle", "_type"];
-
-	diag_log format ["CV -- veh: %1", _vehicle];
 
 	private _result = false;
 	private _typeOfVehicle = typeOf _vehicle;
