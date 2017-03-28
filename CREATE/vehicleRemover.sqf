@@ -8,4 +8,8 @@ if (!alive _vehicle) then {
 	diag_log format ["Error in vehicleRemover: a %1 died and was removed.", typeOf _x];
 	_vehicle hideObjectGlobal true;
 	deleteVehicle _vehicle;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> refs/remotes/kendo01/DEV-Branch
