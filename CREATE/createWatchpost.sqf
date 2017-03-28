@@ -25,9 +25,12 @@ _allVehicles pushBack _vehicle;
 [_vehicle] call cajaAAF;
 
 _position = _markerPos findEmptyPosition [5,50,enemyMotorpoolDef];
-_vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
-_vehicle setDir random 360;
-_allVehicles pushBack _vehicle;
+if !(_position == []) then {
+	_vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
+	_vehicle setDir random 360;
+	_allVehicles pushBack _vehicle;
+};
+
 sleep 1;
 
 if !(worldName == "Tanoa") then {
