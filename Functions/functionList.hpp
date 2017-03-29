@@ -60,6 +60,7 @@ class CfgFunctions {
 			class detectRHS {};
 			class detectACE {};
 			class moveObject {};
+			class respawnPetros {};
 		};
 		class server {
 			file = "Functions";

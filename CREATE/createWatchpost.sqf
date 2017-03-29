@@ -25,7 +25,7 @@ _allVehicles pushBack _vehicle;
 [_vehicle] call cajaAAF;
 
 _position = _markerPos findEmptyPosition [5,50,enemyMotorpoolDef];
-if !(_position == []) then {
+if !(count _position == 0) then {
 	_vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
 	_vehicle setDir random 360;
 	_allVehicles pushBack _vehicle;

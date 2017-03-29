@@ -21,9 +21,9 @@ if ("rhs_weap_m92" in gear_allWeapons) then {
 	activeGREF = true;
 };
 
-// Check if an GUER FIA is being used instead of a BLUFOR FIA
+// Check if a GUER FIA is being used instead of a BLUFOR FIA
 replaceFIA = false;
-if ((side petros) == independent) then {
+if (((side petros) == independent) OR ("respawn_guer" in allMapMarkers)) then {
 	replaceFIA = true;
 	altVersion = "GREEN";
 };
@@ -101,3 +101,5 @@ diag_log format ["%1 FIA supported by %2 will be fighting against %3 supported b
 gear_allWeapons pushBackUnique indRF;
 [genWeapons, "genAmmo"] call AS_fnc_MAINT_missingAmmo;
 units_enemySoldiers = infList_sniper + infList_NCO + infList_special + infList_auto + infList_regular + infList_crew + infList_pilots;
+
+status_templatesLoaded = true;

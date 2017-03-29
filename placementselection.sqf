@@ -131,6 +131,7 @@ if (visiblemap) then
 	};
 "FIA_HQ" setMarkerPos (getMarkerPos guer_respawn);
 posHQ = getMarkerPos guer_respawn; publicVariable "posHQ";
+server setVariable ["posHQ", getMarkerPos guer_respawn, true];
 if (isNil "placementDone") then {
 	placementDone = true;
 	publicVariable "placementDone";
