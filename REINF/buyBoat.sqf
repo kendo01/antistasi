@@ -34,5 +34,5 @@ _veh = guer_veh_dinghy createVehicle _pos;
 
 [_veh] spawn VEHinit;
 player reveal _veh;
-[0,-200] remoteExec ["resourcesFIA",2];
+[0,-100] remoteExec ["resourcesFIA",2];
 hint "Boat purchased";
