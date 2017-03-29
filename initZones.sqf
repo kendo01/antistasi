@@ -166,7 +166,7 @@ APCAAFmax = 2* (count bases);
 
 // Place visible markers on the map for zones of interest. Additional roadblocks will be created automatically on every map except Altis, where enough have been placed in the SQM.
 _fnc_marker = {};
-if (worldName == "Altis") then {
+if (worldName in ["Altis","Bornholm","Tanoa"]) then {
     _fnc_marker = {
         params ["_loc", "_type", "_text"];
 
@@ -250,6 +250,11 @@ publicVariable "puestosFIA";
 publicVariable "seaMarkers";
 publicVariable "campsFIA";
 publicVariable "puestosNATO";
+
+"spawnCSAT" setMarkerType OPFOR_marker_type;
+"spawnCSAT" setMarkerText format ["%1 Carrier", A3_Str_RED];
+"spawnNATO" setMarkerType BLUFOR_marker_type;
+"spawnNATO" setMarkerText format ["%1 Carrier", A3_Str_BLUE];
 
 if (count posAntenas > 0) then {
     for "_i" from 0 to (count posantenas - 1) do {

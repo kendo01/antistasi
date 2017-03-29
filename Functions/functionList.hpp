@@ -60,6 +60,7 @@ class CfgFunctions {
 			class detectRHS {};
 			class detectACE {};
 			class moveObject {};
+			class respawnPetros {};
 		};
 		class server {
 			file = "Functions";
@@ -118,6 +119,7 @@ class CfgFunctions {
 			class spawnBunker {};
 			class respawnRoadblock {};
 			class createPatrolMarker {};
+			class groundTransport {};
 		};
 		class QRF {
 			file = "Functions";

@@ -513,3 +513,19 @@ IND_marker_colour = "ColorWEST";
 
 // Type of this faction's markers
 IND_marker_type = "flag_NATO";
+
+if (worldname == "Tanoa") then {
+    unlockedItems = unlockedItems + [
+    "U_I_C_Soldier_Para_5_F",
+    "U_I_C_Soldier_Para_4_F",
+    "U_I_C_Soldier_Para_3_F",
+    "U_I_C_Soldier_Para_2_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Bandit_1_F",
+    "U_I_C_Soldier_Bandit_2_F",
+    "U_I_C_Soldier_Bandit_3_F",
+    "U_I_C_Soldier_Bandit_4_F",
+    "U_I_C_Soldier_Bandit_5_F"
+    ];
+};
