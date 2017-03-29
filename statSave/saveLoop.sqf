@@ -319,5 +319,5 @@ _datos pushBack [_x,server getVariable _x];
 
 savingServer = false;
 
-[petros,"save",localize "STR_HINTS_SAVE_COM"] remoteExec ["commsMP",Slowhand];
+[petros,"save",[localize "STR_HINTS_SAVE_COM_1",localize "STR_HINTS_SAVE_COM_2",localize "STR_HINTS_SAVE_COM_3",localize "STR_HINTS_SAVE_COM_4"]] remoteExec ["commsMP",Slowhand];
 diag_log "Maintenance: game successfully saved.";

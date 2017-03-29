@@ -1074,8 +1074,21 @@
 
 	<Package name="Hints">
 		<Container name="HQ Placement">
-			<Key ID="STR_HINTS_HQPLACE_START">
-				<Original>- click on a map position to select your starting location\n- close the map with M or ESC to start in the default position\n-	try not to select areas with nearby enemies\n\nGameplay and difficulty change with different starting locations.</Original>
+			<Key ID="STR_HINTS_HQPLACE_START_TITLE">
+				<Original>Initial HQ Placement Selection</Original>
+			</Key>
+			<Key ID="STR_HINTS_HQPLACE_START_1">
+				<Original>Click on a map position to select your starting location</Original>
+			</Key>
+			<Key ID="STR_HINTS_HQPLACE_START_2">
+				<Original>Close the map with M or ESC to start in the default position</Original>
+			</Key>
+			<Key ID="STR_HINTS_HQPLACE_START_3">
+				<Original>Try not to select areas with nearby enemies\n\nGameplay and difficulty change with different starting locations.</Original>
+			</Key>
+			
+			<Key ID="STR_HINTS_HQPLACE_DEATH_TITLE">
+				<Original>Petros is Dead</Original>
 			</Key>
 			<Key ID="STR_HINTS_HQPLACE_DEATH">
 				<Original>Petros has been killed. You lost part of your assets and need to select a new HQ position.</Original>
@@ -1096,9 +1109,20 @@
 		</Container>
 
 		<Container name="Persistent Save">
-			<Key ID="STR_HINTS_SAVE_COM">
-				<Original>Savegame Done.\n\nYou won't lose your stats in the event of a game update.\n\nVehicles outside of your garage will only be saved if they are within 50m of your HQ flag, with no AI inside.\n\nAI units and squads will not be saved, but you will be reimbursed.\n\nStatic weapons need to be within 50m of a friendly flag, and they need to be assembled, otherwise they will not be saved.
-				</Original>
+			<Key ID="STR_HINTS_SAVE_COM_TITLE">
+				<Original>Progress Saved</Original>
+			</Key>
+			<Key ID="STR_HINTS_SAVE_COM_1">
+				<Original>You won't lose your stats in the event of a game update.</Original>
+			</Key>
+			<Key ID="STR_HINTS_SAVE_COM_2">
+				<Original>Vehicles outside of your garage will only be saved if they are within 50m of your HQ flag, with no AI inside.</Original>
+			</Key>
+			<Key ID="STR_HINTS_SAVE_COM_3">
+				<Original>AI units and squads will not be saved, but you will be reimbursed.</Original>
+			</Key>
+			<Key ID="STR_HINTS_SAVE_COM_4">
+				<Original>Static weapons need to be within 50m of a friendly flag, and they need to be assembled, otherwise they will not be saved.</Original>
 			</Key>
 		</Container>
 	</Package>

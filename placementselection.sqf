@@ -1,9 +1,9 @@
 if (!isNil "placementDone") then {
 	Slowhand allowDamage false;
-	hintC localize "STR_HINTS_HQPLACE_DEATH";
+	(localize "STR_HINTS_HQPLACE_DEATH_TITLE") hintC localize "STR_HINTS_HQPLACE_DEATH";
 } else {
 	diag_log "Antistasi: New Game selected";
-	hintC localize "STR_HINTS_HQPLACE_START";
+	(localize "STR_HINTS_HQPLACE_START_TITLE") hintC [localize "STR_HINTS_HQPLACE_START_1",localize "STR_HINTS_HQPLACE_START_2",localize "STR_HINTS_HQPLACE_START_3"];
 };
 
 private ["_posicionTel","_marcador","_marcadores"];
