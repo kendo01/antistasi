@@ -2,6 +2,7 @@ private ["_break","_spawnPos","_spawnposArray","_newPos","_cost","_vehicle"];
 
 _break = false;
 {
+	if (((side _x == side_red) OR (side _x == side_green)) AND (_x distance player < safeDistance_fasttravel) AND !(captive _x)) then {_break = true};
 } forEach allUnits;
 
 if (_break) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
