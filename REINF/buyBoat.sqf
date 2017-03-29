@@ -1,4 +1,4 @@
-private ["_break","_spawnPos","_spawnposArray","_newPos","_cost","_vehicle"];
+private ["_break","_spawnPos","_spawnposArray","_newPos","_vehicle"];
 
 _break = false;
 {
@@ -7,9 +7,7 @@ _break = false;
 
 if (_break) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
 
-_cost = server getVariable [guer_veh_dinghy,400];
-
-if (server getVariable ["resourcesFIA",0] < _cost) exitWith {hint format ["You need %1€ to buy a boat.",_cost]};
+if (server getVariable ["resourcesFIA",0] < 100) exitWith {hint "You need 100€ to buy a boat."};
 
 _spawnPos = [];
 _spawnposArray = selectBestPlaces [position player, 50, "sea", 1, 1];
