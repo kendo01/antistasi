@@ -251,6 +251,11 @@ publicVariable "seaMarkers";
 publicVariable "campsFIA";
 publicVariable "puestosNATO";
 
+"spawnCSAT" setMarkerType OPFOR_marker_type;
+"spawnCSAT" setMarkerText format ["%1 Carrier", A3_Str_RED];
+"spawnNATO" setMarkerType BLUFOR_marker_type;
+"spawnNATO" setMarkerText format ["%1 Carrier", A3_Str_BLUE];
+
 if (count posAntenas > 0) then {
     for "_i" from 0 to (count posantenas - 1) do {
         _antennaArray = nearestObjects [posantenas select _i,["Land_TTowerBig_1_F","Land_TTowerBig_2_F","Land_Communication_F"], 25];

@@ -49,7 +49,7 @@ if (!isDedicated) then
 	["antenas", antenasmuertas] call fn_SaveStat;
 	["mrkAAF", mrkAAF - controles] call fn_SaveStat;
 	["mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
-	["posHQ", getMarkerPos guer_respawn] call fn_Savestat;
+	["posHQ", server getVariable ["posHQ", getMarkerPos guer_respawn]] call fn_Savestat;
 	["prestigeNATO", server getVariable "prestigeNATO"] call fn_SaveStat;
 	["prestigeCSAT", server getVariable "prestigeCSAT"] call fn_SaveStat;
 	["APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
