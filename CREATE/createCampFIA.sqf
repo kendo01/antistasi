@@ -27,7 +27,10 @@ _grupo = [_posicion, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup
 _grupo setBehaviour "STEALTH";
 _grupo setCombatMode "GREEN";
 
-{[_x] spawn FIAinitBASES;} forEach units _grupo;
+{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _grupo;
+
+_shorecheck = [_posicion, 0, 50, 0, 0, 0, 1, [], [0]] call BIS_fnc_findSafePos;
+if ((typename _shorecheck) == "ARRAY") then {[[_fire,"seaport"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
 
 sleep 10;
 _fire inflame true;

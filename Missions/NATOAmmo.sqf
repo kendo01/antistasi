@@ -36,18 +36,20 @@ _heli disableAI "AUTOTARGET";
 _heli flyInHeight 200;
 _grupoHeli setCombatMode "BLUE";
 
-Stavros hcSetGroup [_grupoHeli];
+Slowhand hcSetGroup [_grupoHeli];
 _grupoHeli setVariable ["isHCgroup", true, true];
 
 waitUntil {sleep 2; (_heli distance _posicion < 300) or (!canMove _heli) or (dateToNumber date > _fechalimnum)};
 
-stavros hcRemoveGroup _grupoHeli;
+Slowhand hcRemoveGroup _grupoHeli;
 
 if (_heli distance _posicion < 300) then
 	{
 	_chute = createVehicle ["B_Parachute_02_F", [100, 100, 200], [], 0, 'FLY'];
     _chute setPos [getPosASL _heli select 0, getPosASL _heli select 1, (getPosASL _heli select 2) - 50];
     _crate = createVehicle ["B_supplyCrate_F", position _chute, [], 0, 'NONE'];
+	if (activeACE) then {_crate setVariable ["ace_cookoff_enable", false, true]};
+	_crate allowDamage false;
     _crate attachTo [_chute, [0, 0, -1.3]];
     [_crate,_NATOSupp] call NATOCrate;
      _vehiculos = _vehiculos + [_chute,_crate];
