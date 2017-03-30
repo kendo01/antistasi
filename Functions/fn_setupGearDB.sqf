@@ -79,9 +79,9 @@ gear_allWeapons pushBackUnique "Laserdesignator";
 gear_allWeapons pushBackUnique "Laserdesignator_02";
 gear_allWeapons pushBackUnique "Laserdesignator_03";
 
-_cfgmagazines = configFile >> "cfgmagazines";
-for "_i" from 0 to (count _cfgMagazines) -1 do {
-	_magazine = _cfgMagazines select _i;
+_magazines = configFile >> "cfgmagazines";
+for "_i" from 0 to (count _magazines) -1 do {
+	_magazine = _magazines select _i;
 	if (isClass _magazine) then {
 		gear_allMagazines pushBackUnique configName (_magazine);
 	};

@@ -1,83 +1,67 @@
-//NOTA: TAMBIÉN LO USO PARA FIA
 if (!isServer and hasInterface) exitWith{};
 
-_marcador = _this select 0;
+params ["_marker"];
+private ["_allGroups","_allSoldiers","_markerPos","_size","_data","_prestigeOPFOR","_prestigeBLUFOR","_isHostile","_isFrontline","_groupType","_groupParams","_group","_counter","_dog"];
 
-_grupos = [];
-_soldados = [];
+_allGroups = [];
+_allSoldiers = [];
 
-_posicion = getMarkerPos (_marcador);
+_markerPos = getMarkerPos (_marker);
+_size = [_marker] call sizeMarker;
+_size = round (_size / 100);
 
-_num = [_marcador] call sizeMarker;
+_data = server getVariable _marker;
+_prestigeOPFOR = _data select 2;
+_prestigeBLUFOR = _data select 3;
+_isHostile = true;
 
-_num = round (_num / 100);
-
-private ["_grupo","_grp","_params","_datos","_prestigeOPFOR","_prestigeBLUFOR"];
-
-_datos = server getVariable _marcador;
-//_prestigeOPFOR = _datos select 3;
-//_prestigeBLUFOR = _datos select 4;
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
-_esAAF = true;
-if (_marcador in mrkAAF) then
-	{
-	_num = round (_num * ((_prestigeOPFOR + _prestigeBLUFOR)/100));
-	_frontera = [_marcador] call AS_fnc_isFrontline;
-	if (_frontera) then {_num = _num * 2};
-	_tipoGrupo = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;
-	_params = [_posicion, side_green, _tipogrupo];
+if (_marker in mrkAAF) then {
+	_size = round (_size * ((_prestigeOPFOR + _prestigeBLUFOR)/100));
+	_isFrontline = [_marker] call AS_fnc_isFrontline;
+	if (_isFrontline) then {_size = _size * 2};
+	_groupType = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;
+	_groupParams = [_markerPos, side_green, _groupType];
 
 	if (random 10 < 5) then {
-		_tipoGrupo = [opGroup_Sniper, side_red] call AS_fnc_pickGroup;
-		_grupoCSAT = [_posicion, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		[leader _grupoCSAT, _marcador, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		{[_x] spawn CSATinit; _soldados = _soldados + [_x]} forEach units _grupoCSAT;
-		_grupos = _grupos + [_grupoCSAT];
+		_groupType = [opGroup_Sniper, side_red] call AS_fnc_pickGroup;
+		_group = [_markerPos, side_red, _groupType] call BIS_Fnc_spawnGroup;
+		[leader _group, _marker, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		{[_x] spawn CSATinit; _allSoldiers pushBack _x} forEach units _group;
+		_allGroups pushBack _group;
 	};
-	}
-else
-	{
-	_esAAF = false;
-	_num = round (_num * (_prestigeBLUFOR/100));
-	_params = [_posicion, side_blue, [guer_grp_sentry, "guer"] call AS_fnc_pickGroup];
+} else {
+	_isHostile = false;
+	_size = round (_size * (_prestigeBLUFOR/100));
+	_groupParams = [_markerPos, side_blue, [guer_grp_sentry, "guer"] call AS_fnc_pickGroup];
+};
+
+if (_size < 1) then {_size = 1};
+
+_counter = 0;
+while {(spawner getVariable _marker) AND (_counter < _size)} do {
+	_group = _groupParams call BIS_Fnc_spawnGroup;
+	if (_isHostile) then {
+		{[_x] spawn genInitBASES; _allSoldiers pushBack _x} forEach units _group;
+		sleep 1;
+		if (random 10 < 2.5) then {
+			_dog = _group createUnit ["Fin_random_F",_markerPos,[],0,"FORM"];
+			_allSoldiers pushBack _dog;
+			[_dog] spawn guardDog;
+		};
+	} else {
+		{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit; _allSoldiers pushBack _x} forEach units _group;
 	};
+	[leader _group, _marker, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	_allGroups pushBack _group;
+	_counter = _counter + 1;
+};
 
-if (_num < 1) then {_num = 1};
+waitUntil {sleep 1; !(spawner getVariable _marker) OR ({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers)};
 
-_cuenta = 0;
-while {(spawner getVariable _marcador) and (_cuenta < _num)} do
-	{
-	_grupo = _params call BIS_Fnc_spawnGroup;
-	{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
-	sleep 1;
-	if (_esAAF) then {
-		if (random 10 < 2.5) then
-			{
-			_perro = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
-			_soldados pushBack _perro;
-			[_perro] spawn guardDog;
-			};
-	};
-	[leader _grupo, _marcador, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-	_grupos = _grupos + [_grupo];
-	_cuenta = _cuenta + 1;
-	};
+if ((({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers)) AND (_marker in mrkAAF)) then {
+	[_markerPos] remoteExec ["patrolCA",HCattack];
+};
 
-if !(_esAAF) then
-	{
-	{_grp = _x;
-	{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
-	};
+waitUntil {sleep 1; !(spawner getVariable _marker)};
 
-waitUntil {sleep 1;(not (spawner getVariable _marcador)) or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)};
-
-if ((({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)) and (_marcador in mrkAAF)) then
-	{
-	[_posicion] remoteExec ["patrolCA",HCattack];
-	};
-
-waitUntil {sleep 1;not (spawner getVariable _marcador)};
-
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
+[_allGroups, _allSoldiers, []] spawn AS_fnc_despawnUnits;

@@ -1,33 +1,32 @@
 if (!isServer and hasInterface) exitWith {};
 
-private ["_marcador","_posicion","_grupo","_campGroup","_fire"];
+params ["_marker"];
+private ["_markerPos","_spawnPos","_objs","_camp","_fire","_group"];
 
 _objs = [];
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
+_markerPos = getMarkerPos _marker;
 
 _camp = selectRandom AS_campList;
-_posicion = _posicion findEmptyPosition [5,50,"I_Heli_Transport_02_F"];
-_objs = [_posicion, floor(random 361), _camp] call BIS_fnc_ObjectsMapper;
+_spawnPos = _markerPos findEmptyPosition [1,50,"I_Heli_Transport_02_F"];
+_objs = [_spawnPos, floor(random 361), _camp] call BIS_fnc_ObjectsMapper;
 
 sleep 2;
 
 {
 	call {
-		if (typeof _x == campCrate) exitWith {[_x] call cajaAAF; [[_x,"heal_camp"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
-		if (typeof _x == "Land_MetalBarrel_F") exitWith {[[_x,"refuel"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
+		if (typeof _x == campCrate) exitWith {[_x] call cajaAAF; [_x,"heal_camp"] remoteExec ["AS_fnc_addActionMP"]};
+		if (typeof _x == "Land_MetalBarrel_F") exitWith {[_x,"refuel"] remoteExec ["AS_fnc_addActionMP"]};
 		if (typeof _x == "Land_Campfire_F") exitWith {_fire = _x;};
 	};
-	_surface = surfaceNormal (position _x);
-	_x setVectorUp _surface;
+	_x setVectorUp (surfaceNormal (position _x));
 } forEach _objs;
 
-_grupo = [_posicion, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
-_grupo setBehaviour "STEALTH";
-_grupo setCombatMode "GREEN";
+_group = [_spawnPos, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
+_group setBehaviour "STEALTH";
+_group setCombatMode "GREEN";
 
-{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _grupo;
+{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _group;
 
 _shorecheck = [_posicion, 0, 50, 0, 0, 0, 1, [], [0]] call BIS_fnc_findSafePos;
 if ((typename _shorecheck) == "ARRAY") then {[[_fire,"seaport"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
@@ -35,22 +34,21 @@ if ((typename _shorecheck) == "ARRAY") then {[[_fire,"seaport"],"AS_fnc_addActio
 sleep 10;
 _fire inflame true;
 
-waitUntil {sleep 5; (not(spawner getVariable _marcador)) or ({alive _x} count units _grupo == 0) or (not(_marcador in campsFIA))};
+waitUntil {sleep 5; !(spawner getVariable _marker) OR ({alive _x} count units _group == 0) OR !(_marker in campsFIA)};
 
-if ({alive _x} count units _grupo == 0) then
-	{
-	campsFIA = campsFIA - [_marcador]; publicVariable "campsFIA";
-	campList = campList - [[_marcador, markerText _marcador]]; publicVariable "campList";
-	usedCN = usedCN - [markerText _marcador]; publicVariable "usedCN";
-	marcadores = marcadores - [_marcador]; publicVariable "marcadores";
-	deleteMarker _marcador;
-	[["TaskFailed", ["", "Camp Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	};
+if ({alive _x} count units _group == 0) then {
+	["TaskFailed", ["", format [localize "STR_TSK_CAMP_DESTROYED", markerText _marker]]] remoteExec ["BIS_fnc_showNotification"];
+	campsFIA = campsFIA - [_marker]; publicVariable "campsFIA";
+	campList = campList - [[_marker, markerText _marker]]; publicVariable "campList";
+	usedCN = usedCN - [markerText _marker]; publicVariable "usedCN";
+	marcadores = marcadores - [_marker]; publicVariable "marcadores";
+	deleteMarker _marker;
+};
 
-waitUntil {sleep 5; (not(spawner getVariable _marcador)) or (not(_marcador in campsFIA))};
+waitUntil {sleep 5; !(spawner getVariable _marker) OR !(_marker in campsFIA)};
 
-{deleteVehicle _x} forEach units _grupo;
-deleteGroup _grupo;
+{deleteVehicle _x} forEach units _group;
+deleteGroup _group;
 
 _fire inflame false;
 sleep 2;

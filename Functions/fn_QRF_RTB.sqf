@@ -1,5 +1,4 @@
 params ["_vehGroup", "_dest"];
-diag_log format ["QRF - RTB - veh:%1; dest: %2", _vehGroup, _dest];
 
 {_x disableAI "AUTOCOMBAT"} forEach units _vehGroup;
 

@@ -8,9 +8,6 @@ if (typeName _infGroups == "ARRAY") then {
 	_infGroup2 = _infGroups select 1;
 };
 
-diag_log format ["QRF - dismount // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration];
-[format ["QRF - dismount // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration]] remoteExec ["AS_fnc_logOutput", 2];
-
 _wp400 = _vehGroup addWaypoint [_dest, 0];
 _wp400 setWaypointBehaviour "CARELESS";
 _wp400 setWaypointSpeed "FULL";
