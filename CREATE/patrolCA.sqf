@@ -18,6 +18,8 @@ _markerPos = _marker;
 if (typeName _marker == "STRING") then {_markerPos = getMarkerPos (_marker)};
 _forcedAttack = false;
 
+_base = "";
+_airport = "";
 if !(_forceBase == "") then {
 	_base = ["", _forceBase] select (_forceBase in bases);
 	_airport = ["", _forceBase] select (_forceBase in aeropuertos);
@@ -55,6 +57,7 @@ if !(_forcedAttack) then {
 	if (_base == "") then {_airport = [_marker] call AS_fnc_findAirportForCA};
 };
 
+_involveCSAT = false;
 if ((_base == "") AND (_airport == "")) then {
 	_involveCSAT = (random 100 < server getVariable "prestigeCSAT");
 };
