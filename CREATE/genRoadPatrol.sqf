@@ -118,7 +118,7 @@ while {alive _vehicle} do
 				};
 			};
 		} forEach (driver _vehicle nearTargets distanciaSPWN);
-		if ((_vehicle distance2d _targetPosition < _distancia) OR ({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers) OR !(canMove _vehicle)) exitWith {};
+		if ((_vehicle distance2d _targetPosition < _distance) OR ({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers) OR !(canMove _vehicle)) exitWith {};
 	};
 
 	if (({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers) OR !(canMove _vehicle)) exitWith {};
