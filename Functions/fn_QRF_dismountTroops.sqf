@@ -2,6 +2,13 @@ params ["_vehGroup", "_origin", "_dest", "_mrk", "_infGroups", "_duration", "_ty
 
 private _infGroup1 = _infGroups;
 private _infGroup2 = "";
+private _wpPos = [];
+
+if (typeName _mrk == "STRING") then {
+	_wpPos = getMarkerPos _mrk;
+} else {
+	_wpPos = _mrk;
+};
 
 if (typeName _infGroups == "ARRAY") then {
 	_infGroup1 = _infGroups select 0;
@@ -22,14 +29,14 @@ if (typeName _infGroups == "ARRAY") then {
 	_wp501 synchronizeWaypoint [_wp400];
 };
 
-_wp402 = _infGroup1 addWaypoint [getMarkerPos _mrk, 0];
+_wp402 = _infGroup1 addWaypoint [_wpPos, 0];
 _wp402 setWaypointType "SAD";
 _wp402 setWaypointBehaviour "AWARE";
 _infGroup1 setCombatMode "RED";
 
 _wp502 = "";
 if (typeName _infGroups == "ARRAY") then {
-	_wp502 = _infGroup2 addWaypoint [getMarkerPos _mrk, 0];
+	_wp502 = _infGroup2 addWaypoint [_wpPos, 0];
 	_wp502 setWaypointType "SAD";
 	_wp502 setWaypointBehaviour "AWARE";
 	_infGroup2 setCombatMode "RED";
@@ -40,7 +47,6 @@ waitUntil {sleep 5; ((units _infGroup1 select 0) distance _dest < 50) || ({alive
 _infGroup1 setCurrentWaypoint _wp402;
 [_vehGroup, _origin] spawn AS_fnc_QRF_RTB;
 if (typeName _infGroups == "ARRAY") then {
-	//0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	_infGroup2 setCurrentWaypoint _wp502;
 };
 
