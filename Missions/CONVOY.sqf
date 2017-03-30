@@ -96,7 +96,7 @@ call {
 
 	if (_convoyType == "Money") exitWith {
 		_tskTitle = localize "STR_TSK_CVY_MONEY";
-		_tskDesc = localize "Str_tskDesc_CVY_Money";
+		_tskDesc = localize "STR_TSKDESC_CVY_MONEY";
 		_icon = "move";
 		_objectiveType = AS_misVehicleBox;
 		};

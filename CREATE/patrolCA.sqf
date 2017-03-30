@@ -14,7 +14,8 @@ _redGroups = [];
 _redSoldiers = [];
 
 _isMarker = !(typeName _marker == "ARRAY");
-_markerPos = [getMarkerPos (_marker), _marker] select (typeName _marker == "ARRAY");
+_markerPos = _marker;
+if (typeName _marker == "STRING") then {_markerPos = getMarkerPos (_marker)};
 _forcedAttack = false;
 
 if !(_forceBase == "") then {

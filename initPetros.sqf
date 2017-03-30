@@ -45,6 +45,7 @@ petros addMPEventHandler ["mpkilled",
     if (isServer) then
         {
             diag_log format ["MAINTENANCE: Petros died. Killer: %1; type: %2", _killer, typeOf _killer];
+            diag_log format ["Info: players online at time of Petros' death: %1", allPlayers - entities "HeadlessClient_F"];
         if ((side _killer == side_red) or (side _killer == side_green)) then
              {
             [] spawn
@@ -58,16 +59,18 @@ petros addMPEventHandler ["mpkilled",
                         lockedWeapons = lockedWeapons + [_cosa];
                         if (_cosa in unlockedRifles) then {unlockedRifles = unlockedRifles - [_cosa]};
                         _mag = (getArray (configFile / "CfgWeapons" / _cosa / "magazines") select 0);
-                        if (!isNil "_mag") then {unlockedMagazines = unlockedMagazines - [_mag]; diag_log format ["weapon/mag: %1", _mag];};
+                        if !(isNil "_mag") then {unlockedMagazines = unlockedMagazines - [_mag]; diag_log format ["weapon/mag: %1", _mag];};
                     };
                  };
                 publicVariable "unlockedWeapons";
 
-                for "_i" from 0 to round random 8 do {
-                    _cosa = selectRandom unlockedMagazines;
-                    if !(isNil "_cosa") then {
-                        diag_log format ["mag: %1", _cosa];
-                        unlockedMagazines = unlockedMagazines - [_cosa];
+                if (count unlockedMagazines > 6) then {
+                    for "_i" from 0 to round random 2 do {
+                        _cosa = selectRandom unlockedMagazines;
+                        if !(isNil "_cosa") then {
+                            diag_log format ["mag: %1", _cosa];
+                            unlockedMagazines = unlockedMagazines - [_cosa];
+                        };
                     };
                 };
                 publicVariable "unlockedMagazines";

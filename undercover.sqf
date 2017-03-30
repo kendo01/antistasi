@@ -39,7 +39,7 @@ else
 
 if (_cambiar != "") exitWith {};
 
-if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < safeDistance_undercover)) or (_x distance player < safeDistance_undercover))} count allUnits > 0) exitWith
+if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < (1.5*safeDistance_undercover))) or (_x distance player < safeDistance_undercover))} count allUnits > 0) exitWith
 	{
 	hint "You cannot become Undercover while some enemies are spotting you";
 	if (vehicle player != player) then

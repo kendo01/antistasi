@@ -1,38 +1,35 @@
-_veh = _this select 0;
+params ["_vehicle"];
+private ["_isListed","_vehiclePos","_city","_data","_unit"];
 
-_inside = _veh getVariable "inDespawner";
-if (!isNil "_inside") exitWith {};
+_isListed = _vehicle getVariable ["inDespawner",false];
+if (_isListed) exitWith {};
 
-_veh setVariable ["inDespawner",true,true];
+_vehicle setVariable ["inDespawner",true,true];
 
-if ((typeOf _veh in CIV_vehicles) and ({_x getVariable ["BLUFORSpawn",false]} count crew _veh > 0) and (_veh distance getMarkerPos guer_respawn > 50)) then
-	{
-	_pos = position _veh;
-	[0,-1,_pos] remoteExec ["AS_fnc_changeCitySupport",2];
-	_ciudad = [ciudades, _pos] call BIS_fnc_nearestPosition;
-	_datos = server getVariable _ciudad;
-	_prestigeOPFOR = _datos select 2;
+if ((typeOf _vehicle in CIV_vehicles) AND ({_x getVariable ["BLUFORSpawn",false]} count crew _vehicle > 0) AND (_vehicle distance getMarkerPos guer_respawn > 50)) then {
+	_vehiclePos = position _vehicle;
+	[0,-1,_vehiclePos] remoteExec ["AS_fnc_changeCitySupport",2];
+	_city = [ciudades, _vehiclePos] call BIS_fnc_nearestPosition;
+	_data = server getVariable _city;
+	_prestigeOPFOR = _data select 2;
 	sleep 5;
-	if (random 100 < _prestigeOPFOR) then
+	if (random 100 < _prestigeOPFOR) then {
 		{
-		{_amigo = _x;
-		if ((captive _amigo) and (isPlayer _amigo)) then
-			{
-			[_amigo,false] remoteExec ["setCaptive",_amigo];
+			_unit = _x;
+			if ((captive _unit) AND (isPlayer _unit)) then {
+				[_unit,false] remoteExec ["setCaptive",_unit];
 			};
-		{
-		if ((side _x == side_green) and (_x distance _pos < distanciaSPWN)) then {_x reveal [_amigo,4]};
-		} forEach allUnits;
-		} forEach crew _veh;
-		};
+			{
+				if ((side _x == side_green) AND (_x distance _vehiclePos < distanciaSPWN)) then {_x reveal [_unit,4]};
+			} forEach allUnits;
+		} forEach crew _vehicle;
 	};
-while {alive _veh} do
-	{
-	if ((not([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)) and (not([distanciaSPWN,1,_veh,"OPFORSpawn"] call distanceUnits)) and (not(_veh in staticsToSave)) and (_veh distance getMarkerPos guer_respawn > 100)) then
-		{
-		//hint format ["%1 se lo ha cargado el despawner",_veh];
-		if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};
-		deleteVehicle _veh
-		};
+};
+
+while {alive _vehicle} do {
+	if (!([distanciaSPWN,1,_vehicle,"BLUFORSpawn"] call distanceUnits) AND !([distanciaSPWN,1,_vehicle,"OPFORSpawn"] call distanceUnits) AND !(_vehicle in staticsToSave) AND (_vehicle distance getMarkerPos guer_respawn > 100)) then {
+		if (_vehicle in reportedVehs) then {reportedVehs = reportedVehs - [_vehicle]; publicVariable "reportedVehs"};
+		deleteVehicle _vehicle
+	};
 	sleep 60;
-	};
+};

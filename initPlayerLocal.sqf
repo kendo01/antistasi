@@ -343,7 +343,7 @@ if (_isJip) then
 	player setVariable ["punish",0,true];
 	player setUnitRank "PRIVATE";
 	waitUntil {!isNil "posHQ"};
-	player setPos  (server getVariable ["posHQ", getMarkerPos guer_respawn]);
+	player setPos (server getVariable ["posHQ", getMarkerPos guer_respawn]);
 	[true] execVM "reinitY.sqf";
 	if (not([player] call isMember)) then
 		{
