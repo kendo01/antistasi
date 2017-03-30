@@ -24,7 +24,7 @@ _bunker setDir _direction;
 _position = getPosATL _bunker;
 _static = _staticType createVehicle _markerPos;
 _static setPos _position;
-_static setDir _dirVeh + 180;
+_static setDir _direction + 180;
 _unit = ([_markerPos, 0, infGunner, _groupGunners] call bis_fnc_spawnvehicle) select 0;
 [_unit] spawn genInitBASES;
 [_static] spawn genVEHinit;
