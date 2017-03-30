@@ -121,11 +121,13 @@ if (_marker in puertos) then {
 	};
 };
 
-_position = _markerPos findEmptyPosition [5, _size, enemyMotorpoolDef];
-_vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
-_vehicle setDir random 360;
-_allVehicles pushBack _vehicle;
-sleep 1;
+_position = _markerPos findEmptyPosition [5,_size,enemyMotorpoolDef];
+if !(count _position == 0) then {
+	_vehicle = createVehicle [selectRandom vehTrucks, _position, [], 0, "NONE"];
+	_vehicle setDir random 360;
+	_allVehicles pushBack _vehicle;
+	sleep 1;
+};
 
 _strength = 1 max (round (_size/50));
 _currentStrength = 0;
