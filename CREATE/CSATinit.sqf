@@ -1,5 +1,5 @@
 params ["_unit"];
-private ["_muerto","_unitType"];
+private ["_unitType"];
 
 _unit setVariable ["OPFORSpawn",true,true];
 _unit addEventHandler ["HandleDamage",handleDamageAAF];
