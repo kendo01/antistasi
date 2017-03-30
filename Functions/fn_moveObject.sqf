@@ -47,8 +47,11 @@ _checkAttachments = {
 waitUntil {sleep 1; (vehicle player != player) OR (player distance _position > _distance) OR !(alive player) OR !(isPlayer player) OR !(call _checkAttachments)};
 
 {detach _x} forEach attachedObjects player;
-_actionParams = [[_this select 0,_this select 1,_this select 2,"static"], [_this select 0,_this select 1,_this select 2]] select (_category == "");
-_object addAction [localize "STR_ACT_MOVEASSET", {_actionParams spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == Slowhand)", 5];
+if (_category == "") then {
+	_object addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == Slowhand)", 5];
+} else {
+	_object addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2,"static"] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == Slowhand)", 5];
+};
 _object setPosATL [getPosATL _object select 0,getPosATL _object select 1,0];
 
 if (vehicle player != player) exitWith {hint localize "STR_INFO_MOVEASSETS_2"};
