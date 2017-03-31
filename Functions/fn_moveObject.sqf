@@ -52,6 +52,7 @@ if (_category == "") then {
 } else {
 	_object addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2,"static"] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == Slowhand)", 5];
 };
+
 _object setPosATL [getPosATL _object select 0,getPosATL _object select 1,0];
 
 if (vehicle player != player) exitWith {hint localize "STR_INFO_MOVEASSETS_2"};

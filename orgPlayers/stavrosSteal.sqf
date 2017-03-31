@@ -1,9 +1,9 @@
-_resourcesFIA = server getVariable "resourcesFIA";
-if (_resourcesFIA < 100) exitWith {hint "FIA has not enough resources to grab"};
+private ["_resourcesFIA"];
+
+_resourcesFIA = server getVariable ["resourcesFIA",0];
+if (_resourcesFIA < 100) exitWith {hint localize "STR_HINTS_GEN_STEAL_FAIL"};
 [100] call resourcesPlayer;
 server setvariable ["resourcesFIA",_resourcesFIA - 100, true];
-//[-2,Slowhand] call playerScoreAdd;
 ["scorePlayer", player getVariable "score"] call fn_SaveStat;
 
-//hint "You grabbed 100 € from the FIA Money Pool.\n\nThis will affect your prestige and status among FIA forces";
-hint "You grabbed 100 € from the FIA Money Pool.\n\nDon't spend it all on hookers and blackjack.";
+hint localize "STR_HINTS_GEN_STEAL_SUC";

@@ -86,7 +86,6 @@ switch _skillSet do {
 		_aimingSh = _aimingSh - 0.1;
 		_aimingSp = _aimingSp - 0.1;
 		_reload = _reload - 0.1;
-		_divisor = _divisor - 5000;
 	};
 	case 2: { // sniper/marksman
 		_aiming = _aiming + 0.2;
@@ -97,7 +96,6 @@ switch _skillSet do {
 		_aimingSh = _aimingSh + 0.1;
 		_aimingSp = _aimingSp - 0.1;
 		_reload = _reload - 0.4;
-		_divisor = _divisor - 5000;
 	};
 	case 3: { // machinegunner, autorifleman
 		_aiming = _aiming - 0.1;

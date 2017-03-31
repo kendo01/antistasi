@@ -1,7 +1,10 @@
 params ["_vehicleType","_groupType",["_groupCounter",1],"_originPosition","_targetMarker"];
 private ["_isArmed","_targetPosition","_spawnpositionData","_spawnPosition","_direction","_allVehicles","_allGroups","_allSoldiers","_vehicle","_vehicleGroup","_dismountPosition","_threatEvaluationLand","_group","_wpV1_1","_wpV1_2","_wpInf1_1","_wpInf2_1","_infGroupOne","_infGroupTwo","_tempInfo"];
 
-_targetPosition = getMarkerPos _targetMarker;
+_targetPosition = _targetMarker;
+if (typeName _targetMarker == "STRING") then {
+	_targetPosition = getMarkerPos _targetMarker;
+};
 _isArmed = !(_vehicleType in vehTrucks);
 
 _spawnpositionData = [_originPosition, _targetPosition] call AS_fnc_findSpawnSpots;
@@ -15,7 +18,10 @@ _allSoldiers = _initData select 2;
 _vehicle = _initData select 3;
 _vehicleGroup = _initData select 4;
 
-_threatEvaluationLand = [_targetMarker] call landThreatEval;
+_threatEvaluationLand = 1;
+if (typeName _targetMarker == "STRING") then {
+	_threatEvaluationLand = [_targetMarker] call landThreatEval;
+};
 _dismountPosition = [_targetPosition, _spawnPosition, _threatEvaluationLand] call findSafeRoadToUnload;
 
 for "_i" from 1 to _groupCounter do {

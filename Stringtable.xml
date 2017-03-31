@@ -1086,7 +1086,7 @@
 			<Key ID="STR_HINTS_HQPLACE_START_3">
 				<Original>Try not to select areas with nearby enemies\n\nGameplay and difficulty change with different starting locations.</Original>
 			</Key>
-			
+
 			<Key ID="STR_HINTS_HQPLACE_DEATH_TITLE">
 				<Original>Petros is Dead</Original>
 			</Key>
@@ -1123,6 +1123,70 @@
 			</Key>
 			<Key ID="STR_HINTS_SAVE_COM_4">
 				<Original>Static weapons need to be within 50m of a friendly flag, and they need to be assembled, otherwise they will not be saved.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Commander">
+			<Key ID="STR_HINTS_COMMANDER_DIS">
+				<Original>Player Commander disconnected or retired. %1 is our new leader. Greet him!</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_REP">
+				<Original>%2 replaced %1 as the leader of our forces. Greet him!</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_RES">
+				<Original>You step down from being Commander. Others will take your place.</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_DEN">
+				<Original>You are no longer eligible to command our forces.</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_ACC">
+				<Original>You are now eligible to command our forces.</Original>
+			</Key>
+		</Container>
+
+		<Container name="General">
+			<Key ID="STR_HINTS_GEN_DONATE_FAIL">
+				<Original>You have less than 100€ to donate.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_FIA">
+				<Original>You have donated 100€ to the cause. This will raise your status among FIA forces.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_PLAYER_FAIL">
+				<Original>You must be looking at a player in order to donate money.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_PLAYER">
+				<Original>You have donated 100€ to %1.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_RESTRICTED_COM">
+				<Original>Only the Commander has access to this function.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_RESTRICTED_ADMIN">
+				<Original>Only an admin has access to this function.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_STEAL_FAIL">
+				<Original>There are not enough funds for you to borrow anything.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_STEAL_SUC">
+				<Original>You've taken 100€ from the general budget. Invest it wisely.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_GEN_MEM_DIS">
+				<Original>Server membership is disabled.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_TARGET">
+				<Original>You are not looking at a player.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_ADD_FAIL">
+				<Original>The player is already a member on this server.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_REM_FAIL">
+				<Original>The player is already not a member on this server.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_ADD_SUC">
+				<Original>%1 has been added to this server's members list.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_REM_SUC">
+				<Original>%1 has been removed from this server's members list.</Original>
 			</Key>
 		</Container>
 	</Package>

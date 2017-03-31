@@ -1,24 +1,22 @@
-if (player != Slowhand) exitWith {hint "Only Player Commander has access to this function"};
+params [["_action","add"]];
+private ["_target","_uid"];
 
-if (!(serverCommandAvailable "#logout") && !(isServer)) exitWith {hint "Only Server Admins can add a new member"};
-
-if (count miembros == 0) exitWith {hint "Server Member feature is disabled"};
+if (!(serverCommandAvailable "#logout") AND !isServer) exitWith {hint localize "STR_HINTS_GEN_RESTRICTED_ADMIN"};
+if (count miembros == 0) exitWith {hint localize "STR_HINTS_GEN_MEM_DIS"};
 
 _target = cursortarget;
 
-if (!isPlayer _target) exitWith {hint "You are not pointing to anyone"};
+if (!isPlayer _target) exitWith {hint localize "STR_HINTS_GEN_MEM_TARGET"};
 _uid = getPlayerUID _target;
-if ((_this select 0 == "add") and (_uid in miembros)) exitWith {hint "The player is already a member of this server"};
-if ((_this select 0 == "remove") and (not(_uid in miembros))) exitWith {hint "The player is not a member of this server"};
+if ((_action == "add") AND (_uid in miembros)) exitWith {hint localize "STR_HINTS_GEN_MEM_ADD_FAIL"};
+if ((_action == "remove") AND !(_uid in miembros)) exitWith {hint localize "STR_HINTS_GEN_MEM_REM_FAIL"};
 
-if (_this select 0 == "add") then
-	{
+if (_action == "add") then {
 	miembros pushBackUnique _uid;
-	hint format ["%1 has been added to the Server Members List",name _target];
-	}
-else
-	{
+	hint format [localize "STR_HINTS_GEN_MEM_ADD_SUC",name _target];
+} else {
 	miembros = miembros - [_uid];
-	hint format ["%1 has been removed from the Server Members List",name _target];
-	};
+	hint format [localize "STR_HINTS_GEN_MEM_REM_SUC",name _target];
+};
+
 publicVariable "miembros";

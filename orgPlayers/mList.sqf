@@ -1,5 +1,7 @@
 if !(isServer) exitWith {};
 
+private ["_mList"];
+
 _mList = [
 	"76561197960604947",
 	"76561197962099476",

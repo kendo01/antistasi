@@ -1,21 +1,17 @@
-_jugador = player getVariable ["owner",player];
+private ["_player"];
 
-if (_jugador getVariable ["elegible",true]) then
-	{
-	_jugador setVariable ["elegible",false,true];
-	if (_jugador == Slowhand) then
-		{
-		hint "You resign of being Commander. Other will take the command if there is someone suitable for it.";
+_player = player getVariable ["owner",player];
+
+if (_player getVariable ["elegible",true]) then {
+	_player setVariable ["elegible",false,true];
+	if (_player == Slowhand) then {
+		hint localize "STR_HINTS_COMMANDER_RES";
 		sleep 3;
 		[] remoteExec ["assignStavros",2];
-		}
-	else
-		{
-		hint "You decided not to be elegible for Commander.";
-		};
-	}
-else
-	{
-	hint "You are now elegible to be Commander of the FIA forces.";
-	_jugador setVariable ["elegible",true,true];
+	} else {
+		hint localize "STR_HINTS_COMMANDER_DEN";
 	};
+} else {
+	hint localize "STR_HINTS_COMMANDER_ACC";
+	_player setVariable ["elegible",true,true];
+};

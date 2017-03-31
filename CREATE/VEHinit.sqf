@@ -1,214 +1,142 @@
-private ["_veh","_tipo"];
+params ["_vehicle"];
+private ["_vehicleType","_eh","_mortar","_leader","_tempVehicle"];
 
-_veh = _this select 0;
+if ((_vehicle isKindOf "FlagCarrier") OR (_vehicle isKindOf "Building")) exitWith {};
+if (_vehicle isKindOf "ReammoBox_F") exitWith {[_vehicle] call cajaAAF};
 
-if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
-if (_veh isKindOf "ReammoBox_F") exitWith {[_veh] call cajaAAF};
-if ((activeACE) && !(random 3 > 2)) then {_veh setVariable ["ace_cookoff_enable", false, true]};
+if ((activeACE) AND !(random 3 > 2)) then {_vehicle setVariable ["ace_cookoff_enable", false, true]};
 
-if (_veh isKindOf "Car") then
-	{
-	_veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
-	};
+if (_vehicle isKindOf "Car") then {
+	_vehicle addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
+};
 
-_tipo = typeOf _veh;
+_vehicleType = typeOf _vehicle;
 
-if ((_tipo in vehNATO) or (_tipo in planesNATO)) then
-	{
-	clearMagazineCargoGlobal _veh;
-	clearWeaponCargoGlobal _veh;
-	clearItemCargoGlobal _veh;
-	clearBackpackCargoGlobal _veh;
-	_veh lock 3;
-	_veh addEventHandler ["GetIn",
-		{
+if (_vehicleType in (vehNATO+planesNATO)) then {
+	clearMagazineCargoGlobal _vehicle;
+	clearWeaponCargoGlobal _vehicle;
+	clearItemCargoGlobal _vehicle;
+	clearBackpackCargoGlobal _vehicle;
+	_vehicle lock 3;
+	_vehicle addEventHandler ["GetIn", {
 		_unit = _this select 2;
 		if ({isPlayer _x} count units group _unit > 0) then {moveOut _unit;};
-		}];
-	_veh addEventHandler ["killed",{[-2,0] remoteExec ["prestige",2]; [2,-2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}];
-	}
-else
-	{
-	if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in enemyMotorpool) or (_tipo in vehPatrolBoat)) then
-		{
-		if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_tipo in vehPatrolBoat)) then
-			{
-			if (_tipo == vehAmmo) then
-				{
-				if (_veh distance getMarkerPos guer_respawn > 50) then {[_veh] call cajaAAF};
-				};
-			_veh addEventHandler ["killed",{
+	}];
+	_vehicle addEventHandler ["killed",{[-2,0] remoteExec ["prestige",2]; [2,-2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}];
+} else {
+	if (_vehicleType in (vehTrucks+vehPatrol+vehSupply+enemyMotorpool+vehPatrolBoat)) then {
+		if !(_vehicleType in enemyMotorpool) then {
+			if (_vehicleType == vehAmmo) then {
+				if (_vehicle distance getMarkerPos guer_respawn > 50) then {[_vehicle] call cajaAAF};
+			};
+			_vehicle addEventHandler ["killed",{
 				[-1000] remoteExec ["resourcesAAF",2];
 				if (activeBE) then {["des_veh"] remoteExec ["fnc_BE_XP", 2]};
 			}];
-			}
-		else
-			{
-			if ((_tipo in vehAPC) or (_tipo in vehIFV)) then
-				{
-				_veh addEventHandler ["killed",{
+		} else {
+			if (_vehicleType in (vehAPC+vehIFV)) then {
+				_vehicle addEventHandler ["killed",{
 					[_this select 0] call AS_fnc_AAFassets;
 					[-2,2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2];
 					if (activeBE) then {["des_arm"] remoteExec ["fnc_BE_XP", 2]};
 				}];
-				_veh addEventHandler ["HandleDamage",{private ["_veh"]; _veh = _this select 0; if (_this select 1 == "") then {if ((_this select 2 > 0.9) and (!isNull driver _veh)) then {[_veh] call smokeCoverAuto}}}];
-				}
-			else
-				{
-				if (_tipo in vehTank) then
-					{
-					_veh addEventHandler ["killed",{
-						[_this select 0] call AS_fnc_AAFassets;
-						[-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2];
-						if (activeBE) then {["des_arm"] remoteExec ["fnc_BE_XP", 2]};
-					}];
-					_veh addEventHandler ["HandleDamage",{private ["_veh"]; _veh = _this select 0; if (_this select 1 == "") then {if ((_this select 2 > 0.9) and (!isNull driver _veh)) then {[_veh] call smokeCoverAuto}}}];
-					};
-				};
+				_vehicle addEventHandler ["HandleDamage",{private ["_vehicle"]; _vehicle = _this select 0; if (_this select 1 == "") then {if ((_this select 2 > 0.9) and (!isNull driver _vehicle)) then {[_vehicle] call smokeCoverAuto}}}];
 			};
-		}
-	else
-		{
-		if ((_tipo in indAirForce) or (_tipo == civHeli) or (_tipo in opAir)) then
-			{
-			_veh addEventHandler ["GetIn",
-				{
-				_posicion = _this select 1;
-				if (_posicion == "driver") then
-					{
+
+			if (_vehicleType in vehTank) then {
+				_vehicle addEventHandler ["killed",{
+					[_this select 0] call AS_fnc_AAFassets;
+					[-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2];
+					if (activeBE) then {["des_arm"] remoteExec ["fnc_BE_XP", 2]};
+				}];
+				_vehicle addEventHandler ["HandleDamage",{private ["_vehicle"]; _vehicle = _this select 0; if (_this select 1 == "") then {if ((_this select 2 > 0.9) and (!isNull driver _vehicle)) then {[_vehicle] call smokeCoverAuto}}}];
+			};
+		};
+	} else {
+		if ((_vehicleType in (indAirForce+opAir)) OR (_vehicleType == civHeli)) then {
+			_vehicle addEventHandler ["GetIn", {
+				_position = _this select 1;
+				if (_position == "driver") then {
 					_unit = _this select 2;
-					if ((!isPlayer _unit) and (_unit getVariable ["BLUFORSpawn",false])) then
-						{
+					if ((!isPlayer _unit) AND (_unit getVariable ["BLUFORSpawn",false])) then {
 						moveOut _unit;
 						hint "Only Humans can pilot an air vehicle";
-						};
 					};
-				}];
-			if (_tipo in heli_unarmed) then
-				{
-				_veh addEventHandler ["killed",{
+				};
+			}];
+
+			if (_vehicleType in heli_unarmed) then {
+				_vehicle addEventHandler ["killed",{
 					[-4000] remoteExec ["resourcesAAF",2];
 					if (activeBE) then {["des_veh"] remoteExec ["fnc_BE_XP", 2]};
 				}];
-				}
-			else
-				{
-				if (not(_tipo in opAir)) then
-					{
-					if (_veh isKindOf "Helicopter") then {_veh addEventHandler ["killed",{[_this select 0] call AS_fnc_AAFassets;[1,1] remoteExec ["prestige",2]; [-2,2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}]};
-					if (_veh isKindOf "Plane") then {_veh addEventHandler ["killed",{[_this select 0] call AS_fnc_AAFassets;[2,1] remoteExec ["prestige",2]; [-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}]};
-					}
-				else
-					{
-					_veh addEventHandler ["killed",{[2,-2] remoteExec ["prestige",2]; [-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}];
-					};
+			} else {
+				if !(_vehicleType in opAir) then {
+					if (_vehicle isKindOf "Helicopter") then {_vehicle addEventHandler ["killed",{[_this select 0] call AS_fnc_AAFassets;[1,1] remoteExec ["prestige",2]; [-2,2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}]};
+					if (_vehicle isKindOf "Plane") then {_vehicle addEventHandler ["killed",{[_this select 0] call AS_fnc_AAFassets;[2,1] remoteExec ["prestige",2]; [-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}]};
+				} else {
+					_vehicle addEventHandler ["killed",{[2,-2] remoteExec ["prestige",2]; [-5,5,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2]}];
 				};
-			}
-		else
-			{
-			if (_tipo == indUAV_large) then
-				{
-				_veh addEventHandler ["killed",{[-2500] remoteExec ["resourcesAAF",2]}];
-				}
-			else
-				{
-				if (_tipo in (CIV_vehicles + [civHeli])) then
-					{/*
-					_veh addEventHandler ["GetIn",
-						{
-						_veh = _this select 0;
-						_unit = _this select 2;
-						if (not(_veh in reportedVehs)) then
-							{
-							if (isPlayer _unit) then {[] remoteExec ["undercover",_unit]};
-							};
-						}
-						];*/
-					}
-				else
-					{
-					if ((_veh isKindOf "StaticWeapon") and (not (_veh in staticsToSave)) and ((side gunner _veh == side_green) or (side gunner _veh == side_red))) then
-						{
-						[[_veh,"steal"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
-						}
-					else
-						{
-						if (_tipo in statics_allMortars) then
-							{
-							if (!isNull gunner _veh) then {[[_veh,"steal"],"AS_fnc_addActionMP"] call BIS_fnc_MP};
-							_eh = _veh addEventHandler ["Fired",
-								{
-								if (random 8 < 1) then
-									{
-									_mortero = _this select 0;
-									if (_mortero distance posHQ < 200) then
-										{
-										if (!("DEF_HQ" in misiones)) then
-											{
-											_lider = leader (gunner _mortero);
-											if (!isPlayer _lider) then
-												{
-												[] remoteExec ["ataqueHQ",HCattack];
-												}
-											else
-												{
-												if ([_lider] call isMember) then {[] remoteExec ["ataqueHQ",HCattack]};
-												};
-											};
-										}
-									else
-										{
-										[position _mortero] remoteExec ["patrolCA",HCattack];
-										};
+			};
+		} else {
+			call {
+				if (_vehicleType == indUAV_large) exitWith {
+					_vehicle addEventHandler ["killed",{[-2500] remoteExec ["resourcesAAF",2]}];
+				};
+				if ((_vehicle isKindOf "StaticWeapon") AND !(_vehicle in staticsToSave) AND !(_vehicleType in statics_allMortars) AND ((side gunner _vehicle == side_green) OR (side gunner _vehicle == side_red))) exitWith {
+					[[_vehicle,"steal"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
+				};
+				if (_vehicleType in statics_allMortars) exitWith {
+					if (!isNull gunner _vehicle) then {[[_vehicle,"steal"],"AS_fnc_addActionMP"] call BIS_fnc_MP};
+					_eh = _vehicle addEventHandler ["Fired", {
+						if (random 8 < 1) then {
+							_mortar = _this select 0;
+							if (_mortar distance posHQ < 200) then {
+								if !("DEF_HQ" in misiones) then {
+									_leader = leader (gunner _mortar);
+									if (!isPlayer _leader) then {
+										[] remoteExec ["ataqueHQ",HCattack];
+									} else {
+										if ([_leader] call isMember) then {[] remoteExec ["ataqueHQ",HCattack]};
 									};
-								}];
+								};
+							} else {
+								[position _mortar] remoteExec ["patrolCA",HCattack];
 							};
 						};
-					};
+					}];
 				};
 			};
 		};
 	};
+};
 
-[_veh] spawn vehicleRemover;
+[_vehicle] spawn vehicleRemover;
+_vehicle addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
 
-_veh addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
-
-if (not(_veh in staticsToSave)) then
-	{
-	if ((count crew _veh) > 0) then
-		{
-		[_veh] spawn VEHdespawner
-		}
-	else
-		{
-		if (_veh distance getMarkerPos guer_respawn > 50) then
-			{
-			if (_tipo in (CIV_vehicles + [civHeli])) then
-				{
+if !(_vehicle in staticsToSave) then {
+	if ((count crew _vehicle) > 0) then {
+		[_vehicle] spawn VEHdespawner
+	} else {
+		if (_vehicle distance getMarkerPos guer_respawn > 50) then {
+			if (_vehicleType in (CIV_vehicles + [civHeli])) then {
 				sleep 10;
-				_veh enableSimulationGlobal false;
-				_veh addEventHandler ["HandleDamage",
-					{
-					_veh = _this select 0;
-					if (!simulationEnabled _veh) then {_veh enableSimulationGlobal true};
-					}
-					];
-				};
-			_veh addEventHandler ["GetIn",
-				{
-				_veh = _this select 0;
-				if (!simulationEnabled _veh) then {_veh enableSimulationGlobal true};
-				[_veh] spawn VEHdespawner;
-				}
-				];
-			}
-		else
-			{
-			clearMagazineCargoGlobal _veh;
-			clearWeaponCargoGlobal _veh;
-			clearItemCargoGlobal _veh;
-			clearBackpackCargoGlobal _veh;
+				_vehicle enableSimulationGlobal false;
+				_vehicle addEventHandler ["HandleDamage", {
+					_tempVehicle = _this select 0;
+					if (!simulationEnabled _tempVehicle) then {_tempVehicle enableSimulationGlobal true};
+				}];
 			};
+			_vehicle addEventHandler ["GetIn", {
+				_tempVehicle = _this select 0;
+				if (!simulationEnabled _tempVehicle) then {_tempVehicle enableSimulationGlobal true};
+				[_tempVehicle] spawn VEHdespawner;
+			}];
+		} else {
+			clearMagazineCargoGlobal _vehicle;
+			clearWeaponCargoGlobal _vehicle;
+			clearItemCargoGlobal _vehicle;
+			clearBackpackCargoGlobal _vehicle;
 		};
 	};
+};

@@ -1,164 +1,144 @@
-if (!isServer and hasInterface) exitWith{};
+if (!isServer and hasInterface) exitWith {};
 
-private ["_marcador","_vehiculos","_grupos","_soldados","_posicion","_pos","_size","_veh","_estaticas","_garrison","_tam","_cuenta","_grupo","_grupoMort","_tipo","_unit"];
+params ["_marker"];
+private ["_allVehicles","_allGroups","_allSoldiers","_workers","_markerPos","_flag","_size","_group","_unit","_garrison","_statics","_strength","_counter","_gunnerGroup","_unitType","_spawnPos","_vehicle","_static","_observer"];
 
-_marcador = _this select 0;
+_allVehicles = [];
+_allGroups = [];
+_allSoldiers = [];
 
-_vehiculos = [];
-_grupos = [];
-_soldados = [];
-_civs = [];
-_tipoCiv = "";
-_posicion = getMarkerPos (_marcador);
-_pos = [];
+_markerPos = getMarkerPos (_marker);
+_size = [_marker] call sizeMarker;
 
-_size = [_marcador] call sizeMarker;
+if (_marker != "FIA_HQ") then {
+	_flag = createVehicle [guer_flag, _markerPos, [],0, "CAN_COLLIDE"];
+	_flag allowDamage false;
+	_allVehicles pushBack _flag;
+	[_flag,"unit"] remoteExec ["AS_fnc_addActionMP"];
+	[_flag,"vehicle"] remoteExec ["AS_fnc_addActionMP"];
+	[_flag,"garage"] remoteExec ["AS_fnc_addActionMP"];
 
-if (_marcador != "FIA_HQ") then
-	{
-	_veh = createVehicle [guer_flag, _posicion, [],0, "CAN_COLLIDE"];
-	_veh allowDamage false;
-	_vehiculos = _vehiculos + [_veh];
-	[[_veh,"unit"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
-	[[_veh,"vehicle"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
-	[[_veh,"garage"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
-	if (not(_marcador in destroyedCities)) then
-		{
-		if ((daytime > 8) and (daytime < 18)) then
-			{
-			_grupo = createGroup civilian;
-			_grupos = _grupos + [_grupo];
-			for "_i" from 1 to 8 do
-				{
-				_civ = _grupo createUnit [selectRandom CIV_workers, _posicion, [],0, "NONE"];
-				[_civ] spawn CIVinit;
-				_civs = _civs + [_civ];
+	if !(_marker in destroyedCities) then {
+		if ((daytime > 8) AND (daytime < 18)) then {
+			_group = createGroup civilian;
+			_allGroups pushBack _group;
+			for "_i" from 1 to 8 do {
+				_unit = _group createUnit [selectRandom CIV_workers, _markerPos, [],0, "NONE"];
+				[_unit] spawn CIVinit;
+				_workers pushBack _unit;
 				sleep 0.5;
-				};
-			[_marcador,_civs] spawn destroyCheck;
-			[leader _grupo, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
 			};
+			[_marker,_workers] spawn destroyCheck;
+			[leader _group, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
 		};
 	};
-_estaticas = staticsToSave select {_x distance _posicion < _size};
+};
 
-_garrison = garrison getVariable [_marcador,[]];
-_tam = count _garrison;
-_cuenta = 0;
-_grupo = createGroup side_blue;
-_grupos = _grupos + [_grupo];
+_gunnerGroup = createGroup side_blue;
+_allGroups pushBack _gunnerGroup;
+_group = createGroup side_blue;
+_allGroups pushBack _group;
+_garrison = garrison getVariable [_marker,[]];
+_strength = count _garrison;
+_counter = 0;
+while {(spawner getVariable _marker) AND (_counter < _strength)} do {
+	_unitType = _garrison select _counter;
 
-if ((guer_sol_UN in _garrison) or ({typeOf _x == guer_stat_mortar} count _estaticas > 0))then
-	{
-	_grupoMort = createGroup side_blue;
-	};
-_grupoEst = grpNull;
-if (count _estaticas > 0) then
-	{
-	_grupoEst = createGroup side_blue;
-	};
-
-while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
-	{
-	_tipo = _garrison select _cuenta;
-	if (_tipo == guer_sol_UN) then
-		{
-		_unit = _grupoMort createUnit [_tipo, _posicion, [], 0, "NONE"];
-		_pos = [_posicion] call mortarPos;
-		_veh = guer_stat_mortar createVehicle _pos;
-		_vehiculos = _vehiculos + [_veh];
-		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-		_unit assignAsGunner _veh;
-		_unit moveInGunner _veh;
-		[_veh] spawn VEHinit;
-		}
-	else
-		{
-		if ((_tipo == guer_sol_RFL) and (count _estaticas > 0)) then
-			{
-			_estatica = _estaticas select 0;
-			if (typeOf _estatica == guer_stat_mortar) then
-				{
-				_unit = _grupoMort createUnit [_tipo, _posicion, [], 0, "NONE"];
-				_unit moveInGunner _estatica;
-				[_estatica] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-				}
-			else
-				{
-				_unit = _grupoEst createUnit [_tipo, _posicion, [], 0, "NONE"];
-				_unit moveInGunner _estatica;
-				};
-			_estaticas = _estaticas - [_estatica];
-			}
-		else
-			{
-			_unit = _grupo createUnit [_tipo, _posicion, [], 0, "NONE"];
-			if (_tipo == guer_sol_SL) then {_grupo selectLeader _unit};
-			};
+	call {
+		if (_unitType == guer_sol_UN) exitWith {
+			_unit = _gunnerGroup createUnit [_unitType, _markerPos, [], 0, "NONE"];
+			_spawnPos = [_markerPos] call mortarPos;
+			_vehicle = guer_stat_mortar createVehicle _spawnPos;
+			_allVehicles pushBack _vehicle;
+			[_vehicle] execVM "scripts\UPSMON\MON_artillery_add.sqf";
+			_unit assignAsGunner _vehicle;
+			_unit moveInGunner _vehicle;
 		};
-	[_unit,_marcador] call AS_fnc_initialiseFIAGarrisonUnit;
-	_soldados = _soldados + [_unit];
-	_cuenta = _cuenta + 1;
+
+		if ((_unitType == guer_sol_RFL) AND (count _statics > 0)) exitWith {
+			_static = _statics select 0;
+			if (typeOf _static == guer_stat_mortar) then {
+				_unit = _gunnerGroup createUnit [_unitType, _markerPos, [], 0, "NONE"];
+				_unit moveInGunner _static;
+				[_static] execVM "scripts\UPSMON\MON_artillery_add.sqf";
+			} else {
+				_unit = _gunnerGroup createUnit [_unitType, _markerPos, [], 0, "NONE"];
+				_unit moveInGunner _static;
+			};
+			_statics = _statics - [_static];
+		};
+
+		_unit = _group createUnit [_unitType, _markerPos, [], 0, "NONE"];
+		if (_unitType == guer_sol_SL) then {_group selectLeader _unit};
+	};
+
+	_counter = _counter + 1;
 	sleep 0.5;
-	if (count units _grupo == 8) then
-		{
-		_grupo = createGroup side_blue;
-		_grupos = _grupos + [_grupo];
-		};
+	if (count units _group == 8) then {
+		_group = createGroup side_blue;
+		_allGroups pushBack _group;
 	};
+};
 
-for "_i" from 0 to (count _grupos) - 1 do
-	{
-	_grupo = _grupos select _i;
-	if (_i == 0) then
-		{
-		[leader _grupo, _marcador, "SAFE","SPAWNED","RANDOMUP","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		}
-	else
-		{
-		[leader _grupo, _marcador, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		};
+for "_i" from 0 to (count _allGroups) - 1 do {
+	_group = _allGroups select _i;
+	if (_i == 0) then {
+		[leader _group, _marker, "SAFE","SPAWNED","RANDOMUP","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	} else {
+		[leader _group, _marker, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	};
-
-if (guer_sol_UN in _garrison) then
-	{
-	_grupos = _grupos + [_grupoMort];
-	};
-
-_periodista = objNull;
-if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))/10)) and (spawner getVariable _marcador)) then
-	{
-	_pos = [];
-	_grupo = createGroup civilian;
-	while {true} do
-		{
-		_pos = [_posicion, round (random _size), random 360] call BIS_Fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_periodista = _grupo createUnit [selectRandom CIV_journalists, _pos, [],0, "NONE"];
-	[_periodista] spawn CIVinit;
-	_grupos pushBack _grupo;
-	[_periodista, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
-	};
-
-waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) > 3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
-
-if (spawner getVariable _marcador) then
-	{
-	if (_marcador != "FIA_HQ") then {[_marcador] remoteExec ["mrkLOOSE",2]};
-	};
-
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+};
 
 {
-_soldado = _x;
-if (alive _soldado) then
+	[_x] spawn VEHinit;
+} forEach _allVehicles;
+
+{
+	_group = _x;
 	{
-	deleteVehicle _x
+		[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;
+		_allSoldiers pushBack _x;
+	} forEach units _group;
+} forEach _allGroups;
+
+if (_marker != "FIA_HQ") then {
+	if !(_marker in destroyedCities) then {
+		if ((daytime > 8) AND (daytime < 18)) then {
+			_group = createGroup civilian;
+			_allGroups pushBack _group;
+			for "_i" from 1 to 8 do {
+				_unit = _group createUnit [selectRandom CIV_workers, _markerPos, [],0, "NONE"];
+				[_unit] spawn CIVinit;
+				_workers pushBack _unit;
+				sleep 0.5;
+			};
+			[_marker,_workers] spawn destroyCheck;
+			[leader _group, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
+		};
 	};
-} forEach _soldados;
-{deleteVehicle _x} forEach _civs;
-if (!isNull _periodista) then {deleteVehicle _periodista};
-{deleteGroup _x} forEach _grupos;
-deleteGroup _grupoEst;
-{if (!(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
+};
+
+_observer = objNull;
+if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))/10)) AND (spawner getVariable _marker)) then {
+	_spawnPos = [];
+	_group = createGroup civilian;
+	while {true} do {
+		_spawnPos = [_markerPos, round (random _size), random 360] call BIS_Fnc_relPos;
+		if !(surfaceIsWater _spawnPos) exitWith {};
+	};
+	_observer = _group createUnit [selectRandom CIV_journalists, _spawnPos, [],0, "NONE"];
+	[_observer] spawn CIVinit;
+	_allGroups pushBack _group;
+	[_observer, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
+};
+
+waitUntil {sleep 1; !(spawner getVariable _marker) OR (({!(vehicle _x isKindOf "Air")} count ([_size,0,_markerPos,"OPFORSpawn"] call distanceUnits)) > 3*(({alive _x} count _allSoldiers) + count ([_size,0,_markerPos,"BLUFORSpawn"] call distanceUnits)))};
+
+if (spawner getVariable _marker) then {
+	if (_marker != "FIA_HQ") then {[_marker] remoteExec ["mrkLOOSE",2]};
+};
+
+waitUntil {sleep 1; !(spawner getVariable _marker)};
+
+[_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
+if !(isNull _observer) then {deleteVehicle _observer};

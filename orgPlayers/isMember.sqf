@@ -1,5 +1,8 @@
+params ["_unit"];
+private ["_check","_player"];
+
 _check = false;
-_obj = (_this select 0) getVariable ["owner",_this select 0];
-if ((count miembros == 0) or ((getPlayerUID _obj) in miembros) or (!isMultiplayer)) then {_check = true};
+_player = _unit getVariable ["owner",_unit];
+if ((count miembros == 0) OR ((getPlayerUID _player) in miembros) OR (!isMultiplayer)) then {_check = true};
 
 _check
