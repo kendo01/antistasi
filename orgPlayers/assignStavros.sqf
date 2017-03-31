@@ -1,73 +1,60 @@
-private ["_puntMax","_texto","_multiplicador","_newRank","_selectable","_disconnected","_owner","_puntos","_datos"];
-_puntMax = 0;
-_texto = "";
-_multiplicador = 1;
-//_newRank = "CORPORAL";
+private ["_maxPoints","_text","_multi","_disconnected","_players","_members","_potentials","_commander","_data","_proceed","_selectable"];
+
+_maxPoints = 0;
+_multi = 1;
 _disconnected = false;
-
-_jugadores = [];
-_miembros = [];
-_elegibles = [];
-
-_lider = objNull;
+_players = [];
+_members = [];
+_potentials = [];
+_commander = objNull;
 
 [] remoteExec ["fnc_BE_pushVariables", 2];
 
 {
-_jugadores pushBack (_x getVariable ["owner",_x]);
-if (_x != _x getVariable ["owner",_x]) then {waitUntil {_x == _x getVariable ["owner",_x]}};
-if ([_x] call isMember) then
-	{
-	_miembros pushBack _x;
-	if (_x getVariable ["elegible",true]) then
-		{
-		_elegibles pushBack _x;
-		if (_x == Slowhand) then
-			{
-			_lider = _x;
-			_datos = [_lider] call AS_fnc_getRank;
-			_puntMax = _datos select 0;
+	_players pushBack (_x getVariable ["owner",_x]);
+	if (_x != _x getVariable ["owner",_x]) then {waitUntil {_x == _x getVariable ["owner",_x]}};
+	if ([_x] call isMember) then {
+		_members pushBack _x;
+		if (_x getVariable ["elegible",true]) then {
+			_potentials pushBack _x;
+			if (_x == Slowhand) then {
+				_commander = _x;
+				_data = [_commander] call AS_fnc_getRank;
+				_maxPoints = _data select 0;
 			};
 		};
 	};
 } forEach playableUnits;
 
-if (isNull _lider) then
-	{
-	_puntMax = 0;
+if (isNull _commander) then {
+	_maxPoints = 0;
 	_disconnected = true;
+};
+
+_proceed = false;
+
+if ((isNull _commander) OR switchCom) then {
+	if (count _members > 0) then {
+		_proceed = true;
+		if (count _potentials == 0) then {_potentials = _members};
 	};
-_texto = "Promoted Players:\n\n";
-_promoted = false;
+};
 
-_proceder = false;
-
-if ((isNull _lider) or switchCom) then
-	{
-	if (count _miembros > 0) then
-		{
-		_proceder = true;
-		if (count _elegibles == 0) then {_elegibles = _miembros};
-		};
-	};
-
-if (!_proceder) exitWith {};
+if (!_proceed) exitWith {diag_log format ["Info: no suitable candidates for the position of commander. Players: %1; members: %2; candidates: %3", _players, _members, _potentials]};
 
 _selectable = objNull;
 {
-_datos = [_x] call AS_fnc_getRank;
-_multiplicador = _datos select 0;
-if ((_multiplicador > _puntMax) and (_x!=_lider)) then
-	{
-	_selectable = _x;
-	_puntMax = _multiplicador;
+	_data = [_x] call AS_fnc_getRank;
+	_multi = _data select 0;
+	if ((_multi > _maxPoints) AND (_x !=_commander)) then {
+		_selectable = _x;
+		_maxPoints = _multi;
 	};
-} forEach _elegibles;
+} forEach _potentials;
 
-if (!isNull _selectable) then
-	{
-	if (_disconnected) then {_texto = format ["Player Commander disconnected or renounced. %1 is our new leader. Greet him!", name _selectable]} else {_texto = format ["%1 is no longer leader of the FIA Forces.\n\n %2 is our new leader. Greet him!", name Slowhand, name _selectable]};
+if (!isNull _selectable) then {
+	if (_disconnected) then {_text = format [localize "STR_HINTS_COMMANDER_DIS", name _selectable]} else {_text = format [localize "STR_HINTS_COMMANDER_REP", name Slowhand, name _selectable]};
 	[_selectable] call stavrosInit;
 	sleep 5;
-	[[petros,"hint",_texto],"commsMP"] call BIS_fnc_MP;
-	};
+	[[petros,"hint",_text],"commsMP"] call BIS_fnc_MP;
+};

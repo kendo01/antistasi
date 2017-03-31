@@ -1,5 +1,4 @@
-_jugador = _this select 0;
-_jugador = _jugador getVariable ["owner",_jugador];
-//if ((!isServer) and (player != _jugador)) exitWith {};
-_rank = _this select 1;
-_jugador setRank _rank;
+params ["_player","_rank"];
+
+_player = _player getVariable ["owner",_player];
+_player setRank _rank;

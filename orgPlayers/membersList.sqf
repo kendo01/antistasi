@@ -1,17 +1,17 @@
-if (count miembros == 0) exitWith {hint "Server Member feature is disabled"};
+private ["_text","_counter","_player"];
 
-_texto = "In Game Members\n\n";
-_cuentaN = 0;
+if (count miembros == 0) exitWith {hint localize "STR_HINTS_GEN_MEM_DIS"};
 
+_text = "Ingame Members\n\n";
+_counter = 0;
 {
-_jugador = _x getVariable ["owner",objNull];
-if (!isNull _jugador) then
-	{
-	_uid = getPlayerUID _jugador;
-	if (_uid in miembros) then {_texto = format ["%1%2\n",_texto,name _jugador]} else {_cuentaN = _cuentaN + 1};
+	_player = _x getVariable ["owner",objNull];
+	if (!isNull _player) then {
+		_uid = getPlayerUID _player;
+		if (_uid in miembros) then {_text = format ["%1%2\n",_text,name _player]} else {_counter = _counter + 1};
 	};
 } forEach playableUnits;
 
-_texto = format ["%1\nNo members:\n%2",_texto,_cuentaN];
+_text = format ["%1\nNo members:\n%2",_text,_counter];
 
-hint format ["%1",_texto];
+hint format ["%1",_text];

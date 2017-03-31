@@ -1,7 +1,6 @@
-_dinero = _this select 0;
+params ["_money"];
 
-_dinero = _dinero + (player getVariable "dinero");
-if (_dinero < 0) then {_dinero = 0};
-player setVariable ["dinero",_dinero,true];
-["dinero",_dinero] call fn_SaveStat;
+_money = (_money + (player getVariable ["dinero",0])) max 0;
+player setVariable ["dinero",_money,true];
+["dinero",_money] call fn_SaveStat;
 true
