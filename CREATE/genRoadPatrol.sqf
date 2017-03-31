@@ -67,7 +67,7 @@ _vehicle = _vehicleData select 0;
 [_vehicle] spawn genVEHinit;
 [_vehicle,"Patrol"] spawn inmuneConvoy;
 _groupVehicle = _vehicleData select 2;
-_allGroups pushBack groupVehicle;
+_allGroups pushBack _groupVehicle;
 _allVehicles pushBack _vehicle;
 
 if (_vehicle iskindof "ship") then {
