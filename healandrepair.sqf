@@ -1,19 +1,17 @@
-
 private ["_posHQ"];
 _posHQ = getMarkerPos guer_respawn;
 
 {
-	if ((side _x == side_blue) and (_x distance _posHQ < 100)) then {
+	if (((side _x == side_blue) OR (side _x == civilian)) AND (_x distance _posHQ < 100)) then {
 		if (activeACE) then {
-			_x setVariable ["ACE_isUnconscious",false,true];
-      		[_x, _x] call ace_medical_fnc_treatmentAdvanced_fullHeal;
+			[_x, _x] call ace_medical_fnc_treatmentAdvanced_fullHeal;
     	} else {
       		_x setDamage 0;
 		};
 	};
 } forEach allUnits;
 
-{if ((side _x == side_blue) and (_x distance _posHQ < 30)) then {_x setVariable ["compromised",0];}} forEach allPlayers - entities "HeadlessClient_F";
+{if ((side _x == side_blue) AND (_x distance _posHQ < 30)) then {_x setVariable ["compromised",0];}} forEach allPlayers - entities "HeadlessClient_F";
 
 
 {
@@ -21,7 +19,7 @@ _posHQ = getMarkerPos guer_respawn;
 		 reportedVehs = reportedVehs - [_x];
 		_x setDamage 0;
 		_x setFuel 0.8;
-		[_x,1] remoteExec ["setVehicleAmmoDef",_x];
+		[_x,1] remoteExec ["setVehicleAmmo",_x];
 	};
 } forEach vehicles;
 
