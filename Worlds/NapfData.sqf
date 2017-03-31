@@ -24,8 +24,6 @@ posbancos = [];
 _terrainObjects = nearestTerrainObjects [[11178.6,8680.91,0], [], 10];
 {hideObjectGlobal _x} foreach _terrainObjects;
 
-if (worldName == "NapfWinter") then {0 = [80,9999999,false,300,false] execvm "AL_snowstorm\al_snow.sqf"};
-
 safeDistance_undercover = 350;
 safeDistance_garage = 500;
 safeDistance_recruit = 500;
