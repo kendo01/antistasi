@@ -20,7 +20,7 @@ _posHQ = getMarkerPos guer_respawn;
 		 reportedVehs = reportedVehs - [_x];
 		_x setDamage 0;
 		_x setFuel 0.8;
-		[_x,1] remoteExec ["setVehicleAmmoDef",_x];
+		[_x,1] remoteExec ["setVehicleAmmo",_x];
 	};
 } forEach vehicles;
 
