@@ -43,7 +43,13 @@ _base = [_arraybases, _posicion] call BIS_Fnc_nearestPosition;
 _posBase = getMarkerPos _base;
 
 _traidor = ([_postraidor, 0, opI_OFF2, _grptraidor] call bis_fnc_spawnvehicle) select 0;
-_traidor allowDamage false;
+[_traidor] spawn {
+	params ["_subject"];
+	_subject allowDamage false;
+	sleep 15;
+	_subject allowDamage true;
+};
+
 _sol1 = ([_posSol1, 0, opI_SL, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 _sol2 = ([_posSol2, 0, opI_RFL1, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 _grptraidor selectLeader _traidor;
@@ -67,7 +73,10 @@ while {count _roads == 0} do
 _road = _roads select 0;
 _roadcon = roadsConnectedto _road;
 _posroad = getPos _road;
-_posrel = getPos (_roadcon select 0);
+_posrel = _posBase;
+if (count _roadcon > 0) then {
+	_posrel = getPos (_roadcon select 0);
+};
 _dirveh = [_posroad,_posrel] call BIS_fnc_DirTo;
 _posVeh = [_posroad, 3, _dirveh + 90] call BIS_Fnc_relPos;
 
@@ -76,7 +85,6 @@ _veh allowDamage false;
 _veh setDir _dirVeh;
 sleep 15;
 _veh allowDamage true;
-_traidor allowDamage true;
 [_veh] spawn genVEHinit;
 {_x disableAI "MOVE"; _x setUnitPos "UP"} forEach units _grptraidor;
 
