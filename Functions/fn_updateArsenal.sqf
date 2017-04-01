@@ -65,10 +65,10 @@ _weapons = _weapons - _delList - _addedWeapons;
 
 if (!("Rangefinder" in unlockedWeapons) OR !(indRF in unlockedWeapons)) then {
 	if ({(_x == "Rangefinder") OR (_x == indRF)} count weaponCargo caja >= ["weapons"] call AS_fnc_getUnlockRequirement) then {
-		_addedWeapons pushBack "Rangefinder";
-		unlockedWeapons pushBack "Rangefinder";
-		_addedWeapons pushBack indRF;
-		unlockedWeapons pushBack indRF;
+		_addedWeapons pushBackUnique "Rangefinder";
+		unlockedWeapons pushBackUnique "Rangefinder";
+		_addedWeapons pushBackUnique indRF;
+		unlockedWeapons pushBackUnique indRF;
 		_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> "Rangefinder" >> "displayName")];
 	};
 };
@@ -196,7 +196,7 @@ _items = _items - _delList - _addedItems;
 
 
 if !("NVGoggles" in unlockedItems) then {
-	if ({(_x == "NVGoggles") or (_x == "NVGoggles_OPFOR") or (_x == "NVGoggles_INDEP") or (_x == indNVG)} count weaponCargo caja >= ["items"] call AS_fnc_getUnlockRequirement) then {
+	if ({(_x == "NVGoggles") or (_x == "NVGoggles_OPFOR") or (_x == "NVGoggles_INDEP") or (_x == indNVG)} count itemCargo caja >= ["items"] call AS_fnc_getUnlockRequirement) then {
 		_addedItems = _addedItems + ["NVGoggles","NVGoggles_OPFOR","NVGoggles_INDEP",indNVG];
 		unlockedItems = unlockedItems + ["NVGoggles","NVGoggles_OPFOR","NVGoggles_INDEP",indNVG];
 		_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> "NVGoggles" >> "displayName")];
@@ -205,20 +205,12 @@ if !("NVGoggles" in unlockedItems) then {
 };
 
 if !("Laserdesignator" in unlockedItems) then {
-	if ({(_x == "Laserdesignator") or (_x == "Laserdesignator_02") or (_x == "Laserdesignator_03")} count weaponCargo caja >= ["items"] call AS_fnc_getUnlockRequirement) then {
+	if ({(_x == "Laserdesignator") or (_x == "Laserdesignator_02") or (_x == "Laserdesignator_03")} count itemCargo caja >= ["items"] call AS_fnc_getUnlockRequirement) then {
 		_addedItems pushBack "Laserdesignator";
 		unlockedItems pushBackUnique "Laserdesignator";
 		unlockedMagazines pushBackUnique "Laserbatteries";
 		publicVariable "unlockedMagazines";
 		_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> "Laserdesignator" >> "displayName")];
-	};
-};
-
-if !("Rangefinder" in unlockedItems) then {
-	if ({(_x == "Rangefinder")} count weaponCargo caja >= ["items"] call AS_fnc_getUnlockRequirement) then {
-		_addedItems pushBack "Rangefinder";
-		unlockedItems pushBack "Rangefinder";
-		_updated = format ["%1%2<br/>",_updated,getText (configFile >> "CfgWeapons" >> "Rangefinder" >> "displayName")];
 	};
 };
 
