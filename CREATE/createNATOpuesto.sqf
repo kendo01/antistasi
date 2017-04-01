@@ -19,7 +19,10 @@ while {true} do {
 };
 
 _roadcon = roadsConnectedto (_road select 0);
-_dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
+_dirveh = [_road select 0, _posicion] call BIS_fnc_DirTo;
+if (count _roadcon > 0) then {
+	_dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
+};
 
 _objs = [];
 
