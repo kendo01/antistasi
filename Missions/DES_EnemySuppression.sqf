@@ -171,10 +171,4 @@ while {true} do {
 
 			[1200, _tsk] spawn borrarTask;
 			deleteMarker _mrkfin;
-			{
-				waitUntil {sleep 1;
-					   (!( [distanciaSPWN, 1, _x, "BLUFORSpawn"] call distanceUnits))};
-				deleteVehicle _x
-			} forEach _vehiculos;
-			{deleteVehicle _x} forEach _soldados;
-			{deleteGroup _x} forEach _grupos;
+			[_grupos, _soldados, _vehiculos] spawn AS_fnc_despawnUnits;
