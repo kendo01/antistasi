@@ -163,12 +163,16 @@ if (_marker in puertos) then {
 	_crate addItemCargo ["G_I_Diving",round random 5];
 };
 
+sleep 3;
+
 {
 	_group = _x;
 	if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 	{
-		[_x] spawn genInitBASES;
-		_allSoldiers pushBack _x;
+		if (alive _x) then {
+			[_x] spawn genInitBASES;
+			_allSoldiers pushBackUnique _x;
+		};
 	} forEach units _group;
 } forEach _allGroups;
 

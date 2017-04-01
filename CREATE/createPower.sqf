@@ -77,12 +77,16 @@ if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "p
 	[_observer, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
 };
 
+sleep 3;
+
 {
 	_group = _x;
 	if (_reduced) then {[_group] call AS_fnc_adjustGroupSize};
 	{
-		[_x] spawn genInitBASES;
-		_allSoldiers pushBack _x;
+		if (alive _x) then {
+			[_x] spawn genInitBASES;
+			_allSoldiers pushBackUnique _x;
+		};
 	} forEach units _group;
 } forEach _allGroups;
 
