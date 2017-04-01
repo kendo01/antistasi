@@ -121,11 +121,13 @@ for "_i" from 0 to (count _weapons) - 1 do {
 		_weaponCargo pushBack _weapon;
 	} else {
 		if (_weapon != _baseWeapon) then {
-			_wpnItem = _weaponsItems select _i;
-			if ((_wpnItem select 0) == _weapon) then {
-				{
-					if (typeName _x != typeName []) then {_items pushBack _x};
-				} forEach (_wpnItem - [_weapon]);
+			if (count _weaponsItems > 0) then {
+				_wpnItem = _weaponsItems select _i;
+				if ((_wpnItem select 0) == _weapon) then {
+					{
+						if (typeName _x != typeName []) then {_items pushBack _x};
+					} forEach (_wpnItem - [_weapon]);
+				};
 			};
 		};
 	};
