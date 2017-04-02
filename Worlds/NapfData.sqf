@@ -1,4 +1,4 @@
-if !((worldName == "Napf") AND (worldName == "NapfWinter")) exitWith {};
+if !((worldName == "Napf") OR (worldName == "NapfWinter")) exitWith {};
 
 private ["_terrainObjects"];
 
