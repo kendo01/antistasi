@@ -61,8 +61,8 @@
 #define SM_TTS ["STR_UI_SM_ADDVEH_TT", "STR_UI_SM_VEHSTATS_TT", "STR_UI_SM_MOUNT_TT", "STR_UI_SM_AUTOT_TT"]
 
 // EMPLACEMENT MENU
-#define EMP_BLDRB "['create'] spawn puestoDialog;"
-#define EMP_DELRB "['delete'] spawn puestoDialog;"
+#define EMP_BLDRB "closeDialog 0; ['create'] spawn puestoDialog;"
+#define EMP_DELRB "closeDialog 0; ['delete'] spawn puestoDialog;"
 #define EMP_MNAPERS "['APERSMine'] spawn mineDialog;"
 #define EMP_MNAT "['ATMine'] spawn mineDialog;"
 
