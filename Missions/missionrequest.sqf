@@ -1,351 +1,336 @@
 if (!isServer) exitWith {};
 
-private ["_tipo","_posbase","_posibles","_sitios","_exists","_sitio","_pos","_ciudad"];
+#define gear_threshold [125,175]
 
-_tipo = _this select 0;
+params [["_type","LOG"],["_muted",false],["_manual",false]];
+[getMarkerPos guer_respawn,[],[],false] params ["_positionHQ","_options","_zones"];
 
-_posbase = getMarkerPos guer_respawn;
-_posibles = [];
-_sitios = [];
-_exists = false;
+private ["_currentZone","_markerPos","_nearestZone","_gearCount","_threshold","_base","_data","_prestigeOPFOR","_prestigeBLUFOR"];
 
-_silencio = false;
-if (count _this > 1) then {_silencio = _this select 1};
-
-if (_tipo in misiones) exitWith {if (!_silencio) then {[[petros,"globalChat","I already gave you a mission of this type"],"commsMP"] call BIS_fnc_MP}};
-
-
-if (_tipo == "DES") then {
-	_sitios = ciudades + antenas - mrkFIA;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			if (_sitio in marcadores) then {_pos = getMarkerPos _sitio} else {_pos = getPos _sitio};
-			if (_pos distance _posbase < 4000) then {
-				if (_sitio in marcadores) then {
-					if (not(spawner getVariable _sitio)) then {_posibles = _posibles + [_sitio]};
-				}
-				else {
-					_cercano = [marcadores, getPos _sitio] call BIS_fnc_nearestPosition;
-					if (_cercano in mrkAAF) then {_posibles = _posibles + [_sitio]};
-				};
-			};
-		};
-	};
-	if (count _posibles == 0) then {
-		if (!_silencio) then {
-			[[petros,"globalChat","I have no destroy missions for you. Move our HQ closer to the enemy or finish some other destroy missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-			[[petros,"hint","Destroy Missions require AAF bases, Radio Towers or airports closer than 4Km from your HQ."],"commsMP"] call BIS_fnc_MP;
-			};
-	}
-	else {
-		_sitio = _posibles call BIS_fnc_selectRandom;
-		if (_sitio in antenas) then {[_sitio, "mil"] remoteExec ["DES_antena",HCgarrisons]};
-		if (_sitio in ciudades) then {_RandomNo = floor random 2;
-			if (_RandomNo == 0) then {[_sitio, "mil"] remoteExec ["DES_fuel",HCgarrisons]};
-			if (_RandomNo == 1) then {[_sitio, "mil"] remoteExec ["DES_EnemySuppression",HCgarrisons]};
-		};
+if (_type in misiones) exitWith {
+	if (!_muted) then {
+		[petros,"globalChat",localize "STR_HINTS_MIS_TYPE_ACTIVE"] remoteExec ["commsMP",[0,-2] select isDedicated];
 	};
 };
 
-
-if (_tipo == "LOG") then
-	{
-	_sitios = puestos + ciudades - ["puesto_13"];
-	if (random 100 < 20) then {_sitios = _sitios + bancos};
-	_sitios = _sitios - mrkFIA;
-	if (count _sitios > 0) then
-		{
-		for "_i" from 0 to ((count _sitios) - 1) do
-			{
-			_sitio = _sitios select _i;
-			if (_sitio in marcadores) then
-				{
-				_pos = getMarkerPos _sitio;
-				}
-			else
-				{
-				_pos = getPos _sitio;
+call {
+	if (_type == "DES") exitWith {
+		_zones = ciudades + antenas - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+				if (_currentZone in marcadores) then {
+					_markerPos = getMarkerPos _currentZone;
+				} else {
+					_markerPos = getPos _currentZone;
 				};
-			if (_pos distance _posbase < 4000) then {
-				if (_sitio in ciudades) then {
-					_posibles pushBack _sitio;
+
+				if (_markerPos distance _positionHQ < 4000) then {
+					if (_currentZone in marcadores) then {
+						if !(spawner getVariable _currentZone) then {_options pushBackUnique _currentZone};
+					} else {
+						_nearestZone = [marcadores, getPos _currentZone] call BIS_fnc_nearestPosition;
+						if (_nearestZone in mrkAAF) then {_options pushBackUnique _currentZone};
+					};
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_DES_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_DES_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			if (_currentZone in antenas) then {[_currentZone, "mil"] remoteExec ["DES_Antena",HCgarrisons]};
+			if (_currentZone in ciudades) then {
+				[_currentZone, "mil"] remoteExec [([["DES_fuel","DES_EnemySuppression"],[0.5,0.5]] call BIS_fnc_selectRandomWeighted),HCgarrisons]};
+		};
+	};
+
+	if (_type == "LOG") exitWith {
+		_zones = puestos + ciudades - ["puesto_13"];
+		if (random 100 < 20) then {_zones = _zones + bancos};
+		_zones = _zones - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+				if (_currentZone in marcadores) then {
+					_markerPos = getMarkerPos _currentZone;
+				} else {
+					_markerPos = getPos _currentZone;
+				};
+
+				if (_markerPos distance _positionHQ < 4000) then {
+					if (_currentZone in ciudades) then {
+						_options pushBackUnique _currentZone;
+					} else {
+						if (_currentZone in puestos) then {
+							_gearCount = (count unlockedWeapons) + (count unlockedMagazines) + (count unlockedItems) + (count unlockedBackpacks);
+							_threshold = gear_threshold select activeACE;
+							if (_gearCount < _threshold) then {_options pushBackUnique _currentZone};
+						} else {
+							_options pushBackUnique _currentZone;
+						};
+					};
+				};
+
+				if (_currentZone in bancos) then {
+					_nearestZone = [ciudades, _markerPos] call BIS_fnc_nearestPosition;
+					if (_nearestZone in mrkFIA) then {_options pushBackUnique _currentZone};
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_LOG_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_LOG_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+
+			call {
+				if (_currentZone in ciudades) exitWith {
+					[_currentZone] remoteExec [([["LOG_Suministros","LOG_Medical"],[0.5,0.5]] call BIS_fnc_selectRandomWeighted),HCgarrisons]
+				};
+				if (_currentZone in puestos) exitWith {
+					[_currentZone] remoteExec ["LOG_Ammo",HCgarrisons];
+				};
+				if (_currentZone in bancos) then {
+					[_currentZone] remoteExec ["LOG_Bank",HCgarrisons];
+				};
+			};
+		};
+	};
+
+	if (_type == "RES") exitWith {
+		_zones = ciudades + bases + puestos - mrkFIA;
+		if (_manual) then {_zones = ciudades - mrkFIA};
+
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+				_markerPos = getMarkerPos _currentZone;
+				if (_currentZone in ciudades) then {
+					if (_markerPos distance _positionHQ < 4000) then {
+						_options pushBackUnique _currentZone;
+					};
+				} else {
+					if ((_markerPos distance _positionHQ < 4000) AND !(spawner getVariable _currentZone)) then {
+						_options pushBackUnique _currentZone;
+					};
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_RES_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_RES_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			[_currentZone] remoteExec [(["RES_Prisioneros","RES_Refugiados"] select (_currentZone in ciudades)),HCgarrisons];
+		};
+	};
+
+	if (_type == "FND_M") exitWith {
+		_zones = ciudades - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+
+				if (_currentZone in marcadores) then {
+					_markerPos = getMarkerPos _currentZone;
+				} else {
+					_markerPos = getPos _currentZone;
+				};
+
+				if (_markerPos distance _positionHQ < 4000) then {
+						_options pushBackUnique _currentZone;
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_FND_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_FND_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			[_currentZone] remoteExec ["FND_MilCon", 2];
+		};
+	};
+
+	if (_type == "FND_C") exitWith {
+		_zones = ciudades - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+
+				if (_currentZone in marcadores) then {
+					_markerPos = getMarkerPos _currentZone;
+				} else {
+					_markerPos = getPos _currentZone;
+				};
+
+				if (_markerPos distance _positionHQ < 4000) then {
+						_options pushBackUnique _currentZone;
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_FND_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_FND_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			[_currentZone] remoteExec ["FND_CivCon", 2];
+		};
+	};
+
+	if (_type == "FND_E") exitWith {
+		_zones = ciudades;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+
+				if (_currentZone in marcadores) then {
+					_markerPos = getMarkerPos _currentZone;
 				}
 				else {
-					if (_sitio in puestos) then {
-						_nmbr = (count unlockedWeapons) + (count unlockedMagazines) + (count unlockedItems) + (count unlockedBackpacks);
-						_threshold = [125, 175] select activeACE;
-						if (_nmbr < _threshold) then {_posibles = _posibles + [_sitio];};
+					_markerPos = getPos _currentZone;
+				};
+				if (_markerPos distance _positionHQ < 4000) then {
+						_options pushBackUnique _currentZone;
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_FNDE_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_FNDE_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			[_currentZone] remoteExec ["FND_ExpDealer", 2];
+		};
+	};
+
+	if (_type == "CONVOY") exitWith {
+		_zones = ciudades - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+				_markerPos = getMarkerPos _currentZone;
+				_base = [_currentZone] call AS_fnc_findBaseForConvoy;
+				if ((_markerPos distance _positionHQ < 4000) AND (_base !="")) then {
+					_options pushBackUnique _currentZone;
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_CVY_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_CVY_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			_base = [_currentZone] call AS_fnc_findBaseForConvoy;
+			[_currentZone,_base,"auto"] remoteExec ["CONVOY",HCgarrisons];
+		};
+	};
+
+	if (_type == "ASS") exitWith {
+		_zones = ciudades + puestos - mrkFIA;
+		if (count _zones > 0) then {
+			for "_i" from 0 to ((count _zones) - 1) do {
+				_currentZone = _zones select _i;
+				_markerPos = getMarkerPos _currentZone;
+				if ((_markerPos distance _positionHQ < 4000) AND !(spawner getVariable _currentZone)) then {
+					_options pushBackUnique _currentZone;
+				};
+			};
+		};
+
+		if (count _options == 0) then {
+			if (!_muted) then {
+				[petros,"globalChat",localize "STR_HINTS_MIS_ASS_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+				[petros,"hint",localize "STR_HINTS_MIS_ASS_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+			};
+		} else {
+			_currentZone = selectRandom _options;
+			[_currentZone, "civ"] remoteExec [(["ASS_Traidor","ASS_forest"] select (_currentZone in puestos)),HCgarrisons];
+		};
+	};
+
+	if (_type == "PR") exitWith {
+		[[],[]] params ["_optionsPamphlet","_optionsBrainwash"];
+
+		if (_manual) then {
+			_zones = ciudades - mrkFIA;
+			if (count _zones > 0) then {
+				for "_i" from 0 to ((count _zones) - 1) do {
+					_currentZone = _zones select _i;
+
+					if (_currentZone in marcadores) then {
+						_markerPos = getMarkerPos _currentZone;
+					} else {
+						_markerPos = getPos _currentZone;
+					};
+
+					if (_markerPos distance _positionHQ < 4000) then {
+						_data = server getVariable _currentZone;
+						_prestigeOPFOR = _data select 2;
+						_prestigeBLUFOR = _data select 3;
+						if (_prestigeOPFOR > 0) then {
+							_optionsPamphlet pushBackUnique _currentZone;
+						};
+						if (_prestigeBLUFOR > 10) then {
+							_optionsBrainwash pushBackUnique _currentZone;
+						};
+					};
+				};
+			};
+
+			[_optionsPamphlet, _optionsBrainwash] remoteExec ["missionSelect", Slowhand];
+		} else {
+			_zones = ciudades - mrkFIA;
+			if (count _zones > 0) then {
+				for "_i" from 0 to ((count _zones) - 1) do {
+					_currentZone = _zones select _i;
+					if (_currentZone in marcadores) then {
+						_markerPos = getMarkerPos _currentZone;
 					}
 					else {
-						_posibles = _posibles + [_sitio];
+						_markerPos = getPos _currentZone;
+					};
+					if (_markerPos distance _positionHQ < 4000) then {
+						_options pushBackUnique _currentZone;
 					};
 				};
 			};
-			if (_sitio in bancos) then
-				{
-				_ciudad = [ciudades, _pos] call BIS_fnc_nearestPosition;
-				if (_ciudad in mrkFIA) then {_posibles = _posibles - [_sitio]};
+
+			if (count _options == 0) then {
+				if (!_muted) then {
+					[petros,"globalChat",localize "STR_HINTS_MIS_PR_NO_CHAT"] remoteExec ["commsMP",[0,-2] select isDedicated];
+					[petros,"hint",localize "STR_HINTS_MIS_PR_NO_HINT"] remoteExec ["commsMP",[0,-2] select isDedicated];
 				};
+			} else {
+				_currentZone = selectRandom _options;
+				[_currentZone] remoteExec ["PR_Pamphlet",HCgarrisons];
 			};
 		};
-	if (count _posibles == 0) then
-		{
-		if (!_silencio) then
-			{
-			[[petros,"globalChat","I have no logistics missions for you. Move our HQ closer to the enemy or finish some other logistics missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-			[[petros,"hint","Logistics Missions require AAF Outposts, Cities or Banks closer than 4Km from your HQ."],"commsMP"] call BIS_fnc_MP;
-			};
-		}
-	else
-		{
-		_sitio = _posibles call BIS_fnc_selectRandom;
-
-		if (_sitio in ciudades) then {
-			if (random 10 < 5) then {
-				[_sitio] remoteExec ["LOG_Suministros",HCgarrisons];
-			}
-			else {
-				[_sitio] remoteExec ["LOG_Medical",HCgarrisons];
-			};
-		};
-		if (_sitio in puestos) then {[_sitio] remoteExec ["LOG_Ammo",HCgarrisons]};
-
-		if (_sitio in bancos) then {[_sitio] remoteExec ["LOG_Bank",HCgarrisons]};
-		};
-	};
-if (_tipo == "RES") then
-	{
-	_sitios = ciudades + bases + puestos - mrkFIA;
-	if (count _this > 2) then {_sitios = ciudades - mrkFIA};
-
-	if (count _sitios > 0) then
-		{
-		for "_i" from 0 to ((count _sitios) - 1) do
-			{
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			if (_sitio in ciudades) then {if (_pos distance _posbase < 4000) then {_posibles pushBack _sitio}} else {if ((_pos distance _posbase < 4000) and (not(spawner getVariable _sitio))) then {_posibles = _posibles + [_sitio]}};
-			};
-		};
-	if (count _posibles == 0) then
-		{
-		if (!_silencio) then
-			{
-			[[petros,"globalChat","I have no rescue missions for you. Move our HQ closer to the enemy or finish some other rescue missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-			[[petros,"hint","Rescue Missions require AAF Cities or Bases closer than 4Km from your HQ."],"commsMP"] call BIS_fnc_MP;
-			};
-		}
-	else
-		{
-		_sitio = _posibles call BIS_fnc_selectRandom;
-		if (_sitio in ciudades) then {[_sitio] remoteExec ["RES_Refugiados",HCgarrisons]} else {[_sitio] remoteExec ["RES_Prisioneros",HCgarrisons]};
-		};
-	};
-
-if (_tipo == "FND_M") then {
-	_sitios = ciudades - mrkFIA;
-	if (count _sitios > 0) then
-		{
-		for "_i" from 0 to ((count _sitios) - 1) do
-			{
-			_sitio = _sitios select _i;
-			if (_sitio in marcadores) then
-				{
-				_pos = getMarkerPos _sitio;
-				}
-			else
-				{
-				_pos = getPos _sitio;
-				};
-			if (_pos distance _posbase < 4000) then
-				{
-					_posibles pushBack _sitio;
-				};
-			};
-		};
-	if (count _posibles == 0) then
-		{
-		if (!_silencio) then
-			{
-			[[petros,"globalChat","I have no contact missions right now."],"commsMP"] call BIS_fnc_MP;
-			};
-		}
-	else
-		{
-		_sitio = _posibles call BIS_fnc_selectRandom;
-		[_sitio] remoteExec ["FND_MilCon", 2];
-		};
-	};
-
-if (_tipo == "FND_C") then {
-	_sitios = ciudades - mrkFIA;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			if (_sitio in marcadores) then {
-				_pos = getMarkerPos _sitio;
-			}
-			else {
-				_pos = getPos _sitio;
-			};
-			if (_pos distance _posbase < 4000) then {
-					_posibles pushBack _sitio;
-			};
-		};
-	};
-	if (count _posibles == 0) then {
-		if (!_silencio) then {
-			[[petros,"globalChat","I have no contact missions right now."],"commsMP"] call BIS_fnc_MP;
-		};
-	}
-	else {
-		_sitio = _posibles call BIS_fnc_selectRandom;
-
-		[_sitio] remoteExec ["FND_CivCon", 2];
 	};
 };
 
-if (_tipo == "FND_E") then {
-	_sitios = ciudades;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			if (_sitio in marcadores) then {
-				_pos = getMarkerPos _sitio;
-			}
-			else {
-				_pos = getPos _sitio;
-			};
-			if (_pos distance _posbase < 4000) then {
-					_posibles pushBack _sitio;
-			};
-		};
-	};
-	if (count _posibles == 0) then {
-		if (!_silencio) then {
-			[[petros,"globalChat","I have no contact missions right now."],"commsMP"] call BIS_fnc_MP;
-		};
-	}
-	else {
-		_sitio = _posibles call BIS_fnc_selectRandom;
-
-		[_sitio] remoteExec ["FND_ExpDealer", 2];
-	};
+if ((count _options > 0) AND (!_muted)) then {
+	[petros,"globalChat",localize "STR_HINTS_MIS_GIVEN"] remoteExec ["commsMP",[0,-2] select isDedicated];
 };
-
-if (_tipo == "CONVOY") then {
-	_sitios = ciudades - mrkFIA;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			_base = [_sitio] call AS_fnc_findBaseForConvoy;
-			if ((_pos distance _posbase < 4000) and (_base !="")) then {
-				_posibles = _posibles + [_sitio];
-			};
-		};
-	};
-	if (count _posibles == 0) then {
-		if (!_silencio) then {
-			[[petros,"globalChat","I have no Convoy missions for you. Move our HQ closer to the enemy or finish some other rescue missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-			[[petros,"hint","Convoy Missions require AAF Airports, Bases or Cities closer than 4Km from your HQ, and they must have an idle friendly base in their surroundings."],"commsMP"] call BIS_fnc_MP;
-		};
-	}
-	else {
-		_sitio = _posibles call BIS_fnc_selectRandom;
-		_base = [_sitio] call AS_fnc_findBaseForConvoy;
-		[_sitio,_base,"auto"] remoteExec ["CONVOY",HCgarrisons];
-	};
-};
-
-if (_tipo == "PR") then {
-	_pickTarget = false;
-	_noMission = false;
-	_posiblesA = [];
-	_posiblesB = [];
-	if (count _this > 2) then {_pickTarget = _this select 2};
-	if (_pickTarget) then {
-
-		// possible targets
-		_sitios = ciudades - mrkFIA;
-		if (count _sitios > 0) then {
-			for "_i" from 0 to ((count _sitios) - 1) do {
-				_sitio = _sitios select _i;
-				if (_sitio in marcadores) then {
-					_pos = getMarkerPos _sitio;
-				}
-				else {
-					_pos = getPos _sitio;
-				};
-				if (_pos distance _posbase < 4000) then {
-					_datos = server getVariable _sitio;
-					_prestigeOPFOR = _datos select 2;
-					_prestigeBLUFOR = _datos select 3;
-					if (_prestigeOPFOR > 0) then {
-						_posiblesA pushBack _sitio;
-					};
-					if (_prestigeBLUFOR > 10) then {
-						_posiblesB pushBack _sitio;
-					};
-				};
-			};
-		};
-
-		{if ((isPlayer _x) && (_x == Slowhand)) then {[_posiblesA, _posiblesB] remoteExec ["missionSelect",_x]}} forEach ([20,0,petros,"BLUFORSpawn"] call distanceUnits);
-	}
-	else {
-		_sitios = ciudades - mrkFIA;
-		if (count _sitios > 0) then {
-			for "_i" from 0 to ((count _sitios) - 1) do {
-				_sitio = _sitios select _i;
-				if (_sitio in marcadores) then {
-					_pos = getMarkerPos _sitio;
-				}
-				else {
-					_pos = getPos _sitio;
-				};
-				if (_pos distance _posbase < 4000) then {
-					_posibles pushBack _sitio;
-				};
-			};
-		};
-
-		if (count _posibles == 0) then {
-			if (!_silencio) then {
-				[[petros,"globalChat","I have no PR missions for you. Move our HQ closer to the enemy or finish some other PR missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-				[[petros,"hint","PR missions require AAF cities closer than 4Km from your HQ."],"commsMP"] call BIS_fnc_MP;
-			};
-		}
-		else {
-			_sitio = _posibles call BIS_fnc_selectRandom;
-			[_sitio] remoteExec ["PR_Pamphlet",HCgarrisons];
-		};
-	};
-	if (_noMission) exitWith {openMap false; hint "No mission for you, mate!";};
-};
-
-if (_tipo == "ASS") then {
-	_sitios = ciudades + puestos - mrkFIA;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			if ((_pos distance _posbase < 4000) and (not(spawner getVariable _sitio))) then {_posibles = _posibles + [_sitio]};
-		};
-	};
-	if (count _posibles == 0) then {
-		if (!_silencio) then {
-			[[Stranger,"globalChat","I have no assasination missions for you. Move our HQ closer to the enemy or finish some other assasination missions in order to have better intel"],"commsMP"] call BIS_fnc_MP;
-			[[Stranger,"hint","Assasination Missions require AAF cities, Observation Posts or bases closer than 4Km from your HQ."],"commsMP"] call BIS_fnc_MP;
-		};
-	}
-	else {
-		_sitio = _posibles call BIS_fnc_selectRandom;
-		if (_sitio in ciudades) then {[_sitio, "civ"] remoteExec ["ASS_Traidor",HCgarrisons];};
-		if (_sitio in puestos) then {[_sitio, "civ"] remoteExec ["ASS_forest",HCgarrisons];};
-	};
-};
-
-
-if ((count _posibles > 0) and (!_silencio)) then {[[petros,"globalChat","I have a mission for you"],"commsMP"] call BIS_fnc_MP;}

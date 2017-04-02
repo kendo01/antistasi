@@ -6,11 +6,6 @@ _tskDesc = localize "Str_tskDesc_ASSTraitor";
 _marcador = _this select 0;
 _source = _this select 1;
 
-if (_source == "civ") then {
-	_val = server getVariable "civActive";
-	server setVariable ["civActive", _val + 1, true];
-};
-
 _posicion = getMarkerPos _marcador;
 
 _tiempolim = 60;
@@ -43,40 +38,41 @@ _base = [_arraybases, _posicion] call BIS_Fnc_nearestPosition;
 _posBase = getMarkerPos _base;
 
 _traidor = ([_postraidor, 0, opI_OFF2, _grptraidor] call bis_fnc_spawnvehicle) select 0;
-_traidor allowDamage false;
+[_traidor] spawn {
+	params ["_subject"];
+	_subject allowDamage false;
+	sleep 15;
+	_subject allowDamage true;
+};
+
 _sol1 = ([_posSol1, 0, opI_SL, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 _sol2 = ([_posSol2, 0, opI_RFL1, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 _grptraidor selectLeader _traidor;
 
 _posTsk = (position _casa) getPos [random 100, random 360];
 
+_spawnData = [_posicion, [ciudades, _posicion] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
+if (count _spawnData < 1) exitWith {diag_log format ["Error in traitor: no suitable roads found near %1",_marcador]};
+_roadPos = _spawnData select 0;
+_roadDir = _spawnData select 1;
+
+if (_source == "civ") then {
+	_val = server getVariable "civActive";
+	server setVariable ["civActive", _val + 1, true];
+};
+
 _tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posTsk,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 {[_x] spawn CSATinit; _x allowFleeing 0} forEach units _grptraidor;
-_posVeh = [];
-_dirVeh = 0;
-_roads = [];
-_radius = 20;
-while {count _roads == 0} do
-	{
-	_roads = (getPos _casa) nearRoads _radius;
-	_radius = _radius + 10;
-	};
 
-_road = _roads select 0;
-_roadcon = roadsConnectedto _road;
-_posroad = getPos _road;
-_posrel = getPos (_roadcon select 0);
-_dirveh = [_posroad,_posrel] call BIS_fnc_DirTo;
-_posVeh = [_posroad, 3, _dirveh + 90] call BIS_Fnc_relPos;
+_posVeh = [_roadPos, 3, _roadDir + 90] call BIS_Fnc_relPos;
 
 _veh = opMRAPu createVehicle _posVeh;
 _veh allowDamage false;
-_veh setDir _dirVeh;
+_veh setDir _roadDir;
 sleep 15;
 _veh allowDamage true;
-_traidor allowDamage true;
 [_veh] spawn genVEHinit;
 {_x disableAI "MOVE"; _x setUnitPos "UP"} forEach units _grptraidor;
 

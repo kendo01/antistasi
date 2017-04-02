@@ -52,7 +52,10 @@ _base	  = "";
 		if ((_posfuelstop distance _posHQ > 400) && (getMarkerPos _nfMarker distance _posfuelstop > 200)) exitWith {};
 	};
 
-	_clearPOSbase = _posbase findEmptyPosition [0, 200, "I_Truck_02_covered_F"];
+	_spawnpositionData = [_posbase, _posfuelstop] call AS_fnc_findSpawnSpots;
+	_spawnPosition = _spawnpositionData select 0;
+	_direction = _spawnpositionData select 1;
+
 	_mrkfuelstop  = createMarker [format ["Fuel%1", random 100], _posfuelstop];
 	_mrkfuelstop setMarkerSize [150, 150];
 
@@ -81,9 +84,10 @@ _base	  = "";
 	private _grupo = createGroup side_green;
 
 	_fueltruck = selectRandom vehFuel;
-	_veh	   = _fueltruck createVehicle _clearPOSbase;
+	_veh	   = _fueltruck createVehicle _spawnPosition;
 	sleep 1;
-	if (not alive _veh) then {_veh = "I_Truck_02_fuel_F" createVehicle _clearPOSbase}; // Fallback default fuel truck in case it's not in a template.
+	if (not alive _veh) then {_veh = "I_Truck_02_fuel_F" createVehicle _spawnPosition}; // Fallback default fuel truck in case it's not in a template.
+	_veh setDir _direction;
 	// _vehiculos = _vehiculos + [_veh];
 	[_veh] spawn genVEHinit;
 

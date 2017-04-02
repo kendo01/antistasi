@@ -28,7 +28,7 @@ _group setCombatMode "GREEN";
 
 {[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _group;
 
-_shorecheck = [_posicion, 0, 50, 0, 0, 0, 1, [], [0]] call BIS_fnc_findSafePos;
+_shorecheck = [_spawnPos, 0, 50, 0, 0, 0, 1, [], [0]] call BIS_fnc_findSafePos;
 if ((typename _shorecheck) == "ARRAY") then {[[_fire,"seaport"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
 
 sleep 10;

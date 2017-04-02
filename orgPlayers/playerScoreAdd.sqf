@@ -1,5 +1,5 @@
 params ["_points","_player",["_isSilent",false]];
-private ["_notification","_currentPoints","_currentMoney","_text"];
+private ["_currentPoints","_currentMoney","_text"];
 
 if (!isPlayer _player) exitWith {};
 
@@ -11,7 +11,7 @@ if (isMultiplayer) exitWith {
 		_currentMoney = _currentMoney + (_points * 10);
 		_player setVariable ["dinero",_currentMoney,true];
 		_text = format ["<br/><br/><br/><br/><br/><br/>Money +%1 €",_points*10];
-		if (_notification) then {
+		if !(_isSilent) then {
 			[petros,"income",_text] remoteExec ["commsMP",_player];
 		};
 	};

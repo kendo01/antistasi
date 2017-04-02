@@ -94,21 +94,19 @@ if (count _armasFinal > 0) then
 
 _municionFinal = [];
 _municionFinalCount = [];
-if (isNil "_municion") then
-	{
+if (isNil "_municion") then {
 	diag_log format ["Error en transmisión de munición. Tenía esto: %1 y estos contenedores: %2, el origen era un %3", magazineCargo _origen, everyContainer _origen,typeOf _origen];
-	}
-else
-	{
-	{
-	_arma = _x;
-	if ((not(_arma in _municionFinal)) and (not(_arma in unlockedMagazines))) then
+} else {
+	if (count _municion > 0) then {
 		{
-		_municionFinal pushBack _arma;
-		_municionFinalCount pushBack ({_x == _arma} count _municion);
-		};
-	} forEach  _municion;
+			_arma = _x;
+			if ((not(_arma in _municionFinal)) and (not(_arma in unlockedMagazines))) then {
+				_municionFinal pushBack _arma;
+				_municionFinalCount pushBack ({_x == _arma} count _municion);
+			};
+		} forEach  _municion;
 	};
+};
 
 
 if (count _municionFinal > 0) then
@@ -121,14 +119,16 @@ if (count _municionFinal > 0) then
 
 _itemsFinal = [];
 _itemsFinalCount = [];
-{
-_arma = _x;
-if ((not(_arma in _itemsFinal)) and (not(_arma in unlockedItems))) then
+if (count _items > 0) then {
 	{
-	_itemsFinal pushBack _arma;
-	_itemsFinalCount pushBack ({_x == _arma} count _items);
-	};
-} forEach _items;
+		_arma = _x;
+		if ((not(_arma in _itemsFinal)) and (not(_arma in unlockedItems))) then {
+			_itemsFinal pushBack _arma;
+			_itemsFinalCount pushBack ({_x == _arma} count _items);
+		};
+	} forEach _items;
+};
+
 
 if (count _itemsFinal > 0) then
 	{
@@ -140,14 +140,15 @@ if (count _itemsFinal > 0) then
 
 _mochisFinal = [];
 _mochisFinalCount = [];
-{
-_arma = _x;
-if ((not(_arma in _mochisFinal)) and (not(_arma in unlockedBackpacks))) then
+if (count _mochis > 0) then {
 	{
-	_mochisFinal pushBack _arma;
-	_mochisFinalCount pushBack ({_x == _arma} count _mochis);
-	};
-} forEach _mochis;
+		_arma = _x;
+		if ((not(_arma in _mochisFinal)) and (not(_arma in unlockedBackpacks))) then {
+			_mochisFinal pushBack _arma;
+			_mochisFinalCount pushBack ({_x == _arma} count _mochis);
+		};
+	} forEach _mochis;
+};
 
 if (count _mochisFinal > 0) then
 	{

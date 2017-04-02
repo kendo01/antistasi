@@ -37,11 +37,6 @@ guer_stat_MGH = "B_HMG_01_high_F";
 guer_stat_AT = "B_static_AT_F";
 guer_stat_AA = "B_static_AA_F";
 
-statics_allMGs = [guer_stat_MGH];
-statics_allATs = [guer_stat_AT];
-statics_allAAs = [guer_stat_AA];
-statics_allMortars = [guer_stat_mortar];
-
 guer_cfg_inf = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry");
 
 guer_grp_sniper = "IRG_SniperTeam_M";
@@ -53,8 +48,6 @@ guer_grp_team = "IRG_InfTeam";
 guer_flag = "Flag_FIA_F";
 
 guer_soldierArray = [guer_sol_RFL,guer_sol_R_L,guer_sol_UN,guer_sol_AR,guer_sol_MED,guer_sol_ENG,guer_sol_EXP,guer_sol_GL,guer_sol_TL,guer_sol_AM,guer_sol_MRK,guer_sol_LAT,guer_sol_SL,guer_sol_OFF,guer_sol_SN,guer_sol_AA];
-
-guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
 
 // ===== GEAR ===== \\
 guer_radio_TFAR = "tf_anprc152";
@@ -100,6 +93,13 @@ if !(activeAFRF) then {
 	guer_gear_BP_Medic = "";
 	guer_gear_BP_Engineer = "";
 } else {
+	guer_stat_mortar = "rhsgref_ins_g_2b14";
+	guer_stat_MGH = "rhsgref_ins_g_DSHKM";
+	guer_stat_AT = "rhsgref_ins_g_SPG9M";
+	guer_stat_AA = "rhsgref_ins_g_ZU23";
+
+	guer_veh_AA = "rhsgref_ins_g_gaz66_r142";
+
 	vfs = [
 		"C_Offroad_01_F",
 		"C_Van_01_transport_F",
@@ -144,3 +144,10 @@ A3_Str_PLAYER = localize "STR_GENIDENT_FIA";
 
 // Position of your HQ
 posHQ = server getVariable ["posHQ", getMarkerPos guer_respawn];
+
+statics_allMGs = [guer_stat_MGH];
+statics_allATs = [guer_stat_AT];
+statics_allAAs = [guer_stat_AA];
+statics_allMortars = [guer_stat_mortar];
+
+guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];

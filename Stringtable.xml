@@ -582,49 +582,49 @@
 			<Key ID="STR_UI_EMP_BLDRB_TEXT">
 				<Original>Create Roadblock/OP</Original>
 			</Key>
-			<Key ID="STR_UI_SM_BLDRB_TT">
+			<Key ID="STR_UI_EMP_BLDRB_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_DELRB_TEXT">
 				<Original>Remove Roadblock/OP</Original>
 			</Key>
-			<Key ID="STR_UI_SM_DELRB_TT">
+			<Key ID="STR_UI_EMP_DELRB_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_MNAP_TEXT">
 				<Original>Deploy Minefield (AP)</Original>
 			</Key>
-			<Key ID="STR_UI_SM_MNAP_TT">
+			<Key ID="STR_UI_EMP_MNAP_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_MNAT_TEXT">
 				<Original>Deploy Minefield (AT)</Original>
 			</Key>
-			<Key ID="STR_UI_SM_MNAT_TT">
+			<Key ID="STR_UI_EMP_MNAT_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPEST_TEXT">
 				<Original>Establish Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPEST_TT">
+			<Key ID="STR_UI_EMP_CMPEST_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPDEL_TEXT">
 				<Original>Remove Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPDEL_TT">
+			<Key ID="STR_UI_EMP_CMPDEL_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPREN_TEXT">
 				<Original>Rename Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPREN_TT">
+			<Key ID="STR_UI_EMP_CMPREN_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_HQFORT_TEXT">
 				<Original>HQ Fortifications</Original>
 			</Key>
-			<Key ID="STR_UI_SM_HQFORT_TT">
+			<Key ID="STR_UI_EMP_HQFORT_TT">
 				<Original>placeholder</Original>
 			</Key>
 		</Container>
@@ -1187,6 +1187,71 @@
 			</Key>
 			<Key ID="STR_HINTS_GEN_MEM_REM_SUC">
 				<Original>%1 has been removed from this server's members list.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Mission Selection">
+			<Key ID="STR_HINTS_MIS_TYPE_ACTIVE">
+				<Original>You already have an active mission of this type.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_GIVEN">
+				<Original>I have a mission for you.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_DES_NO_CHAT">
+				<Original>I have no destroy missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_DES_NO_HINT">
+				<Original>Destroy missions require radio towers or enemy cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_LOG_NO_CHAT">
+				<Original>I have no logistics missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_LOG_NO_HINT">
+				<Original>Logistics missions require enemy outposts, cities or banks within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_RES_NO_CHAT">
+				<Original>I have no rescue missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_RES_NO_HINT">
+				<Original>Rescue missions require enemy cities or bases within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_FND_NO_CHAT">
+				<Original>I have no contact missions right now.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_FND_NO_HINT">
+				<Original>Contact missions require enemy cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_FNDE_NO_CHAT">
+				<Original>I have no contact missions right now.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_FNDE_NO_HINT">
+				<Original>Contact missions require cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_CVY_NO_CHAT">
+				<Original>I have no convoy missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_CVY_NO_HINT">
+				<Original>Convoy missions require enemy cities within 4km of your HQ, and they must have an idle base in their surroundings.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_ASS_NO_CHAT">
+				<Original>I have no assassination missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_ASS_NO_HINT">
+				<Original>Assassination missions require enemy cities or outposts within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_PR_NO_CHAT">
+				<Original>I have no PR missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_PR_NO_HINT">
+				<Original>PR missions require enemy cities within 4km of your HQ.</Original>
 			</Key>
 		</Container>
 	</Package>

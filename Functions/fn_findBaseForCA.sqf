@@ -9,7 +9,7 @@ _base = "";
 {
 	_base = _x;
 	_posBase = getMarkerPos _base;
-	_busy = [true, false] select (dateToNumber date > server getVariable _base);
+	_busy = [true, false] select (dateToNumber date >= server getVariable _base);
 	_radio = [[_base] call AS_fnc_radioCheck, true] select (_force);
 
 	if ((!_busy) and !(spawner getVariable _base)) then {
