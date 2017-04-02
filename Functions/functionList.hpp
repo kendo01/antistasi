@@ -61,6 +61,8 @@ class CfgFunctions {
 			class detectACE {};
 			class moveObject {};
 			class respawnPetros {};
+			class changeRole {};
+			class findRoadSpot {};
 		};
 		class server {
 			file = "Functions";
