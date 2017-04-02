@@ -9,28 +9,17 @@ _NATOSupp = server getVariable "prestigeNATO";
 
 _grupo = createGroup side_blue;
 
-
-_tam = 1;
-
-while {true} do {
-	_road = _posicion nearRoads _tam;
-	if (count _road > 0) exitWith {};
-	_tam = _tam + 5;
-};
-
-_roadcon = roadsConnectedto (_road select 0);
-_dirveh = [_road select 0, _posicion] call BIS_fnc_DirTo;
-if (count _roadcon > 0) then {
-	_dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
-};
+_spawnData = [_posicion, [ciudades, _posicion] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
+_spawnPos = _spawnData select 0;
+_spawnDir = _spawnData select 1;
 
 _objs = [];
 
 if (activeUSAF) then {
-	_objs = [getpos (_road select 0), _dirveh, call (compile (preprocessFileLineNumbers "Compositions\cmpUSAF_RB.sqf"))] call BIS_fnc_ObjectsMapper;
+	_objs = [_spawnPos, _spawnDir + 180, call (compile (preprocessFileLineNumbers "Compositions\cmpUSAF_RB.sqf"))] call BIS_fnc_ObjectsMapper;
 }
 else {
-	_objs = [getpos (_road select 0), _dirveh, call (compile (preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf"))] call BIS_fnc_ObjectsMapper;
+	_objs = [_spawnPos, _spawnDir + 180, call (compile (preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf"))] call BIS_fnc_ObjectsMapper;
 };
 
 
@@ -39,6 +28,8 @@ _turretArray = [];
 _tempPos = [];
 {
 	call {
+		_normalPos = surfaceNormal (position _x);
+		_x setVectorUp _normalPos;
 		if (typeOf _x in bluAPC) exitWith {_vehArray pushBack _x;};
 		if (typeOf _x in bluStatHMG) exitWith {_turretArray pushBack _x;};
 		if (typeOf _x in bluStatAA) exitWith {_turretArray pushBack _x;};
@@ -81,11 +72,7 @@ sleep 1;
 _tipoGrupo = [bluATTeam, side_blue] call AS_fnc_pickGroup;
 _grupoInf = [getpos _tempPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 
-_infdir = _dirveh + 180;
-if (_infdir >= 360) then {_infdir = _infdir - 360};
-_grupoInf setFormDir _infdir;
-
-diag_log format ["direction: %1; infdir: %2", _dirveh, _infdir];
+_grupoInf setFormDir _spawnDir;
 
 _unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
 _unit moveInGunner _HMG;

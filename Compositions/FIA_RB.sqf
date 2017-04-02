@@ -105,29 +105,22 @@ fnc_RB_placeSingle = {
 		_position = getMarkerPos _position;
 	};
 
-	while {true} do {
-		_roads = _position nearRoads _range;
-		if (count _roads > 1) exitWith {};
-		_range = _range + 5;
-	};
-
-	_connectedRoads = roadsConnectedto (_roads select 0);
-
-	if ((isNull (_roads select 0)) or (isNull (_connectedRoads select 0))) exitWith {diag_log format ["Roadblock error report -- bad position: %1", _position]};
+	_spawnData = [_position, [ciudades, _position] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
+	if (count _spawnData < 1) exitWith {diag_log format ["Roadblock error report -- bad position: %1", _position]};
+	_roadPos = _spawnData select 0;
+	_roadDir = _spawnData select 1;
 
 	if  (_lane == "right") then {
 		_rotation = 90;
 	} else {
 		_rotation = 270;
 	};
-	_dir = [_roads select 0, _connectedRoads select 0] call BIS_fnc_DirTo;
+	_dir = _roadDir;
 	_spawnDir = _dir + _rotation;
-	if (_spawnDir > 359) then {_spawnDir = _spawnDir - 360};
-	_spawnPos = [getPos (_roads select 0), 4, _spawnDir] call BIS_Fnc_relPos;
-	_infPos = [getPos (_roads select 0), 10, _spawnDir] call BIS_Fnc_relPos;
+	_spawnPos = [_roadPos, 4, _spawnDir] call BIS_Fnc_relPos;
+	_infPos = [_roadPos, 10, _spawnDir] call BIS_Fnc_relPos;
 	_infPos = [_infPos, 20, _dir] call BIS_Fnc_relPos;
 	_spawnDir = _spawnDir + 270;
-	if (_spawnDir > 359) then {_spawnDir = _spawnDir - 360};
 	_objs = [_spawnPos, _spawnDir, [] call fnc_RB_randomRB] call BIS_fnc_ObjectsMapper;
 
 	{
