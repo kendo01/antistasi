@@ -31,17 +31,12 @@ if (_onRoad) then {
 		(_data select 1) joinSilent _group;
 		_allGroups pushBack _group;
 	} else {
-		_range = 1;
-		while {true} do {
-			_road = _markerPos nearRoads _range;
-			if (count _road > 0) exitWith {};
-			_range = _range + 5;
-		};
+		_spawnData = [_markerPos, [ciudades, _markerPos] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
+		if (count _spawnData < 1) exitWith {diag_log format ["Roadblock error report -- bad position: %1", _markerPos]};
+		_roadPos = _spawnData select 0;
+		_direction = _spawnData select 1;
 
-		_connectedRoads = roadsConnectedto (_road select 0);
-		_direction = [_road select 0, _connectedRoads select 0] call BIS_fnc_DirTo;
-
-		_vehicle = guer_veh_technical createVehicle getPos (_road select 0);
+		_vehicle = guer_veh_technical createVehicle _roadPos;
 		_allVehicles pushBack _vehicle;
 		_vehicle setDir _direction + 90;
 		_vehicle lock 3;
