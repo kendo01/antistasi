@@ -1,15 +1,17 @@
 if (!isServer and hasInterface) exitWith {};
 
-private ["_marcador","_posicion","_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon","_vehicles", "_advanced", "_posDes"];
+params ["_marker"];
+private ["_markerPos","_markerPos","_advanced","_allVehicles","_allGroups","_allSoldiers","_onRoad","_data","_infData","_group","_range","_road","_connectedRoads","_direction","_vehicle"];
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
+_markerPos = getMarkerPos _marker;
+
+_allVehicles = [];
+_allGroups = [];
+_allSoldiers = [];
 
 _advanced = false;
-_vehicles = [];
-
-_escarretera = false;
-if (isOnRoad _posicion) then {_escarretera = true};
+_onRoad = false;
+if (isOnRoad _markerPos) then {_onRoad = true};
 
 // BE module
 if (activeBE) then {
@@ -17,77 +19,64 @@ if (activeBE) then {
 };
 // BE module
 
-if (_escarretera) then {
+if (_onRoad) then {
 	if (_advanced) then {
-		_data = [_posicion] call fnc_RB_placeDouble;
-		_vehicles = _data select 0;
+		_data = [_markerPos] call fnc_RB_placeDouble;
+		_allVehicles = _data select 0;
 		sleep 1;
 
 		_infData = _data select 2;
-		_grupo = [(_infData select 0), side_blue, ([guer_grp_AT, "guer"] call AS_fnc_pickGroup), [], [], [], [], [], (_infData select 1)] call BIS_Fnc_spawnGroup;
-		(_data select 1) joinSilent _grupo;
+		_group = [(_infData select 0), side_blue, ([guer_grp_AT, "guer"] call AS_fnc_pickGroup), [], [], [], [], [], (_infData select 1)] call BIS_Fnc_spawnGroup;
+		{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit} forEach units _group;
+		(_data select 1) joinSilent _group;
+		_allGroups pushBack _group;
 	} else {
-		_tam = 1;
+		_spawnData = [_markerPos, [ciudades, _markerPos] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
+		if (count _spawnData < 1) exitWith {diag_log format ["Roadblock error report -- bad position: %1", _markerPos]};
+		_roadPos = _spawnData select 0;
+		_direction = _spawnData select 1;
 
-		while {true} do
-			{
-			_road = _posicion nearRoads _tam;
-			if (count _road > 0) exitWith {};
-			_tam = _tam + 5;
-			};
+		_vehicle = guer_veh_technical createVehicle _roadPos;
+		_allVehicles pushBack _vehicle;
+		_vehicle setDir _direction + 90;
+		_vehicle lock 3;
 
-		_roadcon = roadsConnectedto (_road select 0);
-		_dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
-
-
-		_veh = guer_veh_technical createVehicle getPos (_road select 0);
-		_vehicles pushBack _veh;
-		_veh setDir _dirveh + 90;
-		_veh lock 3;
-		[_veh] spawn VEHinit;
 		sleep 1;
 
-		_grupo = [_posicion, side_blue, ([guer_grp_AT, "guer"] call AS_fnc_pickGroup), [], [], [], [], [], _dirveh] call BIS_Fnc_spawnGroup;
-		_unit = _grupo createUnit [guer_sol_RFL, _posicion, [], 0, "NONE"];
-		_unit moveInGunner _veh;
+		_group = [_markerPos, side_blue, ([guer_grp_AT, "guer"] call AS_fnc_pickGroup), [], [], [], [], [], _direction] call BIS_Fnc_spawnGroup;
+		_unit = _group createUnit [guer_sol_RFL, _markerPos, [], 0, "NONE"];
+		_unit moveInGunner _vehicle;
+		{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit} forEach units _group;
+		_allGroups pushBack _group;
 	};
-}
-else
-	{
-	_grupo = [_posicion, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
-	_grupo setBehaviour "STEALTH";
-	_grupo setCombatMode "GREEN";
+} else {
+	_group = [_markerPos, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
+	_group setBehaviour "STEALTH";
+	_group setCombatMode "GREEN";
+	{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _group;
+	_allGroups pushBack _group;
 };
 
-{[_x] spawn AS_fnc_initialiseFIAGarrisonUnit;} forEach units _grupo;
+{_allSoldiers pushBack _x} forEach units _group;
 
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or ({alive _x} count units _grupo == 0) or (not(_marcador in puestosFIA))};
+waitUntil {sleep 1; !(spawner getVariable _marker) OR ({alive _x} count units _group == 0) OR !(_marker in puestosFIA)};
 
-if ({alive _x} count units _grupo == 0) then
-	{
-	puestosFIA = puestosFIA - [_marcador]; publicVariable "puestosFIA";
-	mrkFIA = mrkFIA - [_marcador]; publicVariable "mrkFIA";
-	marcadores = marcadores - [_marcador]; publicVariable "marcadores";
-	[5,-5,_posicion] remoteExec ["AS_fnc_changeCitySupport",2];
-	deleteMarker _marcador;
-	if (_escarretera) then
-		{
-		FIA_RB_list = FIA_RB_list - [_marcador]; publicVariable "FIA_RB_list";
+if ({alive _x} count units _group == 0) then {
+	puestosFIA = puestosFIA - [_marker]; publicVariable "puestosFIA";
+	mrkFIA = mrkFIA - [_marker]; publicVariable "mrkFIA";
+	marcadores = marcadores - [_marker]; publicVariable "marcadores";
+	[5,-5,_markerPos] remoteExec ["AS_fnc_changeCitySupport",2];
+	deleteMarker _marker;
+	if (_onRoad) then {
+		FIA_RB_list = FIA_RB_list - [_marker]; publicVariable "FIA_RB_list";
 		[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		}
-	else
-		{
-		FIA_WP_list = FIA_WP_list - [_marcador]; publicVariable "FIA_WP_list";
+	} else {
+		FIA_WP_list = FIA_WP_list - [_marker]; publicVariable "FIA_WP_list";
 		[["TaskFailed", ["", "Watchpost Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		deleteVehicle (nearestObjects [getMarkerPos _marcador, [guer_rem_des], 50] select 0);
-		};
+		deleteVehicle (nearestObjects [getMarkerPos _marker, [guer_rem_des], 50] select 0);
 	};
-
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or (not(_marcador in puestosFIA))};
-
-if ((_advanced) || (_escarretera)) then {
-	{deleteVehicle _x;} forEach _vehicles;
 };
 
-{deleteVehicle _x} forEach units _grupo;
-deleteGroup _grupo;
+waitUntil {sleep 1; !(spawner getVariable _marker) OR !(_marker in puestosFIA)};
+
+[_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
