@@ -607,8 +607,8 @@ AS_BOX_D(BOX_H_2);
 AS_FRAME_D(FRAME_H_2, "Select Mortar Ammo");
 BTN_BACK(A_CLOSE);
 
-BTN_L1(-1, "HE", "", "closeDialog 0; tipoMuni = ""8Rnd_82mm_Mo_shells"";");
-BTN_R1(-1, "Smoke", "", "closeDialog 0; tipoMuni = ""8Rnd_82mm_Mo_Smoke_white"";");
+BTN_L1(-1, "HE", "", "closeDialog 0; if (activeAFRF) then {tipoMuni = ""rhs_mag_3vo18_10""} else {tipoMuni = ""8Rnd_82mm_Mo_shells""};");
+BTN_R1(-1, "Smoke", "", "closeDialog 0; if (activeAFRF) then {tipoMuni = ""rhs_mag_3vs25m_10""} else {tipoMuni = ""8Rnd_82mm_Mo_Smoke_white""};");
 
 	};
 };
