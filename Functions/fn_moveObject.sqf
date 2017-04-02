@@ -4,7 +4,7 @@ if (vehicle player != player) exitWith {hint localize "STR_INFO_MOVEASSETS_2"};
 params ["_object", "_player", "_id", ["_category", ""]];
 private ["_position","_distance","_attachPoint","_bbr","_p1","_p2","_maxHeight","_checkAttachments","_actionParams"];
 
-_position = position petros;
+_position = server getVariable ["posHQ", getMarkerPos guer_respawn];
 _distance = 30;
 _attachPoint = [0,2,1];
 
