@@ -161,4 +161,5 @@ statics_allATs = [guer_stat_AT];
 statics_allAAs = [guer_stat_AA];
 statics_allMortars = [guer_stat_mortar];
 
-guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer,guer_veh_technical_AT];
+guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
+if (activeGREF) then {guer_vehicleArray pushBackUnique guer_veh_technical_AT};
