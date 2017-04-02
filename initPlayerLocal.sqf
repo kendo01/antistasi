@@ -450,7 +450,7 @@ if !(isnil "XLA_fnc_addVirtualItemCargo") then {
 	["AmmoboxInit",[caja,false,{true},"Arsenal",true]] call xla_fnc_arsenal;
 	caja addAction [localize "STR_ACT_ARSENAL", {["Open",[false,caja,player,true]] call xla_fnc_arsenal;},[],6,true,false,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 } else {
-	_action = caja addaction [localize "Str_act_arsenal",
+	_action = caja addaction [localize "STR_ACT_ARSENAL",
 	{_this call accionArsenal;},
 	[],
 	6,
