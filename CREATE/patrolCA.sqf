@@ -245,6 +245,19 @@ if !(_airport == "") then {
 	};
 };
 
+{
+	_group = _x;
+	_group allowFleeing 0;
+	{
+		[_x] spawn genInit;
+		_allSoldiers pushBack _x;
+	} forEach units _group;
+} forEach _allGroups;
+
+{
+	[_x] spawn genVEHinit;
+} forEach _allVehicles;
+
 if (_involveCSAT) then {
 	_originPosition = getMarkerPos "spawnCSAT";
 	_originPosition set [2,300];
