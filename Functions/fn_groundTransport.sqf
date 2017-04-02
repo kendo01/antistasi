@@ -68,9 +68,9 @@ if (_groupCounter > 1) then {
 };
 
 if !(_isArmed) then {
-	[_vehicleGroup, _infGroupOne, _targetPosition, _originPosition] spawn {
-		params ["_vg","_ig","_tp","_op"];
-		waitUntil {sleep 5; (((units _ig select 0) distance _tp < 100) AND (count assignedCargo (vehicle _vg) < 1)) OR ({alive _x} count units _vg == 0)};
+	[_vehicleGroup, _infGroupOne, _targetPosition, _originPosition, _vehicle] spawn {
+		params ["_vg","_ig","_tp","_op","_veh"];
+		waitUntil {sleep 5; (((units _ig select 0) distance _tp < 100) AND (count assignedCargo _veh < 1)) OR ({alive _x} count units _vg == 0)};
 		[_vg, _op] spawn AS_fnc_QRF_RTB;
 	};
 };
