@@ -42,13 +42,13 @@ statics_allATs = [guer_stat_AT];
 statics_allAAs = [guer_stat_AA];
 statics_allMortars = [guer_stat_mortar];
 
-guer_cfg_inf = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry"); //unused
+guer_cfg_inf = (configfile >> "CfgGroups" >> "independent" >> "Guerilla" >> "Infantry"); //unused
 
 guer_grp_sniper = 		[guer_sol_MRK, guer_sol_SN]; // sniper team, Sgt, Cpl
 guer_grp_sentry = 		[guer_sol_GL, guer_sol_RFL]; // Cpl, Pvt
-guer_grp_AT = 			[guer_sol_SL, guer_sol_LAT]; // Cpl, Pvt
-guer_grp_squad = 		[guer_sol_SL, guer_sol_GL, guer_sol_LAT, guer_sol_AR]; // Sgt, Cpl, Pvt, Pvt
-guer_grp_team = 		[guer_sol_SL, guer_sol_GL, guer_sol_LAT, guer_sol_AR, guer_sol_MRK, guer_sol_MED, guer_sol_RFL, guer_sol_ENG]; // Sgt, Cpl, Pvt, Pvt, cpl, pvt, pvt, pvt
+guer_grp_AT = 			[guer_sol_SL, guer_sol_LAT, guer_sol_LAT, guer_sol_LAT]; // Cpl, Pvt
+guer_grp_team = 		[guer_sol_SL, guer_sol_GL, guer_sol_LAT, guer_sol_AR]; // Sgt, Cpl, Pvt, Pvt
+guer_grp_squad = 		[guer_sol_SL, guer_sol_GL, guer_sol_LAT, guer_sol_AR, guer_sol_MRK, guer_sol_MED, guer_sol_RFL, guer_sol_ENG]; // Sgt, Cpl, Pvt, Pvt, cpl, pvt, pvt, pvt
 
 guer_flag = "Flag_FIA_F";
 
@@ -100,6 +100,17 @@ if !(activeGREF) then {
 	guer_gear_BP_Medic = "";
 	guer_gear_BP_Engineer = "";
 } else {
+	guer_veh_truck = "rhs_gaz66o_msv";
+	guer_veh_offroad = "rhs_uaz_open_MSV_01";
+	guer_veh_technical_AT = "rhsgref_ins_g_uaz_spg9";
+
+	guer_stat_mortar = "rhsgref_ins_g_2b14";
+	guer_stat_MGH = "rhsgref_ins_g_DSHKM";
+	guer_stat_AT = "rhsgref_ins_g_SPG9M";
+	guer_stat_AA = "rhsgref_ins_g_ZU23";
+
+	guer_veh_AA = "rhsgref_ins_g_gaz66_r142";
+
 	vfs = [
 		"C_Offroad_01_F",
 		"C_Van_01_transport_F",
@@ -144,3 +155,10 @@ A3_Str_PLAYER = localize "STR_GENIDENT_RES";
 
 // Position of your HQ
 posHQ = server getVariable ["posHQ", getMarkerPos guer_respawn];
+
+statics_allMGs = [guer_stat_MGH];
+statics_allATs = [guer_stat_AT];
+statics_allAAs = [guer_stat_AA];
+statics_allMortars = [guer_stat_mortar];
+
+guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer,guer_veh_technical_AT];
