@@ -26,6 +26,6 @@ if (typeName _infGroup == "STRING") then {
 sleep _duration;
 
 [_vehGroup, _origin] spawn AS_fnc_QRF_RTB;
-if (!isNil _infGroup) then {
+if ((typeName _infGroup == "STRING") OR (typeName _infGroup == "ARRAY")) then {
 	[_infGroup, _origin] spawn AS_fnc_QRF_RTB;
 };
