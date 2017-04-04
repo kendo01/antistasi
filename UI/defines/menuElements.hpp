@@ -66,7 +66,7 @@ class Menu_StartText: RscText
   w = 0.09 * safezoneW;
   h = 0.025 * safezoneH;
   colorText[] = MENU_TEXT_COLOR_FALSE;
-  sizeEx = 0.035;
+  sizeEx = 0.01925 / (getResolution select 5);
   class Attributes {
     align = "left";
     valign = "middle";
@@ -85,7 +85,7 @@ class Menu_Frame: RscFrame
   colorBackground[] = MENU_BG_COLOR;
   colorText[] = MENU_TEXT_COLOR;
   font = "PuristaMedium";
-  sizeEx = 0.035;
+  sizeEx = 0.01925 / (getResolution select 5);
 };
 
 class Menu_ControlButton : RscButton {
@@ -108,7 +108,7 @@ class Menu_ActionButton : Menu_StartButton { \
   x = (UI_BASE_X + 0.2) * safezoneW + safezoneX;
   w = 0.07 * safezoneW;
   h = 0.025 * safezoneH;
-  sizeEx = 0.03;
+  sizeEx = 0.0165 / (getResolution select 5);
   colorText[] = MENU_TEXT_COLOR;
   colorBackground[] = MENU_TCB_BG_COLOR;
   colorBackgroundActive[] = MENU_TCB_BG_COLOR;
@@ -202,7 +202,7 @@ class BTN_IDC##MENU_NAV_BTN : Menu_StartButton { \
   x = (UI_BASE_X + 0.12) * safezoneW + safezoneX; \
   w = 0.055 * safezoneW; \
   h = 0.025 * safezoneH; \
-  sizeEx = 0.03; \
+  sizeEx = 0.0165 / (getResolution select 5); \
   colorText[] = MENU_TEXT_COLOR; \
   colorBackground[] = MENU_TCB_BG_COLOR; \
   colorBackgroundActive[] = MENU_TCB_BG_COLOR; \
