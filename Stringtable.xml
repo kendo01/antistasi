@@ -1038,6 +1038,10 @@
 			<Key ID="STR_TSK_CA_TARGET">
 				<Original>%1 is under attack!</Original>
 			</Key>
+
+			<Key ID="STR_TSK_NATO_ARMOR">
+				<Original>Our Commander asked %5 for an armored column departing from %2 with destination %1. Provide whatever support you can. They are scheduled to leave the AO at %3:%4.</Original>
+			</Key>
 		</Container>
 	</Package>
 
@@ -1252,6 +1256,36 @@
 			</Key>
 			<Key ID="STR_HINTS_MIS_PR_NO_HINT">
 				<Original>PR missions require enemy cities within 4km of your HQ.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Fast Travel">
+			<Key ID="STR_HINTS_FT_SINGLEGROUP">
+				<Original>You can only fast-travel one group at a time.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TEMPAI">
+				<Original>You cannot fast-travel while you are controlling AI.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ENEMIES">
+				<Original>This group cannot fast-travel with enemies nearby.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ENEMIES_PERS">
+				<Original>You cannot fast-travel with enemies nearby.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_DAMAGE">
+				<Original>You cannot fast-travel if one of your vehicles is damaged or doesn't have a driver.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_MARKER">
+				<Original>You cannot fast-travel to an enemy-controlled zone.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ATTACK">
+				<Original>You cannot fast-travel to an area under attack or with enemies in the surrounding.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TARGET">
+				<Original>Click on the zone you want to travel to.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TARGET_FAIL">
+				<Original>You must click near a camp or HQ.</Original>
 			</Key>
 		</Container>
 	</Package>

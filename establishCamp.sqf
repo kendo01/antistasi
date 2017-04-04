@@ -67,6 +67,7 @@ Slowhand hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
 driver _camion action ["engineOn", vehicle driver _camion];
+_grupo selectLeader (driver _camion);
 
 _crate = "Box_FIA_Support_F" createVehicle _pos;
 _crate attachTo [_camion,[0.0,-1.2,0.5]];

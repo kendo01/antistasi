@@ -94,8 +94,15 @@ if (_vehicleType isKindOf "Car") then {
 
 {[_x] spawn genVEHinit} forEach _allVehicles;
 
-while {alive _vehicle} do
-	{
+while {alive _vehicle} do {
+	if (count _arrayTargets < 1) exitWith {
+		deleteWaypoint [_groupVehicle, 1];
+		_wp_v_1 = _groupVehicle addWaypoint [_spawnPosition, 0];
+		_wp_v_1 setWaypointType "MOVE";
+		_wp_v_1 setWaypointBehaviour "SAFE";
+		_wp_v_1 setWaypointSpeed "LIMITED";
+		_vehicle setFuel 1;
+	};
 	_target = _arrayTargets call bis_Fnc_selectRandom;
 	_targetPosition = getMarkerPos _target;
 	deleteWaypoint [_groupVehicle, 1];

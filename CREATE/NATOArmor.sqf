@@ -1,76 +1,63 @@
 if (!isServer and hasInterface) exitWith {};
 
-_origen = _this select 0;
-_destino = _this select 1;
+params ["_originMarker","_targetMarker"];
+private ["_originPos","_targetPosition","_originName","_targetName","_endTime","_counter","_group","_wp0","_tsk","_spawnpositionData","_spawnPosition","_direction","_vehicleData","_vehicle","_vehicleCrew"];
 
-_posOrigen = getMarkerPos _origen;
-_posDestino = getMarkerPos _destino;
+[[],[]] params ["_allVehicles","_allSoldiers"];
 
-_nombredest = [_destino] call AS_fnc_localizar;
-_nombreorig = [_origen] call AS_fnc_localizar;
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
+#define duration 60
 
-_tsk = ["NATOArmor",[side_blue,civilian],[format ["Our Commander asked %5 for an armored column departing from %2 with destination %1. Help them in order to have success in this operation. They will stay on mission until %3:%4.",_nombredest,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_BLUE],format ["%1 Armor", A3_Str_BLUE],_destino],_posDestino,"CREATED",5,true,true,"Attack"] call BIS_fnc_setTask;
+_originPos = getMarkerPos _originMarker;
+_targetPosition = getMarkerPos _targetMarker;
+
+_targetName = [_targetMarker] call AS_fnc_localizar;
+_originName = [_originMarker] call AS_fnc_localizar;
+duration = 60;
+_endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + duration];
+_endTime = dateToNumber _endTime;
+
+_tsk = ["NATOArmor",[side_blue,civilian],[format [localize "STR_TSK_NATO_ARMOR",_targetName,_originName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4, A3_Str_BLUE],format ["%1 Armor", A3_Str_BLUE],_targetMarker],_targetPosition,"CREATED",5,true,true,"Attack"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
-_soldados = [];
-_vehiculos = [];
 
-_cuenta = server getVariable "prestigeNATO";
-_cuenta = round (_cuenta / 25);
+_counter = server getVariable ["prestigeNATO",0];
+_counter = round (_counter / 25);
 [-20,0] remoteExec ["prestige",2];
 
-_grupo = createGroup side_blue;
-_grupo setVariable ["esNATO",true,true];
-_tam = 10;
-_roads = [];
-_wp0 = _grupo addWaypoint [_posdestino, 0];
+_group = createGroup side_blue;
+_group setVariable ["esNATO",true,true];
+
+_wp0 = _group addWaypoint [_targetPosition, 0];
 _wp0 setWaypointType "SAD";
 _wp0 setWaypointBehaviour "SAFE";
 _wp0 setWaypointSpeed "LIMITED";
 _wp0 setWaypointFormation "COLUMN";
 
-while {true} do
-	{
-	_roads = _posOrigen nearRoads _tam;
-	if (count _roads > _cuenta) exitWith {};
-	_tam = _tam + 10;
-	};
+_spawnpositionData = [_originPosition, _targetPosition] call AS_fnc_findSpawnSpots;
+_spawnPosition = _spawnpositionData select 0;
+_direction = _spawnpositionData select 1;
 
-for "_i" from 1 to _cuenta do
-	{
-	_vehicle=[position (_roads select (_i - 1)), 0, selectRandom bluMBT, _grupo] call bis_fnc_spawnvehicle;
-	_veh = _vehicle select 0;
-	[_veh] spawn NATOVEHinit;
-	[_veh,"NATO Armor"] spawn inmuneConvoy;
-	_vehCrew = _vehicle select 1;
-	{[_x] spawn NATOinitCA} forEach _vehCrew;
-	_soldados = _soldados + _vehCrew;
-	_vehiculos = _vehiculos + [_veh];
-	_veh allowCrewInImmobile true;
+
+for "_i" from 1 to _counter do {
+	_vehicleData = [_spawnPosition, _direction, selectRandom bluMBT, _group] call bis_fnc_spawnvehicle;
+	_vehicle = _vehicleData select 0;
+	[_vehicle] spawn NATOVEHinit;
+	[_vehicle,"NATO Armor"] spawn inmuneConvoy;
+	_vehicleCrew = _vehicleData select 1;
+	{[_x] spawn NATOinitCA; _allSoldiers pushBack _x} forEach _vehicleCrew;
+	_allVehicles pushBack _vehicle;
+	_vehicle allowCrewInImmobile true;
 	sleep 15;
-	};
+};
 
-waitUntil {sleep 10; (dateToNumber date > _fechalimnum) or ({alive _x} count _soldados == 0) or ({(alive _x)} count _vehiculos == 0)};
+waitUntil {sleep 10; (dateToNumber date > _endTime) OR ({alive _x} count _allSoldiers == 0) OR ({(alive _x)} count _allVehicles == 0)};
 
-if (({alive _x} count _soldados == 0) or ({(alive _x)} count _vehiculos == 0)) then
-	{
-	_tsk = ["NATOArmor",[side_blue,civilian],[format ["Our Commander asked %5 for an armored column departing from %2 with destination %1. Help them in order to have success in this operation. They will stay on mission until %3:%4.",_nombredest,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_BLUE],format ["%1 Armor", A3_Str_BLUE],_destino],_posDestino,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
+if (({alive _x} count _allSoldiers == 0) OR ({(alive _x)} count _allVehicles == 0)) then {
+	_tsk = ["NATOArmor",[side_blue,civilian],[format [localize "STR_TSK_NATO_ARMOR",_targetName,_originName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4, A3_Str_BLUE],format ["%1 Armor", A3_Str_BLUE],_targetMarker],_targetPosition,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
 	[-10,0] remoteExec ["prestige",2];
-	};
+};
 
 sleep 15;
 
-{
-_soldado = _x;
-waitUntil {sleep 1; {_x distance _soldado < distanciaSPWN} count (allPlayers - hcArray) == 0};
-deleteVehicle _soldado;
-} forEach _soldados;
-deleteGroup _grupo;
-{
-_vehiculo = _x;
-waitUntil {sleep 1; {_x distance _vehiculo < distanciaSPWN} count (allPlayers - hcArray) == 0};
-deleteVehicle _x} forEach _vehiculos;
-
 [0,_tsk] spawn borrarTask;
+
+[[_group], _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
