@@ -6,7 +6,7 @@ private ["_compromised","_cambiar","_bases","_arrayCivVeh","_player","_size","_b
 _cambiar = "";
 _bases = bases + puestos + controles;
 _locs = (bases + aeropuertos + puestos + colinas) arrayIntersect mrkAAF;
-_arrayCivVeh = CIV_vehicles + [civHeli];
+_arrayCivVeh = CIV_vehicles + [civHeli] +["C_Rubberboat","C_Boat_Civil_01_F","C_Boat_Civil_01_rescue_F","C_Boat_Civil_01_police_F","C_Scooter_Transport_01_F","C_Boat_Transport_02_F"];
 //_AAsites = colinasAA arrayIntersect mrkAAF;
 _compromised = player getVariable "compromised";
 
@@ -39,7 +39,7 @@ else
 
 if (_cambiar != "") exitWith {};
 
-if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < (1.5*safeDistance_undercover))) or (_x distance player < safeDistance_undercover))} count allUnits > 0) exitWith
+if ({((side _x== side_red) or (side _x== side_green)) and (((_x knowsAbout player > 1.4) and (_X distance player < safeDistance_undercover)) or (_x distance player < safeDistance_undercover))} count allUnits > 0) exitWith
 	{
 	hint "You cannot become Undercover while some enemies are spotting you";
 	if (vehicle player != player) then
