@@ -256,5 +256,5 @@ class BTN_IDC##BMENU_ACT_BTN : Menu_ActionButton { \
   h = 0.03875 * safezoneH; \
   idc = BTN_IDC; \
   y = BTNY; \
-  sizeEx = 0.045; \
+  sizeEx = 0.02475 / (getResolution select 5); \
 }; \
