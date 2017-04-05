@@ -32,7 +32,7 @@ fn_LoadID =
 //===========================================================================
 //ADD VARIABLES TO THIS ARRAY THAT NEED SPECIAL SCRIPTING TO LOAD
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","prestigeNATO","prestigeCSAT","posHQ", "hr","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","resourcesAAF","resourcesFIA","skillFIA","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","enableFTold","enableMemAcc","campList","BE_data","AS_session_server","AS_session_client"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","prestigeNATO","prestigeCSAT","posHQ","hr","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","resourcesAAF","resourcesFIA","skillFIA","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","enableFTold","enableMemAcc","campList","BE_data","AS_session_server","AS_session_client","flag_chopForest"];
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
 	_varName = _this select 0;
@@ -57,6 +57,11 @@ fn_SetStat = {
 			if(_varName == 'scorePlayer') exitWith {player setVariable ["score",_varValue,true];};
 			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
 			if(_varName == 'personalGarage') exitWith {personalGarage = _varValue};
+			if(_varName == 'flag_chopForest') then {
+				diag_log "saved";
+				flag_chopForest = _varValue; publicVariable "flag_chopForest";
+				[] spawn AS_fnc_clearForest;
+			};
 
 			if(_varName == 'BE_data') exitWith {[_varValue] call fnc_BE_load};
 			if(_varName == 'AS_session_server') exitWith {server setVariable ["AS_session_server",_varValue,true]; AS_session_server = _varValue; publicVariable "AS_session_server";};

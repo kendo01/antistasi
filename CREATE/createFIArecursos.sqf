@@ -8,6 +8,8 @@ _allSoldiers = [];
 _allGroups = [];
 _allVehicles = [];
 
+_size = [_marker] call sizeMarker;
+
 _flag = createVehicle [guer_flag, _markerPos, [],0, "CAN_COLLIDE"];
 _flag allowDamage false;
 _allVehicles pushBack _flag;

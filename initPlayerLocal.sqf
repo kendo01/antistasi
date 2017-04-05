@@ -494,6 +494,7 @@ if !(isMultiplayer) then {
 	};
 };
 
+mapa addAction [localize "STR_ACT_JUNGLE",{[] spawn AS_fnc_clearForest},nil,0,false,true,"","(_this == Slowhand)"];
 caja addAction [localize "STR_ACT_UNLOADCARGO", "[] call vaciar"];
 caja addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_this select 2] spawn AS_fnc_moveObject},nil,0,false,true,"","(_this == Slowhand)"];
 //caja addAction [localize "STR_ACT_SELLMENU", "UI\sellMenu.sqf",nil,0,false,true,"","(_this == Slowhand)", 5];

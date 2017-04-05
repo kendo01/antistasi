@@ -157,20 +157,20 @@ if (count _targetPosition > 0) then {
 					if (_danger) then {
 						// ENEMIES NEAR GROUP
 						if ([_unit] call _proximityCheck) exitWith {diag_log format ["%1 cannot fast-travel, enemies nearby", _unit]};
-						if (count (crew _vehicle arrayIntersect allPlayers) > 0) then {
+						/*if (count (crew _vehicle arrayIntersect allPlayers) > 0) then {
 							// HUMANS ABOARD
 							{
 								if ((_x in (crew _vehicle)) AND !(group _x == group _unit)) then {moveOut _x};
 							} forEach allPlayers;
-						};
+						};*/
 					} else {
 						// CLEAR
-						if (count (crew _vehicle arrayIntersect allPlayers) > 0) then {
+						/*if (count (crew _vehicle arrayIntersect allPlayers) > 0) then {
 							// HUMANS ABOARD
 							{
 								if ((_x in (crew _vehicle)) AND !(group _x == group _unit)) then {moveOut _x};
 							} forEach allPlayers;
-						};
+						};*/
 					};
 					[_position, _vehicle, true] call _transportUnit;
 
@@ -196,6 +196,8 @@ if (count _targetPosition > 0) then {
 						if (isNull (driver _vehicle)) then {
 							// NO DRIVER
 							if (vehicle _groupLeader == _vehicle) exitWith {}; // GROUP LEADER IN VEHICLE
+							moveOut _unit;
+							[_position, _unit] call _transportUnit;
 						} else {
 							if (group (driver _vehicle) != group _unit) then {
 								// DRIVER NOT IN SAME GROUP
@@ -262,19 +264,10 @@ if (count _targetPosition > 0) then {
 					call {
 						if (isNull (driver _playerVehicle)) exitWith {
 							// NO DRIVER
-							if (count (allPlayers arrayIntersect (crew _playerVehicle)) > 1) then {
-								// HUMAN ON BOARD
-								moveOut player;
-								{
-									[_x, _position, _enemiesNearGroup] call _handleUnit;
-								} forEach ((units _group) - allPlayers + [player]);
-							} else {
-								// NO HUMAN
-								[_position, _playerVehicle, true] call _transportUnit;
-								{
-									[_x, _position, _enemiesNearGroup] call _handleUnit;
-								} forEach (units _group) - allPlayers;
-							};
+							moveOut player;
+							{
+								[_x, _position, _enemiesNearGroup] call _handleUnit;
+							} forEach ((units _group) - allPlayers + [player]);
 						};
 
 						if (driver _playerVehicle in allPlayers) exitWith {

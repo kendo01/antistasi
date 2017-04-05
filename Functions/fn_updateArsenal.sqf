@@ -179,7 +179,7 @@ _addedItems = [];
 	if !(_item in unlockedItems) then {
 		_itemReq = ["items"] call AS_fnc_getUnlockRequirement;
 		if !(_item in genItems) then {_itemReq = _itemReq + 10};
-		if ((_item in genVests) || (_item in genOptics)) then {_itemReq = ["vests"] call AS_fnc_getUnlockRequirement;};
+		if ((_item in genVests) OR (_item in genOptics) OR (_item in genHelmets)) then {_itemReq = ["vests"] call AS_fnc_getUnlockRequirement;};
 		if ({_x == _item} count _items >= _itemReq) then {
 			_addedItems pushBackUnique _item;
 			unlockedItems pushBackUnique _item;
