@@ -70,7 +70,7 @@ if (!isDedicated) then
 	["unlockedMagazines", unlockedMagazines] call fn_SaveStat;
 	["unlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
 	["AS_destroyedZones", AS_destroyedZones] call fn_SaveStat;
-
+	["flag_chopForest", AS_destroyedZones] call fn_SaveStat;
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
 private ["_hrfondo","_resfondo","_veh","_tipoVeh","_armas","_municion","_items","_mochis","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];

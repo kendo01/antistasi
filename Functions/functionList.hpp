@@ -63,6 +63,8 @@ class CfgFunctions {
 			class respawnPetros {};
 			class changeRole {};
 			class findRoadSpot {};
+			class clearForest {};
+			class getJNALists {};
 		};
 		class server {
 			file = "Functions";
@@ -122,6 +124,7 @@ class CfgFunctions {
 			class respawnRoadblock {};
 			class createPatrolMarker {};
 			class groundTransport {};
+			class addGearToCrate {};
 		};
 		class QRF {
 			file = "Functions";
