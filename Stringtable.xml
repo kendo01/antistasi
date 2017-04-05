@@ -130,7 +130,7 @@
 				<Original>NATO</Original>
 			</Key>
 			<Key ID="STR_GENIDENT_AFRF">
-				<Original>RUSSIAN</Original>
+				<Original>AFRF</Original>
 			</Key>
 			<Key ID="STR_GENIDENT_VMF">
 				<Original>VMF</Original>
@@ -196,7 +196,7 @@
 				<Original>Membership Disabled</Original>
 			</Key>
 			<Key ID="STR_UI_SM_MEM_TT">
-				<Original>Only players on the member's list are eligible to become Commander, can access the arsenal inventory and have their rank saved.</Original>
+				<Original>Only players on the members list are eligible to become Commander, can access the arsenal inventory and have their rank saved.</Original>
 			</Key>
 
 			<Key ID="STR_UI_SM_LOAD_0">
@@ -585,49 +585,49 @@
 			<Key ID="STR_UI_EMP_BLDRB_TEXT">
 				<Original>Create Roadblock/OP</Original>
 			</Key>
-			<Key ID="STR_UI_SM_BLDRB_TT">
+			<Key ID="STR_UI_EMP_BLDRB_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_DELRB_TEXT">
 				<Original>Remove Roadblock/OP</Original>
 			</Key>
-			<Key ID="STR_UI_SM_DELRB_TT">
+			<Key ID="STR_UI_EMP_DELRB_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_MNAP_TEXT">
 				<Original>Deploy Minefield (AP)</Original>
 			</Key>
-			<Key ID="STR_UI_SM_MNAP_TT">
+			<Key ID="STR_UI_EMP_MNAP_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_MNAT_TEXT">
 				<Original>Deploy Minefield (AT)</Original>
 			</Key>
-			<Key ID="STR_UI_SM_MNAT_TT">
+			<Key ID="STR_UI_EMP_MNAT_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPEST_TEXT">
 				<Original>Establish Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPEST_TT">
+			<Key ID="STR_UI_EMP_CMPEST_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPDEL_TEXT">
 				<Original>Remove Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPDEL_TT">
+			<Key ID="STR_UI_EMP_CMPDEL_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_CMPREN_TEXT">
 				<Original>Rename Camp</Original>
 			</Key>
-			<Key ID="STR_UI_SM_CMPREN_TT">
+			<Key ID="STR_UI_EMP_CMPREN_TT">
 				<Original>placeholder</Original>
 			</Key>
 			<Key ID="STR_UI_EMP_HQFORT_TEXT">
 				<Original>HQ Fortifications</Original>
 			</Key>
-			<Key ID="STR_UI_SM_HQFORT_TT">
+			<Key ID="STR_UI_EMP_HQFORT_TT">
 				<Original>placeholder</Original>
 			</Key>
 		</Container>
@@ -895,7 +895,7 @@
 				<Original>Contact the Corrupt Officer</Original>
 			</Key>
 			<Key ID="STR_TSKDESC_FNDMIL">
-				<Original>A disgruntled %4 officer is trying to leave Tanoa. His departure is scheduled for %2:%3. If you manage to get to him in time, you might be able to convince him to stay and support our case. He was spotted near %1 and has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
+				<Original>A disgruntled %4 officer is trying to leave Altis. His departure is scheduled for %2:%3. If you manage to get to him in time, you might be able to convince him to stay and support our case. He was spotted near %1 and has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
 			</Key>
 			<Key ID="STR_TSK_LOGAMMO">
 				<Original>Steal or Destroy Ammotruck</Original>
@@ -1041,6 +1041,10 @@
 			<Key ID="STR_TSK_CA_TARGET">
 				<Original>%1 is under attack!</Original>
 			</Key>
+
+			<Key ID="STR_TSK_NATO_ARMOR">
+				<Original>Our Commander asked %5 for an armored column departing from %2 with destination %1. Provide whatever support you can. They are scheduled to leave the AO at %3:%4.</Original>
+			</Key>
 		</Container>
 	</Package>
 
@@ -1089,7 +1093,7 @@
 			<Key ID="STR_HINTS_HQPLACE_START_3">
 				<Original>Try not to select areas with nearby enemies\n\nGameplay and difficulty change with different starting locations.</Original>
 			</Key>
-			
+
 			<Key ID="STR_HINTS_HQPLACE_DEATH_TITLE">
 				<Original>Petros is Dead</Original>
 			</Key>
@@ -1126,6 +1130,169 @@
 			</Key>
 			<Key ID="STR_HINTS_SAVE_COM_4">
 				<Original>Static weapons need to be within 50m of a friendly flag, and they need to be assembled, otherwise they will not be saved.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Commander">
+			<Key ID="STR_HINTS_COMMANDER_DIS">
+				<Original>Player Commander disconnected or retired. %1 is our new leader. Greet him!</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_REP">
+				<Original>%2 replaced %1 as the leader of our forces. Greet him!</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_RES">
+				<Original>You step down from being Commander. Others will take your place.</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_DEN">
+				<Original>You are no longer eligible to command our forces.</Original>
+			</Key>
+			<Key ID="STR_HINTS_COMMANDER_ACC">
+				<Original>You are now eligible to command our forces.</Original>
+			</Key>
+		</Container>
+
+		<Container name="General">
+			<Key ID="STR_HINTS_GEN_DONATE_FAIL">
+				<Original>You have less than 100€ to donate.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_FIA">
+				<Original>You have donated 100€ to the cause. This will raise your status among FIA forces.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_PLAYER_FAIL">
+				<Original>You must be looking at a player in order to donate money.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_DONATE_PLAYER">
+				<Original>You have donated 100€ to %1.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_RESTRICTED_COM">
+				<Original>Only the Commander has access to this function.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_RESTRICTED_ADMIN">
+				<Original>Only an admin has access to this function.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_STEAL_FAIL">
+				<Original>There are not enough funds for you to borrow anything.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_STEAL_SUC">
+				<Original>You've taken 100€ from the general budget. Invest it wisely.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_GEN_MEM_DIS">
+				<Original>Server membership is disabled.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_TARGET">
+				<Original>You are not looking at a player.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_ADD_FAIL">
+				<Original>The player is already a member on this server.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_REM_FAIL">
+				<Original>The player is already not a member on this server.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_ADD_SUC">
+				<Original>%1 has been added to this server's members list.</Original>
+			</Key>
+			<Key ID="STR_HINTS_GEN_MEM_REM_SUC">
+				<Original>%1 has been removed from this server's members list.</Original>
+			</Key>
+			
+			<Key ID="STR_HINTS_CLEARED_FOREST">
+				<Original>You've cleared the surroundings of trees and bushes.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Mission Selection">
+			<Key ID="STR_HINTS_MIS_TYPE_ACTIVE">
+				<Original>You already have an active mission of this type.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_GIVEN">
+				<Original>I have a mission for you.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_DES_NO_CHAT">
+				<Original>I have no destroy missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_DES_NO_HINT">
+				<Original>Destroy missions require radio towers or enemy cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_LOG_NO_CHAT">
+				<Original>I have no logistics missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_LOG_NO_HINT">
+				<Original>Logistics missions require enemy outposts, cities or banks within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_RES_NO_CHAT">
+				<Original>I have no rescue missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_RES_NO_HINT">
+				<Original>Rescue missions require enemy cities or bases within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_FND_NO_CHAT">
+				<Original>I have no contact missions right now.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_FND_NO_HINT">
+				<Original>Contact missions require enemy cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_FNDE_NO_CHAT">
+				<Original>I have no contact missions right now.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_FNDE_NO_HINT">
+				<Original>Contact missions require cities within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_CVY_NO_CHAT">
+				<Original>I have no convoy missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_CVY_NO_HINT">
+				<Original>Convoy missions require enemy cities within 4km of your HQ, and they must have an idle base in their surroundings.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_ASS_NO_CHAT">
+				<Original>I have no assassination missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_ASS_NO_HINT">
+				<Original>Assassination missions require enemy cities or outposts within 4km of your HQ.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_MIS_PR_NO_CHAT">
+				<Original>I have no PR missions for you. Move our HQ closer to the enemy or finish some other missions in order to have better intel.</Original>
+			</Key>
+			<Key ID="STR_HINTS_MIS_PR_NO_HINT">
+				<Original>PR missions require enemy cities within 4km of your HQ.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Fast Travel">
+			<Key ID="STR_HINTS_FT_SINGLEGROUP">
+				<Original>You can only fast-travel one group at a time.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TEMPAI">
+				<Original>You cannot fast-travel while you are controlling AI.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ENEMIES">
+				<Original>This group cannot fast-travel with enemies nearby.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ENEMIES_PERS">
+				<Original>You cannot fast-travel with enemies nearby.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_DAMAGE">
+				<Original>You cannot fast-travel if one of your vehicles is damaged or doesn't have a driver.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_MARKER">
+				<Original>You cannot fast-travel to an enemy-controlled zone.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_ATTACK">
+				<Original>You cannot fast-travel to an area under attack or with enemies in the surrounding.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TARGET">
+				<Original>Click on the zone you want to travel to.</Original>
+			</Key>
+			<Key ID="STR_HINTS_FT_TARGET_FAIL">
+				<Original>You must click near a camp or HQ.</Original>
 			</Key>
 		</Container>
 	</Package>
