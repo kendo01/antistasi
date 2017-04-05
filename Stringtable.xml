@@ -85,6 +85,9 @@
 			<Key ID="STR_ACT_JAMCSAT">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\call_ca.paa' /&gt; Jam CSAT</Original>
 			</Key>
+			<Key ID="STR_ACT_JUNGLE">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\use_ca.paa' /&gt; Clear Nearby Jungle</Original>
+			</Key>
 			<Key ID="STR_ACT_REST">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Cursors\wait_gs.paa' /&gt; Rest for 8 Hours</Original>
 			</Key>
@@ -142,7 +145,7 @@
 				<Original>FIA</Original>
 			</Key>
 			<Key ID="STR_GENIDENT_RES">
-				<Original>Resistence</Original>
+				<Original>Resistance</Original>
 			</Key>
 			<Key ID="STR_GENIDENT_SOC">
 				<Original>SOCOM</Original>
@@ -193,7 +196,7 @@
 				<Original>Membership Disabled</Original>
 			</Key>
 			<Key ID="STR_UI_SM_MEM_TT">
-				<Original>Only players on the member's list are illegible to become Commander, can access the arsenal inventory and have their rank saved.</Original>
+				<Original>Only players on the members list are eligible to become Commander, can access the arsenal inventory and have their rank saved.</Original>
 			</Key>
 
 			<Key ID="STR_UI_SM_LOAD_0">
@@ -1191,6 +1194,10 @@
 			</Key>
 			<Key ID="STR_HINTS_GEN_MEM_REM_SUC">
 				<Original>%1 has been removed from this server's members list.</Original>
+			</Key>
+			
+			<Key ID="STR_HINTS_CLEARED_FOREST">
+				<Original>You've cleared the surroundings of trees and bushes.</Original>
 			</Key>
 		</Container>
 
