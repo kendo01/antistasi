@@ -63,6 +63,7 @@ class CfgFunctions {
 			class respawnPetros {};
 			class changeRole {};
 			class findRoadSpot {};
+			class clearForest {};
 		};
 		class server {
 			file = "Functions";
