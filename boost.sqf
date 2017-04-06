@@ -19,6 +19,20 @@ if (activeAFRF) then {
 	_optics = ["optic_Arco"];
 };
 
+if (activeJNA) exitWith {
+	if (activeAFRF) then {
+		_weapons = [["rhs_weap_ak74m_camo",20], ["rhs_weap_rpg26",30]];
+		_magazines = [["rhs_30Rnd_545x39_AK",60], ["rhs_rpg26_mag",30], ["rhs_mag_rgd5",30]];
+		_items = [["ItemGPS",100], ["ItemRadio",100], ["rhs_acc_1p29",20], ["rhs_6b23_digi_rifleman",20], ["rhs_6b28_ess_bala",20]];
+	} else {
+		_weapons = [["arifle_TRG21_F",20], ["launch_NLAW_F",10]];
+		_magazines = [["30Rnd_556x45_Stanag",60], ["NLAW_F",30], ["HandGrenade",30]];
+		_items = [["ItemGPS",100], ["ItemRadio",100], ["optic_Arco",20], ["V_Chestrig_oli",20], ["H_HelmetIA",20]];
+	};
+
+	[caja,_weapons,_magazines,_items,[]] call AS_fnc_addGearToCrate;
+};
+
 unlockedWeapons = unlockedWeapons + _weapons;
 unlockedMagazines = unlockedMagazines + _magazines;
 unlockedItems = unlockedItems + _items;

@@ -1195,9 +1195,36 @@
 			<Key ID="STR_HINTS_GEN_MEM_REM_SUC">
 				<Original>%1 has been removed from this server's members list.</Original>
 			</Key>
-			
+
 			<Key ID="STR_HINTS_CLEARED_FOREST">
 				<Original>You've cleared the surroundings of trees and bushes.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_INIT_NOTMEMBER_GEAR">
+				<Original>You are not on the members list of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others.\n\nArsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6</Original>
+			</Key>
+			<Key ID="STR_HINTS_INIT_MEMBER_GEAR">
+				<Original>Arsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6</Original>
+			</Key>
+			<Key ID="STR_HINTS_INIT_NOTMEMBER_INV">
+				<Original>You are not in the members list of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime, you may use the other box to store equipment and share it with others.</Original>
+			</Key>
+			<Key ID="STR_HINTS_INIT_ADMIN_MEMBER">
+				<Original>You are not in the members list, but you have been added automatically due to your status as admin.</Original>
+			</Key>
+			<Key ID="STR_HINTS_INIT_GUEST_WELCOME">
+				<Original>Welcome, %1. You are a guest on this server.</Original>
+			</Key>
+			<Key ID="STR_HINTS_INIT_MEMBER_RETURN">
+				<Original>Welcome back, %1</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_EH_VEH_GROUP">
+				<Original>You cannot board another player's private vehicle if you are not in the same group.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_OPR_TEMP">
+				<Original>You died while remote-controlling AI.</Original>
 			</Key>
 		</Container>
 

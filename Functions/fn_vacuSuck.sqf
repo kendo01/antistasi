@@ -38,7 +38,7 @@ while {_stationary} do {
 
 	{
 		if (speed _vehicle > 1) exitWith {_stationary = false};
-		[_x,_vehicle] remoteExec ["munitionTransfer",2];
+		[_x,_vehicle] remoteExec ["AS_fnc_transferGear",2];
 		sleep 5;
 	} forEach _crates;
 
