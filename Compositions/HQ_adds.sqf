@@ -40,7 +40,7 @@ if (_t == "delete") exitWith {
 
 	server setVariable ["AS_HQ_sandbag", 0];
 
-	if !(isNil vehiclePad) then {
+	if !(isNil "vehiclePad") then {
 		[vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
 		[vehiclePad, {vehiclePad = nil}] remoteExec ["call", 0];
 		server setVariable ["AS_vehicleOrientation", 0, true];
