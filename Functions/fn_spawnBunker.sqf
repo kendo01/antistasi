@@ -1,7 +1,7 @@
 params ["_markerPos", "_roads","_staticType"];
 private ["_spawnData","_roadPos","_roadDir","_direction","_position","_bunker","_bunkertype","_static"];
 
-if (typeName "_markerPos" == "STRING") then {
+if (typeName _markerPos == "STRING") then {
 	_markerPos = getMarkerPos _markerPos;
 };
 
