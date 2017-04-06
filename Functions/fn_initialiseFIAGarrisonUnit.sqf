@@ -1,4 +1,5 @@
 params ["_unit", ["_marker", ""]];
+//[unlockedWeapons,unlockedWeapons,unlockedItems] params ["_rifleArray","_launcherArray","_itemArray"];
 private ["_skill","_skillFIA","_aiming","_spotD","_spotT","_cour","_comm","_aimingSh","_aimingSp","_reload","_unitType","_skillSet"];
 
 if !(_marker == "") then {_unit setVariable ["marcador", _marker]};
@@ -23,6 +24,12 @@ _reload = _skill;
 _unitType = typeOf _unit;
 _skillSet = 0;
 
+/*if (activeJNA) then {
+	_rifleArray = ["primary"] call AS_fnc_JNA_getLists;
+	_launcherArray = ["secondary"] call AS_fnc_JNA_getLists;
+	_itemArray = ["nvg","radio","binos","optic"] call AS_fnc_JNA_getLists;
+};*/
+
 if !("ItemRadio" in unlockedItems) then {_unit unlinkItem "ItemRadio"};
 
 call {
@@ -38,14 +45,14 @@ call {
 	if (_unitType == guer_sol_LAT) exitWith {
 		[_unit,true,true,true,false] call randomRifle;
 		if (guer_gear_AT in unlockedWeapons) then {
-			{if ( _x in secondaryWeaponMagazine _unit) then {_unit removeMagazine _x}} forEach magazines _unit;
+			{if (_x in (server getVariable [format ["%1_mags", secondaryWeapon _unit],secondaryWeaponMagazine _unit])) then {_unit removeMagazine _x}} forEach magazines _unit;
 			_unit removeWeaponGlobal (secondaryWeapon _unit);
-			[_unit, guer_gear_AT, 4, 0] call BIS_fnc_addWeapon;
+			[_unit, guer_gear_AT, 3, 0] call BIS_fnc_addWeapon;
 		} else {
 			if ((guer_gear_LAT in unlockedWeapons) OR (activeAFRF)) then {
-				{if ( _x in secondaryWeaponMagazine _unit) then {_unit removeMagazine _x}} forEach magazines _unit;
+				{if (_x in (server getVariable [format ["%1_mags", secondaryWeapon _unit],secondaryWeaponMagazine _unit])) then {_unit removeMagazine _x}} forEach magazines _unit;
 				_unit removeWeaponGlobal (secondaryWeapon _unit);
-				[_unit, guer_gear_LAT, 4, 0] call BIS_fnc_addWeapon;
+				[_unit, guer_gear_LAT, 3, 0] call BIS_fnc_addWeapon;
 			};
 		};
 	};

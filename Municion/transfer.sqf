@@ -59,7 +59,7 @@ if (_cuenta > 0) then
   			sleep 0.1;
 		if !(_cuenta > _counter) then
 			{
-			[_caja,_camion] remoteExec ["munitionTransfer",2];
+			[_caja,_camion] remoteExec ["AS_fnc_transferGear",2];
 			_proceder = true;
 			};
 		if ((_camion != vehicle player) or (speed _camion != 0)) then

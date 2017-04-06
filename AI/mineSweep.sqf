@@ -43,7 +43,7 @@ while {alive _unit} do
 			{
 			if ((count magazineCargo _camion > 0) and (_unit distance (getMarkerPos guer_respawn) < 50)) then
 				{
-				[_camion,caja] remoteExec ["munitionTransfer",2];
+				[_camion,caja] remoteExec ["AS_fnc_transferGear",2];
 				sleep 30;
 				};
 			};

@@ -16,7 +16,7 @@ player removeWeaponGlobal (primaryWeapon player);
 player removeWeaponGlobal (secondaryWeapon player);
 player setPosASL [0,0,0];
 
-hint "Your have been punished for inappropriate behaviour.";
+hint "You have been punished for inappropriate behaviour.";
 sleep 5;
 hint format ["After %1 seconds, you'll be returned to base.", _punish];
 sleep 5;
