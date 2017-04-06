@@ -1196,10 +1196,6 @@
 				<Original>%1 has been removed from this server's members list.</Original>
 			</Key>
 
-			<Key ID="STR_HINTS_CLEARED_FOREST">
-				<Original>You've cleared the surroundings of trees and bushes.</Original>
-			</Key>
-
 			<Key ID="STR_HINTS_INIT_NOTMEMBER_GEAR">
 				<Original>You are not on the members list of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others.\n\nArsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6</Original>
 			</Key>
@@ -1226,6 +1222,11 @@
 			<Key ID="STR_HINTS_OPR_TEMP">
 				<Original>You died while remote-controlling AI.</Original>
 			</Key>
+			
+			<Key ID="STR_HINTS_CLEARED_FOREST">
+				<Original>You've cleared the surroundings of trees and bushes.</Original>
+			</Key>
+
 		</Container>
 
 		<Container name="Mission Selection">

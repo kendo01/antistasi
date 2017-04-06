@@ -6,7 +6,8 @@ private ["_compromised","_cambiar","_bases","_arrayCivVeh","_player","_size","_b
 _cambiar = "";
 _bases = bases + puestos + controles;
 _locs = (bases + aeropuertos + puestos + colinas) arrayIntersect mrkAAF;
-_arrayCivVeh = CIV_vehicles + [civHeli] +
+
+_arrayCivVeh = CIV_vehicles + [civHeli] + 
 	[
 		"C_Rubberboat",			// Civ. Zodiac
 		"C_Boat_Civil_01_F",		// Speedboat
@@ -17,6 +18,7 @@ _arrayCivVeh = CIV_vehicles + [civHeli] +
 	];
 //Add vehicles to the Array above to allow them to be used as Undercover. Ideal for hand-placed objects that you don't want spawning as traffic.
 //Vehicles you want added as traffic should be added to CIV_vehicles
+
 _compromised = player getVariable "compromised";
 
 if (vehicle player != player) then
