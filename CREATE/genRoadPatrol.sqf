@@ -56,8 +56,6 @@ _direction = 0;
 if !(_vehicleType isKindOf "helicopter") then {
 	if (_vehicleType in vehPatrolBoat) then {
 		_spawnPosition = [_spawnPosition,80,200,10,2,0,0] call BIS_Fnc_findSafePos;
-		_beach = [_vehicle,0,200,0,0,90,1] call BIS_Fnc_findSafePos;
-		_direction = ((_vehicle getRelDir _beach) + 180);
 	} else {
 		_spawnData = [_spawnPosition, getMarkerPos (_arrayTargets select 0)] call AS_fnc_findSpawnSpots;
 		_spawnPosition = _spawnData select 0;
@@ -67,6 +65,10 @@ if !(_vehicleType isKindOf "helicopter") then {
 
 _vehicleData = [_spawnPosition, _direction,_vehicleType, side_green] call bis_fnc_spawnvehicle;
 _vehicle = _vehicleData select 0;
+if (_vehicleType in vehPatrolBoat) then {
+	_beach = [_vehicle,0,200,0,0,90,1] call BIS_Fnc_findSafePos;
+	_direction = ((_vehicle getRelDir _beach) + 180);
+};
 [_vehicle,"Patrol"] spawn inmuneConvoy;
 _groupVehicle = _vehicleData select 2;
 _allGroups pushBack _groupVehicle;
