@@ -308,7 +308,7 @@ class Params {
         title = "Use customized arsenal by Jeroen Not";
             values[] = {0,1};
             texts[] = {"Off","On"};
-            default = 0;
+            default = 1;
             typeName = "BOOL";
             force = 1;
     };
