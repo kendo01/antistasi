@@ -1,189 +1,135 @@
-if (!isServer and hasInterface) exitWith{};
+if (!isServer and hasInterface) exitWith {};
 
-private ["_marcador","_datos","_numCiv","_numVeh","_roads","_prestigeOPFOR","_presitgeBLUFOR","_civs","_grupos","_vehiculos","_civsPatrol","_gruposPatrol","_vehPatrol","_tipoCiv","_tipoVeh","_dirVeh","_cuenta","_grupo","_size","_road"];
+params ["_marker"];
+private ["_allGroups","_allCivilians","_allVehicles","_markerPos","_size","_data","_countCiv","_countVehicles","_roads","_group","_counter","_patrolCities","_patrolCounter","_civType","_vehicleType","_orientation","_counter","_spawnPos","_unit","_road","_p1","_p2","_connectedRoads","_vehicle","_wp_civ_1","_wp_civ_2"];
 
-_marcador = _this select 0;
+_allGroups = [];
+_allCivilians = [];
+_allVehicles = [];
 
-_datos = server getVariable _marcador;
+_orientation = 0;
 
-_numCiv = _datos select 0;
-_numVeh = _datos select 1;
-//_roads = _datos select 2;
-_roads = carreteras getVariable _marcador;//
-//_prestigeOPFOR = _datos select 3;
-//_prestigeBLUFOR = _datos select 4;
-
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
-
-_civs = [];
-_grupos = [];
-_vehiculos = [];
-_civsPatrol = [];
-_gruposPatrol = [];
-_vehPatrol = [];
-_size = [_marcador] call sizeMarker;
-
-_tipociv = "";
-_tipoveh = "";
-_dirveh = 0;
-
-_posicion = getMarkerPos (_marcador);
-
-_area = [_marcador] call sizeMarker;
-
-private ["_civ","_grupo","_cuenta","_veh","_dirVeh","_roads","_roadcon"];
+_markerPos = getMarkerPos (_marker);
+_size = [_marker] call sizeMarker;
+_roads = carreteras getVariable _marker;
 _roads = _roads call BIS_fnc_arrayShuffle;
 
-if (_marcador in destroyedCities) then
-	{
-	_numCiv = _numCiv / 10;
-	_numVeh = _numVeh / 10;
-	};
-_cuenta = 0;
-_numVeh = round (_numVeh * civPerc);
-if (_numVeh < 1) then {_numVeh = 1};
-_numCiv = round (_numCiv * civPerc);
-if ((daytime < 8) or (daytime > 21)) then {_numCiv = round (_numCiv/4); _numVeh = round (_numVeh * 1.5)};
-if (_numCiv < 1) then {_numCiv = 1};
+_data = server getVariable _marker;
+_countCiv = _data select 0;
+_countVehicles = _data select 1;
 
-_grupo = createGroup civilian;
-_grupos = _grupos + [_grupo];
 
-while {(spawner getVariable _marcador) and (_cuenta < _numCiv)} do
-	{
-	if (diag_fps > minimoFPS) then
-		{
-		_pos = [];
-		while {true} do
-			{
-			_pos = [_posicion, round (random _area), random 360] call BIS_Fnc_relPos;
-			if (!surfaceIsWater _pos) exitWith {};
-			};
-		_tipociv = CIV_units call BIS_Fnc_selectRandom;
-		_civ = _grupo createUnit [_tipociv, _pos, [],0, "NONE"];
-		[_civ] spawn CIVinit;
-		_civs pushBack _civ;
+if (_marker in destroyedCities) then {
+	_countCiv = _countCiv / 10;
+	_countVehicles = _countVehicles / 10;
+};
 
-		if (_cuenta < _numVeh) then
-			{
-			_p1 = _roads select _cuenta;
+_counter = 0;
+_countVehicles = (round (_countVehicles * civPerc)) max 1;
+_countCiv = round (_countCiv * civPerc);
+if ((daytime < 8) OR (daytime > 21)) then {
+	_countCiv = round (_countCiv/4);
+	_countVehicles = round (_countVehicles * 1.5);
+};
+if (_countCiv < 1) then {_countCiv = 1};
+
+_group = createGroup civilian;
+_allGroups pushBack _group;
+
+while {(spawner getVariable _marker) AND (_counter < _countCiv)} do {
+	if (diag_fps > minimoFPS) then {
+		_spawnPos = [];
+		while {true} do {
+			_spawnPos = [_markerPos, round (random _size), random 360] call BIS_Fnc_relPos;
+			if (!surfaceIsWater _spawnPos) exitWith {};
+		};
+		_civType = selectRandom CIV_units;
+		_unit = _group createUnit [_civType, _spawnPos, [],0, "NONE"];
+		[_unit] spawn CIVinit;
+		_allCivilians pushBack _unit;
+
+		if (_counter < _countVehicles) then {
+			//_p1 = _roads select _counter;
+			_p1 = selectRandom _roads;
 			_road = (_p1 nearRoads 5) select 0;
-			if (!isNil "_road") then
-				{
-				_roadcon = roadsConnectedto (_road);
-				//_roadcon = roadsConnectedto (_roads select _cuenta);
-				//_p1 = getPos (_roads select _cuenta);
-				_p2 = getPos (_roadcon select 0);
-				_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
-				_pos = [_p1, 3, _dirveh + 90] call BIS_Fnc_relPos;
-				_tipoveh = CIV_vehicles call BIS_Fnc_selectRandom;
-				if (count (_pos findEmptyPosition [0,5,_tipoveh]) > 0) then {
-					_veh = _tipoveh createVehicle _pos;
-					_veh setDir _dirveh;
-					_vehiculos = _vehiculos + [_veh];
-					[_veh] spawn civVEHinit;
-				};
+			if !(isNil "_road") then {
+				_connectedRoads = roadsConnectedto (_road);
+				_p2 = getPos (_connectedRoads select 0);
+				_orientation = [_p1,_p2] call BIS_fnc_DirTo;
+				_spawnPos = [_p1, 3, _orientation + 90] call BIS_Fnc_relPos;
+				_vehicleType = selectRandom CIV_vehicles;
+				if (count (_spawnPos findEmptyPosition [0,5,_vehicleType]) > 0) then {
+					_vehicle = _vehicleType createVehicle _spawnPos;
+					[_vehicle] spawn AS_fnc_protectVehicle;
+					_vehicle setDir _orientation;
+					_allVehicles pushBack _vehicle;
+					[_vehicle] spawn civVEHinit;
 				};
 			};
+		};
 		sleep 0.5;
-		}
-	else
-		{
-		if (debug) then {Slowhand globalChat "Nos hemos quedado sin FPS, dejo de spawnear civiles"};
-		};
-	_cuenta = _cuenta + 1;
 	};
 
-if ((random 100 < ((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))) and (spawner getVariable _marcador)) then
-	{
-	_pos = [];
-	while {true} do
-		{
-		_pos = [_posicion, round (random _area), random 360] call BIS_Fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_civ = _grupo createUnit [selectRandom CIV_journalists, _pos, [],0, "NONE"];
-	[_civ] spawn CIVinit;
-	_civs pushBack _civ;
+	_counter = _counter + 1;
+};
+
+if ((random 100 < ((server getVariable ["prestigeNATO",0]) + (server getVariable ["prestigeCSAT",0]))) AND (spawner getVariable _marker)) then {
+	while {true} do {
+		_spawnPos = [_markerPos, round (random _size), random 360] call BIS_Fnc_relPos;
+		if !(surfaceIsWater _spawnPos) exitWith {};
 	};
+	_unit = _group createUnit [selectRandom CIV_journalists, _spawnPos, [],0, "NONE"];
+	[_unit] spawn CIVinit;
+	_allCivilians pushBack _unit;
+};
 
-[leader _grupo, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
+[leader _group, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
 
-_patrolCiudades = [_marcador] call AS_fnc_getNearbyCities;
+_patrolCities = [_marker] call AS_fnc_getNearbyCities;
 
-_cuentaPatrol = 0;
-
-_andanadas = round (_numCiv / 30);
-if (_andanadas < 1) then {_andanadas = 1};
-
-for "_i" from 1 to _andanadas do
-	{
-	while {(spawner getVariable _marcador) and (_cuentaPatrol < (count _patrolCiudades - 1))} do
-		{
-		//_p1 = getPos (_roads select _cuenta);
-		_p1 = _roads select _cuenta;
+_counter = 0;
+_patrolCounter = (round (_countCiv / 30)) max 1;
+for "_i" from 1 to _patrolCounter do {
+	while {(spawner getVariable _marker) AND (_counter < (count _patrolCities - 1))} do {
+		_p1 = _roads select _counter;
 		_road = (_p1 nearRoads 5) select 0;
-		if (!isNil "_road") then
-			{
-			_grupoP = createGroup civilian;
-			_gruposPatrol = _gruposPatrol + [_grupoP];
-			_roadcon = roadsConnectedto _road;
-			//_p1 = getPos (_roads select _cuenta);
-			_p2 = getPos (_roadcon select 0);
-			_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
-			_tipoveh = CIV_vehicles call BIS_Fnc_selectRandom;
-			_veh = _tipoveh createVehicle _p1;
-			_veh setDir _dirveh;
-			_veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
-			_vehPatrol = _vehPatrol + [_veh];
-			_tipociv = CIV_units call BIS_Fnc_selectRandom;
-			_civ = _grupoP createUnit [_tipociv, _p1, [],0, "NONE"];
-			[_civ] spawn CIVinit;
-			_civsPatrol = _civsPatrol + [_civ];
-			_civ moveInDriver _veh;
-			_grupoP addVehicle _veh;
-			_grupoP setBehaviour "CARELESS";
-			_wp = _grupoP addWaypoint [getMarkerPos (_patrolCiudades select _cuentaPatrol),0];
-			_wp setWaypointType "MOVE";
-			_wp setWaypointSpeed "FULL";
-			_wp setWaypointTimeout [30, 45, 60];
-			_wp = _grupoP addWaypoint [_posicion,1];
-			_wp setWaypointType "MOVE";
-			_wp setWaypointTimeout [30, 45, 60];
-			_wp1 = _grupoP addWaypoint [_posicion,0];
-			_wp1 setWaypointType "CYCLE";
-			_wp1 synchronizeWaypoint [_wp];
-			};
-		if (_cuenta < (count _roads)) then {_cuenta = _cuenta + 1} else {_cuenta = 0};
-		_cuentaPatrol = _cuentaPatrol + 1;
-		sleep 5;
+		if !(isNil "_road") then {
+			_connectedRoads = roadsConnectedto _road;
+			_p2 = getPos (_connectedRoads select 0);
+			_orientation = [_p1,_p2] call BIS_fnc_DirTo;
+
+			_group = createGroup civilian;
+			_allGroups pushBack _group;
+
+			_vehicleType = selectRandom CIV_vehicles;
+			_vehicle = _vehicleType createVehicle _p1;
+			_vehicle setDir _orientation;
+			_vehicle addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
+			_allVehicles pushBack _vehicle;
+			_civType = selectRandom CIV_units;
+			_unit = _group createUnit [_civType, _p1, [],0, "NONE"];
+			[_unit] spawn CIVinit;
+			_allCivilians pushBack _unit;
+			_unit moveInDriver _vehicle;
+			_group addVehicle _vehicle;
+			_group setBehaviour "CARELESS";
+
+			_wp_civ_1 = _group addWaypoint [getMarkerPos (_patrolCities select _counter),0];
+			_wp_civ_1 setWaypointType "MOVE";
+			_wp_civ_1 setWaypointSpeed "LIMITED";
+			_wp_civ_1 setWaypointTimeout [30, 45, 60];
+			_wp_civ_1 = _group addWaypoint [_markerPos,1];
+			_wp_civ_1 setWaypointType "MOVE";
+			_wp_civ_1 setWaypointTimeout [30, 45, 60];
+			_wp_civ_2 = _group addWaypoint [_markerPos,0];
+			_wp_civ_2 setWaypointType "CYCLE";
+			_wp_civ_2 synchronizeWaypoint [_wp_civ_1];
 		};
+		_counter = _counter + 1;
+		sleep 5;
 	};
+};
 
-waitUntil {sleep 1;not (spawner getVariable _marcador)};
+waitUntil {sleep 1; !(spawner getVariable _marker)};
 
-{deleteVehicle _x} forEach _civs;
-{deleteGroup _x} forEach _grupos;
-{
-if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then
-	{
-	if (_x in reportedVehs) then {reportedVehs = reportedVehs - [_x]; publicVariable "reportedVehs"};
-	deleteVehicle _x;
-	}
-} forEach _vehiculos;
-{
-waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
-deleteVehicle _x} forEach _civsPatrol;
-{
-if (!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)) then
-	{
-	if (_x in reportedVehs) then {reportedVehs = reportedVehs - [_x]; publicVariable "reportedVehs"};
-	deleteVehicle _x
-	}
-else
-	{
-	[_x] spawn civVEHinit
-	};
-} forEach _vehPatrol;
-{deleteGroup _x} forEach _gruposPatrol;
+[_allGroups, _allCivilians, _allVehicles] spawn AS_fnc_despawnUnits;
