@@ -63,7 +63,7 @@ if (count _inputArray > 0) then {
 			_count = missionNamespace getVariable [format ["jna_count_%1",_x], 10];
 			if (count (jna_dataList select _index) > 0) then {
 				{
-					if ((_x select 1) > _count) then {_returnArray pushBackUnique (_x select 0)};
+					if (((_x select 1) > _count) OR ((_x select 1) == -1)) then {_returnArray pushBackUnique (_x select 0)};
 				} forEach (jna_dataList select _index);
 			};
 		} forEach _inputArray;
