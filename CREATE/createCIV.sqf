@@ -49,7 +49,8 @@ while {(spawner getVariable _marker) AND (_counter < _countCiv)} do {
 		_allCivilians pushBack _unit;
 
 		if (_counter < _countVehicles) then {
-			_p1 = _roads select _counter;
+			//_p1 = _roads select _counter;
+			_p1 = selectRandom _roads;
 			_road = (_p1 nearRoads 5) select 0;
 			if !(isNil "_road") then {
 				_connectedRoads = roadsConnectedto (_road);
@@ -59,6 +60,7 @@ while {(spawner getVariable _marker) AND (_counter < _countCiv)} do {
 				_vehicleType = selectRandom CIV_vehicles;
 				if (count (_spawnPos findEmptyPosition [0,5,_vehicleType]) > 0) then {
 					_vehicle = _vehicleType createVehicle _spawnPos;
+					[_vehicle] spawn AS_fnc_protectVehicle;
 					_vehicle setDir _orientation;
 					_allVehicles pushBack _vehicle;
 					[_vehicle] spawn civVEHinit;

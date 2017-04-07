@@ -145,6 +145,7 @@ class CfgFunctions {
 			class JNA_getLists {};
 			class JNA_pushLists {};
 			class JNA_removeItem {};
+			class JNA_dropPercentage {};
 		};
 	};
 };
