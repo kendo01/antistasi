@@ -1196,6 +1196,10 @@
 				<Original>%1 has been removed from this server's members list.</Original>
 			</Key>
 
+			<Key ID="STR_HINTS_CLEARED_FOREST">
+				<Original>You've cleared the surroundings of trees and bushes.</Original>
+			</Key>
+
 			<Key ID="STR_HINTS_INIT_NOTMEMBER_GEAR">
 				<Original>You are not on the members list of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others.\n\nArsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6</Original>
 			</Key>
@@ -1222,11 +1226,6 @@
 			<Key ID="STR_HINTS_OPR_TEMP">
 				<Original>You died while remote-controlling AI.</Original>
 			</Key>
-			
-			<Key ID="STR_HINTS_CLEARED_FOREST">
-				<Original>You've cleared the surroundings of trees and bushes.</Original>
-			</Key>
-
 		</Container>
 
 		<Container name="Mission Selection">
@@ -1321,6 +1320,89 @@
 			</Key>
 			<Key ID="STR_HINTS_FT_TARGET_FAIL">
 				<Original>You must click near a camp or HQ.</Original>
+			</Key>
+		</Container>
+
+		<Container name="Undercover">
+			<Key ID="STR_HINTS_UND_SINGLEGROUP">
+				<Original>You cannot disguise yourself while you are controlling AI.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_DISGUISED">
+				<Original>You are incognito already.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_NOTCIV">
+				<Original>You are not in a civilian vehicle.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_REPORTED_CAR">
+				<Original>The vehicle you are in has been reported to the enemy. Switch to another vehicle or change its plates at HQ to become incognito.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_REPORTED">
+				<Original>You have been reported in the last 30 minutes and cannot go incognito.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_ENEMY_DIST">
+				<Original>You cannot become incognito with enemies less than %1m from you.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_ENEMY_KNOW">
+				<Original>You cannot become incognito while enemies are still on the lookout for you nearby.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_FAC_GRND">
+				<Original>You cannot become incognito near bases, outposts, or roadblocks.</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_UND_GEAR">
+				<Original>You cannot disguise yourself while wearing suspicious-looking gear.\n</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_PRIM">
+				<Original>%1\nPrimary Weapon: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_SEC">
+				<Original>%1\nSecondary Weapon: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_HGUN">
+				<Original>%1\nSidearm: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_VEST">
+				<Original>%1\nVest: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_HEAD">
+				<Original>%1\nHeadgear: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_HMD">
+				<Original>%1\nHMD: %2</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_GEAR_UNI">
+				<Original>%1\nClothing: %2</Original>
+			</Key>
+
+			<Key ID="STR_HINTS_UND_CMP_REPORTED">
+				<Original>Careful!</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_VEH_MIL">
+				<Original>You entered a non-civilian vehicle.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_VEH_REP">
+				<Original>You entered a reported vehicle.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_FAC">
+				<Original>You have gotten too close to an enemy facility and have been spotted.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_ROAD">
+				<Original>You went far from roads and have been spotted.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_EXP">
+				<Original>Explosives have been spotted on your vehicle.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_EXP">
+				<Original>Explosives have been spotted on your vehicle.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_WANTED">
+				<Original>You left your vehicle and you are still in the wanted list.</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_REPWAN">
+				<Original>You have been made, enemies are on the lookout for you!</Original>
+			</Key>
+			<Key ID="STR_HINTS_UND_CMP_GEAR">
+				<Original>Your gear is arousing suspicion, you are no longer incognito.\n</Original>
 			</Key>
 		</Container>
 	</Package>
