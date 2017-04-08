@@ -1,41 +1,39 @@
-_perro = _this select 0;
-_grupo = group _perro;
+params ["_dog"];
+private ["_group","_spottedUnit"];
 
-_spotted = objNull;
+_dog = _this select 0;
+_group = group _dog;
 
-_perro setVariable ["BIS_fnc_animalBehaviour_disable", true];
-_perro disableAI "FSM";
-_perro setBehaviour "CARELESS";
-_perro setRank "PRIVATE";
+_spottedUnit = objNull;
 
-while {alive _perro} do
-	{
-	if ((_perro == leader _grupo) and (!captive _perro)) then {_perro setCaptive true};
-	if (isNull _spotted) then
+_dog setVariable ["BIS_fnc_animalBehaviour_disable", true];
+_dog disableAI "FSM";
+_dog setBehaviour "CARELESS";
+_dog setRank "PRIVATE";
+
+while {alive _dog} do {
+	if ((_dog == leader _group) AND (!captive _dog)) then {_dog setCaptive true};
+	if (isNull _spottedUnit) then {
+		sleep 5;
+		_dog moveTo getPosATL leader _group;
+
 		{
-		sleep 10;
-		_perro moveTo getPosATL leader _grupo;
-		{
-		_spotted = _x;
-		if (captive _spotted) then
-			{
-			[_spotted,false] remoteExec ["setCaptive",_spotted];
+			_spottedUnit = _x;
+			if (captive _spottedUnit) then {
+				[_spottedUnit,false] remoteExec ["setCaptive",_spottedUnit];
 			};
-		} forEach ([50,0,position _perro,"BLUFORSpawn"] call distanceUnits);
+		} forEach ([50,0,position _dog,"BLUFORSpawn"] call distanceUnits);
 
-		if ((random 10 < 1) and (isNull _spotted)) then
-			{
-			playSound3D [missionPath + (ladridos call BIS_fnc_selectRandom),_perro, false, getPosASL _perro, 1, 1, 100];
-			};
-		if (_perro distance (leader _grupo) > 50) then {_perro setPos position (leader _grupo)};
-		}
-	else
-		{
-		_perro doWatch _spotted;
-		(leader _grupo) reveal [_spotted,4];
-		playSound3D [missionPath + (ladridos select (floor random 5)),_perro, false, getPosASL _perro, 1, 1, 100];
-		_perro moveTo getPosATL _spotted;
-		if (_spotted distance _perro > 100) then {_spotted = objNull};
-		sleep 3;
+		if ((random 10 < 1) AND (isNull _spottedUnit)) then {
+			playSound3D [missionPath + (ladridos call BIS_fnc_selectRandom),_dog, false, getPosASL _dog, 1, 1, 100];
 		};
+		if (_dog distance (leader _group) > 30) then {_dog setPos position (leader _group)};
+	} else {
+		_dog doWatch _spottedUnit;
+		(leader _group) reveal [_spottedUnit,4];
+		playSound3D [missionPath + (ladridos select (floor random 5)),_dog, false, getPosASL _dog, 1, 1, 100];
+		_dog moveTo getPosATL _spottedUnit;
+		if (_spottedUnit distance _dog > 100) then {_spottedUnit = objNull};
+		sleep 3;
 	};
+};
