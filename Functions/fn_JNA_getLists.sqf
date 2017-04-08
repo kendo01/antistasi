@@ -28,6 +28,7 @@
 			map 		10	1
 			gps 		11	1
 			radio 		12	1
+			compass 	13	1
 
 			optic 		18	5
 			muzzle 		19	5
