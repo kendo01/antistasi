@@ -107,7 +107,7 @@ call {
 };
 
 if (_reason != "") exitWith {
-	[] spawn _fnc_compromiseVehicle;
+	[player] spawn _fnc_compromiseVehicle;
 	hint _reason;
 };
 
