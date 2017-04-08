@@ -1097,3 +1097,58 @@ AS_specialWeapons = [
 	"SMG_02_F",
 	"SMG_01_F"
 ];
+
+if (activeJNA) then {
+	// JNA item category indexes
+	jna_index_primary = 0;
+	jna_index_secondary = 1;
+	jna_index_handgun = 2;
+	jna_index_uniform = 3;
+	jna_index_vest = 4;
+	jna_index_backpack = 5;
+	jna_index_helmet = 6;
+	jna_index_goggle = 7;
+	jna_index_nvg = 8;
+	jna_index_binos = 9;
+	jna_index_map = 10;
+	jna_index_gps = 11;
+	jna_index_radio = 12;
+
+	jna_index_optic = 18;
+	jna_index_muzzle = 19;
+	jna_index_accessory = 20;
+	jna_index_bipod = 21;
+	jna_index_grenade = 22;
+	jna_index_mine = 23;
+	jna_index_medical = 24;
+
+	jna_index_ammo = 26;
+
+	// JNA item category "unlock" requirements
+	jna_count_primary = 10;
+	jna_count_secondary = 5;
+	jna_count_handgun = 5;
+	jna_count_uniform = 5;
+	jna_count_vest = 10;
+	jna_count_backpack = 5;
+	jna_count_helmet = 5;
+	jna_count_goggle = 5;
+	jna_count_nvg = 5;
+	jna_count_binos = 5;
+	jna_count_map = 1;
+	jna_count_gps = 1;
+	jna_count_radio = 1;
+
+	jna_count_optic = 5;
+	jna_count_muzzle = 5;
+	jna_count_accessory = 5;
+	jna_count_bipod = 5;
+	jna_count_grenade = 10;
+	jna_count_mine = 5;
+	jna_count_medical = 1;
+
+	jna_count_ammo = 10;
+
+	// JNA category names
+	jna_categories = ["primary","secondary","handgun","uniform","vest","backpack","helmet","goggle","nvg","binos","map","gps","radio","","","","","","optic","muzzle","accessory","bipod","grenade","mine","misc","","ammo"];
+};

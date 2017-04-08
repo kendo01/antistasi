@@ -1,38 +1,35 @@
-private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_exists","_posicionTel","_escarretera","_tipogrupo","_resourcesFIA","_hrFIA"];
+params ["_type"];
+[0,0] params ["_cost","_hr"];
 
-if ("PuestosFIA" in misiones) exitWith {hint "We can only deploy / delete one Post or Roadblock at a time."};
-if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
+private ["_position","_markerPos","_onRoad","_permission","_text","_groupType","_groupComp","_nearestZone"];
 
-_tipo = _this select 0;
+if ("PuestosFIA" in misiones) exitWith {hint localize "STR_TSK_BEMP_RESTR"};
+if !([player] call hasRadio) exitWith {hint localize "STR_TSK_BEMP_RADIO"};
+if ((_type == "delete") AND (count puestosFIA < 1)) exitWith {hint localize "STR_TSK_BEMP_DEL_NR"};
 
 openMap true;
 posicionTel = [];
-if (_tipo != "delete") then {hint "Click on the position you wish to build the Observation Post or Roadblock. \n Remember: to build Roadblocks you must click exactly on a road map section"} else {hint "Click on the Observation Post or Roadblock to delete."};
+hint localize (["STR_TSK_BEMP_BLD_INFO","STR_TSK_BEMP_DEL_INFO"] select (_type == "delete"));
 
 onMapSingleClick "posicionTel = _pos;";
 
-waitUntil {sleep 1; (count posicionTel > 0) or (not visiblemap)};
+waitUntil {sleep 1; (count posicionTel > 0) OR !visiblemap};
 onMapSingleClick "";
 
 if (!visibleMap) exitWith {};
 
-_posicionTel = posicionTel;
-_pos = [];
+_position = posicionTel;
 
-if ((_tipo == "delete") and (count puestosFIA < 1)) exitWith {hint "No Posts or Roadblocks deployed to delete"};
-if ((_tipo == "delete") and ({(alive _x) and (!captive _x) and ((side _x == side_green) or (side _x == side_red)) and (_x distance _posicionTel < 500)} count allUnits > 0)) exitWith {hint "You cannot delete a Post while enemies are near it"};
+if ((_type == "delete") AND ({(alive _x) AND (!captive _x) AND ((side _x == side_green) OR (side _x == side_red)) AND (_x distance _position < safeDistance_fasttravel)} count allUnits > 0)) exitWith {hint localize "STR_TSK_BEMP_DEL_ENEMY"};
 
-_coste = 0;
-_hr = 0;
+_onRoad = isOnRoad _position;
 
-_escarretera = isOnRoad _posicionTel;
-
-if (_tipo != "delete") then {
+if (_type != "delete") then {
 	// BE module
 	_permission = true;
 	_text = "Error in permission system, module rb/wp.";
 	if (activeBE) then {
-		if (_escarretera) then {
+		if (_onRoad) then {
 			_permission = ["RB"] call fnc_BE_permission;
 			_text = "We cannot maintain any additional roadblocks.";
 		} else {
@@ -44,33 +41,34 @@ if (_tipo != "delete") then {
 	if !(_permission) exitWith {hint _text; openMap false;};
 	// BE module
 
-	_tipogrupo = guer_grp_sniper;
+	_groupType = [guer_grp_sniper,guer_grp_AT] select _onRoad;
 
-	if (_escarretera) then {
-		_tipogrupo = guer_grp_AT;
-		_coste = _coste + ([guer_veh_technical] call vehiclePrice) + (server getVariable guer_sol_RFL);
+	if (_onRoad) then {
+		_cost = _cost + ([guer_veh_technical] call vehiclePrice) + (server getVariable [guer_sol_RFL,150]);
 		_hr = _hr + 1;
 	};
 
-	_formato = ([_tipogrupo, "guer"] call AS_fnc_pickGroup);
-	if !(typeName _tipogrupo == "ARRAY") then {
-		_tipogrupo = [_formato] call groupComposition;
+	_groupComp = ([_groupType, "guer"] call AS_fnc_pickGroup);
+	if (typeName _groupType != "ARRAY") then {
+		_groupType = [_groupComp] call groupComposition;
 	};
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _tipogrupo;
+	{
+		_cost = _cost + (server getVariable [_x,150]);
+		_hr = _hr + 1;
+	} forEach _groupType;
 } else {
-	_mrk = [puestosFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	if (_posicionTel distance _pos >10) exitWith {hint "No post nearby"};
+	_nearestZone = [puestosFIA,_position] call BIS_fnc_nearestPosition;
+	_markerPos = getMarkerPos _nearestZone;
+	if (_position distance _markerPos > 10) exitWith {hint localize "STR_TSK_BEMP_DEL_NONE"};
 };
 
-_resourcesFIA = server getVariable "resourcesFIA";
-_hrFIA = server getVariable "hr";
+_resourcesFIA = server getVariable ["resourcesFIA",0];
+_hrFIA = server getVariable ["hr",0];
 
-if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo!= "delete")) exitWith {hint format ["You lack of resources to build this Outpost or Roadblock \n %1 HR and %2 € needed",_hr,_coste]};
+if (((_resourcesFIA < _cost) OR (_hrFIA < _hr)) AND (_type != "delete")) exitWith {hint format [localize "STR_TSK_BEMP_BLD_COST",_hr,_cost]};
 
-if (_tipo != "delete") then
-	{
-	[-_hr,-_coste] remoteExec ["resourcesFIA",2];
-	};
+if (_type != "delete") then {
+	[-_hr,-_cost] remoteExec ["resourcesFIA",2];
+};
 
- [[_tipo,_posicionTel],"crearPuestosFIA"] call BIS_fnc_MP
+[_type,_position] remoteExec ["crearPuestosFIA",2];

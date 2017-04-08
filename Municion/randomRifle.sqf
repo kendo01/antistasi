@@ -1,5 +1,5 @@
 params ["_unit","_changeRifle","_changeHelmet","_changeUniform","_changeVest"];
-private ["_newRifle","_compatibleOptics","_options","_radio"];
+private ["_newRifle","_compatibleOptics","_options","_radio","_items"];
 
 _skillFIA = server getVariable ["skillFIA", 1];
 
@@ -13,7 +13,8 @@ if (_changeVest) then {
 
 if (_changeHelmet) then {
 	if (random 20 < _skillFIA) then {
-		_unit addHeadgear (selectRandom genHelmets);
+		_items = [itemcargo caja arrayIntersect genHelmets,["helmet"] call AS_fnc_JNA_getLists] select activeJNA;
+		if (count _items > 0) then {_unit addHeadgear (selectRandom _items)}
 	} else {
 		if (_changeUniform) then {
 			// BE module
@@ -40,20 +41,23 @@ if (_changeHelmet) then {
 };
 
 if (_changeRifle) then {
-	_unit removeMagazines (currentMagazine _unit);
-	_unit removeWeaponGlobal (primaryWeapon _unit);
-	_newRifle = selectRandom unlockedRifles;
-	if (_newRifle in genGL) then {
-		_unit addMagazine [guer_gear_GL_gren, 4];
+	if (count unlockedRifles > 0) then {
+		_unit removeMagazines (currentMagazine _unit);
+		_unit removeWeaponGlobal (primaryWeapon _unit);
+		_newRifle = selectRandom unlockedRifles;
+		if (_newRifle in genGL) then {
+			_unit addMagazine [guer_gear_GL_gren, 4];
+		};
+		[_unit, _newRifle, 5, 0] call BIS_fnc_addWeapon;
 	};
-	[_unit, _newRifle, 5, 0] call BIS_fnc_addWeapon;
 
-	if (count unlockedOptics > 0) then {
+	_items = [unlockedOptics,["optic"] call AS_fnc_JNA_getLists] select activeJNA;
+	if (count _items > 0) then {
 		_compatibleOptics = [primaryWeapon _unit] call BIS_fnc_compatibleItems;
 		_options = [];
 		{
 			if (_x in _compatibleOptics) then {_options pushBack _x};
-		} forEach unlockedOptics;
+		} forEach _items;
 		_unit addPrimaryWeaponItem (selectRandom _options);
 	};
 };

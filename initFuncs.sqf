@@ -21,7 +21,6 @@ vaciar = compile preProcessFileLineNumbers "Municion\vaciar.sqf";
 AS_specOP = compile preProcessFileLineNumbers "Missions\AS_specOP.sqf";
 artySupport = compile preProcessFileLineNumbers "AI\artySupport.sqf";
 distanceUnits = compile preProcessFileLineNumbers "distanceUnits.sqf";
-munitionTransfer = compile preProcessFileLineNumbers "Municion\munitionTransfer.sqf";
 borrarTask = compile preProcessFileLineNumbers "Missions\borrarTask.sqf";
 undercover = compile preProcessFileLineNumbers "undercover.sqf";
 puertasLand = compile preProcessFileLineNumbers "AI\puertasLand.sqf";
@@ -182,7 +181,6 @@ compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.s
 
 buyGear = compile preProcessFileLineNumbers "Municion\buyGear.sqf";
 emptyCrate = compile preProcessFileLineNumbers "Municion\emptyCrate.sqf";
-suspendTransfer = compile preProcessFileLineNumbers "Municion\suspendTransfer.sqf";
 
 attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 cleanGear = compile preProcessFileLineNumbers "OrgPlayers\cleanGear.sqf";
@@ -191,6 +189,11 @@ petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 
 ACErespawn = compile preProcessFileLineNumbers "Revive\ACErespawn.sqf";
+
+if (activeJNA) then {
+	jna_fnc_arsenal = compile preprocessFileLineNumbers "JeroenArsenal\fn_init.sqf";
+	call jna_fnc_arsenal;
+};
 
 execVM "statSave\saveFuncs.sqf";
 

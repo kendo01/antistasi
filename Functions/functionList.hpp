@@ -64,6 +64,7 @@ class CfgFunctions {
 			class changeRole {};
 			class findRoadSpot {};
 			class clearForest {};
+			class initPlayerEH {};
 		};
 		class server {
 			file = "Functions";
@@ -123,6 +124,9 @@ class CfgFunctions {
 			class respawnRoadblock {};
 			class createPatrolMarker {};
 			class groundTransport {};
+			class addGearToCrate {};
+			class transferGear {};
+			class resetHQ {};
 		};
 		class QRF {
 			file = "Functions";
@@ -136,6 +140,13 @@ class CfgFunctions {
 			class QRF_loiter {};
 			class QRF_RTB {};
 			class QRF_truck {};
+		};
+		class JNA {
+			file = "Functions";
+			class JNA_getLists {};
+			class JNA_pushLists {};
+			class JNA_removeItem {};
+			class JNA_dropPercentage {};
 		};
 	};
 };

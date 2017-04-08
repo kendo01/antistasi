@@ -30,4 +30,6 @@ safeDistance_recruit = 500;
 safeDistance_garrison = 500;
 safeDistance_fasttravel = 500;
 
+static_defPosHQ = [3621.81,10283.2,0.00124454];
+
 bld_smallBunker = "Land_BagBunker_Small_F";

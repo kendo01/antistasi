@@ -1,111 +1,102 @@
-if (!isServer and hasInterface) exitWith{};
+if (!isServer and hasInterface) exitWith {};
 
-_tskTitle = localize "Str_tsk_repAntenna";
-_tskDesc = localize "Str_tskDesc_repAntenna";
+params ["_marker","_posAntenna"];
+[localize "STR_TSK_REPANTENNA",localize "STR_TSKDESC_REPANTENNA",""] params ["_tskTitle","_tskDesc","_group"];
 
-private ["_marcador","_posicion","_fechalim","_fechalimnum","_nombredest","_camionCreado","_size","_pos","_veh","_grupo","_unit"];
+private ["_duration","_endTime","_targetName","_task","_size","_position","_vehicle","_unit","_antenna","_resourcesAAF"];
 
-_marcador = _this select 0;
-_posicion = _this select 1;
+_duration = 60;
+_endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
+_endTime = dateToNumber _endTime;
+_targetName = [_marker] call AS_fnc_localizar;
 
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
-_nombredest = [_marcador] call AS_fnc_localizar;
+_task = ["REP",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4],_tskTitle,_marker],_posAntenna,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+misiones pushBack _task; publicVariable "misiones";
 
-_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
-_camionCreado = false;
+waitUntil {sleep 1;(dateToNumber date > _endTime) OR (spawner getVariable _marker)};
 
-waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (spawner getVariable _marcador)};
-
-if (spawner getVariable _marcador) then
-	{
-	_camionCreado = true;
-	_size = [_marcador] call sizeMarker;
-	_pos = [];
-	_pos = _posicion findEmptyPosition [10,60,selectRandom vehTruckBox];
-	_veh = createVehicle [selectRandom vehTruckBox, _pos, [], 0, "NONE"];
-	_veh allowdamage false;
-	_veh setDir random 360;
-	[_veh] spawn genVEHinit;
-	_grupo = createGroup side_green;
+if (spawner getVariable _marker) then {
+	_group = createGroup side_green;
+	_size = [_marker] call sizeMarker;
+	_position = [];
+	_position = _posAntenna findEmptyPosition [10,60,selectRandom vehTruckBox];
+	_vehicle = createVehicle [selectRandom vehTruckBox, _position, [], 0, "NONE"];
+	_vehicle allowdamage false;
+	_vehicle setDir random 360;
+	[_vehicle] spawn genVEHinit;
 
 	sleep 5;
-	_veh allowDamage true;
+	_vehicle allowDamage true;
 
-	for "_i" from 1 to 3 do
-		{
-		_unit = ([_pos, 0, sol_CREW, _grupo] call bis_fnc_spawnvehicle) select 0;
+	for "_i" from 1 to 3 do {
+		_unit = ([_position, 0, sol_CREW, _group] call bis_fnc_spawnvehicle) select 0;
 		[_unit] spawn genInit;
 		sleep 2;
-		};
-
-	waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (not alive _veh)};
-
-	if (not alive _veh) then
-		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		[2,0] remoteExec ["prestige",2];
-		[1200] remoteExec ["AS_fnc_increaseAttackTimer",2];
-		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-		[5,Slowhand] call playerScoreAdd;
-		};
 	};
-if (dateToNumber date > _fechalimnum) then
-	{
-	if (_marcador in mrkFIA) then
-		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+
+	waitUntil {sleep 1;(dateToNumber date > _endTime) OR !(alive _vehicle)};
+
+	if !(alive _vehicle) then {
+		_task = ["REP",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4, A3_Str_INDEP],_tskTitle,_marker],_posAntenna,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[2,0] remoteExec ["prestige",2];
 		[1200] remoteExec ["AS_fnc_increaseAttackTimer",2];
-		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+		{if (_x distance _vehicle < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+		[5,Slowhand] call playerScoreAdd;
+	};
+};
+
+if (dateToNumber date > _endTime) then {
+	if (_marker in mrkFIA) then {
+		_task = ["REP",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4, A3_Str_INDEP],_tskTitle,_marker],_posAntenna,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		[2,0] remoteExec ["prestige",2];
+		[1200] remoteExec ["AS_fnc_increaseAttackTimer",2];
+		{if (_x distance _vehicle < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,Slowhand] call playerScoreAdd;
 		// BE module
 		if (activeBE) then {
 			["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 		// BE module
-		}
-	else
-		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		//[5,0,_posicion] remoteExec ["AS_fnc_changeCitySupport",2];
+	} else {
+		_task = ["REP",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4, A3_Str_INDEP],_tskTitle,_marker],_posAntenna,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		//[5,0,_posAntenna] remoteExec ["AS_fnc_changeCitySupport",2];
 		[-600] remoteExec ["AS_fnc_increaseAttackTimer",2];
 		[-10,Slowhand] call playerScoreAdd;
-		};
-	antenasMuertas = antenasMuertas - [_posicion];
-	_antena = nearestBuilding _posicion;
-	if (isMultiplayer) then {_antena hideObjectGlobal true} else {_antena hideObject true};
-	_antena = createVehicle ["Land_Communication_F", _posicion, [], 0, "NONE"];
-	antenas = antenas + [_antena];
+	};
+
+	antenasMuertas = antenasMuertas - [_posAntenna];
+	_antenna = nearestBuilding _posAntenna;
+	if (isMultiplayer) then {_antenna hideObjectGlobal true} else {_antenna hideObject true};
+	_antenna = createVehicle ["Land_Communication_F", _posAntenna, [], 0, "NONE"];
+	antenas pushBack _antenna;
 	publicVariable "antenas";
-	_mrkfin = createMarker [format ["Ant%1", count antenas], _posicion];
+
+	_mrkfin = createMarker [format ["Ant%1", count antenas], _posAntenna];
 	_mrkfin setMarkerShape "ICON";
 	_mrkfin setMarkerType "loc_Transmitter";
 	_mrkfin setMarkerColor "ColorBlack";
 	_mrkfin setMarkerText "Radio Tower";
-	mrkAntenas = mrkAntenas + [_mrkfin];
-	_antena addEventHandler ["Killed",
-		{
-		_antena = _this select 0;
-		_mrk = [mrkAntenas, _antena] call BIS_fnc_nearestPosition;
-		antenas = antenas - [_antena]; antenasmuertas = antenasmuertas + [getPos _antena]; deleteMarker _mrk;
-		[["TaskSucceeded", ["", "Radio Tower Destroyed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		}
-		];
-	};
+	mrkAntenas pushBack _mrkfin;
+	_antenna addEventHandler ["Killed", {
+		params ["_object"];
+		_object = _this select 0;
+		private _mrk = [mrkAntenas, _object] call BIS_fnc_nearestPosition;
+		antenas = antenas - [_object];
+		antenasmuertas pushBack (getPos _object);
+		deleteMarker _mrk;
+		[["TaskSucceeded", ["", localize "STR_TSK_RADIO_DESTROYED"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+	}];
+};
 
-_resourcesAAF = server getVariable "resourcesAAF";
+_resourcesAAF = server getVariable ["resourcesAAF",0];
 _resourcesAAF = _resourcesAAF - 10000;
 server setVariable ["resourcesAAF",_resourcesAAF,true];
-[60,_tsk] spawn borrarTask;
+[60,_task] spawn borrarTask;
 
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+waitUntil {sleep 1; !(spawner getVariable _marker)};
 
-if (_camionCreado) then
-	{
-	{deleteVehicle _x} forEach units _grupo;
-	deleteGroup _grupo;
-	if (!([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _veh};
-	};
+if (typeName _group == "GROUP") then {
+	{deleteVehicle _x} forEach units _group;
+	deleteGroup _group;
+	if !([distanciaSPWN,1,_vehicle,"BLUFORSpawn"] call distanceUnits) then {deleteVehicle _vehicle};
+};

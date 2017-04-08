@@ -304,8 +304,8 @@ class Params {
             typeName = "BOOL";
             force = 1;
     };
-    class AS_virtualArsenal {
-        title = "Make the virtual arsenal accessible to players.";
+    class AS_param_useJNA {
+        title = "Use customized arsenal by Jeroen Not";
             values[] = {0,1};
             texts[] = {"Off","On"};
             default = 1;

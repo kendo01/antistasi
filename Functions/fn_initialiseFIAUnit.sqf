@@ -24,7 +24,7 @@ _unitType = typeOf _unit;
 _skillSet = 0;
 
 if !("ItemRadio" in unlockedItems) then {
-	if ((_unit != leader _unit) && (_unitType != guer_sol_UN)) then {_unit unlinkItem "ItemRadio"};
+	if ((_unit != leader _unit) AND (_unitType != guer_sol_UN)) then {_unit unlinkItem "ItemRadio"};
 };
 
 call {
@@ -40,12 +40,12 @@ call {
 	if (_unitType == guer_sol_LAT) exitWith {
 		[_unit,true,true,true,false] call randomRifle;
 		if (guer_gear_AT in unlockedWeapons) then {
-			{if ( _x in secondaryWeaponMagazine _unit) then {_unit removeMagazine _x}} forEach magazines _unit;
+			{if (_x in (server getVariable [format ["%1_mags", secondaryWeapon _unit],secondaryWeaponMagazine _unit])) then {_unit removeMagazine _x}} forEach magazines _unit;
 			_unit removeWeaponGlobal (secondaryWeapon _unit);
 			[_unit, guer_gear_AT, 4, 0] call BIS_fnc_addWeapon;
 		} else {
 			if ((guer_gear_LAT in unlockedWeapons) OR (activeAFRF)) then {
-				{if ( _x in secondaryWeaponMagazine _unit) then {_unit removeMagazine _x}} forEach magazines _unit;
+				{if (_x in (server getVariable [format ["%1_mags", secondaryWeapon _unit],secondaryWeaponMagazine _unit])) then {_unit removeMagazine _x}} forEach magazines _unit;
 				_unit removeWeaponGlobal (secondaryWeapon _unit);
 				[_unit, guer_gear_LAT, 4, 0] call BIS_fnc_addWeapon;
 			};
