@@ -64,7 +64,6 @@ class CfgFunctions {
 			class changeRole {};
 			class findRoadSpot {};
 			class clearForest {};
-			class getJNALists {};
 		};
 		class server {
 			file = "Functions";
@@ -125,6 +124,7 @@ class CfgFunctions {
 			class createPatrolMarker {};
 			class groundTransport {};
 			class addGearToCrate {};
+			class resetHQ {};
 		};
 		class QRF {
 			file = "Functions";
