@@ -296,13 +296,6 @@ fnc_BE_save = {
 	private _result = [];
 	private _current_vehicles = [];
 
-	{
-		if ((_x distance (getMarkerPos guer_respawn) < 50) && (_x getVariable ["BE_mil_veh", false])) then {
-			_current_vehicles pushBack (typeOf _x);
-		};
-
-	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
-
 	_result pushBack BE_currentStage;
 	_result pushBack "legacy";
 	_result pushBack BE_currentXP;
@@ -326,18 +319,6 @@ fnc_BE_load = {
 		BE_defOptics = (_save select 4) select 3;
 		BE_progressLock = _save select 5;
 	};
-
-	{
-		if ((_x distance (getMarkerPos guer_respawn) < 50) && (typeOf _x in BE_current_vehicles)) then {
-			_x setVariable ["BE_mil_veh", true, true];
-			for "_i" from 0 to (count BE_current_vehicles - 1) do {
-				if ((BE_current_vehicles select _i) == typeOf _x) exitWith {
-					BE_current_vehicles set [_i, -1];
-				}
-			};
-		};
-
-	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
 
 	if (BE_current_FIA_WP_Style > 0) then {
 		private ["_posDes", "_remDes", "_normalPos"];
@@ -455,29 +436,6 @@ fnc_BE_getCurrentValue = {
 };
 
 publicVariable "fnc_BE_getCurrentValue";
-
-fnc_BE_checkVehicle = {
-	params ["_vehicle", "_type"];
-
-	private _result = false;
-	private _typeOfVehicle = typeOf _vehicle;
-
-	if (_type == "in") then {
-		if (_vehicle getVariable ["BE_mil_veh", false]) then {
-			_result = true;
-		};
-	};
-
-	if (_type == "out") then {
-		if (_typeOfVehicle in BE_mil_vehicles) then {
-			_vehicle setVariable ["BE_mil_veh", true, true];
-		};
-	};
-
-	_result
-};
-
-publicVariable "fnc_BE_checkVehicle";
 
 fnc_BE_broadcast = {
 	params ["_type", "_reqs", "_data", "_bool", "_str", "_boolStr"];

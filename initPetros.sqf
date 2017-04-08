@@ -7,51 +7,43 @@ petros setVariable ["respawning",false];
 //[] remoteExec ["petrosAnimation", 2];
 [] remoteExec ["AS_fnc_rearmPetros", 2];
 
-petros addEventHandler ["HandleDamage",
-        {
-        private ["_unit","_part","_dam","_injurer"];
-        _part = _this select 1;
-        _dam = _this select 2;
-        _injurer = _this select 3;
+petros addEventHandler ["HandleDamage", {
+    params ["_unit","_part","_dam","_injurer"];
 
-        if (isPlayer _injurer) then
-            {
-            [_injurer,60] remoteExec ["AS_fnc_punishPlayer", _injurer];
-            _dam = 0;
-            };
-        if ((isNull _injurer) or (_injurer == petros)) then {_dam = 0};
-        if (_part == "") then
-            {
-            if (_dam > 0.95) then
-                {
-                if (!(petros getVariable "inconsciente")) then
-                    {
-                    _dam = 0.9;
-                    [petros] spawn inconsciente;
-                    }
-                else
-                    {
-                    petros removeAllEventHandlers "HandleDamage";
-                    };
-                };
-            };
-        _dam
-        }];
+    if (isPlayer _injurer) then {
+        [_injurer,60] remoteExec ["AS_fnc_punishPlayer", _injurer];
+        _dam = 0;
+    };
 
-petros addMPEventHandler ["mpkilled",
-    {
+    if ((isNull _injurer) OR (_injurer == petros)) then {_dam = 0};
+    if (_part == "") then {
+        if (_dam > 0.95) then {
+            if !(petros getVariable "inconsciente") then {
+                _dam = 0.9;
+                [petros] spawn inconsciente;
+            } else {
+                petros removeAllEventHandlers "HandleDamage";
+            };
+        };
+    };
+    _dam
+}];
+
+petros addMPEventHandler ["mpkilled", {
+    params ["_unit","_killer"];
+
     removeAllActions petros;
-    _killer = _this select 1;
-    if (isServer) then
-        {
-            diag_log format ["MAINTENANCE: Petros died. Killer: %1; type: %2", _killer, typeOf _killer];
-            diag_log format ["Info: players online at time of Petros' death: %1", allPlayers - entities "HeadlessClient_F"];
-        if ((side _killer == side_red) or (side _killer == side_green)) then
-             {
-            [] spawn
-                {
+    if (isServer) then {
+        diag_log format ["MAINTENANCE: Petros died. Killer: %1; type: %2", _killer, typeOf _killer];
+        diag_log format ["Info: players online at time of Petros' death: %1", allPlayers - entities "HeadlessClient_F"];
+
+        if ((side _killer == side_red) OR (side _killer == side_green)) then {
+            [] spawn {
                 garrison setVariable ["FIA_HQ",[],true];
-                if !(activeJNA) then {
+
+                if (activeJNA) then {
+                    [50] spawn AS_fnc_JNA_dropPercentage;
+                } else {
                     for "_i" from 0 to round random 3 do {
                         if (count unlockedWeapons > 4) then {
                             _cosa = selectRandom unlockedWeapons;
@@ -94,24 +86,12 @@ petros addMPEventHandler ["mpkilled",
 
                 waitUntil {sleep 6; isPlayer Slowhand};
                 [] remoteExec ["placementSelection",Slowhand];
-               };
-            }
-        else
-            {
-            _viejo = petros;
-            grupoPetros = createGroup side_blue;
-            publicVariable "grupoPetros";
-            petros = grupoPetros createUnit [guer_sol_OFF, position _viejo, [], 0, "NONE"];
-            grupoPetros setGroupId ["Petros","GroupColor4"];
-            petros setIdentity "amiguete";
-            petros setName "Petros";
-            //petros disableAI "MOVE";
-            //petros disableAI "AUTOTARGET";
-            petros forceSpeed 0;
-            if (group _viejo == grupoPetros) then {[[Petros,"mission"],"AS_fnc_addActionMP"] call BIS_fnc_MP;} else {[[Petros,"buildHQ"],"AS_fnc_addActionMP"] call BIS_fnc_MP;};
-             call compile preprocessFileLineNumbers "initPetros.sqf";
-            deleteVehicle _viejo;
-            publicVariable "petros";
             };
+        } else {
+            AS_flag_resetDone = false;
+            [position petros] remoteExec ["AS_fnc_resetHQ",2];
+            waitUntil {AS_flag_resetDone};
+            AS_flag_resetDone = false;
         };
-   }];
+    };
+}];

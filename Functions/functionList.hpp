@@ -126,6 +126,7 @@ class CfgFunctions {
 			class groundTransport {};
 			class addGearToCrate {};
 			class transferGear {};
+			class resetHQ {};
 		};
 		class QRF {
 			file = "Functions";
@@ -145,6 +146,7 @@ class CfgFunctions {
 			class JNA_getLists {};
 			class JNA_pushLists {};
 			class JNA_removeItem {};
+			class JNA_dropPercentage {};
 		};
 	};
 };

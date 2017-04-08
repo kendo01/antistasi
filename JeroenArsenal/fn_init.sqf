@@ -77,7 +77,7 @@ if(hasInterface)then{
     };
     //add arsenal button
     _action = caja addaction [
-        localize"STR_A3_Arsenal",
+        localize"STR_ACT_ARSENAL",
         {
             ["jna_fnc_arsenal"] call bis_fnc_startloadingscreen;
             prefentloop = 0;

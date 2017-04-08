@@ -1,6 +1,6 @@
 /*
  	Description:
-		Mapping of internal JNA lists on old lists.
+		Mapping of internal JNA lists onto old lists
 
 	Parameters:
 		0: ARRAY/STRING - Array of strings with categories to update, or the string "complete", which will trigger a full refresh, or a string of a single category
