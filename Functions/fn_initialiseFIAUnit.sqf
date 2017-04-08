@@ -1,5 +1,4 @@
 params ["_unit"];
-//[unlockedWeapons,unlockedWeapons,unlockedItems] params ["_rifleArray","_launcherArray","_itemArray"];
 private ["_skill","_skillFIA","_aiming","_spotD","_spotT","_cour","_comm","_aimingSh","_aimingSp","_reload","_unitType","_skillSet"];
 
 [_unit] call initRevive;
@@ -23,12 +22,6 @@ _reload = _skill;
 
 _unitType = typeOf _unit;
 _skillSet = 0;
-
-/*if (activeJNA) then {
-	_rifleArray = ["primary"] call AS_fnc_JNA_getLists;
-	_launcherArray = ["secondary"] call AS_fnc_JNA_getLists;
-	_itemArray = ["nvg","radio","binos","optic"] call AS_fnc_JNA_getLists;
-};*/
 
 if !("ItemRadio" in unlockedItems) then {
 	if ((_unit != leader _unit) AND (_unitType != guer_sol_UN)) then {_unit unlinkItem "ItemRadio"};
