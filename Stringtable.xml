@@ -64,6 +64,9 @@
 			<Key ID="STR_ACT_MOVEASSET">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Move this Asset</Original>
 			</Key>
+			<Key ID="STR_ACT_REMOVEASSET">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Revive\overlayIcons\f100_ca.paa' /&gt; Remove this Object</Original>
+			</Key>
 			<Key ID="STR_ACT_DROPASSET">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Drop Here</Original>
 			</Key>
@@ -1044,6 +1047,31 @@
 
 			<Key ID="STR_TSK_NATO_ARMOR">
 				<Original>Our Commander asked %5 for an armored column departing from %2 with destination %1. Provide whatever support you can. They are scheduled to leave the AO at %3:%4.</Original>
+			</Key>
+
+			<Key ID="STR_TSK_BEMP_RESTR">
+				<Original>We can only deploy\delete one emplacement at a time.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_RADIO">
+				<Original>You need a radio in your inventory to be able to give orders to other squads.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_DEL_NR">
+				<Original>We currently have no roadblocks or watchposts.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_DEL_ENEMY">
+				<Original>You cannot delete an emplacement while there are enemies near it.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_BLD_INFO">
+				<Original>Click on the position you wish to build the wachpost or roadblock. \n Remember: to build roadblocks, you must click exactly on a road map section.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_BLD_COST">
+				<Original>You lack of resources to build this emplacement. \n %1 HR and %2€ required.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_DEL_INFO">
+				<Original>Click on the watchpost or roadblock you wish to delete.</Original>
+			</Key>
+			<Key ID="STR_TSK_BEMP_DEL_NONE">
+				<Original>No emplacement nearby.</Original>
 			</Key>
 		</Container>
 	</Package>

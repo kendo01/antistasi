@@ -49,7 +49,6 @@ while {(spawner getVariable _marker) AND (_counter < _countCiv)} do {
 		_allCivilians pushBack _unit;
 
 		if (_counter < _countVehicles) then {
-			//_p1 = _roads select _counter;
 			_p1 = selectRandom _roads;
 			_road = (_p1 nearRoads 5) select 0;
 			if !(isNil "_road") then {
@@ -106,6 +105,7 @@ for "_i" from 1 to _patrolCounter do {
 			_vehicle setDir _orientation;
 			_vehicle addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
 			_allVehicles pushBack _vehicle;
+			[_vehicle] spawn AS_fnc_protectVehicle;
 			_civType = selectRandom CIV_units;
 			_unit = _group createUnit [_civType, _p1, [],0, "NONE"];
 			[_unit] spawn CIVinit;

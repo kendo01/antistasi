@@ -126,6 +126,7 @@ class CfgFunctions {
 			class groundTransport {};
 			class addGearToCrate {};
 			class transferGear {};
+			class resetHQ {};
 		};
 		class QRF {
 			file = "Functions";

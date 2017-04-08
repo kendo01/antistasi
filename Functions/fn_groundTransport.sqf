@@ -18,7 +18,7 @@ _allSoldiers = _initData select 2;
 _vehicle = (_initData select 3) select 0;
 _vehicleGroup = (_initData select 3) select 1;
 
-diag_log _vehicle;
+_vehicle allowDamage true;
 
 _threatEvaluationLand = 1;
 if (typeName _targetMarker == "STRING") then {

@@ -1,6 +1,6 @@
 /*
  	Description:
-		Reduce the available number of a specific item
+		Reduce quantity of a specific item, exception being items in unlimited quantity
 
 	Parameters:
 		0: STRING - Class name of item
@@ -28,7 +28,9 @@ if (count (jna_dataList select _index) > 0) then {
 	{
 		if ((_x select 0) isEqualTo _item) exitWith {
 			_data =+ _x;
-			_x set [1, ((_data select 1) - _itemCount) max 0];
+			if ((_data select 1) != -1) then {
+				_x set [1, ((_data select 1) - _itemCount) max 0];
+			};
 		};
 	} forEach (jna_dataList select _index);
 };
