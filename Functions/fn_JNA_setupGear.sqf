@@ -32,6 +32,6 @@ if (count _array == 0) exitWith {diag_log "Error in JNA_setupGear: empty input a
 	} forEach (jna_dataList select _index);
 
 	if !(_added) then {
-		(jna_dataList select _index) pushBack [_className,[-1,100000] select (_category isEqualTo "ammo")];
+		(jna_dataList select _index) pushBack [_className,-1];
 	};
 } forEach _array;

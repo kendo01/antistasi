@@ -30,10 +30,11 @@ else
 
 fuego inflame false;
 
-if !(isNil "obj_vehiclePad") then {
+if (count (server getVariable ["obj_vehiclePad",[]]) > 0) then {
 	[obj_vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
 	[obj_vehiclePad, {obj_vehiclePad = nil}] remoteExec ["call", 0];
 	server setVariable ["AS_vehicleOrientation", 0, true];
+	server setVariable ["obj_vehiclePad",[],true];
 };
 
 //guer_respawn setMarkerPos [0,0,0];

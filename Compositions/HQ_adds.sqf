@@ -5,7 +5,7 @@ private ["_padBag","_spawnPos","_itemType","_count","_item"];
 if ((_type == "sandbag") AND ((server getVariable ["AS_HQ_sandbag", 0]) > 2)) exitWith {[petros,"BE","No more sandbags for you!"] remoteExec ["commsMP",Slowhand]};
 
 if (_type == "pad") exitWith {
-	if (isNil "obj_vehiclePad") then {
+	if !(count (server getVariable ["obj_vehiclePad",[]]) > 0) then {
 		{
 			if (str typeof _x find "Land_Bucket_painted_F" > -1) then {
 		    	[_x, {deleteVehicle _this}] remoteExec ["call", 0];
@@ -20,6 +20,7 @@ if (_type == "pad") exitWith {
 		[obj_vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
 		[obj_vehiclePad, {obj_vehiclePad = nil}] remoteExec ["call", 0];
 		server setVariable ["AS_vehicleOrientation", 0, true];
+		server setVariable ["obj_vehiclePad",[],true];
 
 		["pad"] remoteExec ["HQ_adds",2];
 	};
@@ -40,10 +41,11 @@ if (_type == "delete") exitWith {
 	} foreach _objs;
 
 	server setVariable ["AS_HQ_sandbag",0,true];
-	if !(isNil "obj_vehiclePad") then {
+	if (count (server getVariable ["obj_vehiclePad",[]]) > 0) then {
 		[obj_vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
 		[obj_vehiclePad, {obj_vehiclePad = nil}] remoteExec ["call", 0];
 		server setVariable ["AS_vehicleOrientation", 0, true];
+		server setVariable ["obj_vehiclePad",[],true];
 	};
 };
 
