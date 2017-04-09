@@ -1113,6 +1113,8 @@ if (activeJNA) then {
 	jna_index_map = 10;
 	jna_index_gps = 11;
 	jna_index_radio = 12;
+	jna_index_compass = 13;
+	jna_index_watch = 14;
 
 	jna_index_optic = 18;
 	jna_index_muzzle = 19;
@@ -1120,7 +1122,7 @@ if (activeJNA) then {
 	jna_index_bipod = 21;
 	jna_index_grenade = 22;
 	jna_index_mine = 23;
-	jna_index_medical = 24;
+	jna_index_misc = 24;
 
 	jna_index_ammo = 26;
 
@@ -1138,6 +1140,8 @@ if (activeJNA) then {
 	jna_count_map = 1;
 	jna_count_gps = 1;
 	jna_count_radio = 1;
+	jna_count_compass = 1;
+	jna_count_watch = 1;
 
 	jna_count_optic = 5;
 	jna_count_muzzle = 5;
@@ -1145,10 +1149,10 @@ if (activeJNA) then {
 	jna_count_bipod = 5;
 	jna_count_grenade = 10;
 	jna_count_mine = 5;
-	jna_count_medical = 1;
+	jna_count_misc = 1;
 
 	jna_count_ammo = 10;
 
 	// JNA category names
-	jna_categories = ["primary","secondary","handgun","uniform","vest","backpack","helmet","goggle","nvg","binos","map","gps","radio","","","","","","optic","muzzle","accessory","bipod","grenade","mine","misc","","ammo"];
+	jna_categories = ["primary","secondary","handgun","uniform","vest","backpack","helmet","goggle","nvg","binos","map","gps","radio","compass","watch","","","","optic","muzzle","accessory","bipod","grenade","mine","misc","","ammo"];
 };

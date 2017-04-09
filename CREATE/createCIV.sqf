@@ -90,7 +90,7 @@ _counter = 0;
 _patrolCounter = (round (_countCiv / 30)) max 1;
 for "_i" from 1 to _patrolCounter do {
 	while {(spawner getVariable _marker) AND (_counter < (count _patrolCities - 1))} do {
-		_p1 = _roads select _counter;
+		_p1 = selectRandom _roads;
 		_road = (_p1 nearRoads 5) select 0;
 		if !(isNil "_road") then {
 			_connectedRoads = roadsConnectedto _road;

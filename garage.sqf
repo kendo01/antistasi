@@ -17,11 +17,11 @@ if (count vehInGarageShow == 0) exitWith {hintC "The garage is empty"};
 
 garagePos = [];
 
-if ((isNil "obj_vehiclePad") OR ((position player) distance2D (server getVariable ["posHQ", getMarkerPos guer_respawn]) > 50)) then {
+if (!(count (server getVariable ["obj_vehiclePad",[]]) > 0) OR ((position player) distance2D (server getVariable ["posHQ", getMarkerPos guer_respawn]) > 50)) then {
 	garagePos = position player findEmptyPosition [5,45,"B_MBT_01_TUSK_F"];
 } else {
-	garagePos = position obj_vehiclePad;
-	if (count (obj_vehiclePad nearObjects ["AllVehicles",7]) > 0) then {_noSpace = true};
+	garagePos = (server getVariable ["obj_vehiclePad",[]]);
+	if (count (garagePos nearObjects ["AllVehicles",7]) > 0) then {_noSpace = true};
 };
 
 if (_noSpace) exitWith {hintC "Clear the area, not enough space to spawn a vehicle."};
@@ -34,9 +34,9 @@ garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
 garageVeh allowDamage false;
 garageVeh enableSimulationGlobal false;
 
-if (!(isNil "obj_vehiclePad") AND (sunOrMoon < 1)) then {
+eph_chems = [];
+if ((count (server getVariable ["obj_vehiclePad",[]]) > 0) AND (sunOrMoon < 1)) then {
 	private ["_spawnPos"];
-	eph_chems = [];
 	for "_i" from 0 to 330 step 30 do {
 		_spawnPos = [garagePos, 5, _i] call BIS_Fnc_relPos;
 		eph_chems pushBack ("Chemlight_blue" createVehicle _spawnPos);
@@ -92,12 +92,6 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 			garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
 			garageVeh allowDamage false;
 			garageVeh enableSimulationGlobal false;
-
-			if ((isNil "obj_vehiclePad") AND (sunOrMoon < 1)) then {
-				garageVeh setPilotLight true;
-			} else {
-				garageVeh setPilotLight false;
-			};
 		};
 	};
 
@@ -111,6 +105,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 		[] spawn {
 			sleep 15;
 			{deleteVehicle _x} forEach eph_chems;
+			eph_chems = nil;
 		};
 
 		if (!_exit) then {
