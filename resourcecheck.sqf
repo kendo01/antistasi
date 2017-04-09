@@ -171,9 +171,10 @@ while {true} do
 	// BE module
 
 	_texto = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_hrAddBLUFOR,_recAddBLUFOR];
-	//_updated = false;
-	_updated = [] call AS_fnc_updateArsenal;
-	if (count _updated > 0) then {_texto = format ["%1<br/>Arsenal Updated<br/><br/>%2",_texto,_updated]};
+	if !(activeJNA) then {
+		_updated = [] call AS_fnc_updateArsenal;
+		if (count _updated > 0) then {_texto = format ["%1<br/>Arsenal Updated<br/><br/>%2",_texto,_updated]};
+	};
 	[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
 
 	_hrAddBLUFOR = _hrAddBLUFOR + (server getVariable "hr");

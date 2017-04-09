@@ -41,13 +41,34 @@ _fnc_displayGear = {
 	if (secondaryWeapon player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_SEC", _gearString, getText (configFile >> "CfgWeapons" >> (secondaryWeapon player) >> "displayName")]};
 	if (handgunWeapon player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_HGUN", _gearString, getText (configFile >> "CfgWeapons" >> (handgunWeapon player) >> "displayName")]};
 	if (vest player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_VEST", _gearString, getText (configFile >> "CfgWeapons" >> (vest player) >> "displayName")]};
-	if (headgear player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_HEAD", _gearString, getText (configFile >> "CfgWeapons" >> (headgear player) >> "displayName")]};
+	if (headgear player in genHelmets) then {_gearString = format [localize "STR_HINTS_UND_GEAR_HEAD", _gearString, getText (configFile >> "CfgWeapons" >> (headgear player) >> "displayName")]};
 	if (hmd player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_HMD", _gearString, getText (configFile >> "CfgWeapons" >> (hmd player) >> "displayName")]};
-	if (uniform player != "") then {_gearString = format [localize "STR_HINTS_UND_GEAR_UNI", _gearString, getText (configFile >> "CfgWeapons" >> (uniform player) >> "displayName")]};
+	if !(uniform player in civUniforms) then {_gearString = format [localize "STR_HINTS_UND_GEAR_UNI", _gearString, getText (configFile >> "CfgWeapons" >> (uniform player) >> "displayName")]};
 	_gearString
 };
 
+
 call {
+	// Enemies nearby
+	if ({((side _x == side_red) OR (side _x == side_green)) AND (_x distance player < safeDistance_undercover)} count allUnits > 0) exitWith {
+		_reason = format [localize "STR_HINTS_UND_ENEMY_DIST",safeDistance_undercover];
+	};
+
+	// Known to nearby enemies
+	if ({((side _x == side_red) OR (side _x == side_green)) AND ((_x knowsAbout player > 1.4) AND (_X distance player < (1.5*safeDistance_undercover)))} count allUnits > 0) exitWith {
+		_reason = format [localize "STR_HINTS_UND_ENEMY_KNOW",safeDistance_undercover];
+	};
+
+	// Player is still on the enemy's watch list
+	if (dateToNumber date < _compromised) exitWith {
+		hint localize "STR_HINTS_UND_REPORTED";
+	};
+
+	// Close to an enemy facility
+	_base = [_milThreatGround,player] call BIS_fnc_nearestPosition;
+	_size = [_base] call sizeMarker;
+	if (player distance getMarkerPos _base < (_size*2)) exitWith {_reason = localize "STR_HINTS_UND_FAC_GRND"};
+
 	// Player is in a vehicle
 	if (vehicle player != player) exitWith {
 		// Vehicle doesn't qualify for undercover
@@ -61,11 +82,6 @@ call {
 		};
 	};
 
-	// Player is still on the enemy's watch list
-		if (dateToNumber date < _compromised) exitWith {
-			_reason = localize "STR_HINTS_UND_REPORTED";
-		};
-
 	// You are wearing compromising gear
 	call {
 		_break = false;
@@ -73,15 +89,12 @@ call {
 		if (secondaryWeapon player != "") exitWith {_break = true};
 		if (handgunWeapon player != "") exitWith {_break = true};
 		if (vest player != "") exitWith {_break = true};
-		if (headgear player != "") exitWith {_break = true};
+		if (headgear player in genHelmets) exitWith {_break = true};
 		if (hmd player != "") exitWith {_break = true};
-		if (uniform player != "") exitWith {_break = true};
+		if !(uniform player in civUniforms) exitWith {_break = true};
 		if (_break) then {
 			if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) or (_x distance player < safeDistance_undercover))} count allUnits > 0) then {
 				_spotted = true;
-				_reason = localize "STR_HINTS_UND_CMP_GEAR";
-			} else {
-				_reason = localize "STR_HINTS_UND_CMP_GEAR";
 			};
 		};
 	};
@@ -89,29 +102,17 @@ call {
 	if (_break) exitWith {
 		_reason = [localize "STR_HINTS_UND_GEAR"] call _fnc_displayGear;
 	};
-
-	// Enemies nearby
-	if ({((side _x == side_red) OR (side _x == side_green)) AND (_x distance player < safeDistance_undercover)} count allUnits > 0) exitWith {
-		_reason = format [localize "STR_HINTS_UND_ENEMY_DIST",safeDistance_undercover];
-	};
-
-	// Known to nearby enemies
-	if ({((side _x == side_red) OR (side _x == side_green)) AND ((_x knowsAbout player > 1.4) AND (_X distance player < (1.5*safeDistance_undercover)))} count allUnits > 0) exitWith {
-		_reason = format [localize "STR_HINTS_UND_ENEMY_KNOW",safeDistance_undercover];
-	};
-
-	// Close to an enemy facility
-	_base = [_milThreatGround,player] call BIS_fnc_nearestPosition;
-	_size = [_base] call sizeMarker;
-	if (player distance getMarkerPos _base < (_size*2)) exitWith {_reason = localize "STR_HINTS_UND_FAC_GRND"};
 };
 
 if (_reason != "") exitWith {
+	if (_spotted) then {
+		_player setVariable ["compromised",(dateToNumber [date select 0, date select 1, date select 2, date select 3, (date select 4) + 30])];
+		_reason = format ["%1\n\n%2", _reason, localize "STR_HINTS_UND_CMP_REPWAN"];
+	};
+
 	[player] spawn _fnc_compromiseVehicle;
 	hint _reason;
 };
-
-_reason = "";
 
 ["<t color='#1DA81D'>Incognito</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
 player setCaptive true;
@@ -202,9 +203,9 @@ while {_reason == ""} do {
 			if (secondaryWeapon player != "") exitWith {_break = true};
 			if (handgunWeapon player != "") exitWith {_break = true};
 			if (vest player != "") exitWith {_break = true};
-			if (headgear player != "") exitWith {_break = true};
+			if (headgear player in genHelmets) exitWith {_break = true};
 			if (hmd player != "") exitWith {_break = true};
-			if (uniform player != "") exitWith {_break = true};
+			if !(uniform player in civUniforms) exitWith {_break = true};
 		};
 
 		if (_break) then {

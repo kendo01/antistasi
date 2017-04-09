@@ -4,7 +4,7 @@ player addEventHandler ["FIRED", {
 	params ["_player"];
 
 	if (captive _player) then {
-		if ({((side _x== side_red) OR (side _x== side_green)) AND ((_x knowsAbout player > 1.4) OR (_x distance player < safeDistance_undercover))} count allUnits > 0) then {
+		if ({((side _x== side_red) OR (side _x== side_green)) AND ((_x knowsAbout player > 1.4) OR (_x distance player < (1.5*safeDistance_undercover)))} count allUnits > 0) then {
 			_player setCaptive false;
 			if (vehicle _player != _player) then {
 				{
@@ -12,7 +12,7 @@ player addEventHandler ["FIRED", {
 						[_x,false] remoteExec ["setCaptive",_x];
 					}
 				} forEach ((assignedCargo (vehicle _player)) + (crew (vehicle _player)));
-				};
+			};
 		} else {
 			private ["_city","_size","_data"];
 			_city = [ciudades,_player] call BIS_fnc_nearestPosition;
