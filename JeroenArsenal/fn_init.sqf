@@ -33,9 +33,6 @@
 	IDC_RSCDISPLAYARSENAL_TAB_CARGOMISC\
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-
-jna_minItemMember = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,500,20,20,20,10,500];
-
 jna_fnc_arsenal = compile preprocessFileLineNumbers "JeroenArsenal\fn_arsenal.sqf";
 jna_fnc_loadinventory = compile preprocessFileLineNumbers "JeroenArsenal\fn_loadinventory.sqf";
 
@@ -65,24 +62,6 @@ if(isServer)then{
 
     jna_fnc_requestOpen = {
         jna_dataList remoteExecCall ["jna_fnc_Open", _this];
-    };
-
-    jna_fnc_invToArs = {
-
-        //update arsenal
-        _array = (caja call jna_fnc_cargoToArray);
-        _array remoteExecCall ["jna_fnc_addItems_Arsanal"];
-        [] spawn {
-            sleep 3;
-            [unlockedWeapons,true] call AS_fnc_weaponsCheck;
-        };
-
-        //clear cargo
-        clearMagazineCargoGlobal caja;
-        clearItemCargoGlobal caja;
-        clearweaponCargoGlobal caja;
-        clearbackpackCargoGlobal caja;
-
     };
 };
 

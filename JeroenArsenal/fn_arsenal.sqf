@@ -223,11 +223,12 @@ switch _mode do {
 	///////////////////////////////////////////////////////////////////////////////////////////
 	case "customInit":{
 
+		hint "hello3";
 		_display = _this select 0;
 		["ReplaceBaseItems",[_display]] call  jna_fnc_arsenal;
 		["customEvents",[_display]] call  jna_fnc_arsenal;
 		["CreateListAll", [_display]] call  jna_fnc_arsenal;
-		['showMessage',[_display,"Jeroen (Not) Limited Arsenal"]] call jna_fnc_arsenal;
+		['showMessage',[_display,"Jeroen Not Limited Arsenal"]] call jna_fnc_arsenal;
 
 		["jna_fnc_arsenal"] call BIS_fnc_endLoadingScreen;
 	};
@@ -822,75 +823,6 @@ switch _mode do {
 		_item = _this select 2;
 		_ctrlList = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + _index);
 
-		if(isnil "_item")then{
-			_item = switch _index do {
-				case IDC_RSCDISPLAYARSENAL_TAB_PRIMARYWEAPON: {
-					primaryWeapon player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_SECONDARYWEAPON: {
-					secondaryweapon player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_HANDGUN: {
-					handgunweapon player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_UNIFORM: {
-					uniform player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_VEST: {
-					vest player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_BACKPACK: {
-					backPack player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_HEADGEAR: {
-					headgear player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_GOGGLES: {
-					goggles player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_NVGS: {
-					hmd player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_BINOCULARS: {
-					binocular player;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_MAP;
-				case IDC_RSCDISPLAYARSENAL_TAB_GPS;
-				case IDC_RSCDISPLAYARSENAL_TAB_RADIO;
-				case IDC_RSCDISPLAYARSENAL_TAB_COMPASS;
-				case IDC_RSCDISPLAYARSENAL_TAB_WATCH:{
-					_return = "";
-					{
-						if(_index == [_x,[_index]] call jna_fnc_ItemType)exitwith{_return = _x;};
-					}foreach assignedItems player;
-					_return;
-				};
-				case IDC_RSCDISPLAYARSENAL_TAB_ITEMOPTIC;
-				case IDC_RSCDISPLAYARSENAL_TAB_ITEMACC;
-				case IDC_RSCDISPLAYARSENAL_TAB_ITEMMUZZLE;
-				case IDC_RSCDISPLAYARSENAL_TAB_ITEMBIPOD:{
-					_items = switch true do {
-						case (ctrlenabled (_display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_PRIMARYWEAPON))): {primaryWeaponItems player};
-						case (ctrlenabled (_display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_SECONDARYWEAPON))): {secondaryWeaponItems player};
-						case (ctrlenabled (_display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_HANDGUN))): {handgunItems player};
-						default {""};
-					};
-
-					_accIndex = [
-						IDC_RSCDISPLAYARSENAL_TAB_ITEMMUZZLE,
-						IDC_RSCDISPLAYARSENAL_TAB_ITEMACC,
-						IDC_RSCDISPLAYARSENAL_TAB_ITEMOPTIC,
-						IDC_RSCDISPLAYARSENAL_TAB_ITEMBIPOD
-					] find _index;
-
-					_items select _accIndex;
-				};
-				default{
-					"";
-				};
-			};
-		};
-
 		for "_l" from 0 to (lbsize _ctrlList - 1) do {
 			_dataStr = _ctrlList lbdata _l;
 			_data = call compile _dataStr;
@@ -964,9 +896,8 @@ switch _mode do {
 		_display =  _this select 0;
 		_index = _this select 1;
 		_ctrlList = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + _index);
-		_type = (ctrltype _ctrlList == 102);
-		_rows = if _type then{ (lnbsize _ctrlList select 0) - 1}else{lbsize _ctrlList - 1};
-		for "_l" from 0 to _rows do {
+
+		for "_l" from 0 to (lbsize _ctrlList - 1) do {
 			["UpdateItemGui",[_display,_index,_l]] call jna_fnc_arsenal;
 		};
 	};
@@ -1168,7 +1099,6 @@ switch _mode do {
 		_index = _this select 1;
 		_l = _this select 2;
 		_type = (ctrltype _ctrlList == 102);
-		_cursel = lbcursel _ctrlList;
 		_ctrlList = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + _index);
 		_dataStr = if _type then{_ctrlList lnbData [_l,0]}else{_ctrlList lbdata _l};
 		_data = call compile _dataStr;
@@ -1208,22 +1138,6 @@ switch _mode do {
 			("[ " + _prefix + (str _amount) + _suffix + " ]  ");
 		};
 
-		//grayout items for non members, right items are done in selectRight
-		_min = jna_minItemMember select _index;
-		_grayout = false;
-		if(_amount <= _min && _amount != -1)then{_grayout = true};
-		_color = [1,1,1,1];
-		if(_grayout)then{_color = [1,1,0,0.60];
-			if _type then{
-				_ctrlList lnbSetColor [[_l,1], _color];
-				_ctrlList lnbSetColor [[_l,2], _color];
-			}else{
-				_ctrlList lbSetColor [_l, _color];
-			};
-		};
-
-
-		//ammmo icon for weapons
 		_ammo_logo = getText(configfile >> "RscDisplayArsenal" >> "Controls" >> "TabCargoMag" >> "text");
 		if _type then{
 			_ctrlList lnbSetText [[_l,1],((_amount call _checkAmount) + _displayName)];
@@ -1243,7 +1157,6 @@ switch _mode do {
 					private ["_amount"];
 					_magName = _x select 0;
 					_amount = _x select 1;
-					if(_amount == -1)exitWith{_ammoTotal = -1};
 					if(_magName in _compatableMagazines)then{
 						_ammoTotal = _ammoTotal + _amount;
 					}
@@ -1261,7 +1174,7 @@ switch _mode do {
 					Default {20};//launchers
 				};
 				_colorMult = _ammoTotal / _colorMult;
-				if(_colorMult > 1 || _ammoTotal == -1)then{_colorMult = 1;};
+				if(_colorMult > 1)then{_colorMult = 1;};
 				_red = -0.6*_colorMult+0.8;
 				_green = 0.6*_colorMult+0.2;
 				_ctrlList lbSetPictureRightColorSelected [_l,[_red,_green,0.3,1]];
@@ -1364,27 +1277,12 @@ switch _mode do {
 		_dataStr = if _type then{_ctrlList lnbData [_cursel,0]}else{_ctrlList lbdata _cursel};
 		_data = call compile _dataStr;
 		_item = _data select 0;
-		_amount = _data select 1;
-		_displayName = _data select 2;
 
 		_oldItem = "";
 
 		_ctrlListPrimaryWeapon = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_PRIMARYWEAPON);
 		_ctrlListSecondaryWeapon = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_SECONDARYWEAPON);
 		_ctrlListHandgun = _display displayctrl (IDC_RSCDISPLAYARSENAL_LIST + IDC_RSCDISPLAYARSENAL_TAB_HANDGUN);
-
-		//check if weapon is unlocked
-		_min = jna_minItemMember select _index;
-		if((_amount <= _min && _amount != -1) && _item !="" && !_type)exitWith{
-			['showMessage',[_display,"We are low on this item, only members may use it"]] call jna_fnc_arsenal;
-
-			//reset _cursel
-			if(missionnamespace getvariable ["jna_reselect_item",true])then{//prefent loop when unavalable item was worn and a other unavalable item was selected
-				missionnamespace setvariable ["jna_reselect_item",false];
-				["ListSelectCurrent",[_display,_index]] call jna_fnc_arsenal;
-				missionnamespace setvariable ["jna_reselect_item",true];
-			};
-		};
 
 		switch _index do {
 			case IDC_RSCDISPLAYARSENAL_TAB_UNIFORM;
@@ -1407,6 +1305,8 @@ switch _mode do {
 					_magazines = magazinesAmmoCargo _container;
 
 					_items = [""] + (itemCargo _container);
+
+					hint str (weaponsItemsCargo backpackContainer player);
 					{
 						_items = _items + [
 							(_x select 0), //weapon
@@ -1778,8 +1678,6 @@ switch _mode do {
 		_ctrlList = _this select 1;
 		_index = _this select 2;
 		_center = (missionnamespace getvariable ["BIS_fnc_arsenal_center",player]);
-		_type = (ctrltype _ctrlList == 102);
-
 
 		//--- Get container
 		_indexLeft = -1;
@@ -1809,23 +1707,15 @@ switch _mode do {
 
 
 		//-- Disable too heavy items
-		_min = jna_minItemMember select _index;
 		_rows = lnbsize _ctrlList select 0;
 		_columns = lnbsize _ctrlList select 1;
 		_colorWarning = ["IGUI","WARNING_RGB"] call bis_fnc_displayColorGet;
 		_columns = count lnbGetColumnsPosition _ctrlList;
 		for "_r" from 0 to (_rows - 1) do {
-			_dataStr = _ctrlList lnbData [_r,0];
-			_data = call compile _dataStr;
-			_amount = _data select 1;
-			_grayout = false;
-			if(_amount <= _min && _amount != -1 && _amount !=0)then{_grayout = true};
-
 			_isIncompatible = _ctrlList lnbvalue [_r,1];
 			_mass = _ctrlList lbvalue (_r * _columns);
 			_alpha = [1.0,0.25] select (_mass > parseNumber (str _load));
 			_color = [[1,1,1,_alpha],[1,0.5,0,_alpha]] select _isIncompatible;
-			if(_grayout)then{_color = [1,1,0,0.60];};
 			_ctrlList lnbsetcolor [[_r,1],_color];
 			_ctrlList lnbsetcolor [[_r,2],_color];
 			_text = _ctrlList lnbtext [_r,1];
@@ -1854,7 +1744,7 @@ switch _mode do {
 		_dataStr = _ctrlList lnbData [_lbcursel,0];
 		_data = call compile _dataStr;
 		_item = _data select 0;
-		_amount = _data select 1;
+		_itemCount = _data select 1;
 
 		_load = 0;
 		_items = [];
@@ -1872,19 +1762,13 @@ switch _mode do {
 
 		//remove or add
 		_count = 1;
-		if(((_amount > 0 || _amount == -1) || _add < 0) && (_add != 0))then{
+		if((_itemCount > 0 || _add < 0) && (_add != 0))then{
 
 			if (_add > 0) then {//add
-				_min = jna_minItemMember select _index;
-				if(_amount <= _min && _amount != -1)exitWith{
-					['showMessage',[_display,"We are low on this item, only members may use it"]] call jna_fnc_arsenal;
-				};
 				if(_index in [IDC_RSCDISPLAYARSENAL_TAB_CARGOMAG,IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL])then{//magazines are handeld by bullet count
 					//check if full mag can be optaind
 					_count = getNumber (configfile >> "CfgMagazines" >> _item >> "count");
-					if(_amount != -1)then{
-						if(_amount<_count)then{_count = _amount};
-					};
+					if(_itemCount<_count)then{_count = _itemCount};
 					_canAdd = false;
 					_container = switch _selected do{
 						case IDC_RSCDISPLAYARSENAL_TAB_UNIFORM: {_canAdd = player canAddItemToUniform _item; uniformContainer player};
@@ -1950,6 +1834,8 @@ switch _mode do {
 			}else{
 				_ctrlList lnbsettext [[_lbcursel,2],str (_amountOld - _count)];
 				[_index, _item, _count] remoteExecCall ["jna_fnc_addItem_Arsanal"];
+				['showMessage',[_display,str (_amountOld - _count)]] call jna_fnc_arsenal;
+
 			};
 		};
 
@@ -1966,8 +1852,23 @@ switch _mode do {
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	case "buttonRepackMagazines": {
+		//todo move to server script
 		_display = _this select 0;
-		remoteExecCall ["jna_fnc_invToArs",2];
+
+
+		//update arsenal
+		_array = (caja call jna_fnc_cargoToArray);
+		_array remoteExecCall ["jna_fnc_addItems_Arsanal"];
+		[] spawn {
+			sleep 3;
+			[unlockedWeapons,true] remoteExec ["AS_fnc_weaponsCheck",2];
+		};
+
+		//clear cargo
+		clearMagazineCargoGlobal caja;
+		clearItemCargoGlobal caja;
+		clearweaponCargoGlobal caja;
+		clearbackpackCargoGlobal caja;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////
