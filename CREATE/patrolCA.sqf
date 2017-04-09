@@ -173,10 +173,10 @@ if !(_airport == "") then {
 		if (_i < _maxCounter) then {
 			_vehicleArray =+ indAirForce arrayIntersect (heli_armed + heli_unarmed);
 			call {
-				if ((_threatEvaluationAir > 7) AND (count (_vehicleArray arrayIntersect heli_armed) > 0)) then {
+				if ((_threatEvaluation > 7) AND (count (_vehicleArray arrayIntersect heli_armed) > 0)) then {
 					_vehicleArray = heli_armed;
 				};
-				if ((_threatEvaluationAir > 14) AND (count (_vehicleArray arrayIntersect planes) > 0)) then {
+				if ((_threatEvaluation > 14) AND (count (_vehicleArray arrayIntersect planes) > 0)) then {
 					_vehicleArray = planes;
 				};
 
@@ -294,8 +294,8 @@ if (_involveCSAT) then {
 			{_x assignAsCargo _vehicle; _x moveInCargo _vehicle} forEach units _group;
 			_redGroups pushBack _group;
 			[_vehicle,"CSAT Air Transport"] spawn inmuneConvoy;
-			if ((_marker in bases) OR (_marker in aeropuertos) OR (random 10 < _threatEvaluationAir)) then {
-				[_vehicle,_group,_marker,_threatEvaluationAir] spawn airdrop;
+			if ((_marker in bases) OR (_marker in aeropuertos) OR (random 10 < _threatEvaluation)) then {
+				[_vehicle,_group,_marker,_threatEvaluation] spawn airdrop;
 			}
 			else {
 				if ((random 100 < 50) OR (_vehicleType == opHeliDismount)) then {

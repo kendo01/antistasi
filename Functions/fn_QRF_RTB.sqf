@@ -1,5 +1,6 @@
 params ["_vehGroup", "_dest"];
-diag_log format ["QRF - RTB - veh:%1; dest: %2", _vehGroup, _dest];
+
+if !(typeName _vehGroup == "GROUP") exitWith {"Error in QRF_RTB: not a group"};
 
 {_x disableAI "AUTOCOMBAT"} forEach units _vehGroup;
 
