@@ -34,9 +34,9 @@ garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
 garageVeh allowDamage false;
 garageVeh enableSimulationGlobal false;
 
+eph_chems = [];
 if ((count (server getVariable ["obj_vehiclePad",[]]) > 0) AND (sunOrMoon < 1)) then {
 	private ["_spawnPos"];
-	eph_chems = [];
 	for "_i" from 0 to 330 step 30 do {
 		_spawnPos = [garagePos, 5, _i] call BIS_Fnc_relPos;
 		eph_chems pushBack ("Chemlight_blue" createVehicle _spawnPos);
@@ -105,6 +105,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 		[] spawn {
 			sleep 15;
 			{deleteVehicle _x} forEach eph_chems;
+			eph_chems = nil;
 		};
 
 		if (!_exit) then {
