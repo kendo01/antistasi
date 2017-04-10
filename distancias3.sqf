@@ -41,7 +41,7 @@ while {true} do {
 					spawner setVariable [_marcador,true,true];
 					call {
 						if (_marcador in _colinas) exitWith {[_marcador] remoteExec ["createWatchpost",HCGarrisons]};
-						if (_marcador in colinasAA) exitWith {diag_log "colina!!!!";[_marcador] remoteExec ["createAAsite",HCGarrisons]};
+						if (_marcador in colinasAA) exitWith {[_marcador] remoteExec ["createAAsite",HCGarrisons]};
 						if (_marcador in ciudades) exitWith {[_marcador] remoteExec ["createCIV",HCciviles]; [_marcador] remoteExec ["createCity",HCGarrisons]};
 						if (_marcador in power) exitWith {[_marcador] remoteExec ["createPower",HCGarrisons]};
 						if (_marcador in bases) exitWith {[_marcador] remoteExec ["createBase",HCGarrisons]};
