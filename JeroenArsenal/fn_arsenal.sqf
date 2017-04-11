@@ -981,6 +981,7 @@ switch _mode do {
 
 		_display =  uiNamespace getVariable ["arsanalDisplay","No display"];
 
+		if (typeName _display == "STRING") exitWith {};
 		if(str _display isEqualTo "No display")exitWith{};
 		if(_item isEqualTo "")exitWith{};
 
