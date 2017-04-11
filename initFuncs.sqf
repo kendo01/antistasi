@@ -191,9 +191,6 @@ rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 ACErespawn = compile preProcessFileLineNumbers "Revive\ACErespawn.sqf";
 
 if (activeJNA) then {
-	if !(isServer) then {
-		waitUntil {sleep 1; (!isNil "flag_JNA_serverDone")};
-	};
 	jna_fnc_arsenal = compile preprocessFileLineNumbers "JeroenArsenal\fn_init.sqf";
 	call jna_fnc_arsenal;
 	[(unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks) arrayIntersect (unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks)] call AS_fnc_JNA_setupGear;
