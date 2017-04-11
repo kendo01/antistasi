@@ -1,82 +1,84 @@
 if (!isServer and hasInterface) exitWith {};
 
-_tskTitle = localize "Str_tsk_PRPamphlet";
-_tskDesc = localize "Str_tskDesc_PRPamphlet";
-_tskDesc_fail = localize "Str_tskDesc_PRPamphlet_fail";
-_tskDesc_drop = localize "Str_tskDesc_PRPamphlet_drop";
-_tskDesc_success = localize "Str_tskDesc_PRPamphlet_success";
+params ["_marker"];
+[3,[],[],[],[],[]] params ["_countBuildings","_targetBuildings","_allGroups","_allSoldiers","_allVehicles","_leafletCrates"];
+private ["_targetPosition","_targetName","_duration","_endTime","_task","_spawnPosition","_missionVehicle","_crate","_range","_allBuildings","_usableBuildings","_index","_perimeterBuildings","_currentBuilding","_lastBuilding","_bPositions","_groupType","_params","_group","_dog","_leaflets","_drop"];
 
-/*
-parameters
-0: target marker (marker)
-*/
-_targetMarker = _this select 0;
-_targetPosition = getMarkerPos _targetMarker;
-_targetName = [_targetMarker] call AS_fnc_localizar;
+_tskTitle = localize "STR_TSK_PRPAMPHLET";
+_tskDesc = localize "STR_TSKDESC_PRPAMPHLET";
+_tskDesc_fail = localize "STR_TSKDESC_PRPAMPHLET_FAIL";
+_tskDesc_drop = localize "STR_TSKDESC_PRPAMPHLET_DROP";
+_tskDesc_success = localize "STR_TSKDESC_PRPAMPHLET_SUCCESS";
 
-// mission timer
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
-
-_tsk = ["PR",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
-
-// spawn mission vehicle
-_pos = (getMarkerPos guer_respawn) findEmptyPosition [5,50,"C_Van_01_transport_F"];
-PRTruck = "C_Van_01_transport_F" createVehicle _pos;
-
-// eye candy
-_PRCrates = [];
-_leafletDrops = [];
-
-_crate3 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
-_crate3 attachTo [PRTruck,[0,-2.5,-0.25]];
-_crate3 setDir (getDir PRTruck + 78);
-_PRCrates pushBack _crate3;
-
-_crate2 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
-_crate2 attachTo [PRTruck,[0.4,-1.1,-0.25]];
-_crate2 setDir (getDir PRTruck);
-_PRCrates pushBack _crate2;
-
-_crate1 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
-_crate1 attachTo [PRTruck,[-0.4,-1.1,-0.25]];
-_crate1 setDir (getDir PRTruck);
-_PRCrates pushBack _crate1;
-
-// initialize mission vehicle
-[PRTruck] spawn VEHinit;
-{_x reveal PRTruck} forEach (allPlayers - hcArray);
-PRTruck setVariable ["destino",_targetName,true];
-PRTruck addEventHandler ["GetIn",
-	{
-	if (_this select 1 == "driver") then
-		{
-		_texto = format ["This truck carries leaflets for %1.",(_this select 0) getVariable "destino"];
-		_texto remoteExecCall ["hint",_this select 2];
-		};
-	}];
-
-[PRTruck,"Mission Vehicle"] spawn inmuneConvoy;
-
-// search for target positions
-// _countBuildings: number of positions
-_countBuildings = 3;
-_targetBuildings = [];
-_range = [_targetMarker] call sizeMarker;
+_targetPosition = getMarkerPos _marker;
+_targetName = [_marker] call AS_fnc_localizar;
+_range = [_marker] call sizeMarker;
 
 _allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
-_usableBuildings = +_allBuildings;
+diag_log _allBuildings;
+if (count _allBuildings < 3) then {
+	while {(_range < 1000) AND (count _allBuildings < 3)} do {
+		_range = _range + 100;
+		_allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
+	};
+};
+
+if (count _allBuildings < 3) exitWith {};
+
+_duration = 60;
+_endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
+_endTime = dateToNumber _endTime;
+
+_task = ["PR",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4],_tskTitle,_marker],_targetPosition,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
+misiones pushBack _task; publicVariable "misiones";
+
+_spawnPosition = (getMarkerPos guer_respawn) findEmptyPosition [5,50,"C_Van_01_transport_F"];
+if !(count (server getVariable ["obj_vehiclePad",[]]) > 0) then {
+	if (count (_spawnPosition nearObjects ["AllVehicles",7]) > 0) then {
+		_spawnPosition = (server getVariable ["obj_vehiclePad",[]]);
+	};
+};
+
+_missionVehicle = "C_Van_01_transport_F" createVehicle _spawnPosition;
+
+_crate = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
+_crate attachTo [_missionVehicle,[0,-2.5,-0.25]];
+_crate setDir (getDir _missionVehicle + 78);
+_leafletCrates pushBackUnique _crate;
+
+_crate = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
+_crate attachTo [_missionVehicle,[0.4,-1.1,-0.25]];
+_crate setDir (getDir _missionVehicle);
+_leafletCrates pushBackUnique _crate;
+
+_crate = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
+_crate attachTo [_missionVehicle,[-0.4,-1.1,-0.25]];
+_crate setDir (getDir _missionVehicle);
+_leafletCrates pushBackUnique _crate;
+
+[_missionVehicle] spawn VEHinit;
+{_x reveal _missionVehicle} forEach (allPlayers - entities "HeadlessClient_F");
+_missionVehicle setVariable ["tmp_targetName",_targetName,true];
+_missionVehicle addEventHandler ["GetIn", {
+	if (_this select 1 == "driver") then {
+		format ["This truck carries leaflets for %1.",(_this select 0) getVariable ["tmp_targetName","Llandudno"]] remoteExec ["hint",_this select 2];
+	};
+}];
+
+_allVehicles pushBack _missionVehicle;
+
+[_missionVehicle,"Mission Vehicle"] spawn inmuneConvoy;
+
+_usableBuildings =+ _allBuildings;
 
 _index = round (3* ((count _allBuildings) /4));
 _perimeterBuildings = [_allBuildings, _index] call BIS_fnc_subSelect;
 
-_currentBuilding = "";
-_lastBuilding = "";
+if (count _perimeterBuildings < 3) then {
+	_perimeterBuildings =+ _allBuildings;
+};
 
-// first position on the perimeter of town
-while {(count _targetBuildings < 1) && (count _perimeterBuildings > 0)} do {
+while {(count _targetBuildings < 1) AND (count _perimeterBuildings > 0)} do {
 	_currentBuilding = selectRandom _perimeterBuildings;
 	_bPositions = [_currentBuilding] call BIS_fnc_buildingPositions;
 	if (count _bPositions > 1) then {
@@ -87,58 +89,61 @@ while {(count _targetBuildings < 1) && (count _perimeterBuildings > 0)} do {
 	_perimeterBuildings = _perimeterBuildings - [_currentBuilding];
 };
 
-// rest somewhere in town, at least 100m from the previous one
-while {(count _targetBuildings < _countBuildings) && (count _usableBuildings > 0)} do {
+while {(count _targetBuildings < _countBuildings) AND (count _usableBuildings > 0)} do {
 	_currentBuilding = selectRandom _usableBuildings;
 	_bPositions = [_currentBuilding] call BIS_fnc_buildingPositions;
-	if (((position _lastBuilding distance position _currentBuilding) > 100) && (count _bPositions > 1)) then {
+	if (((position _lastBuilding distance position _currentBuilding) > 100) AND (count _bPositions > 1)) then {
 		_targetBuildings pushBackUnique _currentBuilding;
 		_lastBuilding = _currentBuilding;
 	};
 	_usableBuildings = _usableBuildings - [_currentBuilding];
 };
 
-// spawn two additional patrols with dogs
-_grupos = [];
-_soldados = [];
-_tipoGrupo = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;
-_params = [_targetPosition, side_green, _tipogrupo];
-
-for "_i" from 0 to 1 do {
-	_grupo = _params call BIS_Fnc_spawnGroup;
-	sleep 1;
-	_perro = _grupo createUnit ["Fin_random_F",_targetPosition,[],0,"FORM"];
-	[_perro] spawn guardDog;
-	[leader _grupo, _targetMarker, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-	_grupos = _grupos + [_grupo];
+if (count _targetBuildings < 3) then {
+	while {(count _targetBuildings < 3) AND (count _allBuildings > 1)} do {
+		_currentBuilding = selectRandom _allBuildings;
+		_targetBuildings pushBackUnique _currentBuilding;
+		_allBuildings = _allBuildings - [_currentBuilding];
+	};
 };
 
-{_grp = _x;
-{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
+_groupType = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;
+_params = [_targetPosition, side_green, _groupType];
+
+for "_i" from 0 to 1 do {
+	_group = _params call BIS_Fnc_spawnGroup;
+	sleep 1;
+	_dog = _group createUnit ["Fin_random_F",_targetPosition,[],0,"FORM"];
+	[_dog] spawn guardDog;
+	[leader _group, _marker, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	_allGroups pushBack _group;
+};
+
+{
+	_group = _x;
+	{
+		[_x] spawn genInitBASES;
+		_allSoldiers pushBack _x;
+	} forEach units _group;
+} forEach _allGroups;
 
 // wait until the vehicle enters the target area
-waitUntil {sleep 1; (not alive PRTruck) or (dateToNumber date > _fechalimnum) or (PRTruck distance _targetPosition < 500)};
+waitUntil {sleep 1; !(alive _missionVehicle) OR (dateToNumber date > _endTime) OR (_missionVehicle distance _targetPosition < 500)};
 
 
 // vehicle destroyed or timer ran out
-if !(PRTruck distance _targetPosition < 550) exitWith {
-	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+if !(_missionVehicle distance _targetPosition < 550) exitWith {
+	_task = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_marker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
     [5,-5,_targetPosition] remoteExec ["AS_fnc_changeCitySupport",2];
 	[-10,Slowhand] call playerScoreAdd;
 
-    [1200,_tsk] spawn borrarTask;
-	waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos guer_respawn) < 60) && (speed PRTruck < 1))};
-	if ((PRTruck distance (getMarkerPos guer_respawn) < 60) && (speed PRTruck < 1)) then {
-		[PRTruck,true] call vaciar;
+    [1200,_task] spawn borrarTask;
+	waitUntil {sleep 1; !([distanciaSPWN,1,_missionVehicle,"BLUFORSpawn"] call distanceUnits) OR ((_missionVehicle distance (getMarkerPos guer_respawn) < 60) AND (speed _missionVehicle < 1))};
+	if ((_missionVehicle distance (getMarkerPos guer_respawn) < 60) AND (speed _missionVehicle < 1)) then {
+		[_missionVehicle,true] call vaciar;
 	};
-	{deleteVehicle _x} forEach _PRCrates;
-	sleep 1;
-	deleteVehicle PRTruck;
-
-	waitUntil {sleep 1; (not([distanciaSPWN,1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
-	{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-	{deleteGroup _x} forEach _grupos;
-	{deleteVehicle _x} forEach _leafletDrops;
+	{deleteVehicle _x} forEach _leafletCrates;
+	[_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
 };
 
 // eye candy
@@ -155,40 +160,36 @@ _leaflets =
 ];
 
 /*
-_flagOne: proceeded to the next site
-_flagTwo: timer running
-_flagThree: unloading
-_deploymentTime: time it takes to unload the gear (seconds)
-_counter: running timer
-_currentDropCount: number of sites done
-_currentDrop: current site
-_canUnload: flag to control unloading action
+	_proceed: proceeded to the next site
+	_timerRunning: timer running
+	_unloading: unloading
+	_deploymentTime: time it takes to unload the gear (seconds)
+	_counter: running timer
+	_currentDropCount: number of sites done
+	_currentDrop: current site
+	_canUnload: flag to control unloading action
 
-pr_unloading_pamphlets: active process
+	pr_unloading_pamphlets: active process
 */
-_flagOne = false;
-_flagTwo = false;
-_flagThree = false;
-_deploymentTime = 60;
-_counter = 0;
-_currentDropCount = 0;
-_currentDrop = "";
-_canUnload = false;
+[false,false,false,false,60,0,0,""] params ["_proceed","_timerRunning","_unloading","_canUnload","_deploymentTime","_counter","_currentDropCount","_currentDrop"];
 
 server setVariable ["pr_unloading_pamphlets", false, true];
 
+diag_log _currentDropCount;
+diag_log _targetBuildings;
+
 // truck alive, mission running, sites to go
-while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCount < 3)} do {
+while {(alive _missionVehicle) AND (dateToNumber date < _endTime) AND (_currentDropCount < 3)} do {
 
 	// advance site, refresh task
-	if !(_flagOne) then {
-		_flagOne = true;
+	if !(_proceed) then {
+		_proceed = true;
 		_currentDrop = _targetBuildings select _currentDropCount;
-		_tsk = ["PR",[side_blue,civilian],[format [_tskDesc_drop,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+		_task = ["PR",[side_blue,civilian],[format [_tskDesc_drop,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4],_tskTitle,_marker], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
-		_patGroup = _grupos select 0;
-		if (((leader _patGroup) distance2D (position _currentDrop)) > ((leader (_grupos select 1)) distance2D (position _currentDrop))) then {
-			_patGroup = _grupos select 1;
+		_patGroup = _allGroups select 0;
+		if (((leader _patGroup) distance2D (position _currentDrop)) > ((leader (_allGroups select 1)) distance2D (position _currentDrop))) then {
+			_patGroup = _allGroups select 1;
 		};
 		if (alive leader _patGroup) then {
 			_wp101 = _patGroup addWaypoint [position _currentDrop, 20];
@@ -200,36 +201,37 @@ while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCou
 	};
 
 	// truck close enough to unload
-	while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCount < 3) && (_currentDrop distance PRTruck < 20)} do {
+	while {(alive _missionVehicle) AND (dateToNumber date < _endTime) AND (_currentDropCount < 3) AND (_currentDrop distance _missionVehicle < 20)} do {
 
 		// add unload action if truck is stationary
-		if (!(_canUnload) && (speed PRTruck < 1)) then {
+		if (!(_canUnload) AND (speed _missionVehicle < 1)) then {
 			_canUnload = true;
-			[[PRTruck,"unload_pamphlets"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
+			[_missionVehicle,"unload_pamphlets"] remoteExec ["AS_fnc_addActionMP"];
 		};
 
 		// stop unloading when enemies get too close
-		while {(_counter < _deploymentTime) && (alive PRTruck) and !({_x getVariable ["inconsciente",false]} count ([80,0,PRTruck,"BLUFORSpawn"] call distanceUnits) == count ([80,0,PRTruck,"BLUFORSpawn"] call distanceUnits)) and ({((side _x == side_green) || (side _x == side_red)) and (_x distance PRTruck < 50)} count allUnits == 0) and (dateToNumber date < _fechalimnum) && (server getVariable "pr_unloading_pamphlets")} do {
+		while {(_counter < _deploymentTime) AND (alive _missionVehicle) AND !({_x getVariable ["inconsciente",false]} count ([80,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits) == count ([80,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits)) AND ({((side _x == side_green) OR (side _x == side_red)) AND (_x distance _missionVehicle < 50)} count allUnits == 0) AND (dateToNumber date < _endTime) AND (server getVariable "pr_unloading_pamphlets")} do {
 
-			// spaw eye candy
-			if !(_flagThree) then {
-				_flagThree = true;
-				_posUnload = (position PRTruck) findEmptyPosition [1,10,"C_Van_01_transport_F"];
-				_drop = [_posUnload, random 360, _leaflets] call BIS_fnc_ObjectsMapper;
-				_leafletDrops = _leafletDrops + _drop;
-				[_PRCrates select _currentDropCount, {deleteVehicle _this}] remoteExec ["call", 0];
+			// spawn eye candy
+			if !(_unloading) then {
+				_unloading = true;
+				_spawnPosition = (position _missionVehicle) findEmptyPosition [1,10,"C_Van_01_transport_F"];
+				_drop = [_spawnPosition, random 360, _leaflets] call BIS_fnc_ObjectsMapper;
+				_allVehicles = _allVehicles + _drop;
+				[_leafletCrates select _currentDropCount, {deleteVehicle _this}] remoteExec ["call", 0];
 			};
 
 			// start a progress bar, remove crew from truck, lock the truck
-			if !(_flagTwo) then {
-				{if (isPlayer _x) then {[(_deploymentTime - _counter),false] remoteExec ["pBarMP",_x]; [PRTruck,true] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([80,0,PRTruck,"BLUFORSpawn"] call distanceUnits);
-				_flagTwo = true;
-				[[petros,"globalChat","Guard the truck!"],"commsMP"] call BIS_fnc_MP;
+			if !(_timerRunning) then {
+				{if (isPlayer _x) then {[(_deploymentTime - _counter),false] remoteExec ["pBarMP",_x]; [_missionVehicle,true] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([80,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits);
+				_timerRunning = true;
+				[petros,"globalChat","Guard the truck!"] remoteExec ["commsMP"];
 				{
-					_x action ["eject", PRTruck];
-				} forEach (crew (PRTruck));
-				PRTruck lock 2;
-				PRTruck engineOn false;
+					_x action ["eject", _missionVehicle];
+				} forEach (crew (_missionVehicle));
+				[_missionVehicle, true] remoteExec ["AS_fnc_lockVehicle", [0,-2] select isDedicated,true];
+				_missionVehicle lock 2;
+				_missionVehicle engineOn false;
 			};
 
 			_counter = _counter + 1;
@@ -237,36 +239,38 @@ while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCou
 		};
 
 		// if unloading wasn't finished, reset
-		if ((_counter < _deploymentTime) && (server getVariable "pr_unloading_pamphlets")) then {
+		if ((_counter < _deploymentTime) AND (server getVariable "pr_unloading_pamphlets")) then {
 			_counter = 0;
-			_flagTwo = false;
-			PRTruck lock 0;
-			{if (isPlayer _x) then {[0,true] remoteExec ["pBarMP",_x]; [PRTruck,false] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([100,0,PRTruck,"BLUFORSpawn"] call distanceUnits);
+			_timerRunning = false;
+			_missionVehicle lock 0;
+			[_missionVehicle, false] remoteExec ["AS_fnc_lockVehicle", [0,-2] select isDedicated,true];
+			{if (isPlayer _x) then {[0,true] remoteExec ["pBarMP",_x]}} forEach ([100,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits);
 
-			if (((not([80,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ({((side _x == side_green) || (side _x == side_red)) and (_x distance PRTruck < 50)} count allUnits != 0)) and (alive PRTruck)) then {
-				{if (isPlayer _x) then {[petros,"hint","Stay near the truck, keep the perimeter clear of hostiles."] remoteExec ["commsMP",_x]}} forEach ([150,0,PRTruck,"BLUFORSpawn"] call distanceUnits);
+			if ((!([80,1,_missionVehicle,"BLUFORSpawn"] call distanceUnits) OR ({((side _x == side_green) OR (side _x == side_red)) AND (_x distance _missionVehicle < 50)} count allUnits != 0)) AND (alive _missionVehicle)) then {
+				{if (isPlayer _x) then {[petros,"hint","Stay near the truck, keep the perimeter clear of hostiles."] remoteExec ["commsMP",_x]}} forEach ([150,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits);
 			};
-			waitUntil {sleep 1; (!alive PRTruck) or (([80,1,PRTruck,"BLUFORSpawn"] call distanceUnits) and ({((side _x == side_green) || (side _x == side_red)) and (_x distance PRTruck < 50)} count allUnits == 0)) or (dateToNumber date > _fechalimnum)};
+
+			waitUntil {sleep 1; (!alive _missionVehicle) OR (([80,1,_missionVehicle,"BLUFORSpawn"] call distanceUnits) AND ({((side _x == side_green) OR (side _x == side_red)) AND (_x distance _missionVehicle < 50)} count allUnits == 0)) OR (dateToNumber date > _endTime)};
 		};
 
 		// if unloading was finished, reset all respective flags, escape to the outer loop
-		if ((alive PRTruck) and !(_counter < _deploymentTime)) exitWith {
+		if ((alive _missionVehicle) AND !(_counter < _deploymentTime)) exitWith {
 			_info = "";
 			server setVariable ["pr_unloading_pamphlets", false, true];
 			_canUnload = false;
-			[[PRTruck,"remove"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
+			[[_missionVehicle,"remove"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
 			_counter = 0;
-			PRTruck lock 0;
-			{if (isPlayer _x) then {[PRTruck,false] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([100,0,PRTruck,"BLUFORSpawn"] call distanceUnits);
-			_flagOne = false;
-			_flagTwo = false;
-			_flagThree = false;
+			[_missionVehicle, false] remoteExec ["AS_fnc_lockVehicle", [0,-2] select isDedicated,true];
+			_missionVehicle lock 0;
+			_proceed = false;
+			_timerRunning = false;
+			_unloading = false;
 			_currentDropCount = _currentDropCount + 1;
 
 			// if there are sites to go, inform player
 			if (_currentDropCount < 3) then {
 				_info = "Head to the next location.";
-				{if (isPlayer _x) then {[petros,"hint",_info] remoteExec ["commsMP",_x]}} forEach ([150,0,PRTruck,"BLUFORSpawn"] call distanceUnits);
+				{if (isPlayer _x) then {[petros,"hint",_info] remoteExec ["commsMP",_x]}} forEach ([150,0,_missionVehicle,"BLUFORSpawn"] call distanceUnits);
 			};
 		};
 		sleep 1;
@@ -275,20 +279,19 @@ while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCou
 	// remove unload action if truck isn't close enough to current site
 	if (_canUnload) then {
 		_canUnload = false;
-		[[PRTruck,"remove"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
+		[_missionVehicle,"remove"] remoteExec ["AS_fnc_addActionMP"];
 	};
 	sleep 1;
 };
 
 // fail if the truck is destroyed or the timer runs out
-if ((not alive PRTruck) or (dateToNumber date > _fechalimnum)) then {
-	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[0,-2,_targetMarker] remoteExec ["AS_fnc_changeCitySupport",2];
+if (!(alive _missionVehicle) OR (dateToNumber date > _endTime)) then {
+	_task = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_marker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[0,-2,_marker] remoteExec ["AS_fnc_changeCitySupport",2];
 	[-10,Slowhand] call playerScoreAdd;
-}
-else {
-	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_success,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[-15,5,_targetMarker] remoteExec ["AS_fnc_changeCitySupport",2];
+} else {
+	_task = ["PR",[side_blue,civilian], [format [_tskDesc_success,_targetName,numberToDate [2035,_endTime] select 3,numberToDate [2035,_endTime] select 4],_tskTitle,_marker],_targetPosition,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[-15,5,_marker] remoteExec ["AS_fnc_changeCitySupport",2];
 	[5,0] remoteExec ["prestige",2];
 	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,Slowhand] call playerScoreAdd;
@@ -299,16 +302,13 @@ else {
 	// BE module
 };
 
-[1200,_tsk] spawn borrarTask;
-waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos guer_respawn) < 60) && (speed PRTruck < 1))};
-if ((PRTruck distance (getMarkerPos guer_respawn) < 60) && (speed PRTruck < 1)) then {
-	[PRTruck,true] call vaciar;
+[1200,_task] spawn borrarTask;
+waitUntil {sleep 1; (not([distanciaSPWN,1,_missionVehicle,"BLUFORSpawn"] call distanceUnits)) or ((_missionVehicle distance (getMarkerPos guer_respawn) < 60) && (speed _missionVehicle < 1))};
+if ((_missionVehicle distance (getMarkerPos guer_respawn) < 60) && (speed _missionVehicle < 1)) then {
+	[_missionVehicle,true] call vaciar;
 };
-{deleteVehicle _x} forEach _PRCrates;
+{deleteVehicle _x} forEach _leafletCrates;
 sleep 1;
-deleteVehicle PRTruck;
+deleteVehicle _missionVehicle;
 
-waitUntil {sleep 1; (not([distanciaSPWN,1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
-{deleteVehicle _x} forEach _leafletDrops;
+[_allGroups, _allSoldiers, _allVehicles] spawn AS_fnc_despawnUnits;
