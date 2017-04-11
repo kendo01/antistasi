@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
-_tskTitle = localize "Str_tsk_HQAttack";
-_tskDesc = localize "Str_tskDesc_HQAttack";
+_tskTitle = localize "STR_TSK_HQATTACK";
+_tskDesc = localize "STR_TSKDESC_HQATTACK";
 
 _posicion = getMarkerPos guer_respawn;
 
@@ -53,20 +53,23 @@ for "_i" from 0 to (round random 2) do
 	sleep 10;
 	};
 
-waitUntil {sleep 1;({not (captive _x)} count _soldados < {captive _x} count _soldados) or ({alive _x} count _soldados < {fleeing _x} count _soldados) or ({alive _x} count _soldados == 0) or (_posicion distance getMarkerPos guer_respawn > 999)};
+waitUntil {sleep 1;({not (captive _x)} count _soldados < {captive _x} count _soldados) or ({alive _x} count _soldados < {fleeing _x} count _soldados) or ({alive _x} count _soldados == 0) or (_posicion distance getMarkerPos guer_respawn > 999) or !(alive petros)};
 
-if (_posicion distance getMarkerPos guer_respawn > 999) then
-	{
-	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,guer_respawn],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
-	}
-else
-	{
+call {
+	if !(alive petros) exitWith {
+		_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,guer_respawn],_posicion,"FAILED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	};
+
+	if (_posicion distance getMarkerPos guer_respawn > 999) exitWith {
+		_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,guer_respawn],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	};
+
 	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,guer_respawn],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
 	[0,3] remoteExec ["prestige",2];
 	[0,300] remoteExec ["resourcesFIA",2];
-	//[-5,5,_posicion] remoteExec ["AS_fnc_changeCitySupport",2];
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
-	};
+};
+
 
 [1200,_tsk] spawn borrarTask;
 {

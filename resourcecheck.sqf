@@ -2,221 +2,196 @@
 
 if (isMultiplayer) then {waitUntil {!isNil "switchCom"}};
 
-private ["_texto"];
+private ["_incomeFIA","_incomeEnemy","_hrFIA","_popFIA","_popEnemy","_bonusFIA","_bonusEnemy","_city","_cityIncomeFIA","_cityIncomeEnemy","_cityIncomeHR","_data","_civilians","_supportFIA","_supportEnemy","_power","_coef","_mrkD","_base","_factory","_resource","_text","_updated","_resourcesAAF","_vehicle","_script"];
 scriptName "resourcecheck";
-while {true} do
-	{
+
+while {true} do {
 	sleep 600;//600
 	if (isMultiplayer) then {waitUntil {sleep 10; isPlayer Slowhand}};
-	_recAddOPFOR = 0;
-	_recAddBLUFOR = 25;//0
-	_hrAddBLUFOR = 0;//0
+	_incomeEnemy = 0;
+	_incomeFIA = 25;//0
+	_hrFIA = 0;//0
 	_popFIA = 0;
-	_popAAF = 0;
-	_bonusAAF = 1;
+	_popEnemy = 0;
+	_bonusEnemy = 1;
 	_bonusFIA = 1;
+
 	{
-	_ciudad = _x;
-	_recAddCiudadOPFOR = 0;
-	_recAddCiudadBLUFOR = 0;
-	_hrAddCiudad = 0;
-	_datos = server getVariable _ciudad;
-	_numCiv = _datos select 0;
-	_numVeh = _datos select 1;
-	//_roads = _datos select 2;
-	_prestigeOPFOR = _datos select 2;
-	_prestigeBLUFOR = _datos select 3;
-	_power = [_ciudad] call AS_fnc_powerCheck;
+		_city = _x;
+		_cityIncomeEnemy = 0;
+		_cityIncomeFIA = 0;
+		_cityIncomeHR = 0;
+		_data = server getVariable [_city,[0,0,1,1]];
+		_civilians = _data select 0;
+		_supportEnemy = _data select 2;
+		_supportFIA = _data select 3;
+		_power = [_city] call AS_fnc_powerCheck;
+		_coef = [0.5,1] select _power;
+		_popFIA = _popFIA + (_civilians * (_supportFIA / 100));
+		_popEnemy = _popEnemy + (_civilians * (_supportEnemy / 100));
 
-	_popFIA = _popFIA + (_numCiv * (_prestigeBLUFOR / 100));
-	_popAAF = _popAAF + (_numCiv * (_prestigeOPFOR / 100));
-	_multiplicandorec = 1;
-	if (not _power) then {_multiplicandorec = 0.5};
+		if (_city in destroyedCities) then {
+			_cityIncomeEnemy = 0;
+			_cityIncomeFIA = 0;
+			_cityIncomeHR = 0;
+		} else {
+			_cityIncomeEnemy = ((_civilians * _coef*(_supportEnemy / 100)) /3);
+			_cityIncomeFIA = ((_civilians * _coef*(_supportFIA / 100))/3);
+			_cityIncomeHR = (_civilians * (_supportFIA / 20000));
 
-	if (_ciudad in destroyedCities) then
-		{
-		_recAddCiudadOPFOR = 0;
-		_recAddCiudadBLUFOR = 0;
-		_hrAddCiudad = 0;
-		}
-	else
-		{
-		_recAddCiudadOPFOR = ((_numciv * _multiplicandorec*(_prestigeOPFOR / 100)) /3);
-		_recAddCiudadBLUFOR = ((_numciv * _multiplicandorec*(_prestigeBLUFOR / 100))/3);
-		_hrAddCiudad = (_numciv * (_prestigeBLUFOR / 20000));
-		if (_ciudad in mrkFIA) then
-			{
-			_recAddCiudadOPFOR = (_recAddCiudadOPFOR/2);
-			if (_power) then
-				{
-				if (_prestigeBLUFOR + _prestigeOPFOR + 1 <= 100) then {[0,1,_ciudad] spawn AS_fnc_changeCitySupport};
-				}
-			else
-				{
-					if (_prestigeBLUFOR > 6) then {
-						[0,-1,_ciudad] spawn AS_fnc_changeCitySupport;
+			if (_city in mrkFIA) then {
+				_cityIncomeEnemy = (_cityIncomeEnemy/2);
+				if (_power) then {
+					if (_supportFIA + _supportEnemy + 1 <= 100) then {[0,1,_city] spawn AS_fnc_changeCitySupport};
+				} else {
+					if (_supportFIA > 6) then {
+						[0,-1,_city] spawn AS_fnc_changeCitySupport;
 					} else {
-						[1,0,_ciudad] spawn AS_fnc_changeCitySupport;
+						[1,0,_city] spawn AS_fnc_changeCitySupport;
 					};
 				};
-			}
-		else
-			{
-			_recAddCiudadBLUFOR = (_recAddCiudadBLUFOR/2);
-			_hrAddCiudad = (_hrAddCiudad/2);
-			if (_power) then
-				{
-				if (_prestigeOPFOR + _prestigeBLUFOR + 1 <= 100) then {[1,0,_ciudad] call AS_fnc_changeCitySupport};
-				}
-			else
-				{
-					if (_prestigeOPFOR > 6) then {
-						[-1,0,_ciudad] spawn AS_fnc_changeCitySupport;
+			} else {
+				_cityIncomeFIA = (_cityIncomeFIA/2);
+				_cityIncomeHR = (_cityIncomeHR/2);
+				if (_power) then {
+					if (_supportEnemy + _supportFIA + 1 <= 100) then {[1,0,_city] call AS_fnc_changeCitySupport};
+				} else {
+					if (_supportEnemy > 6) then {
+						[-1,0,_city] spawn AS_fnc_changeCitySupport;
 					} else {
-						[0,1,_ciudad] spawn AS_fnc_changeCitySupport;
+						[0,1,_city] spawn AS_fnc_changeCitySupport;
 					};
 				};
 			};
 		};
-	_recAddOPFOR = _recAddOPFOR + _recAddCiudadOPFOR;
-	_recAddBLUFOR = _recAddBLUFOR + _recAddCiudadBLUFOR;
-	_hrAddBLUFOR = _hrAddBLUFOR + _hrAddCiudad;
-	// revuelta civil!!
-	if ((_prestigeOPFOR < _prestigeBLUFOR) and (_ciudad in mrkAAF)) then
-		{
-		[["TaskSucceeded", ["", format ["%1 joined FIA",[_ciudad, false] call AS_fnc_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		mrkAAF = mrkAAF - [_ciudad];
-		mrkFIA = mrkFIA + [_ciudad];
-		if (activeBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
-		publicVariable "mrkAAF";
-		publicVariable "mrkFIA";
-		[0,5] remoteExec ["prestige",2];
-		//_datos = [_numCiv,_numVeh,_roads,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//_datos = [_numCiv,_numVeh,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//server setVariable [_ciudad,_datos,true];
-		_mrkD = format ["Dum%1",_ciudad];
-		_mrkD setMarkerColor guer_marker_colour;
-		if (_power) then {_power = false} else {_power = true};
-		[_ciudad,_power] spawn AS_fnc_adjustLamps;
-		sleep 5;
-		{[_ciudad,_x] spawn AS_fnc_deleteRoadblock} forEach controles;
-		if (!("CONVOY" in misiones)) then
-			{
-			_base = [_ciudad] call AS_fnc_findBaseForConvoy;
-			if ((_base != "") && (random 3 < 1)) then
-				{
-				[_ciudad,_base,"city"] remoteExec ["CONVOY",HCattack];
+
+		_incomeEnemy = _incomeEnemy + _cityIncomeEnemy;
+		_incomeFIA = _incomeFIA + _cityIncomeFIA;
+		_hrFIA = _hrFIA + _cityIncomeHR;
+
+		if ((_supportEnemy < _supportFIA) AND (_city in mrkAAF)) then {
+			[["TaskSucceeded", ["", format ["%1 joined FIA",[_city, false] call AS_fnc_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+			mrkAAF = mrkAAF - [_city];
+			mrkFIA = mrkFIA + [_city];
+			if (activeBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
+			publicVariable "mrkAAF";
+			publicVariable "mrkFIA";
+			[0,5] remoteExec ["prestige",2];
+			_mrkD = format ["Dum%1",_city];
+			_mrkD setMarkerColor guer_marker_colour;
+			if (_power) then {_power = false} else {_power = true};
+			[_city,_power] spawn AS_fnc_adjustLamps;
+			sleep 5;
+			{[_city,_x] spawn AS_fnc_deleteRoadblock} forEach controles;
+			if !("CONVOY" in misiones) then {
+				_base = [_city] call AS_fnc_findBaseForConvoy;
+				if ((_base != "") AND (random 3 < 1)) then {
+					[_city,_base,"city"] remoteExec ["CONVOY",HCattack];
 				};
 			};
 		};
-	if ((_prestigeOPFOR > _prestigeBLUFOR) and (_ciudad in mrkFIA)) then
-		{
-		[["TaskFailed", ["", format ["%1 joined AAF",[_ciudad, false] call AS_fnc_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		mrkAAF = mrkAAF + [_ciudad];
-		mrkFIA = mrkFIA - [_ciudad];
-		publicVariable "mrkAAF";
-		publicVariable "mrkFIA";
-		[0,-5] remoteExec ["prestige",2];
-		//if (_power) then {_power = false} else {_power = true};
-		//_datos = [_numCiv,_numVeh,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//server setVariable [_ciudad,_datos,true];
-		_mrkD = format ["Dum%1",_ciudad];
-		_mrkD setMarkerColor IND_marker_colour;
-		sleep 5;
-		if (_power) then {_power = false} else {_power = true};
-		[_ciudad,_power] spawn AS_fnc_adjustLamps;
+
+		if ((_supportEnemy > _supportFIA) AND (_city in mrkFIA)) then {
+			[["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+			mrkAAF = mrkAAF + [_city];
+			mrkFIA = mrkFIA - [_city];
+			publicVariable "mrkAAF";
+			publicVariable "mrkFIA";
+			[0,-5] remoteExec ["prestige",2];
+			_mrkD = format ["Dum%1",_city];
+			_mrkD setMarkerColor IND_marker_colour;
+			sleep 5;
+			if (_power) then {_power = false} else {_power = true};
+			[_city,_power] spawn AS_fnc_adjustLamps;
 		};
 	} forEach ciudades;
-	if ((_popFIA > _popAAF) and ("airport_3" in mrkFIA)) then {["end1",true,true,true,true] remoteExec ["BIS_fnc_endMission",0]};
+
+	if ((_popFIA > _popEnemy) AND ("airport_3" in mrkFIA)) then {["end1",true,true,true,true] remoteExec ["BIS_fnc_endMission",0]};
+
 	{
-	_fabrica = _x;
-	_power = [_fabrica] call AS_fnc_powerCheck;
-	if ((_power) and (not(_fabrica in destroyedCities))) then
-		{
-		if (_fabrica in mrkFIA) then {_bonusFIA = _bonusFIA + 0.25};
-		if (_fabrica in mrkAAF) then {_bonusAAF = _bonusAAF + 0.25};
+		_factory = _x;
+		_power = [_factory] call AS_fnc_powerCheck;
+		if (_power AND !(_factory in destroyedCities)) then {
+			if (_factory in mrkFIA) then {_bonusFIA = _bonusFIA + 0.25};
+			if (_factory in mrkAAF) then {_bonusEnemy = _bonusEnemy + 0.25};
 		};
 	} forEach fabricas;
 
 	{
-		_recurso = _x;
-		_power = [_recurso] call AS_fnc_powerCheck;
-		//if ((_power) and (not(_recurso in destroyedCities))) then {
-		if !(_recurso in destroyedCities) then {
+		_resource = _x;
+		_power = [_resource] call AS_fnc_powerCheck;
+
+		if !(_resource in destroyedCities) then {
 			if (_power) then {
-				if (_recurso in mrkFIA) then {_recAddBLUFOR = _recAddBLUFOR + (300 * _bonusFIA)};
-				if (_recurso in mrkAAF) then {_recAddOPFOR = _recAddOPFOR + (300 * _bonusAAF)};
-			}
-			else {
-				if (_recurso in mrkFIA) then {_recAddBLUFOR = _recAddBLUFOR + (100 * _bonusFIA)};
-				if (_recurso in mrkAAF) then {_recAddOPFOR = _recAddOPFOR + (100 * _bonusAAF)};
+				if (_resource in mrkFIA) then {_incomeFIA = _incomeFIA + (300 * _bonusFIA)};
+				if (_resource in mrkAAF) then {_incomeEnemy = _incomeEnemy + (300 * _bonusEnemy)};
+			} else {
+				if (_resource in mrkFIA) then {_incomeFIA = _incomeFIA + (100 * _bonusFIA)};
+				if (_resource in mrkAAF) then {_incomeEnemy = _incomeEnemy + (100 * _bonusEnemy)};
 			};
 		};
 	} forEach recursos;
-	//if (debug) then {Slowhand sideChat format ["AAF ha ganado %1 €\n FIA ha ganado %2 €\n Nivel de HR aumenta en %3", _recAddOPFOR,_recAddBLUFOR,_hrAddBLUFOR]};//AAF gana de inicio 7290 euros
-	if (server getVariable "easyMode") then {
-		_hrAddBLUFOR = _hrAddBLUFOR * 2;
-		_recAddBLUFOR = _recAddBLUFOR * 1.5;
+
+	if (server getVariable ["easyMode",false]) then {
+		_hrFIA = _hrFIA * 2;
+		_incomeFIA = _incomeFIA * 1.5;
 	};
-	lastIncome = _recAddBLUFOR;
-	_hrAddBLUFOR = (round _hrAddBLUFOR);
-	_recAddBLUFOR = (round _recAddBLUFOR);
+
+	_hrFIA = (round _hrFIA);
+	_incomeFIA = (round _incomeFIA);
 
 	// BE module
 	if (activeBE) then {
-		if (_hrAddBLUFOR > 0) then {
-			_hrAddBLUFOR = _hrAddBLUFOR min (["HR"] call fnc_BE_permission);
+		if (_hrFIA > 0) then {
+			_hrFIA = _hrFIA min (["HR"] call fnc_BE_permission);
 		};
 	};
 	// BE module
 
-	_texto = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_hrAddBLUFOR,_recAddBLUFOR];
+	_text = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_hrFIA,_incomeFIA];
 	if !(activeJNA) then {
 		_updated = [] call AS_fnc_updateArsenal;
-		if (count _updated > 0) then {_texto = format ["%1<br/>Arsenal Updated<br/><br/>%2",_texto,_updated]};
+		if (count _updated > 0) then {_text = format ["%1<br/>Arsenal Updated<br/><br/>%2",_text,_updated]};
 	};
-	[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
 
-	_hrAddBLUFOR = _hrAddBLUFOR + (server getVariable "hr");
-	_recAddBLUFOR = _recAddBLUFOR + (server getVariable "resourcesFIA");
+	[[petros,"taxRep",_text],"commsMP"] call BIS_fnc_MP;
+
+	_hrFIA = _hrFIA + (server getVariable ["hr",0]);
+	_incomeFIA = _incomeFIA + (server getVariable ["resourcesFIA",0]);
 
 	if !(activeBE) then {
-		if (_hrAddBLUFOR > 100) then {_hrAddBLUFOR = 100}; // HR capped to 100
+		if (_hrFIA > 100) then {_hrFIA = 100}; // HR capped to 100
 	};
 
-	server setVariable ["hr",_hrAddBLUFOR,true];
-	server setVariable ["resourcesFIA",_recAddBLUFOR,true];
-	_resourcesAAF = server getVariable "resourcesAAF";
-	if (isMultiplayer) then {_resourcesAAF = _resourcesAAF + (round (_recAddOPFOR + (_recAddOPFOR * ((server getVariable "prestigeCSAT")/100))))} else {_resourcesAAF = _resourcesAAF + (round _recAddOPFOR)};
+	server setVariable ["hr",_hrFIA,true];
+	server setVariable ["resourcesFIA",_incomeFIA,true];
+	_resourcesAAF = server getVariable ["resourcesAAF",0];
+	if (isMultiplayer) then {_resourcesAAF = _resourcesAAF + (round (_incomeEnemy + (_incomeEnemy * ((server getVariable "prestigeCSAT")/100))))} else {_resourcesAAF = _resourcesAAF + (round _incomeEnemy)};
 	server setVariable ["resourcesAAF",_resourcesAAF,true];
 	if (isMultiplayer) then {[] spawn assignStavros};
-	if ((not("AtaqueAAF" in misiones)) and (random 100 < 50)) then {[] call missionRequestAUTO};
+	if (!("AtaqueAAF" in misiones) AND (random 100 < 50)) then {[] call missionRequestAUTO};
 	if (AAFpatrols < 3) then {[] remoteExec ["genRoadPatrol",hcAttack]};
+
 	{
-	_veh = _x;
-	if ((_veh isKindOf "StaticWeapon") and ({isPlayer _x} count crew _veh == 0) and (alive _veh)) then
-		{
-		_veh setDamage 0;
-		[_veh,1] remoteExec ["setVehicleAmmoDef",_veh];
+		_vehicle = _x;
+		if ((_vehicle isKindOf "StaticWeapon") AND ({isPlayer _x} count crew _vehicle == 0) AND (alive _vehicle)) then {
+			_vehicle setDamage 0;
+			[_vehicle,1] remoteExec ["setVehicleAmmoDef",_vehicle];
 		};
 	} forEach vehicles;
 	cuentaCA = cuentaCA - 600;
 	publicVariable "cuentaCA";
-	if ((cuentaCA < 1) and (diag_fps > minimoFPS)) then
-		{
-			_awActive = false;
-			if !(isNil {server getVariable "waves_active"}) then {
-				_awActive = (server getVariable "waves_active");
-			};
+	if ((cuentaCA < 1) AND (diag_fps > minimoFPS)) then {
+
 		[1200] remoteExec ["AS_fnc_increaseAttackTimer",2];
-		if ((count mrkFIA > 0) and (not("AtaqueAAF" in misiones)) && !(_awActive)) then
-			{
+		if ((count mrkFIA > 0) AND !("AtaqueAAF" in misiones) AND !(server getVariable ["waves_active",false])) then {
 			_script = [] spawn AS_fnc_spawnAttack;
 			waitUntil {sleep 5; scriptDone _script};
-			};
 		};
+	};
+
 	sleep 3;
 	call AAFeconomics;
 	sleep 4;
 	[] call AS_fnc_FIAradio;
-	};
+};

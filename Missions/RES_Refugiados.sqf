@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-[localize "STR_task_RESREFUGEES",localize "STR_taskDESC_RESREFUGEES",[],[]] params ["_taskTitle","_taskDesc","_POWs","_housePositions"];
+[localize "STR_TASK_RESREFUGEES",localize "STR_TASKDESC_RESREFUGEES",[],[]] params ["_taskTitle","_taskDesc","_POWs","_housePositions"];
 
 private ["_markerPos","_size","_houses","_house","_townName","_task","_groupPOW","_count","_unit"];
 
@@ -9,6 +9,7 @@ _size = [_marker] call sizeMarker;
 _townName = [_marker] call AS_fnc_localizar;
 
 _houses = nearestObjects [_markerPos, ["house"], _size];
+if (count _houses == 0) exitWith {};
 while {count _housePositions < 5} do {
 	_house = _houses call BIS_Fnc_selectRandom;
 	_housePositions = [_house] call BIS_fnc_buildingPositions;
