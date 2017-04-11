@@ -240,6 +240,7 @@ server setVariable ["genAAlocked",true,true];
 
 // [[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
 ASA3_saveLoaded = true;
+placementDone = true; publicVariable 'placementDone';
 diag_log "Antistasi: Server sided Persistent Load done";
 
 sleep 25;

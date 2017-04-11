@@ -28,7 +28,7 @@ call {
 		(_display displayCtrl 1600) ctrlEnable false;
 		['STR_UI_SM_TEXTF_LOADING'] call AS_fnc_UI_setTText;
 		['statSave\loadAccount.sqf','BIS_fnc_execVM'] call BIS_fnc_MP;
-		placementDone = true; publicVariable 'placementDone';
+		//placementDone = true; publicVariable 'placementDone';
 		waitUntil {sleep 0.5; !(isNil "ASA3_saveLoaded")};
 		ASA3_saveLoaded = nil;
 		['STR_UI_SM_TEXTF_LOADED'] call AS_fnc_UI_setTText;
