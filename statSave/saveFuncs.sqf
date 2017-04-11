@@ -58,7 +58,6 @@ fn_SetStat = {
 			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
 			if(_varName == 'personalGarage') exitWith {personalGarage = _varValue};
 			if(_varName == 'flag_chopForest') then {
-				diag_log "saved";
 				flag_chopForest = _varValue; publicVariable "flag_chopForest";
 				[] spawn AS_fnc_clearForest;
 			};
