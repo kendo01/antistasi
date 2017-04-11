@@ -1,10 +1,11 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-[localize "STR_task_RESPRISONERS",localize "STR_taskDESC_RESPRISONERS",[],[]] params ["_taskTitle","_taskDesc","_POWs","_housePositions"];
+[localize "STR_TSK_RESPRISONERS",localize "STR_TSKDESC_RESPRISONERS",[],[]] params ["_taskTitle","_taskDesc","_POWs","_housePositions"];
 
 private ["_markerPos","_duration","_endTime","_houses","_house","_townName","_task","_groupPOW","_count","_unit","_blacklistbld","_options","_tempPos"];
 
+_markerPos = getMarkerPos _marker;
 _duration = 120;//120
 _endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
 _endTime = dateToNumber _endTime;

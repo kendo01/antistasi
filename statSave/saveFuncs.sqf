@@ -32,7 +32,7 @@ fn_LoadID =
 //===========================================================================
 //ADD VARIABLES TO THIS ARRAY THAT NEED SPECIAL SCRIPTING TO LOAD
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","prestigeNATO","prestigeCSAT","posHQ","hr","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","resourcesAAF","resourcesFIA","skillFIA","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","enableFTold","enableMemAcc","campList","BE_data","AS_session_server","AS_session_client","flag_chopForest"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","prestigeNATO","prestigeCSAT","posHQ","hr","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","resourcesAAF","resourcesFIA","skillFIA","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","enableFTold","enableMemAcc","campList","BE_data","AS_session_server","AS_session_client","flag_chopForest","jna_dataList"];
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
 	_varName = _this select 0;
@@ -58,7 +58,6 @@ fn_SetStat = {
 			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
 			if(_varName == 'personalGarage') exitWith {personalGarage = _varValue};
 			if(_varName == 'flag_chopForest') then {
-				diag_log "saved";
 				flag_chopForest = _varValue; publicVariable "flag_chopForest";
 				[] spawn AS_fnc_clearForest;
 			};
@@ -68,6 +67,7 @@ fn_SetStat = {
 			if(_varName == 'AS_session_client') exitWith {player setVariable ["AS_session_client",_varValue,true]};
 
 			if(_varName == 'AS_destroyedZones') exitWith {AS_destroyedZones = _varvalue; publicVariable "AS_destroyedZones";};
+			if(_varName == 'jna_dataList') exitWith {jna_dataList = _varvalue; publicVariable "jna_dataList";};
 			if(_varName == 'unlockedWeapons') exitWith {
 				unlockedWeapons = _varvalue;
 				lockedWeapons = lockedWeapons - unlockedWeapons;

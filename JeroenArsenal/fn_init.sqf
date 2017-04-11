@@ -33,7 +33,6 @@
 	IDC_RSCDISPLAYARSENAL_TAB_CARGOMISC\
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-
 jna_minItemMember = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,500,20,20,20,10,500];
 
 jna_fnc_arsenal = compile preprocessFileLineNumbers "JeroenArsenal\fn_arsenal.sqf";
@@ -60,6 +59,7 @@ diag_log "init ars";
 
 if(isServer)then{
     diag_log "init ars setr";
+    server setVariable ["jna_playersInArsenal",[],true];
     //load default if it was not loaded from savegame
     if(isnil "jna_dataList" )then{jna_dataList = [[],[],[],[],[],[],[],[],[],[],[["ItemMap",40]],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];};
 
@@ -71,7 +71,7 @@ if(isServer)then{
 
         //update arsenal
         _array = (caja call jna_fnc_cargoToArray);
-        _array remoteExecCall ["jna_fnc_addItems_Arsanal"];
+        _array remoteExecCall ["jna_fnc_addItems_Arsanal",server getVariable ["jna_playersInArsenal",[]]];
         [] spawn {
             sleep 3;
             [unlockedWeapons,true] call AS_fnc_weaponsCheck;
@@ -82,7 +82,6 @@ if(isServer)then{
         clearItemCargoGlobal caja;
         clearweaponCargoGlobal caja;
         clearbackpackCargoGlobal caja;
-
     };
 };
 
@@ -160,6 +159,14 @@ if(hasInterface)then{
             disableSerialization;
             ["customInit", [uiNamespace getVariable "arsanalDisplay"]] call jna_fnc_arsenal;
         };
+        _temp = server getVariable ["jna_playersInArsenal",[]];
+        _temp pushBackUnique clientOwner;
+        server setVariable ["jna_playersInArsenal",_temp,true];
     }] call BIS_fnc_addScriptedEventHandler;
 
+    [missionNamespace, "arsenalClosed", {
+        _temp = server getVariable ["jna_playersInArsenal",[]];
+        _temp = _temp - [clientOwner];
+        server setVariable ["jna_playersInArsenal",_temp,true];
+    }] call BIS_fnc_addScriptedEventHandler;
 };

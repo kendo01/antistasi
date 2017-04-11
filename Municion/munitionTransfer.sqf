@@ -172,7 +172,7 @@ else
 
 if (_destino == caja) then {
 	if (isMultiplayer) then {{if (_x distance caja < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["commsMP",_x]}} forEach playableUnits} else {hint "Ammobox Loaded"};
-	_updated = [] call AS_fnc_updateArsenal;
+	if !(activeJNA) then {_updated = [] call AS_fnc_updateArsenal};
 	if (count _updated > 0) then
 		{
 		_updated = format ["Arsenal Updated<br/><br/>%1",_updated];

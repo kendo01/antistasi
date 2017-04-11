@@ -12,6 +12,17 @@ _tskDesc_success = localize "STR_TSKDESC_PRPAMPHLET_SUCCESS";
 
 _targetPosition = getMarkerPos _marker;
 _targetName = [_marker] call AS_fnc_localizar;
+_range = [_marker] call sizeMarker;
+
+_allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
+if (count _allBuildings < 3) then {
+	while {(_range < 1000) AND (count _allBuildings < 3)} do {
+		_range = _range + 100;
+		_allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
+	};
+};
+
+if (count _allBuildings < 3) exitWith {};
 
 _duration = 60;
 _endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
@@ -28,7 +39,6 @@ if !(count (server getVariable ["obj_vehiclePad",[]]) > 0) then {
 };
 
 _missionVehicle = "C_Van_01_transport_F" createVehicle _spawnPosition;
-
 
 _crate = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
 _crate attachTo [_missionVehicle,[0,-2.5,-0.25]];
@@ -58,15 +68,14 @@ _allVehicles pushBack _missionVehicle;
 
 [_missionVehicle,"Mission Vehicle"] spawn inmuneConvoy;
 
-_countBuildings = 3;
-_targetBuildings = [];
-_range = [_marker] call sizeMarker;
-
-_allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
-_usableBuildings = +_allBuildings;
+_usableBuildings =+ _allBuildings;
 
 _index = round (3* ((count _allBuildings) /4));
 _perimeterBuildings = [_allBuildings, _index] call BIS_fnc_subSelect;
+
+if (count _perimeterBuildings < 3) then {
+	_perimeterBuildings =+ _allBuildings;
+};
 
 while {(count _targetBuildings < 1) AND (count _perimeterBuildings > 0)} do {
 	_currentBuilding = selectRandom _perimeterBuildings;
@@ -87,6 +96,14 @@ while {(count _targetBuildings < _countBuildings) AND (count _usableBuildings > 
 		_lastBuilding = _currentBuilding;
 	};
 	_usableBuildings = _usableBuildings - [_currentBuilding];
+};
+
+if (count _targetBuildings < 3) then {
+	while {(count _targetBuildings < 3) AND (count _allBuildings > 1)} do {
+		_currentBuilding = selectRandom _allBuildings;
+		_targetBuildings pushBackUnique _currentBuilding;
+		_allBuildings = _allBuildings - [_currentBuilding];
+	};
 };
 
 _groupType = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;

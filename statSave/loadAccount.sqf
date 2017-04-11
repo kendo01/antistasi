@@ -89,6 +89,7 @@ petros allowdamage false;
 ["destroyedBuildings"] call fn_LoadStat;
 ["idleBases"] call fn_LoadStat;
 ["AS_destroyedZones"] call fn_LoadStat;
+["jna_dataList"] call fn_LoadStat;
 //===========================================================================
 
 unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
@@ -236,10 +237,13 @@ server setVariable ["genAAlocked",true,true];
 [unlockedWeapons] spawn AS_fnc_weaponsCheck;
 
 ["BE_data"] call fn_LoadStat;
-[false] call AS_fnc_MAINT_arsenal;
+if !(activeJNA) then {
+	[false] call AS_fnc_MAINT_arsenal;
+};
 
 // [[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
 ASA3_saveLoaded = true;
+placementDone = true; publicVariable 'placementDone';
 diag_log "Antistasi: Server sided Persistent Load done";
 
 sleep 25;

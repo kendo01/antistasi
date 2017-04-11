@@ -31,6 +31,9 @@ altVersion = "";
 enableRestart = true;
 status_templatesLoaded = false;
 activeJNA = (("AS_param_useJNA" call BIS_fnc_getParamValue) == 1);
+if (activeJNA) then {
+	jna_dataList = [[],[],[],[],[],[],[],[],[],[],[["ItemMap",40]],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+};
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
@@ -163,7 +166,6 @@ helisAAFmax = 0;
 APCAAFmax = 0;
 tanksAAFmax = 0;
 cuentaCA = 600;//600
-lastIncome = 0;
 prestigeIsChanging = false;
 cityIsSupportChanging = false;
 resourcesIsChanging = false;

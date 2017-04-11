@@ -6,6 +6,8 @@ private ["_allVehicles","_allGroups","_allSoldiers","_workers","_markerPos","_fl
 _allVehicles = [];
 _allGroups = [];
 _allSoldiers = [];
+_workers = [];
+_statics = [];
 
 _markerPos = getMarkerPos (_marker);
 _size = [_marker] call sizeMarker;
