@@ -28,6 +28,9 @@ call {
 		if ((_data select 1) in ["Handgun"]) exitWith {
 			_category = "handgun";
 		};
+		if ((_data select 1) in ["UnknownWeapon"]) exitWith {
+			_category = "misc";
+		};
 	};
 
 	if ((_data select 0) isEqualTo "Item") exitWith {
@@ -94,10 +97,17 @@ call {
 		if ((_data select 1) in ["Flare","Grenade"]) exitWith {
 			_category = "grenade";
 		};
+		if ((_data select 1) in ["UnknownMagazine"]) exitWith {
+			_category = "misc";
+		};
 	};
 
 	if ((_data select 0) isEqualTo "Mine") exitWith {
 		_category = "mine";
+	};
+
+	if ((_data select 0) isEqualTo "") exitWith {
+		_category = "misc";
 	};
 };
 
