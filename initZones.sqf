@@ -253,6 +253,11 @@ publicVariable "puestosFIA";
 publicVariable "seaMarkers";
 publicVariable "campsFIA";
 publicVariable "puestosNATO";
+publicVariable "safeDistance_undercover";
+publicVariable "safeDistance_garage";
+publicVariable "safeDistance_recruit";
+publicVariable "safeDistance_garrison";
+publicVariable "safeDistance_fasttravel";
 
 "spawnCSAT" setMarkerType OPFOR_marker_type;
 "spawnCSAT" setMarkerText format ["%1 Carrier", A3_Str_RED];
