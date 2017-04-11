@@ -89,6 +89,7 @@ petros allowdamage false;
 ["destroyedBuildings"] call fn_LoadStat;
 ["idleBases"] call fn_LoadStat;
 ["AS_destroyedZones"] call fn_LoadStat;
+["jna_dataList"] call fn_LoadStat;
 //===========================================================================
 
 unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";

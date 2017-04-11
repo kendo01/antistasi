@@ -70,6 +70,7 @@ if (!isDedicated) then
 	["unlockedMagazines", unlockedMagazines] call fn_SaveStat;
 	["unlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
 	["AS_destroyedZones", AS_destroyedZones] call fn_SaveStat;
+	["jna_dataList", jna_dataList] call fn_SaveStat;
 	["flag_chopForest", AS_destroyedZones] call fn_SaveStat;
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
