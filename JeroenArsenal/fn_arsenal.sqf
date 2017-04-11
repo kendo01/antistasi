@@ -1212,7 +1212,7 @@ switch _mode do {
 		//grayout items for non members, right items are done in selectRight
 		_min = jna_minItemMember select _index;
 		_grayout = false;
-		if(_amount <= _min && _amount != -1)then{_grayout = true};
+		if ((_amount <= _min) AND (_amount != -1) AND !([player] call isMember)) then{_grayout = true};
 		_color = [1,1,1,1];
 		if(_grayout)then{_color = [1,1,0,0.60];
 			if _type then{
@@ -1376,7 +1376,7 @@ switch _mode do {
 
 		//check if weapon is unlocked
 		_min = jna_minItemMember select _index;
-		if((_amount <= _min && _amount != -1) && _item !="" && !_type)exitWith{
+		if ((_amount <= _min) AND (_amount != -1) AND (_item !="") AND !([player] call isMember) AND !_type) exitWith{
 			['showMessage',[_display,"We are low on this item, only members may use it"]] call jna_fnc_arsenal;
 
 			//reset _cursel
@@ -1820,7 +1820,7 @@ switch _mode do {
 			_data = call compile _dataStr;
 			_amount = _data select 1;
 			_grayout = false;
-			if(_amount <= _min && _amount != -1 && _amount !=0)then{_grayout = true};
+			if ((_amount <= _min) AND (_amount != -1) AND (_amount !=0) AND !([player] call isMember)) then{_grayout = true};
 
 			_isIncompatible = _ctrlList lnbvalue [_r,1];
 			_mass = _ctrlList lbvalue (_r * _columns);
@@ -1877,7 +1877,7 @@ switch _mode do {
 
 			if (_add > 0) then {//add
 				_min = jna_minItemMember select _index;
-				if(_amount <= _min && _amount != -1)exitWith{
+				if((_amount <= _min) AND (_amount != -1) AND !([player] call isMember)) exitWith{
 					['showMessage',[_display,"We are low on this item, only members may use it"]] call jna_fnc_arsenal;
 				};
 				if(_index in [IDC_RSCDISPLAYARSENAL_TAB_CARGOMAG,IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL])then{//magazines are handeld by bullet count
