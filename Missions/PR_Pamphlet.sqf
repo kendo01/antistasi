@@ -15,7 +15,6 @@ _targetName = [_marker] call AS_fnc_localizar;
 _range = [_marker] call sizeMarker;
 
 _allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
-diag_log _allBuildings;
 if (count _allBuildings < 3) then {
 	while {(_range < 1000) AND (count _allBuildings < 3)} do {
 		_range = _range + 100;
@@ -174,9 +173,6 @@ _leaflets =
 [false,false,false,false,60,0,0,""] params ["_proceed","_timerRunning","_unloading","_canUnload","_deploymentTime","_counter","_currentDropCount","_currentDrop"];
 
 server setVariable ["pr_unloading_pamphlets", false, true];
-
-diag_log _currentDropCount;
-diag_log _targetBuildings;
 
 // truck alive, mission running, sites to go
 while {(alive _missionVehicle) AND (dateToNumber date < _endTime) AND (_currentDropCount < 3)} do {
