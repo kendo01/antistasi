@@ -49,6 +49,12 @@ sleep 5;
 [[_bandera,"unit"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
 [[_bandera,"vehicle"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
 [[_bandera,"garage"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
+
+_antenna = [antenas,_posicion] call BIS_fnc_nearestPosition;
+if (getPos _antenna distance _posicion < 100) then {
+	[_flag,"jam"] remoteExec ["AS_fnc_addActionMP"];
+};
+
 mrkAAF = mrkAAF - [_marcador];
 mrkFIA = mrkFIA + [_marcador];
 publicVariable "mrkAAF";

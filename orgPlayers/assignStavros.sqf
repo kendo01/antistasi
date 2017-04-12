@@ -40,8 +40,6 @@ if ((isNull _commander) OR switchCom) then {
 	};
 };
 
-if (!_proceed) exitWith {diag_log format ["Info: no suitable candidates for the position of commander. Players: %1; members: %2; candidates: %3", _players, _members, _potentials]};
-
 _selectable = objNull;
 {
 	_data = [_x] call AS_fnc_getRank;

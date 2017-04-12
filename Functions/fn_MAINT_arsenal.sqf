@@ -58,7 +58,7 @@ if (_clean) then {
 			publicVariable "unlockedRifles";
 		};
 
-		[unlockedWeapons, true] spawn AS_fnc_weaponsCheck;
+		[[unlockedWeapons, (["primary","secondary"] call AS_fnc_JNA_getLists)] select activeJNA] spawn AS_fnc_weaponsCheck;
 	};
 };
 

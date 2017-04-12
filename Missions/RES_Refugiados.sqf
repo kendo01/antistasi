@@ -1,42 +1,37 @@
-if (!isServer and hasInterface) exitWith{};
+if (!isServer and hasInterface) exitWith {};
 
-_tskTitle = localize "Str_tsk_resRefugees";
-_tskDesc = localize "Str_tskDesc_resRefugees";
+params ["_marker"];
+[localize "STR_TSK_RESREFUGEES",localize "STR_TSKDESC_RESREFUGEES",[],[]] params ["_taskTitle","_taskDesc","_POWs","_housePositions"];
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
+private ["_markerPos","_size","_houses","_house","_townName","_task","_groupPOW","_count","_unit"];
 
-_POWs = [];
+_size = [_marker] call sizeMarker;
+_townName = [_marker] call AS_fnc_localizar;
 
-_tam = [_marcador] call sizeMarker;
-_casas = nearestObjects [_posicion, ["house"], _tam];
-_poscasa = [];
-_casa = _casas select 0;
-while {count _poscasa < 5} do
-	{
-	_casa = _casas call BIS_Fnc_selectRandom;
-	_poscasa = [_casa] call BIS_fnc_buildingPositions;
-	if (count _poscasa < 5) then {_casas = _casas - [_casa]};
-	};
+_houses = nearestObjects [_markerPos, ["house"], _size];
+if (count _houses == 0) exitWith {};
+while {count _housePositions < 5} do {
+	_house = _houses call BIS_Fnc_selectRandom;
+	_housePositions = [_house] call BIS_fnc_buildingPositions;
+	if (count _housePositions < 5) then {_houses = _houses - [_house]};
+};
 
-_nombredest = [_marcador] call AS_fnc_localizar;
 
-_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_nombredest, A3_Str_INDEP],_tskTitle,_marcador],getPos _casa,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+_task = ["RES",[side_blue,civilian],[format [_taskDesc,_townName, A3_Str_INDEP],_taskTitle,_marker],getPos _house,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
+misiones pushBack _task; publicVariable "misiones";
 
-_grupo = createGroup side_blue;
+_groupPOW = createGroup side_blue;
 
-_num = count _poscasa;
-if (_num > 8) then {_num = 8};
+_count = (count _housePositions) min 8;
 
-for "_i" from 1 to (_num) - 1 do
-	{
-	_unit = _grupo createUnit [guer_POW, _poscasa select _i, [], 0, "NONE"];
-	_unit allowdamage false;
+for "_i" from 1 to (_count - 1) do {
+	_unit = _groupPOW createUnit [guer_POW, _housePositions select _i, [], 0, "NONE"];
+	_unit allowDamage false;
 	_unit disableAI "MOVE";
 	_unit disableAI "AUTOTARGET";
 	_unit disableAI "TARGET";
 	_unit setBehaviour "CARELESS";
+	_unit setUnitPos "MIDDLE";
 	_unit allowFleeing 0;
 	_unit setSkill 0;
 	removeHeadgear _unit;
@@ -44,9 +39,9 @@ for "_i" from 1 to (_num) - 1 do
 	removeAllWeapons _unit;
 	removeVest _unit;
 	removeBackpack _unit;
-	_POWs = _POWs + [_unit];
-	[[_unit,"refugiado"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
-	};
+	_POWs pushBack _unit;
+	[_unit,"refugiado"] remoteExec ["AS_fnc_addActionMP"];
+};
 
 sleep 5;
 
@@ -54,46 +49,41 @@ sleep 5;
 
 sleep 30;
 
-[_casa] spawn
-	{
-	private ["_casa"];
-	_casa = _this select 0;
+// Spawn a patrol after 5-30 minutes
+[_house] spawn {
+	private ["_house"];
+	_house = _this select 0;
 	sleep 300 + (random 1800);
-	if ("RES" in misiones) then {[position _casa] remoteExec ["patrolCA",HCattack]};
-	};
+	if ("RES" in misiones) then {[position _house] remoteExec ["patrolCA",HCattack]};
+};
 
-waitUntil {sleep 1; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance getMarkerPos guer_respawn < 50)} count _POWs > 0)};
+waitUntil {sleep 1; ({alive _x} count _POWs == 0) OR ({(alive _x) AND (_x distance getMarkerPos guer_respawn < 50)} count _POWs > 0)};
 
-if ({alive _x} count _POWs == 0) then
-	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_marcador, A3_Str_INDEP],_tskTitle,_nombredest],getPos _casa,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
-	_cuenta = count _POWs;
-	[_cuenta,0] remoteExec ["prestige",2];
-	[0,-15,_posicion] remoteExec ["AS_fnc_changeCitySupport",2];
+if ({alive _x} count _POWs == 0) then {
+	_task = ["RES",[side_blue,civilian],[format [_taskDesc,_marker, A3_Str_INDEP],_taskTitle,_townName],getPos _house,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
+	_count = count _POWs;
+	[_count,0] remoteExec ["prestige",2];
+	[0,-15,_markerPos] remoteExec ["AS_fnc_changeCitySupport",2];
 	[-10,Slowhand] call playerScoreAdd;
-	}
-else
-	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_marcador, A3_Str_INDEP],_tskTitle,_nombredest],getPos _casa,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
-	_cuenta = {(alive _x) and (_x distance getMarkerPos guer_respawn < 150)} count _POWs;
-	_hr = _cuenta;
-	_resourcesFIA = 100 * _cuenta;
-	[_hr,_resourcesFIA] remoteExec ["resourcesFIA",2];
-	[0,_cuenta,_marcador] remoteExec ["AS_fnc_changeCitySupport",2];
-	[_cuenta,0] remoteExec ["prestige",2];
-	{if (_x distance getMarkerPos guer_respawn < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[round (_cuenta/2),Slowhand] call playerScoreAdd;
-	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
+} else {
+	_task = ["RES",[side_blue,civilian],[format [_taskDesc,_marker, A3_Str_INDEP],_taskTitle,_townName],getPos _house,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
+	_count = {(alive _x) and (_x distance getMarkerPos guer_respawn < 150)} count _POWs;
+	[_count,_count*100] remoteExec ["resourcesFIA",2];
+	[0,_count,_marker] remoteExec ["AS_fnc_changeCitySupport",2];
+	[_count,0] remoteExec ["prestige",2];
+	{if (_x distance getMarkerPos guer_respawn < 500) then {[_count,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+	[round (_count/2),Slowhand] call playerScoreAdd;
+	{[_x] join _groupPOW; [_x] orderGetin false} forEach _POWs;
 	// BE module
 	if (activeBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module
-	};
+};
 
 
 sleep 60;
 {deleteVehicle _x} forEach _POWs;
-deleteGroup _grupo;
+deleteGroup _groupPOW;
 
-[1200,_tsk] spawn borrarTask;
+[1200,_task] spawn borrarTask;

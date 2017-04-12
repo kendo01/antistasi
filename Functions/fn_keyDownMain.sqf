@@ -19,18 +19,6 @@ call {
 		};
 	};
 
-	if (_key == 72) exitWith {
-		if (_ctrl && _shift) then {
-			if (player == Slowhand) then {
-				closedialog 0;
-				createDialog "radio_comm_commander";
-			} else {
-				closedialog 0;
-				createDialog "radio_comm_player";
-			};
-		};
-	};
-
 	if (server getVariable ["testMode",false]) then {
 		if (_key == 76) exitWith {
 			if (_ctrl && _shift) then {

@@ -1,85 +1,86 @@
 if !(isServer) exitWith {};
 
-private ["_tiempo","_marcador","_posicionMRK", "_bluUnits", "_opUnits", "_colinas"];
+private ["_currentTime","_colinas","_blueUnits", "_opforUnits", "_marker", "_markerPos"];
 
 debugperf = false;
-_tiempo = time;
+_currentTime = time;
+_colinas = colinas - colinasAA;
 
 while {true} do {
 	sleep 1;
-	if (debugperf) then {hint format ["Tiempo transcurrido: %1 para %2 marcadores", time - _tiempo, count marcadores]};
-	_tiempo = time;
-
-	_colinas = colinas - colinasAA;
+	if (debugperf) then {hint format ["Tiempo transcurrido: %1 para %2 marcadores", time - _currentTime, count marcadores]};
+	_currentTime = time;
 
 	waitUntil {!isNil "Slowhand"};
 
-	_bluUnits = [];
-	_opUnits = [];
+	_blueUnits = [];
+	_opforUnits = [];
 	{
 		if (_x getVariable ["BLUFORSpawn",false]) then {
-			_bluUnits pushBack _x;
+			_blueUnits pushBack _x;
 			if (isPlayer _x) then {
 				if !(isNull (getConnectedUAV _x)) then {
-					_bluUnits pushBack (getConnectedUAV _x);
+					_blueUnits pushBack (getConnectedUAV _x);
 				};
 			};
 		} else {
 			if (_x getVariable ["OPFORSpawn",false]) then {
-				_opUnits pushBack _x;
+				_opforUnits pushBack _x;
 			};
 		}
 	} forEach allUnits;
 
 	{
-		_marcador = _x;
-		_posicionMRK = getMarkerPos (_marcador);
+		_marker = _x;
+		_markerPos = getMarkerPos (_marker);
 
-		if (_marcador in mrkAAF) then {
-			if !(spawner getVariable _marcador) then {
-				if ((({(_x distance _posicionMRK < distanciaSPWN)} count _bluUnits > 0) or (_marcador in forcedSpawn))) then {
-					spawner setVariable [_marcador,true,true];
-					call {
-						if (_marcador in _colinas) exitWith {[_marcador] remoteExec ["createWatchpost",HCGarrisons]};
-						if (_marcador in colinasAA) exitWith {diag_log "colina!!!!";[_marcador] remoteExec ["createAAsite",HCGarrisons]};
-						if (_marcador in ciudades) exitWith {[_marcador] remoteExec ["createCIV",HCciviles]; [_marcador] remoteExec ["createCity",HCGarrisons]};
-						if (_marcador in power) exitWith {[_marcador] remoteExec ["createPower",HCGarrisons]};
-						if (_marcador in bases) exitWith {[_marcador] remoteExec ["createBase",HCGarrisons]};
-						if (_marcador in controles) exitWith {[_marcador] remoteExec ["createRoadblock",HCGarrisons]};
-						if (_marcador in aeropuertos) exitWith {[_marcador] remoteExec ["createAirbase",HCGarrisons]};
-						if ((_marcador in recursos) or (_marcador in fabricas)) exitWith {[_marcador] remoteExec ["createResources",HCGarrisons]};
-						if ((_marcador in puestos) or (_marcador in puertos)) exitWith {[_marcador] remoteExec ["createOutpost",HCGarrisons]};
-						if ((_marcador in artyEmplacements) AND (_marcador in forcedSpawn)) exitWith {[_marcador] remoteExec ["createArtillery",HCGarrisons]};
+		call {
+			if (_marker in mrkAAF) exitWith {
+				if !(spawner getVariable _marker) then {
+					if (({(_x distance _markerPos < distanciaSPWN)} count _blueUnits > 0) OR (_marker in forcedSpawn)) then {
+						spawner setVariable [_marker,true,true];
+						call {
+							if (_marker in _colinas) exitWith {[_marker] remoteExec ["createWatchpost",HCGarrisons]};
+							if (_marker in colinasAA) exitWith {[_marker] remoteExec ["createAAsite",HCGarrisons]};
+							if (_marker in ciudades) exitWith {[_marker] remoteExec ["createCIV",HCciviles]; [_marker] remoteExec ["createCity",HCGarrisons]};
+							if (_marker in power) exitWith {[_marker] remoteExec ["createPower",HCGarrisons]};
+							if (_marker in bases) exitWith {[_marker] remoteExec ["createBase",HCGarrisons]};
+							if (_marker in controles) exitWith {[_marker] remoteExec ["createRoadblock",HCGarrisons]};
+							if (_marker in aeropuertos) exitWith {[_marker] remoteExec ["createAirbase",HCGarrisons]};
+							if ((_marker in recursos) OR (_marker in fabricas)) exitWith {[_marker] remoteExec ["createResources",HCGarrisons]};
+							if ((_marker in puestos) OR (_marker in puertos)) exitWith {[_marker] remoteExec ["createOutpost",HCGarrisons]};
+							if ((_marker in artyEmplacements) AND (_marker in forcedSpawn)) exitWith {[_marker] remoteExec ["createArtillery",HCGarrisons]};
+						};
+					};
+				} else {
+					if (({_x distance _markerPos < distanciaSPWN} count _blueUnits == 0) AND !(_marker in forcedSpawn)) then {
+						spawner setVariable [_marker,false,true];
 					};
 				};
-			} else {
-				if (({_x distance _posicionMRK < distanciaSPWN} count _bluUnits == 0) and !(_marcador in forcedSpawn)) then {
-					spawner setVariable [_marcador,false,true];
-				};
 			};
-		} else {
-			if !(spawner getVariable _marcador) then {
-				if ((({_x distance _posicionMRK < distanciaSPWN} count _opUnits > 0) or ({((_x getVariable ["owner",objNull]) == _x) and (_x distance _posicionMRK < distanciaSPWN)} count _bluUnits > 0) or (_marcador in forcedSpawn))) then {
-					spawner setVariable [_marcador,true,true];
-					if (_marcador in ciudades) then {
-						if (({((_x getVariable ["owner",objNull]) == _x) and (_x distance _posicionMRK < distanciaSPWN)} count _bluUnits > 0) or (_marcador in forcedSpawn)) then {[_marcador] remoteExec ["createCIV",HCciviles]};
-						[_marcador] remoteExec ["createCity",HCGarrisons]
+
+			if !(spawner getVariable _marker) then {
+				if (({_x distance _markerPos < distanciaSPWN} count _opforUnits > 0) OR ({((_x getVariable ["owner",objNull]) == _x) AND (_x distance _markerPos < distanciaSPWN)} count _blueUnits > 0) OR (_marker in forcedSpawn)) then {
+					spawner setVariable [_marker,true,true];
+					if (_marker in ciudades) then {
+						if (({((_x getVariable ["owner",objNull]) == _x) AND (_x distance _markerPos < distanciaSPWN)} count _blueUnits > 0) OR (_marker in forcedSpawn)) then {[_marker] remoteExec ["createCIV",HCciviles]};
+						[_marker] remoteExec ["createCity",HCGarrisons]
 					} else {
 						call {
-							if ((_marcador in recursos) or (_marcador in fabricas)) exitWith {[_marcador] remoteExec ["createFIArecursos",HCGarrisons]};
-							if ((_marcador in power) or (_marcador == "FIA_HQ")) exitWith {[_marcador] remoteExec ["createFIApower",HCGarrisons]};
-							if (_marcador in aeropuertos) exitWith {[_marcador] remoteExec ["createNATOaerop",HCGarrisons]};
-							if (_marcador in bases) exitWith {[_marcador] remoteExec ["createNATObases",HCGarrisons]};
-							if (_marcador in puestosFIA) exitWith {[_marcador] remoteExec ["createFIAEmplacement",HCGarrisons]};
-							if ((_marcador in puestos) or (_marcador in puertos)) exitWith {[_marcador] remoteExec ["createFIAOutpost",HCGarrisons]};
-							if (_marcador in campsFIA) exitWith {[_marcador] remoteExec ["createCampFIA",HCGarrisons]};
-							if (_marcador in puestosNATO) exitWith {[_marcador] remoteExec ["createNATOpuesto",HCGarrisons]};
+							if ((_marker in recursos) OR (_marker in fabricas)) exitWith {[_marker] remoteExec ["createFIArecursos",HCGarrisons]};
+							if ((_marker in power) OR (_marker == "FIA_HQ")) exitWith {[_marker] remoteExec ["createFIApower",HCGarrisons]};
+							if (_marker in aeropuertos) exitWith {[_marker] remoteExec ["createNATOaerop",HCGarrisons]};
+							if (_marker in bases) exitWith {[_marker] remoteExec ["createNATObases",HCGarrisons]};
+							if (_marker in puestosFIA) exitWith {[_marker] remoteExec ["createFIAEmplacement",HCGarrisons]};
+							if ((_marker in puestos) OR (_marker in puertos)) exitWith {[_marker] remoteExec ["createFIAOutpost",HCGarrisons]};
+							if (_marker in campsFIA) exitWith {[_marker] remoteExec ["createCampFIA",HCGarrisons]};
+							if (_marker in puestosNATO) exitWith {[_marker] remoteExec ["createNATOpuesto",HCGarrisons]};
 						};
 					};
 				};
 			} else {
-				if ((({_x distance _posicionMRK < distanciaSPWN} count _opUnits == 0) and ({((_x getVariable ["owner",objNull]) == _x) and (_x distance _posicionMRK < distanciaSPWN)} count _bluUnits == 0)) and !(_marcador in forcedSpawn)) then {
-					spawner setVariable [_marcador,false,true];
+				if ((({_x distance _markerPos < distanciaSPWN} count _opforUnits == 0) AND ({((_x getVariable ["owner",objNull]) == _x) AND (_x distance _markerPos < distanciaSPWN)} count _blueUnits == 0)) AND !(_marker in forcedSpawn)) then {
+					spawner setVariable [_marker,false,true];
 				};
 			};
 		};

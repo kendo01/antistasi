@@ -64,9 +64,9 @@ _group allowFleeing 0;
 
 {[_x] spawn genVEHinit} forEach _allVehicles;
 
-waitUntil {sleep 1; !(spawner getVariable _marker) or (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= _size)}) < 1)};
+waitUntil {sleep 1; !(spawner getVariable _marker) or (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= (_size max 200)) AND !(captive _x)}) < 1)};
 
-if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= _size)}) < 1) then {
+if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= (_size max 100))}) < 1) then {
 	[-5,0,_markerPos] remoteExec ["AS_fnc_changeCitySupport",2];
 	[["TaskSucceeded", ["", localize "STR_TSK_WP_DESTROYED"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	_mrk = format ["Dum%1",_marker];

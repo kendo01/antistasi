@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
 
 params ["_marker"];
-private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_size","_distance","_roads","_connectedRoads","_direction","_position","_bunker","_static","_group","_unit","_groupType","_tempGroup","_dog"];
+private ["_allVehicles","_allGroups","_allSoldiers","_markerPos","_size","_distance","_roads","_connectedRoads","_position","_bunker","_static","_group","_unit","_groupType","_tempGroup","_dog","_normalPos"];
 
 _allVehicles = [];
 _allGroups = [];
@@ -22,29 +22,38 @@ _connectedRoads = roadsConnectedto (_roads select 0);
 
 _direction = [_roads select 0, _connectedRoads select 0] call BIS_fnc_DirTo;
 if ((isNull (_roads select 0)) OR (isNull (_connectedRoads select 0))) then {diag_log format ["Error in createRoadblock: no suitable roads found near %1",_marker]};
-_position = [getPos (_roads select 0), 7, _direction + 270] call BIS_Fnc_relPos;
+
+_position = [(_roads select 0), 9, _direction + 270] call BIS_Fnc_relPos;
 _bunker = bld_smallBunker createVehicle _position;
 _allVehicles pushBack _bunker;
 _bunker setDir _direction;
+_normalPos = surfaceNormal (position _bunker);
+_bunker setVectorUp _normalPos;
 _position = getPosATL _bunker;
 _static = statMG createVehicle _markerPos;
 _allVehicles pushBack _static;
 _static setPosATL _position;
 _static setDir _direction;
+_normalPos = surfaceNormal (position _static);
+_static setVectorUp _normalPos;
 sleep 1;
 
 _unit = ([_markerPos, 0, infGunner, _tempGroup] call bis_fnc_spawnvehicle) select 0;
 _unit moveInGunner _static;
 
-_position = [getPos (_roads select 0), 7, _direction + 90] call BIS_Fnc_relPos;
+_position = [(_roads select 0), 7, _direction + 90] call BIS_Fnc_relPos;
 _bunker = bld_smallBunker createVehicle _position;
 _allVehicles pushBack _bunker;
 _bunker setDir _direction + 180;
+_normalPos = surfaceNormal (position _bunker);
+_bunker setVectorUp _normalPos;
 _position = getPosATL _bunker;
 _static = statMG createVehicle _markerPos;
 _allVehicles pushBack _static;
 _static setPosATL _position;
 _static setDir _direction;
+_normalPos = surfaceNormal (position _static);
+_static setVectorUp _normalPos;
 sleep 1;
 
 _unit = ([_markerPos, 0, infGunner, _tempGroup] call bis_fnc_spawnvehicle) select 0;
@@ -74,7 +83,7 @@ if (random 10 < 2.5) then {
 {[_x] spawn genInitBASES; _allSoldiers pushBack _x} forEach units _group;
 _allGroups pushBack _group;
 
-waitUntil {sleep 1; !(spawner getVariable _marker) or (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= _size)}) < 1)};
+waitUntil {sleep 1; !(spawner getVariable _marker) or (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= _size) AND !(captive _x)}) < 1)};
 
 if (count (allUnits select {((side _x == side_green) or (side _x == side_red)) and (_x distance _markerPos <= _size)}) < 1) then {
 	[-5,0,_markerPos] remoteExec ["AS_fnc_changeCitySupport",2];

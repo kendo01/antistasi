@@ -108,7 +108,7 @@ if (_hasSPAA) then {
 		if (activeBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 	};
 } else {
-	waitUntil {sleep 1; !(spawner getVariable _marker) OR ((3*count (allUnits select {((side _x == side_green) OR (side _x == side_red)) AND (_x distance _posMarker <= _size)}) == 0) AND ({alive _x} count units _groupGunners == 0))};
+	waitUntil {sleep 1; !(spawner getVariable _marker) OR ((count (allUnits select {((side _x == side_green) OR (side _x == side_red)) AND (_x distance _posMarker <= (_size max 100)) AND !(captive _x)}) == 0) AND ({alive _x} count units _groupGunners == 0))};
 
 	if (({alive _x} count _allSoldiers < (_garrisonSize / 3)) OR ({fleeing _x} count _allSoldiers == {alive _x} count _allSoldiers)) then {
 		[-5,0,_posMarker] remoteExec ["AS_fnc_changeCitySupport",2];

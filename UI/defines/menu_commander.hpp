@@ -61,8 +61,8 @@
 #define SM_TTS ["STR_UI_SM_ADDVEH_TT", "STR_UI_SM_VEHSTATS_TT", "STR_UI_SM_MOUNT_TT", "STR_UI_SM_AUTOT_TT"]
 
 // EMPLACEMENT MENU
-#define EMP_BLDRB "['create'] spawn puestoDialog;"
-#define EMP_DELRB "['delete'] spawn puestoDialog;"
+#define EMP_BLDRB "closeDialog 0; ['create'] spawn puestoDialog;"
+#define EMP_DELRB "closeDialog 0; ['delete'] spawn puestoDialog;"
 #define EMP_MNAPERS "['APERSMine'] spawn mineDialog;"
 #define EMP_MNAT "['ATMine'] spawn mineDialog;"
 
@@ -70,7 +70,7 @@
 #define EMP_CMPDEL "closeDialog 0; ['delete'] spawn ftravelDialog;"
 #define EMP_CMPREN "closeDialog 0; ['rename'] spawn ftravelDialog;"
 
-#define EMP_HQFORT "createDialog 'HQ_fort_dialog';"
+#define EMP_HQFORT "closeDialog 0; createDialog 'HQ_fort_dialog';"
 
 #define EMP_TEXTS_L ["STR_UI_EMP_BLDRB_TEXT", "STR_UI_EMP_DELRB_TEXT", "STR_UI_EMP_MNAP_TEXT", "STR_UI_EMP_MNAT_TEXT"]
 #define EMP_TEXTS_R ["STR_UI_EMP_CMPEST_TEXT", "STR_UI_EMP_CMPDEL_TEXT", "STR_UI_EMP_CMPREN_TEXT", "STR_UI_EMP_HQFORT_TEXT"]

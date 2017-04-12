@@ -29,6 +29,8 @@ publicVariable "unlockedMagazines";
 publicVariable "unlockedItems";
 publicVariable "unlockedOptics";
 
+if (activeJNA) exitWith {};
+
 if (activeBE) then {[] call fnc_BE_gearUpdate; [] call fnc_BE_refresh};
 [unlockedWeapons, "unlockedMagazines"] call AS_fnc_MAINT_missingAmmo;
 [false] call AS_fnc_MAINT_arsenal;

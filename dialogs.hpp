@@ -607,8 +607,8 @@ AS_BOX_D(BOX_H_2);
 AS_FRAME_D(FRAME_H_2, "Select Mortar Ammo");
 BTN_BACK(A_CLOSE);
 
-BTN_L1(-1, "HE", "", "closeDialog 0; tipoMuni = ""8Rnd_82mm_Mo_shells"";");
-BTN_R1(-1, "Smoke", "", "closeDialog 0; tipoMuni = ""8Rnd_82mm_Mo_Smoke_white"";");
+BTN_L1(-1, "HE", "", "closeDialog 0; if (activeAFRF) then {tipoMuni = ""rhs_mag_3vo18_10""} else {tipoMuni = ""8Rnd_82mm_Mo_shells""};");
+BTN_R1(-1, "Smoke", "", "closeDialog 0; if (activeAFRF) then {tipoMuni = ""rhs_mag_3vs25m_10""} else {tipoMuni = ""8Rnd_82mm_Mo_Smoke_white""};");
 
 	};
 };
@@ -929,7 +929,7 @@ class HQ_fort_dialog // 440
 	#define STR_HQ_CMO "closeDialog 0; [""net""] remoteExec [""HQ_adds"",2];"
 	#define STR_HQ_LAN "closeDialog 0; [""lantern""] remoteExec [""HQ_adds"",2];"
 	#define STR_HQ_SND "closeDialog 0; [""sandbag""] remoteExec [""HQ_adds"",2];"
-	#define STR_HQ_PAD "closeDialog 0; [""pad"", position player] remoteExec [""HQ_adds"",2];"
+	#define STR_HQ_PAD "closeDialog 0; [""pad""] remoteExec [""HQ_adds"",2];"
 	#define STR_HQ_DEL "closeDialog 0; [""delete""] remoteExec [""HQ_adds"",2];"
 
 	BTN_L1(-1, "Camo Net", "", STR_HQ_CMO);

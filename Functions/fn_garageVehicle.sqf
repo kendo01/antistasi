@@ -52,7 +52,7 @@ if !(_permission) exitWith {hint _text};
 
 if (_veh in staticsToSave) then {staticsToSave = staticsToSave - [_veh]; publicVariable "staticsToSave"};
 
-if (server getVariable "lockTransfer") exitWith {
+if (server getVariable ["lockTransfer",false]) exitWith {
 	{
 		if (_x distance caja < 20) then {
 			[petros,"hint","Currently unloading another ammobox. Please wait a few seconds."] remoteExec ["commsMP",_x];

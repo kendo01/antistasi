@@ -32,14 +32,16 @@ while {!(_break) && (count _roads > 0)} do {
 	_road = (_p1 nearRoads 5) select 0;
 	if (!isNil "_road") then {
 		_roadcon = roadsConnectedto (_road);
-		_p2 = getPos (_roadcon select 0);
-		_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
-		_posCmp = [_p1, 8, _dirveh + 90] call BIS_Fnc_relPos;
-		if (count (nearestObjects [_posCmp, [], 6]) < 1) exitWith {
-			_break = true;
+		if (count _roadcon > 0) then {
+			_p2 = getPos (_roadcon select 0);
+			_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
+			_posCmp = [_p1, 8, _dirveh + 90] call BIS_Fnc_relPos;
+			if (count (nearestObjects [_posCmp, [], 6]) < 1) exitWith {
+				_break = true;
+			};
+			_roads set [_index,-1];
+			_roads = _roads - [-1];
 		};
-		_roads set [_index,-1];
-		_roads = _roads - [-1];
 	};
 };
 

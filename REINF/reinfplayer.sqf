@@ -33,7 +33,8 @@ _hr = server getVariable "hr";
 
 if (_hr < 1) exitWith {hint "You do not have enough HR for this request"};
 
-_coste = server getVariable _tipounidad;
+_coste = server getVariable [_tipounidad,150];
+if (_tipounidad == "Soldier_AA") then {_coste = server getVariable [guer_sol_AA,150]};
 if (!isMultiPlayer) then {_resourcesFIA = server getVariable "resourcesFIA"} else {_resourcesFIA = player getVariable "dinero";};
 
 if (_coste > _resourcesFIA) exitWith {hint format ["You do not have enough money for this kind of unit (%1 € needed)",_coste]};
@@ -64,12 +65,10 @@ else
 if (_tipounidad == "Soldier_AA") then {
 	_aal = genAALaunchers select 0;
 	[_unit,true,true,true,true] call randomRifle;
-	if (_aal in unlockedWeapons) then {
-		removeBackpackGlobal _unit;
-		_unit addBackpackGlobal "B_AssaultPack_blk";
-		[_unit, _aal, 2, AAmissile] call BIS_fnc_addWeapon;
-		_unit addMagazines [AAmissile, 1];
-	};
+	removeBackpackGlobal _unit;
+	_unit addBackpackGlobal "B_AssaultPack_blk";
+	[_unit, _aal, 2, AAmissile] call BIS_fnc_addWeapon;
+	_unit addMagazines [AAmissile, 1];
 };
 
 _unit disableAI "AUTOCOMBAT";

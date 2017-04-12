@@ -1,4 +1,4 @@
-private ["_allVehicles","_allGroups","_allSoldiers","_base","_spawnPosition","_vehicleArray","_vehicleType","_arrayBases","_arrayTargets","_distance","_spawnpositionData","_direction","_vehicleData","_vehicle","_groupVehicle","_beach","_groupType","_group","_target","_targetPosition","_wp_v_1","_object","_knowledge"];
+private ["_allVehicles","_allGroups","_allSoldiers","_base","_spawnData","_spawnPosition","_direction","_vehicleArray","_vehicleType","_arrayBases","_arrayTargets","_distance","_vehicleData","_vehicle","_groupVehicle","_beach","_group","_target","_targetPosition","_wp_v_1","_object","_knowledge"];
 
 _allVehicles = [];
 _allGroups = [];
@@ -52,35 +52,34 @@ if (count _arrayTargets < 1) exitWith {};
 
 AAFpatrols = AAFpatrols + 1; publicVariableServer "AAFpatrols";
 
+_direction = 0;
 if !(_vehicleType isKindOf "helicopter") then {
 	if (_vehicleType in vehPatrolBoat) then {
 		_spawnPosition = [_spawnPosition,80,200,10,2,0,0] call BIS_Fnc_findSafePos;
 	} else {
-		_spawnpositionData = [_spawnPosition, getMarkerPos (selectRandom _arrayTargets)] call AS_fnc_findSpawnSpots;
-		_spawnPosition = _spawnpositionData select 0;
-		_direction = _spawnpositionData select 1;
+		_spawnData = [_spawnPosition, getMarkerPos (_arrayTargets select 0)] call AS_fnc_findSpawnSpots;
+		_spawnPosition = _spawnData select 0;
+		_direction = _spawnData select 1;
 	};
 };
 
-_vehicleData = [_spawnPosition, 0,_vehicleType, side_green] call bis_fnc_spawnvehicle;
+_vehicleData = [_spawnPosition, _direction,_vehicleType, side_green] call bis_fnc_spawnvehicle;
 _vehicle = _vehicleData select 0;
-[_vehicle] spawn genVEHinit;
+if (_vehicleType in vehPatrolBoat) then {
+	_beach = [_vehicle,0,200,0,0,90,1] call BIS_Fnc_findSafePos;
+	_direction = ((_vehicle getRelDir _beach) + 180);
+};
 [_vehicle,"Patrol"] spawn inmuneConvoy;
 _groupVehicle = _vehicleData select 2;
 _allGroups pushBack _groupVehicle;
 _allVehicles pushBack _vehicle;
 
-if (_vehicle iskindof "ship") then {
-	_beach = [_vehicle,0,200,0,0,90,1] call BIS_Fnc_findSafePos;
-	_vehicle setdir ((_vehicle getRelDir _beach) + 180);
-};
-
-
 if (_vehicleType isKindOf "Car") then {
-	sleep 1;
-	_groupType = [infGarrisonSmall, side_green] call AS_fnc_pickGroup;
-	_group = [_spawnPosition, side_green, _groupType] call BIS_Fnc_spawnGroup;
-	{_x assignAsCargo _vehicle; _x moveInCargo _vehicle; [_x] join _groupVehicle;} forEach units _group;
+	for "_i" from 1 to ((_vehicle emptyPositions "cargo") min 4) do {
+		([_spawnPosition, 0, selectRandom [sol_RFL,sol_R_L,sol_LAT], _groupVehicle] call bis_fnc_spawnvehicle) params ["_soldier"];
+		_soldier assignAsCargo _vehicle;
+		_soldier moveInCargo _vehicle;
+	};
 	[_vehicle] spawn smokeCover;
 };
 
@@ -89,13 +88,21 @@ if (_vehicleType isKindOf "Car") then {
 	{
 		[_x] spawn genInit;
 		_allSoldiers pushBack _x;
-	};
+	} forEach units _group;
 } forEach _allGroups;
 
+sleep 1;
 {[_x] spawn genVEHinit} forEach _allVehicles;
 
-while {alive _vehicle} do
-	{
+while {alive _vehicle} do {
+	if (count _arrayTargets < 1) exitWith {
+		deleteWaypoint [_groupVehicle, 1];
+		_wp_v_1 = _groupVehicle addWaypoint [_spawnPosition, 0];
+		_wp_v_1 setWaypointType "MOVE";
+		_wp_v_1 setWaypointBehaviour "SAFE";
+		_wp_v_1 setWaypointSpeed "LIMITED";
+		_vehicle setFuel 1;
+	};
 	_target = _arrayTargets call bis_Fnc_selectRandom;
 	_targetPosition = getMarkerPos _target;
 	deleteWaypoint [_groupVehicle, 1];

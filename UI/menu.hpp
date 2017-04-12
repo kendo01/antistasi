@@ -37,7 +37,7 @@ class menu_startGame {
 
 		#define STR_START_EAS_ACTION "if ((_this select 2) isEqualTo 1) then {['STR_UI_SM_EAS_0'] call AS_fnc_UI_setTText;} else {['STR_UI_SM_EAS_1'] call AS_fnc_UI_setTText;}"
 
-		#define STR_LOAD_YES "['statSave\loadAccount.sqf','BIS_fnc_execVM'] call BIS_fnc_MP; placementDone = true; publicVariable 'placementDone';"
+		#define STR_LOAD_YES "['statSave\loadAccount.sqf','BIS_fnc_execVM'] call BIS_fnc_MP;"
 
 		MENU_BG();
 		MENU_IMG(1001, MENU_IMG_DAY);

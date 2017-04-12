@@ -8,7 +8,7 @@ private ["_allVehicles","_vehicle"];
 //Don't touch them.
 antistasiVersion = "v 1.7 -- modded";
 
-servidoresOficiales = ["Antistasi Official: Main","Antistasi Official: EU", "Antistasi Official: USA"];//this is for author's fine tune the official servers. If I get you including your server in this variable, I will create a special variable for your server. Understand?
+servidoresOficiales = ["Antistasi Official: Main","Antistasi Official: DLC", "Antistasi Official: USA"];//this is for author's fine tune the official servers. If I get you including your server in this variable, I will create a special variable for your server. Understand?
 
 debug = false;//debug variable, not useful for everything..
 
@@ -30,6 +30,10 @@ closeMarkersUpdating = 0;
 altVersion = "";
 enableRestart = true;
 status_templatesLoaded = false;
+activeJNA = (("AS_param_useJNA" call BIS_fnc_getParamValue) == 1);
+if (activeJNA) then {
+	jna_dataList = [[],[],[],[],[],[],[],[],[],[],[["ItemMap",40]],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+};
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
@@ -98,8 +102,6 @@ server setVariable ["expActive", false, true];
 server setVariable ["blockCSAT", false, true];
 server setVariable ["jTime", 0, true];
 
-server setVariable ["lockTransfer", false, true];
-
 server setVariable ["genLMGlocked",true,true];
 server setVariable ["genGLlocked",true,true];
 server setVariable ["genSNPRlocked",true,true];
@@ -119,16 +121,16 @@ server setVariable ["genAAlocked",true,true];
 {server setVariable [_x,200,true]} forEach infList_sniper;
 
 
-{server setVariable [_x,400,true]} forEach [guer_stat_MGH,guer_veh_dinghy,guer_veh_engineer];//400
-{server setVariable [_x,800,true]} forEach [guer_stat_mortar,guer_stat_AT,guer_stat_AA];//800
+{server setVariable [_x,400,true]} forEach [guer_stat_MGH,guer_veh_dinghy,guer_veh_engineer];
+{server setVariable [_x,800,true]} forEach [guer_stat_mortar,guer_stat_AT,guer_stat_AA];
 server setVariable [vfs select 0,300,true];
-server setVariable [vfs select 1,600,true];//600
-server setVariable [vfs select 2,6000,true];//12000
-server setVariable [vfs select 3,50,true];//50
-server setVariable [vfs select 4,200,true];//200
-server setVariable [vfs select 5,450,true];//300
-server setVariable [vfs select 6,700,true];//700
-server setVariable [vfs select 7,400,true];//700
+server setVariable [vfs select 1,600,true];
+server setVariable [vfs select 2,6000,true];
+server setVariable [vfs select 3,50,true];
+server setVariable [vfs select 4,200,true];
+server setVariable [vfs select 5,450,true];
+server setVariable [vfs select 6,700,true];
+server setVariable [vfs select 7,400,true];
 server setVariable [vfs select 8,800,true];
 server setVariable [vfs select 9,800,true];
 server setVariable [vfs select 10,800,true];
@@ -164,7 +166,6 @@ helisAAFmax = 0;
 APCAAFmax = 0;
 tanksAAFmax = 0;
 cuentaCA = 600;//600
-lastIncome = 0;
 prestigeIsChanging = false;
 cityIsSupportChanging = false;
 resourcesIsChanging = false;

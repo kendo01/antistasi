@@ -18,7 +18,7 @@ else
 if (isNull _camion) exitWith {};
 
 
-if (server getVariable "lockTransfer") exitWith {
+if (server getVariable ["lockTransfer",false]) exitWith {
 	if (isMultiplayer) then {
 		{if (_x distance caja < 20) then {
 			[petros,"hint","Currently unloading another ammobox. Please wait a few seconds."] remoteExec ["commsMP",_x];
@@ -50,5 +50,8 @@ if (count _todo < 1) exitWith
 
 server setVariable ["lockTransfer", true, true];
 if (isMultiplayer) then {{if (_x distance caja < 20) then {[petros,"hint","Unloading ammobox..."] remoteExec ["commsMP",_x]}} forEach playableUnits} else {hint "Unloading ammobox..."};
-if (count _this == 2) then {[_camion,caja,true] remoteExec ["munitionTransfer",2]} else {[_camion,caja] remoteExec ["munitionTransfer",2]};
-[] spawn suspendTransfer;
+if (count _this == 2) then {[_camion,caja,true] remoteExec ["AS_fnc_transferGear",2]} else {[_camion,caja] remoteExec ["AS_fnc_transferGear",2]};
+[] spawn {
+	sleep 5;
+	server setVariable ["lockTransfer", false, true];
+};
