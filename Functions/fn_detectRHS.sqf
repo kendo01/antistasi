@@ -25,7 +25,7 @@ if ("rhs_weap_m92" in gear_allWeapons) then {
 replaceFIA = false;
 if (((side petros) == independent) OR ("respawn_guer" in allMapMarkers)) then {
 	replaceFIA = true;
-	altVersion = "GREEN";
+	static_playerSide = "G";
 };
 
 // Setup civilians, with Altis civilians as the default

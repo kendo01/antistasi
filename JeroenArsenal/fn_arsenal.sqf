@@ -1240,13 +1240,16 @@ switch _mode do {
 			])then{
 				//check how many useable mags there are
 				_ammoTotal = 0;
-				_compatableMagazines = (getarray (configfile >> "cfgweapons" >> _item >> "magazines"));
+				_compatableMagazines = server getVariable [format ["%1_mags", _item],[]];//TODO marker for changed entry
+				scopeName "updateWeapon";//TODO marker for changed entry
+				//_compatableMagazines = (getarray (configfile >> "cfgweapons" >> _item >> "magazines"));//TODO marker for changed entry
 				{
 					private ["_amount"];
 					_magName = _x select 0;
 					_amount = _x select 1;
-					if(_amount == -1)exitWith{_ammoTotal = -1};
-					if(_magName in _compatableMagazines)then{
+					//if(_amount == -1)exitWith{_ammoTotal = -1};//TODO marker for changed entry
+					if (_magName in _compatableMagazines) then {
+						if (_amount == -1) then {_ammoTotal = -1; breakTo "updateWeapon"};//TODO marker for changed entry
 						_ammoTotal = _ammoTotal + _amount;
 					}
 				} forEach (jna_dataList select IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL);
@@ -1287,6 +1290,9 @@ switch _mode do {
 					};
 					case (_amount == 1): {
 						"The last one in the box"
+					};
+					case (_amount == -1): {//TODO marker for changed entry
+						"More than enough for a whole army"
 					};
 					default{""};
 				};

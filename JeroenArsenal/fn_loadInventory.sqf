@@ -197,12 +197,13 @@ _availableItems = [jna_dataList, _arrayPlaced] call _addArrays;
 	_subArray = _x;
 	{
 		_item = _x select 0;
-		_amount = (_x select 1) - (jna_minItemMember select _index);
+		_amount = (_x select 1);
+		if !([player] call isMember) then {_amount = (_x select 1) - (jna_minItemMember select _index)};//todo Trial
+		//_amount = (_x select 1) - (jna_minItemMember select _index);
 		_subArray set [_foreachindex, [_item,_amount]];
 	} forEach _subArray;
 	_availableItems set [_index, _subArray];
 } forEach _availableItems;
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  assinged items
 _assignedItems = ((_inventory select 9) + [_inventory select 3] + [_inventory select 4] + [_inventory select 5]);					//todo add binocular batterys
@@ -328,7 +329,7 @@ _containers = [_uniform,_vest,_backpack];
 			IDC_RSCDISPLAYARSENAL_TAB_BACKPACK
 		] select _foreachindex;
 
-
+		diag_log format ["avail: %1; item: %2; count: %3",_availableItems select _index, _item,[_availableItems select _index, _item] call jna_fnc_ItemCount];//todo TRIAL
 		if([_availableItems select _index, _item] call jna_fnc_ItemCount > 0)then{
 			call ([
 				{player forceAddUniform _uniform;},
