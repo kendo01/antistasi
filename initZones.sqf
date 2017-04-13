@@ -33,7 +33,7 @@ safeDistance_garrison = 500;
 safeDistance_fasttravel = 500;
 
 // Blacklist of locations not be used as towns
-_blackList = ["for_Giswil","sagonisi","hill12"];
+_blackList = ["Giswil","sagonisi","hill12"];
 
 call {
     if (worldName == "Altis") exitWith {
