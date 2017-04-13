@@ -383,7 +383,7 @@ _containers = [_uniform,_vest,_backpack];
 				};
 			}else{
 				_amount = 1;
-				if(_amountAvailable > _amount)then{
+				if (_amountAvailable != 0) then {
 					_container addItemCargo [_item,_amount];
 					[_arrayTaken,_index,_item,_amount]call _addToArray;
 					[_availableItems,_index,_item,_amount]call _removeFromArray;
