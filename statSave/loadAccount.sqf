@@ -202,7 +202,6 @@ publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 
 ["posHQ"] call fn_LoadStat;
-["flag_chopForest"] call fn_LoadStat;
 ["estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
 sleep 1;
@@ -239,7 +238,7 @@ server setVariable ["genAAlocked",true,true];
 [false] call AS_fnc_MAINT_arsenal;
 
 // [[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
-ASA3_saveLoaded = true;
+ASA3_saveLoaded = true; publicVariable "ASA3_saveLoaded";
 placementDone = true; publicVariable 'placementDone';
 diag_log "Antistasi: Server sided Persistent Load done";
 
