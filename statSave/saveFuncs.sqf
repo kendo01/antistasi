@@ -383,8 +383,6 @@ fn_setData = {
 			//
 
 			if(_varname == 'vehicles') exitWith {
-				diag_log "test";
-				diag_log _varvalue;
 				for "_i" from 0 to (count _varvalue) - 1 do {
 					_tipoVeh = _varvalue select _i select 0;
 					_posVeh = _varvalue select _i select 1;

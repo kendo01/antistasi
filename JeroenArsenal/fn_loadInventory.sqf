@@ -39,7 +39,6 @@ _arrayTaken = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
 _arrayMissing = [];
 _arrayReplaced = [];
 
-
 _addToArray = {
 	private ["_array","_index","_item","_amount"];
 	_array = _this select 0;
@@ -226,7 +225,7 @@ _assignedItems = ((_inventory select 9) + [_inventory select 3] + [_inventory se
 	if(_index == -1)then{
 		_arrayMissing = [_arrayMissing,[_item,_amount]] call jna_fnc_addToArray;
 	}else{
-		if([_availableItems select _index, _item] call jna_fnc_ItemCount > 0)then{
+		if ([_availableItems select _index, _item] call jna_fnc_ItemCount != 0) then{
 			player linkItem _item;
 			[_arrayTaken,_index,_item,_amount]call _addToArray;
 			[_availableItems,_index,_item,_amount]call _removeFromArray;
@@ -256,8 +255,8 @@ _weapons = [_inventory select 6,_inventory select 7,_inventory select 8];
 
 		//add ammo to backpack, which need to be loaded in the gun.
 		_amountMagAvailable = [_availableItems select _indexMag, _itemMag] call jna_fnc_ItemCount;
-		if(_amountMagAvailable > 0)then{
-			if(_amountMagAvailable < _amountMag)then{
+		if(_amountMagAvailable != 0)then{
+			if ((_amountMagAvailable < _amountMag) && (_amountMagAvailable != -1)) then{
 				_arrayMissing = [_arrayMissing,[_itemMag,_amountMag]] call jna_fnc_addToArray;
 				_amountMag = _amountMagAvailable;
 			};
@@ -269,7 +268,7 @@ _weapons = [_inventory select 6,_inventory select 7,_inventory select 8];
 		};
 
 		//adding the gun
-		if((_index != -1)&&{[_availableItems select _index, _item] call jna_fnc_ItemCount > 0})then{
+		if((_index != -1)&&{[_availableItems select _index, _item] call jna_fnc_ItemCount != 0})then{
 			player addWeapon _item;
 			[_arrayTaken,_index,_item,_amount]call _addToArray;
 			[_availableItems,_index,_item,_amount]call _removeFromArray;
@@ -291,7 +290,7 @@ _weapons = [_inventory select 6,_inventory select 7,_inventory select 8];
 					IDC_RSCDISPLAYARSENAL_TAB_ITEMBIPOD
 				]] call jna_fnc_itemType;
 
-				if((_indexAcc != -1)&&{[_availableItems select _indexAcc, _itemAcc] call jna_fnc_ItemCount > 0})then{
+				if((_indexAcc != -1)&&{[_availableItems select _indexAcc, _itemAcc] call jna_fnc_ItemCount != 0})then{
 					switch _index do{
 						case IDC_RSCDISPLAYARSENAL_TAB_PRIMARYWEAPON:{player addPrimaryWeaponItem _itemAcc;};
 						case IDC_RSCDISPLAYARSENAL_TAB_SECONDARYWEAPON:{player addSecondaryWeaponItem _itemAcc;};
@@ -329,10 +328,9 @@ _containers = [_uniform,_vest,_backpack];
 			IDC_RSCDISPLAYARSENAL_TAB_BACKPACK
 		] select _foreachindex;
 
-		diag_log format ["avail: %1; item: %2; count: %3",_availableItems select _index, _item,[_availableItems select _index, _item] call jna_fnc_ItemCount];//todo TRIAL
-		if([_availableItems select _index, _item] call jna_fnc_ItemCount > 0)then{
+		if([_availableItems select _index, _item] call jna_fnc_ItemCount != 0)then{
 			call ([
-				{player forceAddUniform _uniform;},
+				{player forceAddUniform _uniform;},//todo remove
 				{player addVest _vest;},
 				{player addBackpack _backpack;}
 			] select _foreachindex);
@@ -342,7 +340,7 @@ _containers = [_uniform,_vest,_backpack];
 			_oldItem = [_uniform_old,_vest_old,_backpack_old] select _foreachindex;
 			if!(_oldItem isEqualTo "")then{
 				call ([
-					{player forceAddUniform _uniform_old;},
+					{player forceAddUniform _uniform_old;}, //todo remove
 					{player addVest _vest_old;},
 					{player addBackpack _backpack_old;}
 				] select _foreachindex);
@@ -370,14 +368,18 @@ _containers = [_uniform,_vest,_backpack];
 			_amountAvailable = [_availableItems select _index, _item] call jna_fnc_ItemCount;
 			if(_index == IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL)then{
 				_amount = getNumber (configfile >> "CfgMagazines" >> _item >> "count");
-				if(_amountAvailable < _amount)then{
-					_amount = _amountAvailable;
-					_arrayMissing = [_arrayMissing,[_item,(_amount - _amountAvailable)]] call jna_fnc_addToArray;
-				};
-				[_arrayTaken,_index,_item,_amount]call _addToArray;
-				[_availableItems,_index,_item,_amount]call _removeFromArray;
-				if(_amount>0)then{//prefent empty mags
+				if (_amountAvailable == -1) then {
 					_container addMagazineAmmoCargo  [_item,1, _amount];
+				} else {
+					if(_amountAvailable < _amount)then{
+						_amount = _amountAvailable;
+						_arrayMissing = [_arrayMissing,[_item,(_amount - _amountAvailable)]] call jna_fnc_addToArray;
+					};
+					[_arrayTaken,_index,_item,_amount]call _addToArray;
+					[_availableItems,_index,_item,_amount]call _removeFromArray;
+					if(_amount>0)then{//prefent empty mags
+						_container addMagazineAmmoCargo  [_item,1, _amount];
+					};
 				};
 			}else{
 				_amount = 1;

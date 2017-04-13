@@ -252,7 +252,7 @@ switch _mode do {
 
 		_ctrlTemplateButtonOK = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_BUTTONOK;
 		_ctrlTemplateButtonOK ctrlRemoveAllEventHandlers "buttonclick";
-		_ctrlTemplateButtonOK ctrladdeventhandler ["buttonclick",{["buttonTemplateOK",[ctrlparent (_this select 0)]] call jna_fnc_arsenal;}];
+		_ctrlTemplateButtonOK ctrladdeventhandler ["buttonclick",{["buttonTemplateOK",[ctrlparent (_this select 0)]] call jna_fnc_arsenal;}];//todo remove
 
 		_ctrlTemplateButtonDelete = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_BUTTONDELETE;
 		_ctrlTemplateButtonDelete ctrlRemoveAllEventHandlers "buttonclick";
@@ -283,6 +283,10 @@ switch _mode do {
 		_ctrlArrowRight = _display displayctrl IDC_RSCDISPLAYARSENAL_ARROWRIGHT;
 		_ctrlArrowRight ctrlRemoveAllEventHandlers "buttonclick";
 		_ctrlArrowRight ctrladdeventhandler ["buttonclick",{["buttonCargo",[ctrlparent (_this select 0),+1]] call jna_fnc_arsenal;}];
+
+		_ctrlTemplateValue = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_VALUENAME;
+		_ctrlTemplateValue ctrlRemoveAllEventHandlers "lbdblclick";
+		_ctrlTemplateValue ctrladdeventhandler ["lbdblclick",{["buttonTemplateOK",[ctrlparent (_this select 0)]] call jna_fnc_arsenal;}];//todo remove
 
 
 		//--- Menus
@@ -2461,6 +2465,7 @@ switch _mode do {
 
 	case "showTemplates": {
 		_display = _this select 0;
+
 		_ctrlTemplateValue = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_VALUENAME;
 		lnbclear _ctrlTemplateValue;
 		_data = profilenamespace getvariable ["bis_fnc_saveInventory_data",[]];
@@ -2513,7 +2518,6 @@ switch _mode do {
 
 	case "templateSelChanged": {
 		_display = _this select 0;
-
 		_ctrlTemplateValue = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_VALUENAME;
 		_ctrlTemplateName = _display displayctrl IDC_RSCDISPLAYARSENAL_TEMPLATE_EDITNAME;
 		_ctrlTemplateName ctrlsettext (_ctrlTemplateValue lnbtext [lnbcurselrow _ctrlTemplateValue,0]);

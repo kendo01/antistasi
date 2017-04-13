@@ -158,6 +158,7 @@ server setVariable ["hardMode",false,true];
 server setVariable ["testMode",false,true];
 
 staticsToSave = []; publicVariable "staticsToSave";
+staticsData = []; publicVariable "staticsData";
 prestigeOPFOR = 50;//Initial % support for AAF on each city
 if (not cadetMode) then {prestigeOPFOR = 75};//if you play on vet, this is the number
 prestigeBLUFOR = 0;//Initial % FIA support on each city
