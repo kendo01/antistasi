@@ -196,6 +196,7 @@ fn_setData = {
 			};
 			if(_varName == 'mines') exitWith {
 				for "_i" from 0 to (count _varvalue) - 1 do {
+					_unknownMine = false;
 					_tipoMina = _varvalue select _i select 0;
 					switch _tipoMina do {
 						case apMine_type: {_tipoMina = apMine_placed};
@@ -204,12 +205,17 @@ fn_setData = {
 						case "SLAMDirectionalMine_Wire_Ammo": {_tipoMina = "SLAMDirectionalMine"};
 						case "APERSTripMine_Wire_Ammo": {_tipoMina = "APERSTripMine"};
 						case "ClaymoreDirectionalMine_Remote_Ammo": {_tipoMina = "Claymore_F"};
+						default {
+							_unknownMine = true;
+						};
 					};
-					_posMina = _varvalue select _i select 1;
-					_dirMina = _varvalue select _i select 2;
-					_mina = createMine [_tipoMina, _posMina, [], _dirMina];
-					_detectada = _varvalue select _i select 3;
-					if (_detectada) then {side_blue revealMine _mina};
+					if !(_unknownMine) then {
+						_posMina = _varvalue select _i select 1;
+						_dirMina = _varvalue select _i select 2;
+						_mina = createMine [_tipoMina, _posMina, [], _dirMina];
+						_detectada = _varvalue select _i select 3;
+						if (_detectada) then {side_blue revealMine _mina};
+					};
 				};
 			};
 			if(_varName == 'garrison') exitWith {
