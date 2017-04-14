@@ -48,6 +48,9 @@ call {
     if (worldName == "Bornholm") exitWith {
         call compile preprocessFileLineNumbers "Worlds\BornholmData.sqf";
     };
+	if (worldName == "xcam_taunus") exitWith {
+        call compile preprocessFileLineNumbers "Worlds\xcam_taunusData.sqf";
+    };
 };
 
 // Search the markers placed within the SQM for each type and create corresponding lists. A pre-defined list is available for Altis.
@@ -188,7 +191,7 @@ if (worldName in ["Altis","Bornholm","Tanoa"]) then {
         _pos = getMarkerPos _loc;
         _dmrk = createMarker [format ["Dum%1",_loc], _pos];
         _dmrk setMarkerShape "ICON";
-        _dmrk setMarkerColor IND_marker_colour;
+        if !(_loc in (aeropuertos+bases)) then {_dmrk setMarkerColor IND_marker_colour};
         [_loc] call AS_fnc_createRoadblocks;
         garrison setVariable [_loc,[],true];
         _dmrk setMarkerType _type;

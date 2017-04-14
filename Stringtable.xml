@@ -156,6 +156,12 @@
 			<Key ID="STR_GENIDENT_SF">
 				<Original>NATO SF</Original>
 			</Key>
+			<Key ID="STR_GENIDENT_KSK">
+				<Original>KSK</Original>
+			</Key>
+			<Key ID="STR_GENIDENT_BW">
+				<Original>Bundeswehr</Original>
+			</Key>
 		</Container>
 	</Package>
 
