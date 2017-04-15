@@ -1,5 +1,4 @@
 // This is a copy of ASS_traidor.sqf repurposed for capturing a HVT.
-// To do: Fix setidentity for hosted multiplayer, probably needs a function exectuted on all machines to change idenity for players. Currently it only works in SP/local hosted.
 
 if (!isServer and hasInterface) exitWith {};
 
@@ -46,7 +45,8 @@ _base = [_arraybases, _initialPosition] call BIS_Fnc_nearestPosition;
 _posBase = getMarkerPos _base;
 
 _mayor = ([_traitorPosition, 0, "C_man_1", _mayorGroup] call bis_fnc_spawnvehicle) select 0;
-_mayor setIdentity "Dusty";
+ [_mayor, {_this setIdentity "Dusty"} ] remoteExec ["call"];
+ sleep 0.1;
 _mayor addGoggles "G_Tactical_Black";
 _mayor addHeadgear "H_Hat_checker";
 _mayor addUniform "U_NikosAgedBody";
@@ -63,8 +63,6 @@ _sol1 = ([_posSol1, 0, opI_SL, _mayorGuards] call bis_fnc_spawnvehicle) select 0
 _sol2 = ([_posSol2, 0, sol_OFF, _mayorGuards] call bis_fnc_spawnvehicle) select 0;
 _mayorGroup selectLeader _mayor;
 
-_posTsk = (position _house) getPos [random 100, random 360];
-
 _spawnData = [_initialPosition, [ciudades, _initialPosition] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
 if (count _spawnData < 1) exitWith {diag_log format ["Error in traitor: no suitable roads found near %1",_initialMarker]};
 _roadPos = _spawnData select 0;
@@ -75,7 +73,7 @@ if (_source == "civ") then {
 	server setVariable ["civActive", _val + 1, true];
 };
 
-_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_initialMarker],_posTsk,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
+_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_initialMarker],_mayor,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 {[_x] spawn CSATinit; _x allowFleeing 0} forEach units _mayorGroup;
