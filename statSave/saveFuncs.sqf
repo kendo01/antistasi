@@ -16,7 +16,7 @@ fn_loadPlayerData = {
 	params [["_varName","",[""]],["_playerUID","1",[""]]];
 	if ((_varName == "") OR (count _playerUID < 16)) exitWith {diag_log format ["Error in fn_loadPlayerData -- name: %1; UID: %2", _varname,_playerUID]};
 	_varValue = profileNameSpace getVariable (format ["%1_%2_P_%3_%4",worldName,static_playerSide,_playerUID,_varName]);
-	if(isNil "_varValue") exitWith {diag_log format ["Error in fn_loadPlayerData, no value -- name: %1; UID: %2", _varname,_playerUID]};
+	if (isNil "_varValue") exitWith {diag_log format ["Error in fn_loadPlayerData, no value -- name: %1; UID: %2", _varname,_playerUID]};
 	[_varName,_varValue] call fn_setPlayerData;
 };
 
@@ -32,7 +32,7 @@ fn_loadData = {
 	params [["_varname","",[""]]];
 	if (_varName == "") exitWith {diag_log format ["Error in fn_loadData, no name -- name: %1", _varname]};
 	_varValue = profileNameSpace getVariable (format ["%1_%2_S_%3",worldName,static_playerSide,_varname]);
-	if(isNil "_varValue") exitWith {diag_log format ["Error in fn_loadData, no value --  name: %1; value: %2", _varname,_varvalue]};
+	if (isNil "_varValue") exitWith {};
 	[_varName,_varValue] call fn_setData;
 };
 
@@ -195,28 +195,6 @@ fn_setData = {
 				} forEach units_enemySoldiers;
 			};
 			if(_varName == 'mines') exitWith {
-				for "_i" from 0 to (count _varvalue) - 1 do {
-					_unknownMine = false;
-					_tipoMina = _varvalue select _i select 0;
-					switch _tipoMina do {
-						case apMine_type: {_tipoMina = apMine_placed};
-						case atMine_type: {_tipoMina = atMine_placed};
-						case "APERSBoundingMine_Range_Ammo": {_tipoMina = "APERSBoundingMine"};
-						case "SLAMDirectionalMine_Wire_Ammo": {_tipoMina = "SLAMDirectionalMine"};
-						case "APERSTripMine_Wire_Ammo": {_tipoMina = "APERSTripMine"};
-						case "ClaymoreDirectionalMine_Remote_Ammo": {_tipoMina = "Claymore_F"};
-						default {
-							_unknownMine = true;
-						};
-					};
-					if !(_unknownMine) then {
-						_posMina = _varvalue select _i select 1;
-						_dirMina = _varvalue select _i select 2;
-						_mina = createMine [_tipoMina, _posMina, [], _dirMina];
-						_detectada = _varvalue select _i select 3;
-						if (_detectada) then {side_blue revealMine _mina};
-					};
-				};
 			};
 			if(_varName == 'garrison') exitWith {
 				_marcadores = mrkFIA - puestosFIA - controles - ciudades;
