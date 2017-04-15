@@ -44,36 +44,24 @@ _arraybases = bases - mrkFIA;
 _base = [_arraybases, _initialPosition] call BIS_Fnc_nearestPosition;
 _posBase = getMarkerPos _base;
 
-_mayor = ([_traitorPosition, 0, "C_Nikos_aged", _mayorGroup] call bis_fnc_spawnvehicle) select 0;
-_mayor setName "Mayor Dusty";
+_mayor = ([_traitorPosition, 0, "C_man_1", _mayorGroup] call bis_fnc_spawnvehicle) select 0;
+ [_mayor, {_this setIdentity "Dusty"} ] remoteExec ["call"];
+ sleep 0.1;
 _mayor addGoggles "G_Tactical_Black";
 _mayor addHeadgear "H_Hat_checker";
+_mayor addUniform "U_NikosAgedBody";
 [_mayor] spawn {
 	params ["_subject"];
 	_subject allowDamage false;
 	sleep 15;
 	_subject allowDamage true;
 };
-_mayor addAction ["Capture the Mayor",
-	{
-		_mayor0 = _this select 0;
-		_mayor0 globalChat "Ok I surrender!";
-		_mayor0 setcaptive 1;
-		_mayor0 disableAI "MOVE";
-		removeAllActions _mayor0;
-		sleep 10;
-		_mayor0 setCaptive 0;
-		_mayor0 globalChat "I will follow your commands, but if your enemy see me they will kill me.";
-		_mayor0 enableAI "MOVE";
-		_capturer = _this select 1;
-		[_mayor0] joinSilent _capturer;
-	}];
+
+[[_mayor,"Capture_HVT"],"AS_fnc_addActionMP"] call BIS_fnc_MP;
 
 _sol1 = ([_posSol1, 0, opI_SL, _mayorGuards] call bis_fnc_spawnvehicle) select 0;
 _sol2 = ([_posSol2, 0, sol_OFF, _mayorGuards] call bis_fnc_spawnvehicle) select 0;
 _mayorGroup selectLeader _mayor;
-
-_posTsk = (position _house) getPos [random 100, random 360];
 
 _spawnData = [_initialPosition, [ciudades, _initialPosition] call BIS_fnc_nearestPosition] call AS_fnc_findRoadspot;
 if (count _spawnData < 1) exitWith {diag_log format ["Error in traitor: no suitable roads found near %1",_initialMarker]};
@@ -85,7 +73,7 @@ if (_source == "civ") then {
 	server setVariable ["civActive", _val + 1, true];
 };
 
-_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_initialMarker],_posTsk,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
+_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_initialMarker],_mayor,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 {[_x] spawn CSATinit; _x allowFleeing 0} forEach units _mayorGroup;
@@ -124,7 +112,7 @@ waitUntil {sleep 1; (dateToNumber date > _fechalimnum) or (not alive _mayor) or 
 
 if ({_mayor knowsAbout _x > 1.4} count ([500,0,_mayor,"BLUFORSpawn"] call distanceUnits) > 0) then
 	{
-	//hint "You have been discovered. The traitor is fleeing to the nearest base. Go and kill him!";
+	hint "The Mayor has been spooked, he will try to run for an enemy base for safety!";
 	_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_initialMarker],_mayor,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
 	{_x enableAI "MOVE"} forEach units _mayorGroup;
 	_mayor assignAsDriver _veh;
@@ -188,6 +176,9 @@ if (_mayor distance getMarkerPos guer_respawn < 50) then
 		["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 	// BE module
+
+	sleep 5;
+	deleteVehicle _mayor;
 	}
 
 else
