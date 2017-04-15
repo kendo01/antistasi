@@ -50,11 +50,15 @@ call {
 		call compile preprocessFileLineNumbers "Templates\PLAYER_IND_FIA.sqf";
 
 		call {
-			if (activeBW) then {
+			if (activeBW) exitWith {
 				// Hostiles: Heer supported by KSK
 				call compile preprocessFileLineNumbers "Templates\IND_BW.sqf";
 				call compile preprocessFileLineNumbers "Templates\RED_KSK.sqf";
 				_hostilesMain = "Heer"; _hostilesSupport = "KSK";
+
+				// Friendly support: VMF
+				call compile preprocessFileLineNumbers "Templates\BLUE_VMF.sqf";
+				_friendlySupport = "VMF";
 			};
 			if (activeUSAF) exitWith {
 				// Hostiles: USMC supported by SOCOM
