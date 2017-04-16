@@ -349,21 +349,37 @@ genHelmets = [
 ];
 
 // Equipment unlocked by default
-unlockedWeapons = [
-	"rhs_weap_makarov_pm",
-	"rhs_weap_pp2000"
-];
-
-// Standard rifles for AI are picked from this array. Add only rifles.
-unlockedRifles = [
-	"rhs_weap_pp2000"
-];
-
-unlockedMagazines = [
-	"rhs_mag_9x18_8_57N181S",
-	"rhs_mag_9x19mm_7n31_44",
-	"rhs_mag_rdg2_white"
-];
+if (activeGREF) then {
+	unlockedWeapons = [
+		"rhs_weap_makarov_pm",
+		"rhs_weap_m38"
+	];
+	
+	unlockedRifles = [
+		"rhs_weap_m38"
+	];
+	
+	unlockedMagazines = [
+		"rhs_mag_9x18_8_57N181S",
+		"rhsgref_5Rnd_762x54_m38",
+		"rhs_mag_rdg2_white"
+	];
+} else {
+	unlockedWeapons = [
+		"rhs_weap_makarov_pm",
+		"rhs_weap_pp2000"
+	];
+		
+	unlockedRifles = [
+		"rhs_weap_pp2000"
+	];
+	
+	unlockedMagazines = [
+		"rhs_mag_9x18_8_57N181S",
+		"rhs_mag_9x19mm_7n31_44",
+		"rhs_mag_rdg2_white"
+	];
+};
 
 unlockedItems = [
 	"Binocular",
