@@ -351,33 +351,40 @@ genHelmets = [
 // Equipment unlocked by default
 if (activeGREF) then {
 	unlockedWeapons = [
-		"rhs_weap_makarov_pm",
-		"rhs_weap_m38"
+	"rhs_weap_makarov_pm",
+	"rhs_weap_savz61",
+	"rhs_weap_kar98k",
+	"rhs_weap_m38"
 	];
-	
+
 	unlockedRifles = [
-		"rhs_weap_m38"
+	"rhs_weap_savz61",
+	"rhs_weap_kar98k",
+	"rhs_weap_m38"
 	];
-	
+
 	unlockedMagazines = [
-		"rhs_mag_9x18_8_57N181S",
-		"rhsgref_5Rnd_762x54_m38",
-		"rhs_mag_rdg2_white"
+	"rhs_mag_9x18_8_57N181S",
+	"rhsgref_5Rnd_762x54_m38",
+	"rhsgref_5Rnd_792x57_kar98k",
+	"rhsgref_20rnd_765x17_vz61"
+
 	];
 } else {
 	unlockedWeapons = [
 		"rhs_weap_makarov_pm",
-		"rhs_weap_pp2000"
+		"rhs_weap_pp2000",
+		"rhs_weap_pp2000_folded"
 	];
-		
+
 	unlockedRifles = [
 		"rhs_weap_pp2000"
 	];
-	
+
 	unlockedMagazines = [
 		"rhs_mag_9x18_8_57N181S",
-		"rhs_mag_9x19mm_7n31_44",
-		"rhs_mag_rdg2_white"
+		"rhs_mag_9x19mm_7n31_44"
+
 	];
 };
 
@@ -386,7 +393,6 @@ unlockedItems = [
 	"ItemMap",
 	"ItemWatch",
 	"ItemCompass",
-	"ItemRadio",
 	"FirstAidKit",
 	"Medikit",
 	"ToolKit",
@@ -447,8 +453,8 @@ unlockedItems = [
 	"U_BG_Guerrilla_6_1",
 	"U_B_survival_uniform",
 	"U_OrestesBody",
-	"rhs_vest_pistol_holster",
-	"rhs_scarf"
+	"V_BandollierB_oli",
+	"G_Bandanna_khk"
 ];
 
 unlockedBackpacks = [

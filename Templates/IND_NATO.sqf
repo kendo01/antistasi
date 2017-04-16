@@ -374,7 +374,6 @@ unlockedItems = [
 	"ItemMap",
 	"ItemWatch",
 	"ItemCompass",
-	"ItemRadio",
 	"FirstAidKit",
 	"Medikit",
 	"ToolKit",
@@ -433,7 +432,8 @@ unlockedItems = [
 	"U_BG_Guerrilla_6_1",
 	"U_B_survival_uniform",
 	"U_OrestesBody",
-	"V_BandollierB_oli"
+	"V_BandollierB_oli",
+	"G_Bandanna_khk"
 ];
 
 unlockedBackpacks = [
