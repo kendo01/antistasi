@@ -320,7 +320,7 @@ unlockedMagazines = [
 	"rhsgref_20rnd_765x17_vz61"
 
 ];
-}
+};
 
 unlockedItems = [
 	"Binocular",
