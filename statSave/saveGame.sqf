@@ -191,29 +191,18 @@ _vehiclesToSave = [];
 {
 	_vehicle = _x;
 	_vehicleType = typeOf _vehicle;
-	diag_log staticsToSave;
-	diag_log _x;
 	call {
 		if (_vehicle in staticsToSave) then {
-			diag_log "stat";
 			if (alive _vehicle) then {
-				diag_log "alive";
 				if !(surfaceIsWater position _vehicle) then {
-					diag_log "water";
 					if (isTouchingGround _vehicle) then {
-						diag_log "ground";
 						if !(isNull _vehicle) then {
-							diag_log "vehicle";
 							_vehiclesToSave pushBackUnique [_vehicleType,getPosATLVisual _vehicle,getDir _vehicle];
 						};
 					};
 				};
 			};
 		};
-		/*if ((_vehicle in staticsToSave) AND (alive _vehicle) AND !(surfaceIsWater position _vehicle) AND (isTouchingGround _vehicle) and !(isNull _vehicle)) exitWith {
-			_vehiclesToSave pushBackUnique [_vehicleType,getPosATLVisual _vehicle,getDir _vehicle];
-			diag_log _x;
-		};*/
 
 		if (_vehicle distance getMarkerPos "respawn_west" < 50) then {
 			// fasten your seat belts
