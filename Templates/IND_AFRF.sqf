@@ -351,17 +351,17 @@ genHelmets = [
 // Equipment unlocked by default
 unlockedWeapons = [
 	"rhs_weap_makarov_pm",
-	"rhs_weap_aks74u"
+	"rhs_weap_pp2000"
 ];
 
 // Standard rifles for AI are picked from this array. Add only rifles.
 unlockedRifles = [
-	"rhs_weap_aks74u"
+	"rhs_weap_pp2000"
 ];
 
 unlockedMagazines = [
 	"rhs_mag_9x18_8_57N181S",
-	"rhs_30Rnd_545x39_AK",
+	"rhs_mag_9x19mm_7n31_44",
 	"rhs_mag_rdg2_white"
 ];
 
@@ -386,7 +386,6 @@ unlockedItems = [
 	"H_Booniehat_khk",
 	"H_Booniehat_oli",
 	"H_Booniehat_grn",
-	"H_Booniehat_dirty",
 	"H_Cap_oli",
 	"H_Cap_blk",
 	"H_MilCap_rucamo",
@@ -396,13 +395,8 @@ unlockedItems = [
 	"H_Bandanna_gry",
 	"H_Bandanna_camo",
 	"H_Shemag_khk",
-	"H_Shemag_tan",
 	"H_Shemag_olive",
-	"H_ShemagOpen_tan",
-	"H_Beret_grn",
-	"H_Beret_grn_SF",
 	"H_Watchcap_camo",
-	"H_TurbanO_blk",
 	"H_Hat_camo",
 	"H_Hat_tan",
 	"H_Beret_blk",
