@@ -9,6 +9,7 @@ _allGroups = [];
 _allVehicles = [];
 
 _size = [_marker] call sizeMarker;
+_markerPos = getMarkerPos (_marker);
 
 _statics = staticsToSave select {_x distance _markerPos < (_size max 50)};
 
