@@ -8,10 +8,17 @@ server setVariable ["resourcesFIA",10000,true];
 server setVariable ["prestigeNATO",30,true];
 
 if (activeAFRF) then {
-	_weapons = ["rhs_weap_aks74un", "rhs_weap_rpg26"];
-	_magazines = ["rhs_30Rnd_545x39_AK", "rhs_rpg26_mag", "rhs_mag_rgd5"];
-	_items = ["ItemGPS", "ItemRadio", "rhs_acc_1p29", "rhs_6b23_digi_rifleman", "rhs_6b28_ess_bala"];
-	_optics = ["rhs_acc_1p29"];
+	if (activeGREF) then {
+		_weapons = ["rhs_weap_aks74un", "rhs_weap_rpg26"];
+		_magazines = ["rhs_30Rnd_545x39_AK", "rhs_rpg26_mag", "rhs_mag_rgd5"];
+		_items = ["ItemGPS", "ItemRadio", "rhs_acc_1p29", "rhs_6b23_digi_rifleman", "rhs_6b28_ess_bala"];
+		_optics = ["rhs_acc_1p29"];
+	} else {
+		_weapons = ["rhs_weap_aks74un", "rhs_weap_rpg26"];
+		_magazines = ["rhs_30Rnd_545x39_AK", "rhs_rpg26_mag", "rhs_mag_rgd5"];
+		_items = ["ItemGPS", "ItemRadio", "rhs_acc_1p29", "rhs_6b23_digi_rifleman", "rhs_6b28_ess_bala"];
+		_optics = ["rhs_acc_1p29"];
+	};
 } else {
 	_weapons = ["arifle_TRG21_F", "launch_NLAW_F"];
 	_magazines = ["30Rnd_556x45_Stanag", "NLAW_F", "HandGrenade"];
