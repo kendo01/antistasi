@@ -381,7 +381,6 @@ unlockedItems = [
 	"U_BG_Guerilla2_2",
 	"U_BG_Guerilla2_3",
 	"U_BG_Guerilla3_1",
-	"U_BG_Guerilla3_2",
 	"U_BG_leader",
 	"H_Booniehat_khk",
 	"H_Booniehat_oli",
@@ -393,7 +392,7 @@ unlockedItems = [
 	"H_Bandanna_gry",
 	"H_Bandanna_camo",
 	"H_ShemagOpen_khk",
-	"H_Shemag_tan",
+	"H_ShemagOpen_tan",
 	"H_Shemag_olive",
 	"H_Watchcap_camo",
 	"H_Hat_camo",
@@ -408,6 +407,7 @@ unlockedItems = [
 	"G_Bandanna_beast",
 	"G_Tactical_Black",
 	"G_Aviator",
+	"G_Bandanna_aviator",
 	"G_Shades_Black",
 	"U_C_Poloshirt_blue",
 	"U_C_Poloshirt_burgundy",
@@ -499,3 +499,19 @@ IND_marker_colour = "ColorGUER";
 
 // Type of this faction's markers
 IND_marker_type = "rhs_flag_vdv";
+
+if (worldname == "Tanoa") then {
+    unlockedItems = unlockedItems + [
+    "U_I_C_Soldier_Para_5_F",
+    "U_I_C_Soldier_Para_4_F",
+    "U_I_C_Soldier_Para_3_F",
+    "U_I_C_Soldier_Para_2_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Bandit_1_F",
+    "U_I_C_Soldier_Bandit_2_F",
+    "U_I_C_Soldier_Bandit_3_F",
+    "U_I_C_Soldier_Bandit_4_F",
+    "U_I_C_Soldier_Bandit_5_F"
+    ];
+};
