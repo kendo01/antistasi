@@ -275,6 +275,7 @@ genHelmets = [
 ];
 
 // Equipment unlocked by default
+
 if (activeGREF) then {
 	unlockedWeapons = [
 	"rhs_weap_makarov_pm",
@@ -316,7 +317,6 @@ unlockedMagazines = [
 	"rhsgref_5Rnd_762x54_m38",
 	"rhsgref_5Rnd_792x57_kar98k",
 	"rhsgref_20rnd_765x17_vz61"
-
 ];
 
 unlockedItems = [

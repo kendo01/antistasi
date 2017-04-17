@@ -272,7 +272,6 @@ caja addAction [localize "STR_ACT_MOVEASSET", {[_this select 0,_this select 1,_t
 //caja addAction [localize "STR_ACT_SELLMENU", "UI\sellMenu.sqf",nil,0,false,true,"","(_this == Slowhand)", 5];
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
-if (activeAFRF) then {[player] execVM "Municion\RHSdress.sqf"};
 [player] call cleanGear;
 [player] spawn rankCheck;
 [player] spawn localSupport;

@@ -36,7 +36,7 @@ publicVariable "unlockedMagazines";
 publicVariable "unlockedItems";
 publicVariable "unlockedOptics";
 
-if (activeJNA) exitWith {};
+if (activeJNA) exitWith {[(unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks) arrayIntersect (unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks)] call AS_fnc_JNA_setupGear};
 
 if (activeBE) then {[] call fnc_BE_gearUpdate; [] call fnc_BE_refresh};
 [unlockedWeapons, "unlockedMagazines"] call AS_fnc_MAINT_missingAmmo;
