@@ -405,15 +405,12 @@ _containers = [_uniform,_vest,_backpack];
 			_amount = 1; // we will never know the ammo count in the magazines anymore :c
 			_arrayMissing = [_arrayMissing,[_item,_amount]] call jna_fnc_addToArray;
 		} else {
-			diag_log _item;
 			_amountAvailable = [_availableItems select _index, _item] call jna_fnc_ItemCount;
-			diag_log _amountAvailable;
 			if (_index == IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL) then {
 				_amount = getNumber (configfile >> "CfgMagazines" >> _item >> "count");
 				call {
 					if ([_itemCounts select _index, _item] call jna_fnc_ItemCount == -1) exitWith {
 						_container addMagazineAmmoCargo  [_item,1, _amount];
-						diag_log "mag added";
 					};
 
 					if(_amountAvailable < _amount) then {
@@ -431,7 +428,6 @@ _containers = [_uniform,_vest,_backpack];
 				call {
 					if ([_itemCounts select _index, _item] call jna_fnc_ItemCount == -1) exitWith {
 						_container addItemCargo [_item, 1];
-						diag_log "item added";
 					};
 
 					if (_amountAvailable > _amount) then {
@@ -484,11 +480,7 @@ _reportString = "";
 
 if(_reportString != "")then{
 	titleText[("I couldn't find the following items:\n" + _reportString), "PLAIN"];
-}
-
-
-
-
+};
 
 
 /*
