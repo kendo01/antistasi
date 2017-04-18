@@ -467,6 +467,22 @@ unlockedBackpacks = [
 
 unlockedOptics = [];
 
+if (worldname == "Tanoa") then {
+    unlockedItems = unlockedItems + [
+    "U_I_C_Soldier_Para_5_F",
+    "U_I_C_Soldier_Para_4_F",
+    "U_I_C_Soldier_Para_3_F",
+    "U_I_C_Soldier_Para_2_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Para_1_F",
+    "U_I_C_Soldier_Bandit_1_F",
+    "U_I_C_Soldier_Bandit_2_F",
+    "U_I_C_Soldier_Bandit_3_F",
+    "U_I_C_Soldier_Bandit_4_F",
+    "U_I_C_Soldier_Bandit_5_F"
+    ];
+};
+
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
 gear_machineGuns = gear_machineGuns + ["rhs_weap_pkp","rhs_weap_pkm"];
 gear_machineGuns = gear_machineGuns arrayIntersect gear_machineGuns;
@@ -525,19 +541,3 @@ IND_marker_colour = "ColorGUER";
 
 // Type of this faction's markers
 IND_marker_type = "rhs_flag_vdv";
-
-if (worldname == "Tanoa") then {
-    unlockedItems = unlockedItems + [
-    "U_I_C_Soldier_Para_5_F",
-    "U_I_C_Soldier_Para_4_F",
-    "U_I_C_Soldier_Para_3_F",
-    "U_I_C_Soldier_Para_2_F",
-    "U_I_C_Soldier_Para_1_F",
-    "U_I_C_Soldier_Para_1_F",
-    "U_I_C_Soldier_Bandit_1_F",
-    "U_I_C_Soldier_Bandit_2_F",
-    "U_I_C_Soldier_Bandit_3_F",
-    "U_I_C_Soldier_Bandit_4_F",
-    "U_I_C_Soldier_Bandit_5_F"
-    ];
-};
