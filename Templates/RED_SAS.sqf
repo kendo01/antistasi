@@ -38,7 +38,7 @@ opArtilleryAmmoHE = "32Rnd_155mm_Mo_shells";
 // infantry classes, to allow for class-specific skill adjustments and pricing
 opI_OFF = 	"UK3CB_BAF_Officer_MTP_RM"; // officer/official
 opI_PIL = 	"UK3CB_BAF_Pilot_RN"; // pilot
-opI_OFF2 = 	"UK3CB_BAF_SC_MTP_BPT_RM"; // officer/traitor
+opI_OFF2 = 	"B_G_Soldier_unarmed_F"; // officer/traitor
 opI_CREW = 	"UK3CB_BAF_Crewman_MTP_RM"; // crew
 opI_MK = 	"UK3CB_BAF_Marksman_MTP_BPT_RM_H";
 opI_MED =	"UK3CB_BAF_Medic_MTP_BPT_RM_H";
