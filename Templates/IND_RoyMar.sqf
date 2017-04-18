@@ -321,6 +321,8 @@ if (activeGREF) then {
 	"rhs_weap_m38"
 ];
 
+};
+
 // Standard rifles for AI are picked from this array. Add only rifles.
 unlockedRifles = [
 	"rhs_weap_savz61",
