@@ -17,6 +17,7 @@ opGunship = 		"UK3CB_BAF_Apache_AH1_JS_DPMT"; // Mi-48 Kajman
 // CAS, fixed-wing
 opCASFW = 			["CUP_B_F35B_CAS_BAF"]; // To-199 Neophron (CAS)
 
+
 // small UAV (Darter, etc)
 opUAVsmall = 		"B_UAV_01_F"; // Tayran AR-2
 

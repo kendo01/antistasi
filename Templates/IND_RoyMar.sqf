@@ -321,8 +321,6 @@ if (activeGREF) then {
 	"rhs_weap_m38"
 ];
 
-};
-
 // Standard rifles for AI are picked from this array. Add only rifles.
 unlockedRifles = [
 	"rhs_weap_savz61",
@@ -337,6 +335,7 @@ unlockedMagazines = [
 	"rhsgref_20rnd_765x17_vz61"
 
 ];
+};
 
 unlockedItems = [
 	"Binocular",
@@ -487,9 +486,7 @@ if (worldname == "Tanoa") then {
     "U_I_C_Soldier_Bandit_4_F",
     "U_I_C_Soldier_Bandit_5_F"
     ];
-
 	// infPatrol = infPatrol + [(configfile >> "CfgGroups" >> "West" >> "Gendarmerie" >> "Infantry" >> "GENDARME_Inf_Patrol")]
 
 	// vehPatrol = vehPatrol + ["B_GEN_Offroad_01_gen_F"]
-
 };
