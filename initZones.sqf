@@ -1,4 +1,4 @@
-private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList"];
+private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList","_possibleCities"];
 
 AS_destroyedZones = [];
 forcedSpawn = [];
@@ -86,6 +86,11 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
 {_x setMarkerAlpha 0} forEach seaMarkers;
 
 // Detect cities, set their population to the number of houses within their city limits, create a database of roads, set number of civilian vehicles to spawn with regards to number of roads. Pre-defined for Altis.
+if (worldName != "Bornholm") then {
+	_possibleCities = nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], worldSize/1.414];
+} else {
+	_possibleCities = nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter","NameLocal"], worldSize/1.414];
+};
 {
     _name = [text _x, true] call AS_fnc_location;
     if ((_name != "") and !(_name in _blackList)) then {
@@ -136,7 +141,7 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
         _info = [_numCiv, _numVeh, prestigeOPFOR,prestigeBLUFOR];
         server setVariable [_name,_info,true];
     };
-} foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], worldSize/1.414]);
+} foreach _possibleCities;
 
 // Detect named mountaintops and automatically add them as zones to spawn a watchpost at. If your map has a shortage of named mountains, place markers within the SQM, with incremental names starting with "mtn_1" for automatic watchpost placement or "mtn_comp_1" for positions with pre-defined compositions.
 {
