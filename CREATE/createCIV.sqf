@@ -87,7 +87,7 @@ if ((random 100 < ((server getVariable ["prestigeNATO",0]) + (server getVariable
 _patrolCities = [_marker] call AS_fnc_getNearbyCities;
 
 _counter = 0;
-_patrolCounter = (round (_countCiv / 30)) max 1;
+_patrolCounter = (round (_countCiv / 60)) max 1;
 for "_i" from 1 to _patrolCounter do {
 	while {(spawner getVariable _marker) AND (_counter < (count _patrolCities - 1))} do {
 		_p1 = selectRandom _roads;
