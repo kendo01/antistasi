@@ -92,7 +92,7 @@ heli_escort = 		"UK3CB_BAF_Wildcat_AH1_CAS_6C_MTP_RM";
 planes = 			["CUP_B_F35B_CAS_BAF","CUP_B_F35B_AA_BAF"]; // attack planes
 heli_default = 		"UK3CB_BAF_Merlin_HC3_CSAR_MTP_RM";
 heli_transport = 	"UK3CB_BAF_Merlin_HC3_CSAR_MTP_RM";
-indUAV_large = 		"BW_Euro_Hawk"; // large UAV, unarmed
+indUAV_large = 		"B_UAV_02_F"; // large UAV, unarmed
 
 // Initial motorpool/airforce
 enemyMotorpoolDef = "CUP_B_Mastiff_LMG_GB_W"; // fallback vehicle in case of an empty motorpool -- NOT AN ARRAY!
@@ -197,14 +197,14 @@ genAmmo = [
 ];
 
 genLaunchers = [
-	"BWA3_Pzf3",
-	"BWA3_Fliegerfaust",
-	"BWA3_RGW90"
+	"UK3CB_BAF_Javelin_Slung_Tube",
+	"UK3CB_BAF_NLAW_Launcher",
+	"UK3CB_BAF_AT4_CS_AP_Launcher"
 ];
 
 genMissiles = [
 
-	"BWA3_Fliegerfaust_Mag"
+	"CUP_Stinger_M"
 ];
 
 genMines = [
@@ -228,10 +228,10 @@ genItems = [
 ];
 
 genOptics = [
-	"BWA3_optic_ZO4x30",
-	"BWA3_optic_20x50",
-	"BWA3_optic_ZO4x30_Single",
-	"BWA3_optic_EOTech_Mag_Off"
+	"RKSL_optic_LDS",
+	"RKSL_optic_LDS",
+	"RKSL_optic_LDS",
+	"RKSL_optic_LDS"
 ];
 
 genBackpacks = [
@@ -428,19 +428,19 @@ basicGear = unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpa
 startingWeapons =+ unlockedWeapons;
 
 // Default launchers
-genAALaunchers = ["BWA3_Fliegerfaust"];
-genATLaunchers = ["BWA3_RGW90","BWA3_Pzf3"];
+genAALaunchers = ["CUP_launch_FIM92Stinger"];
+genATLaunchers = ["UK3CB_BAF_NLAW_Launcher","UK3CB_BAF_Javelin_Slung_Tube"];
 
-IND_gear_heavyAT = "BWA3_Pzf3";
-IND_gear_lightAT = "BWA3_RGW90";
+IND_gear_heavyAT = "UK3CB_BAF_Javelin_Slung_Tube";
+IND_gear_lightAT = "UK3CB_BAF_AT4_CS_AP_Launcher";
 
-AAmissile = 	"BWA3_Fliegerfaust_Mag";
+AAmissile = 	"CUP_Stinger_M";
 
 // NVG, flashlight, laser, mine types
 indNVG = 		"rhsusf_ANPVS_14";
-indRF = 		"lerca_1200_black";
-indFL = 		"rhsusf_acc_anpeq15side";
-indLaser = 		"rhsusf_acc_anpeq15side";
+indRF = 		"Rangefinder";
+indFL = 		"UK3CB_BAF_LLM_IR_Black";
+indLaser = 		"UK3CB_BAF_LLM_IR_Black";
 atMine = 		"rhs_mine_M19_mag";
 atMine_placed = "rhsusf_mine_M19";
 atMine_type = 	"rhsusf_mine_m19_ammo";
@@ -458,7 +458,7 @@ side_green = 	west;
 lrRadio = "tf_mr3000_rhs";
 
 // Define the civilian helicopter that allows you to go undercover
-civHeli = "RHS_Mi8amt_civilian";
+civHeli = "C_Heli_Light_01_civil_F";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";

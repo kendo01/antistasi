@@ -3,10 +3,10 @@
 opHeliTrans = 		["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT"];
 
 // helicopter that dismounts troops
-opHeliDismount = 	"UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT"; // Mi-290 Taru (Bench)
+opHeliDismount = 	"CUP_B_CH47F_GB"; // Mi-290 Taru (Bench)
 
 // helicopter that fastropes troops in
-opHeliFR = 			"UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT"; // PO-30 Orca (Unarmed)
+opHeliFR = 			"UK3CB_BAF_Wildcat_AH1_TRN_8A_DPMT_RM"; // PO-30 Orca (Unarmed)
 
 // small armed helicopter
 opHeliSD = 			"UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT"; // PO-30 Orca (Armed)
@@ -22,7 +22,7 @@ opCASFW = 			["CUP_B_F35B_CAS_BAF"]; // To-199 Neophron (CAS)
 opUAVsmall = 		"B_UAV_01_F"; // Tayran AR-2
 
 // air force
-opAir = 			["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Apache_AH1_JS_DPMT","heeresflieger_1","UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT"];
+opAir = 			["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Wildcat_AH1_TRN_8A_DPMT_RM","UK3CB_BAF_Apache_AH1_JS_DPMT","CUP_B_CH47F_GB","UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT","CUP_B_F35B_CAS_BAF"];
 
 // self-propelled anti air
 opSPAA = 			"B_APC_Tracked_01_AA_F";
