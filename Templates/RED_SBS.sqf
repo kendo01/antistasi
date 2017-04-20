@@ -67,7 +67,7 @@ opGroup_Security = 		[opI_SL, opI_AR2, opI_RFL2, opI_MED]; // security detail
 // the affiliation
 side_red = 			west;
 
-opFlag = 			"FlagCarrierBAF";
+opFlag = 			"Flag_UK_F";
 
 opIR = "rhsusf_acc_anpeq15side";
 
@@ -80,4 +80,4 @@ OPFOR_marker_colour = "ColorWEST";
 OPFOR_marker_type = "flag_UK";
 
 // Name of the faction
-A3_Str_RED = localize "STR_GENIDENT_RoyNav";
+A3_Str_RED = localize "STR_GENIDENT_SBS";

@@ -168,8 +168,8 @@
 			<Key ID="STR_GENIDENT_BritArm">
 				<Original>British Army</Original>
 			</Key>
-			<Key ID="STR_GENIDENT_RoyNav">
-				<Original>Royal Navy</Original>
+			<Key ID="STR_GENIDENT_SBS">
+				<Original>SBS</Original>
 			</Key>
 		</Container>
 	</Package>
