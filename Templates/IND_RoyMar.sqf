@@ -470,7 +470,7 @@ IND_marker_colour = "ColorWEST";
 IND_marker_type = "flag_UK";
 
 // Name of the faction
-A3_Str_INDEP = localize "STR_GENIDENT_RoyMar";
+A3_Str_INDEP = localize "STR_GENIDENT_BritArm";
 
 if (worldname == "Tanoa") then {
     unlockedItems = unlockedItems + [

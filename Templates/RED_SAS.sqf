@@ -80,4 +80,4 @@ OPFOR_marker_colour = "ColorWEST";
 OPFOR_marker_type = "flag_UK";
 
 // Name of the faction
-A3_Str_RED = localize "STR_GENIDENT_SAS";
+A3_Str_RED = localize "STR_GENIDENT_RoyNav";
