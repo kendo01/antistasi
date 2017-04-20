@@ -19,7 +19,7 @@ while {_radius < _maxRadius} do {
 	_radius = _radius + 20;
 };
 
-if !(_roadsFound) exitWith {[]};
+if !(_roadsFound) exitWith {[_origin,0]};
 
 _roadA = _roadArray select 0;
 _roadB = _roadArray select 1;
