@@ -25,34 +25,34 @@ opUAVsmall = 		"B_UAV_01_F"; // Tayran AR-2
 opAir = 			["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Apache_AH1_JS_DPMT","heeresflieger_1","UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT"];
 
 // self-propelled anti air
-opSPAA = 			"BWA3_Puma_Fleck";
+opSPAA = 			"B_APC_Tracked_01_AA_F";
 
-opTruck = 			"UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_B_DPMT";
+opTruck = 			"UK3CB_BAF_LandRover_Soft_FFR_Green_B_Tropical_RM";
 
-opMRAPu = 			"UK3CB_BAF_LandRover_Soft_FFR_Green_B_DPMT";
+opMRAPu = 			"UK3CB_BAF_LandRover_Hard_FFR_Green_B_Tropical_RM";
 
-opIFV = 			["BWA3_Puma_Fleck","BWA3_Puma_Fleck"];
+opIFV = 			["CUP_B_MCV80_GB_W_SLATCUP_B_MCV80_GB_W_SLAT","CUP_B_MCV80_GB_W_SLAT"];
 
-opArtillery = 		"rhsusf_m109_usarmy";
+opArtillery = 		"B_MBT_01_arty_F";
 opArtilleryAmmoHE = "32Rnd_155mm_Mo_shells";
 
 // infantry classes, to allow for class-specific skill adjustments and pricing
-opI_OFF = 	"UK3CB_BAF_Officer_MTP_RM"; // officer/official
-opI_PIL = 	"UK3CB_BAF_Pilot_RN"; // pilot
+opI_OFF = 	"UK3CB_BAF_Officer_Tropical_RM"; // officer/official
+opI_PIL = 	"UK3CB_BAF_HeliPilot_RN_Tropical"; // pilot
 opI_OFF2 = 	"B_G_Soldier_unarmed_F"; // officer/traitor
-opI_CREW = 	"UK3CB_BAF_Crewman_MTP_RM"; // crew
-opI_MK = 	"UK3CB_BAF_Marksman_MTP_BPT_RM_H";
-opI_MED =	"UK3CB_BAF_Medic_MTP_BPT_RM_H";
-opI_RFL1 = 	"[UK3CB_BAF_Explosive_MTP_BPT_RM]";
-opI_RFL2 = 	"UK3CB_BAF_Pointman_MTP_BPT_RM";
-opI_AR = 	"UK3CB_BAF_MGLMG_MTP_BPT_RM";
-opI_AR2 = 	"UK3CB_BAF_MGGPMG_MTP_RM";
-opI_SL = 	"UK3CB_BAF_SC_MTP_BPT_RM";
-opI_MK2 = 	"UK3CB_BAF_Sniper_MTP_Ghillie_L115_RM";
-opI_AAR = 	"UK3CB_BAF_MGLMG_MTP_BPT_RM";
-opI_SP = 	"UK3CB_BAF_Sniper_MTP_Ghillie_L135_RM";
-opI_GL =	"UK3CB_BAF_FAC_MTP_BPT_RM";
-opI_LAT = 	"UK3CB_BAF_LAT_MTP_RM";
+opI_CREW = 	"UK3CB_BAF_Crewman_Tropical_RM"; // crew
+opI_MK = 	"UK3CB_BAF_Marksman_Tropical_BPT_RM";
+opI_MED =	"UK3CB_BAF_Medic_Tropical_BPT_RM";
+opI_RFL1 = 	"UK3CB_BAF_Explosive_Tropical_BPT_RM";
+opI_RFL2 = 	"UK3CB_BAF_Pointman_Tropical_BPT_RM";
+opI_AR = 	"UK3CB_BAF_MGLMG_Tropical_BPT_RM";
+opI_AR2 = 	"UK3CB_BAF_MGGPMG_Tropical_RM";
+opI_SL = 	"UK3CB_BAF_SC_Tropical_BPT_RM";
+opI_MK2 = 	"UK3CB_BAF_Sniper_Tropical_Ghillie_L135_RM";
+opI_AAR = 	"UK3CB_BAF_Rifleman_762_Tropical_RM";
+opI_SP = 	"UK3CB_BAF_Sniper_Tropical_Ghillie_L115_RM";
+opI_GL =	"UK3CB_BAF_FAC_Tropical_BPT_RM";
+opI_LAT = 	"UK3CB_BAF_MAT_Tropical_RM";
 
 // config path for infantry groups (not used)
 opCfgInf = 			(configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_recon_wd_infantry");
@@ -69,7 +69,7 @@ side_red = 			west;
 
 opFlag = 			"Flag_UK_F";
 
-opIR = "rhsusf_acc_anpeq15side";
+opIR = "UK3CB_BAF_LLM_IR_Black";
 
 opCrate = "Box_NATO_WpsLaunch_F";
 
