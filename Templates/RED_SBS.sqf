@@ -15,14 +15,14 @@ opHeliSD = 			"UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT"; // PO-30 Orca (Armed)
 opGunship = 		"UK3CB_BAF_Apache_AH1_JS_DPMT"; // Mi-48 Kajman
 
 // CAS, fixed-wing
-opCASFW = 			["CUP_B_F35B_CAS_BAF"]; // To-199 Neophron (CAS)
+opCASFW = 			["CUP_B_GR9_AGM_GB"]; // To-199 Neophron (CAS)
 
 
 // small UAV (Darter, etc)
 opUAVsmall = 		"B_UAV_01_F"; // Tayran AR-2
 
 // air force
-opAir = 			["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Wildcat_AH1_TRN_8A_DPMT_RM","UK3CB_BAF_Apache_AH1_JS_DPMT","CUP_B_CH47F_GB","UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT","CUP_B_F35B_CAS_BAF"];
+opAir = 			["UK3CB_BAF_Merlin_HC3_18_GPMG_DPMT","UK3CB_BAF_Wildcat_AH1_TRN_8A_DPMT_RM","UK3CB_BAF_Apache_AH1_JS_DPMT","CUP_B_CH47F_GB","UK3CB_BAF_Wildcat_HMA2_TRN_8A_DPMT","CUP_B_GR9_AGM_GB"];
 
 // self-propelled anti air
 opSPAA = 			"B_APC_Tracked_01_AA_F";
