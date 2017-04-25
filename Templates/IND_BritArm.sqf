@@ -100,7 +100,7 @@ enemyMotorpool = 	["CUP_B_Mastiff_LMG_GB_W","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Gr
 indAirForce = 		["UK3CB_BAF_Wildcat_AH1_CAS_6C_MTP_RM","UK3CB_BAF_Merlin_HC3_CSAR_MTP_RM"]; // starting/current airforce
 
 // Config paths for pre-defined groups -- required if group names are used
-cfgInf = (configfile >> "CfgGroups" >> "West" >> "UK3CB_BAF_Faction_Navy_MTP" >> "Infantry");
+cfgInf = (configfile >> "CfgGroups" >> "West" >> "UK3CB_BAF_Faction_Army_MTP" >> "Infantry");
 
 // Standard group arrays, used for spawning groups -- can use full config paths, config group names, arrays of individual soldiers
 
