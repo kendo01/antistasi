@@ -66,17 +66,17 @@ infList_crew = 		[sol_UN, sol_CREW, sol_CREW2, sol_CREW3, sol_CREW4, sol_DRV, so
 infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
 
 // Vehicles
-vehTrucks = 		["CUP_B_Mastiff_LMG_GB_W","CUP_B_Mastiff_LMG_GB_W"]; // trucks that spawn at outposts, etc
-vehPatrol =			["UK3CB_BAF_LandRover_WMIK_GMG_FFR_Green_A_MTP_RM","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP_RM","UK3CB_BAF_Jackal2_L2A1_W_MTP_RM"]; // vehicles used for road patrols;
+vehTrucks = 		["B_Truck_01_transport_F","B_Truck_01_covered_F"]; // trucks that spawn at outposts, etc
+vehPatrol =			["UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP","UK3CB_BAF_Jackal2_L2A1_W_MTP"]; // vehicles used for road patrols;
 vehAPC = 			["CUP_B_FV432_Bulldog_GB_W","CUP_B_FV432_Bulldog_GB_W_RWS"]; // APCs
 vehIFV = 			["CUP_B_FV510_GB_W_SLAT","CUP_B_FV510_GB_W"]; // IFVs
 vehTank = 			["CUP_B_Challenger2_2CW_BAF","CUP_B_Challenger2_Woodland_BAF"]; // MBTs
-vehSupply = 		["UK3CB_BAF_Coyote_Logistics_L111A1_W_MTP_RM","UK3CB_BAF_LandRover_Amb_FFR_Green_A_MTP_RM","UK3CB_BAF_LandRover_Hard_FFR_Green_A_MTP_RM","UK3CB_BAF_Coyote_Logistics_L134A1_W_MTP_RM"]; // supply vehicles (ammo, fuel, med)
-vehAmmo = 			"UK3CB_BAF_Coyote_Passenger_L134A1_W_MTP_RM"; // ammo truck, for special missions
-vehFuel = 			["UK3CB_BAF_Coyote_Logistics_L111A1_W_MTP_RM"];
+vehSupply = 		["B_Truck_01_ammo_F","B_Truck_01_fuel_F","UK3CB_BAF_Coyote_Logistics_L111A1_W_MTP","UK3CB_BAF_LandRover_Amb_FFR_Green_A_MTP"]; // supply vehicles (ammo, fuel, med)
+vehAmmo = 			"B_Truck_01_ammo_F"; // ammo truck, for special missions
+vehFuel = 			["B_Truck_01_fuel_F"];
 vehLead = 			["UK3CB_BAF_LandRover_WMIK_Milan_FFR_Green_A_MTP"]; // lead vehicle for convoys, preferably armed MRAP/car
-standardMRAP = 		["UK3CB_BAF_LandRover_WMIK_GMG_FFR_Green_A_MTP_RM","UK3CB_BAF_Jackal2_L2A1_W_MTP_RM","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP_RM"]; // default transport MRAP/car
-vehTruckBox = 		["UK3CB_BAF_LandRover_Hard_FFR_Green_A_MTP_RM"]; // repair truck or at least a prop
+standardMRAP = 		["UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP","UK3CB_BAF_Jackal2_L2A1_W_MTP","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP"]; // default transport MRAP/car
+vehTruckBox = 		["UK3CB_BAF_Coyote_Logistics_L111A1_W_MTP"]; // repair truck or at least a prop
 vehPatrolBoat = 	["B_Boat_Armed_01_minigun_F"];
 
 vehTruckAA = 		"CUP_B_FV510_GB_W_SLAT";
@@ -95,8 +95,8 @@ heli_transport = 	"UK3CB_BAF_Merlin_HC3_CSAR_MTP_RM";
 indUAV_large = 		"B_UAV_02_F"; // large UAV, unarmed
 
 // Initial motorpool/airforce
-enemyMotorpoolDef = "CUP_B_Mastiff_LMG_GB_W"; // fallback vehicle in case of an empty motorpool -- NOT AN ARRAY!
-enemyMotorpool = 	["CUP_B_Mastiff_LMG_GB_W","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP_RM"]; // starting/current motorpool
+enemyMotorpoolDef = "B_Truck_01_transport_F"; // fallback vehicle in case of an empty motorpool -- NOT AN ARRAY!
+enemyMotorpool = 	["B_Truck_01_transport_F","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_A_MTP"]; // starting/current motorpool
 indAirForce = 		["UK3CB_BAF_Wildcat_AH1_CAS_6C_MTP_RM","UK3CB_BAF_Merlin_HC3_CSAR_MTP_RM"]; // starting/current airforce
 
 // Config paths for pre-defined groups -- required if group names are used
@@ -125,14 +125,14 @@ if (AS_customGroups) then {
 };
 
 // Statics to be used
-statMG = 			"UK3CB_BAF_Static_L7A2_Deployed_High_DPMT";
+statMG = 			"UK3CB_BAF_Static_L111A1_Deployed_High_MTP";
 statAT = 			"CUP_B_TOW_TriPod_US"; // alternatives: rhs_Kornet_9M133_2_vdv, rhs_SPG9M_VDV, rhs_Metis_9k115_2_vdv
 statAA = 			"B_static_AA_F"; // alternatively: "rhs_Igla_AA_pod_vdv"
-statAA2 = 			"UK3CB_BAF_Static_L111A1_Deployed_High_Tropical_RM";
+statAA2 = 			"UK3CB_BAF_Static_L111A1_Deployed_High_MTP";
 statMortar = 		"UK3CB_BAF_Static_L16_Deployed_DPMT";
 
-statMGlow = 		"UK3CB_BAF_Static_L7A2_Deployed_Low_DPMT";
-statMGtower = 		"UK3CB_BAF_Static_L7A2_Deployed_High_DPMT";
+statMGlow = 		"UK3CB_BAF_Static_L7A2_Deployed_Low_MTP";
+statMGtower = 		"UK3CB_BAF_Static_L7A2_Deployed_High_MTP";
 
 // Lists of statics to determine the defensive capabilities at locations
 statics_allMGs = 		statics_allMGs + [statMG];
@@ -141,59 +141,54 @@ statics_allAAs = 		statics_allAAs + [statAA];
 statics_allMortars = 	statics_allMortars + [statMortar];
 
 // Backpacks of dismantled statics -- 0: weapon, 1: tripod/support
-statMGBackpacks = 		["B_HMG_01_high_weapon_F","B_HMG_01_support_high_F"];
-statATBackpacks = 		["rhs_Tow_Gun_Bag","rhs_TOW_Tripod_Bag"]; // alt: ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"], ["RHS_Metis_Gun_Bag","RHS_Metis_Tripod_Bag"], ["RHS_SPG9_Gun_Bag","RHS_SPG9_Tripod_Bag"]
+statMGBackpacks = 		["UK3CB_BAF_L111A1","UK3CB_BAF_Tripod"];
+statATBackpacks = 		["CUP_B_Tow_Gun_Bag","CUP_B_TOW_Tripod_Bag"]; // alt: ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"], ["RHS_Metis_Gun_Bag","RHS_Metis_Tripod_Bag"], ["RHS_SPG9_Gun_Bag","RHS_SPG9_Tripod_Bag"]
 statAABackpacks = 		[]; // Neither Igla nor ZSU can be dismantled. Any alternatives?
-statMortarBackpacks = 	["rhs_M252_Gun_Bag","rhs_M252_Bipod_Bag"];
-statMGlowBackpacks = 	["B_HMG_01_F","B_HMG_01_support_F"];
-statMGtowerBackpacks = 	["B_HMG_01_high_weapon_F","B_HMG_01_support_high_F"];
+statMortarBackpacks = 	["UK3CB_BAF_L16","UK3CB_BAF_L16_Tripod"];
+statMGlowBackpacks = 	["UK3CB_BAF_L131A1","UK3CB_BAF_Tripod"];
+statMGtowerBackpacks = 	["UK3CB_BAF_L131A1","UK3CB_BAF_Tripod"];
 
 /*
 ================ Gear ================
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
 */
 genWeapons = [
-	"UK3CB_BAF_L110A3",
-	"UK3CB_BAF_L1A1",
+	"UK3CB_BAF_L110A2RIS",
+	"UK3CB_BAF_L110A2",
 	"UK3CB_BAF_L115A3",
-	"UK3CB_BAF_L119A1",
-	"UK3CB_BAF_L119A1_UKUGL",
-	"UK3CB_BAF_L22A2",
+	"UK3CB_BAF_L128A1",
+	"UK3CB_BAF_L129A1",
 	"UK3CB_BAF_L7A2",
-	"UK3CB_BAF_L135A1",
-	"UK3CB_BAF_L85A2",
+	"UK3CB_BAF_L85A2_EMAG",
+	"UK3CB_BAF_L85A2_RIS",
 	"UK3CB_BAF_L85A2_UGL",
-	"UK3CB_BAF_L86A3",
-	"UK3CB_BAF_L129A1_Grippod",
-	"UK3CB_BAF_L131A1",
-	"UK3CB_BAF_L82A1"
+	"UK3CB_BAF_L86A2",
+	"UK3CB_BAF_L91A1",
+	"UK3CB_BAF_L22"
 
 ];
 
 genAmmo = [
 	"HandGrenade",
 	"MiniGrenade",
-	"UK3CB_BAF_556_Ball",
-	"UK3CB_BAF_556_Ball_Tracer_Red",
-	"UK3CB_BAF_762_Ball",
-	"UK3CB_BAF_762_Ball_Tracer_Red",
-	"UK3CB_BAF_762_Ball_L42A1",
-	"UK3CB_BAF_762_Ball_L42A1_Tracer_Red",
-	"UK3CB_BAF_762_Ball_B416",
-	"UK3CB_BAF_338_Ball",
-	"UK3CB_BAF_338_Ball_Tracer_Red",
-	"UK3CB_BAF_G_40mm_Blank",
-	"UK3CB_BAF_F_40mm_White",
-	"UK3CB_BAF_F_40mm_Green",
-	"UK3CB_BAF_F_40mm_Red",
-	"UK3CB_BAF_F_40mm_Yellow",
-	"UK3CB_BAF_F_40mm_CIR",
-	"UK3CB_BAF_Smoke_81mm_AMOS",
-	"UK3CB_BAF_Flare_81mm_AMOS_White",
-	"UK3CB_BAF_IRFlare_81mm_AMOS_White",
-	"UK3CB_BAF_Sh_60mm_AMOS",
-	"UK3CB_BAF_Flare_60mm_AMOS_White",
-	"UK3CB_BAF_Smoke_60mm_AMOS"
+	"UK3CB_BAF_556_100Rnd",
+	"UK3CB_BAF_556_200Rnd_T",
+	"UK3CB_BAF_338_5Rnd",
+	"UK3CB_BAF_12G_Slugs",
+	"UK3CB_BAF_12G_Pellets",
+	"UK3CB_BAF_762_L42A1_20Rnd",
+	"UK3CB_BAF_762_20Rnd",
+	"UK3CB_BAF_762_100Rnd",
+	"UK3CB_BAF_556_30Rnd",
+	"UK3CB_BAF_556_30Rnd_T",
+	"UK3CB_BAF_1Rnd_HE_Grenade_Shell",
+	"UK3CB_BAF_1Rnd_HEDP_Grenade_Shell",
+	"UK3CB_BAF_UGL_FlareWhite_F",
+	"UK3CB_BAF_1Rnd_SmokeRed_Grenade_shell",
+	"UK3CB_BAF_9_30Rnd",
+	"UK3CB_BAF_556_30Rnd",
+	"UK3CB_BAF_556_30Rnd"
+
 ];
 
 genLaunchers = [
@@ -216,79 +211,121 @@ genMines = [
 genItems = [
 	"FirstAidKit",
 	"MineDetector",
-	"rhs_1PN138",
+	"UK3CB_BAF_HMNVS",
 	"ItemGPS",
-	"rhs_scarf",
-	"rhs_pdu4",
-	"rhsusf_acc_anpeq15side",
-	"UK3CB_BAF_Silencer_L85",
-	"UK3CB_BAF_Silencer_L110",
-	"UK3CB_BAF_Silencer_L115A3",
-	"UK3CB_BAF_Silencer_L91A1"
+	"Rangefinder",
+	"UK3CB_BAF_LLM_Flashlight_Black"
+
 ];
 
 genOptics = [
 	"RKSL_optic_LDS",
-	"RKSL_optic_LDS",
-	"RKSL_optic_LDS",
-	"RKSL_optic_LDS"
+	"UK3CB_BAF_MaxiKite",
+	"RKSL_optic_PMII_525_wdl",
+	"UK3CB_BAF_SUSAT",
+	"UK3CB_BAF_TA648_308"
 ];
 
 genBackpacks = [
-	"rhs_assault_umbts",
-	"rhs_assault_umbts_engineer",
-	"rhs_assault_umbts_engineer_empty",
-	"rhs_assault_umbts_medic",
-	"rhsusf_assault_eagleaiii_coy",
-	"rhsusf_assault_eagleaiii_coy_engineer",
-	"rhsusf_assault_eagleaiii_coy_ar",
-	"rhsusf_assault_eagleaiii_coy_demo",
-	"rhsusf_assault_eagleaiii_coy_m27",
-	"rhsusf_assault_eagleaiii_coy_ar",
-	"rhsusf_assault_eagleaiii_coy_assaultman",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_A",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_B",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_C",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_L_A",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_L_B",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_L_C",
+"UK3CB_BAF_B_Bergen_MTP_Rifleman_L_D",
+"UK3CB_BAF_B_Bergen_MTP_Radio_H_A",
+"UK3CB_BAF_B_Bergen_MTP_Radio_H_B",
+"UK3CB_BAF_B_Bergen_MTP_Radio_L_A",
+"UK3CB_BAF_B_Bergen_MTP_Radio_L_B",
+"UK3CB_BAF_B_Bergen_MTP_JTAC_H_A",
+"UK3CB_BAF_B_Bergen_MTP_JTAC_L_A",
+"UK3CB_BAF_B_Bergen_MTP_SL_H_A",
+"UK3CB_BAF_B_Bergen_MTP_SL_L_A",
+"UK3CB_BAF_B_Bergen_MTP_Medic_H_A",
+"UK3CB_BAF_B_Bergen_MTP_Medic_H_B",
+"UK3CB_BAF_B_Bergen_MTP_Medic_L_A",
+"UK3CB_BAF_B_Bergen_MTP_Medic_L_B",
+"UK3CB_BAF_B_Bergen_MTP_Engineer_H_A",
+"UK3CB_BAF_B_Bergen_MTP_Engineer_L_A",
+"UK3CB_BAF_B_Bergen_MTP_Sapper_H_A",
+"UK3CB_BAF_B_Bergen_MTP_Sapper_L_A",
+"UK3CB_BAF_B_Bergen_MTP_PointMan_H_A",
+"UK3CB_BAF_B_Bergen_MTP_PointMan_L_A",
+"UK3CB_BAF_B_Carryall_MTP",
+"UK3CB_BAF_B_Kitbag_MTP",
 	"tf_mr3000_rhs",
 	"B_Carryall_oli"
 ];
 
 genVests = [
-	"rhsusf_spc",
-	"rhsusf_spc_rifleman",
-	"rhsusf_spc_iar",
-	"rhsusf_spc_corpsman",
-	"rhsusf_spc_crewman",
-	"rhsusf_spc_light",
-	"rhsusf_spc_marksman",
-	"rhsusf_spc_mg",
-	"rhsusf_spc_squadleader",
-	"rhsusf_spc_teamleader"
+"UK3CB_BAF_V_Osprey",
+"UK3CB_BAF_V_Osprey_Belt_A",
+"UK3CB_BAF_V_Osprey_Holster",
+"UK3CB_BAF_V_Osprey_Grenadier_A",
+"UK3CB_BAF_V_Osprey_Grenadier_B",
+"UK3CB_BAF_V_Osprey_Marksman_A",
+"UK3CB_BAF_V_Osprey_Medic_A",
+"UK3CB_BAF_V_Osprey_Medic_B",
+"UK3CB_BAF_V_Osprey_Medic_C",
+"UK3CB_BAF_V_Osprey_Medic_D",
+"UK3CB_BAF_V_Osprey_MG_A",
+"UK3CB_BAF_V_Osprey_MG_B",
+"UK3CB_BAF_V_Osprey_Rifleman_A",
+"UK3CB_BAF_V_Osprey_Rifleman_B",
+"UK3CB_BAF_V_Osprey_Rifleman_C",
+"UK3CB_BAF_V_Osprey_Rifleman_D",
+"UK3CB_BAF_V_Osprey_Rifleman_E",
+"UK3CB_BAF_V_Osprey_Rifleman_F",
+"UK3CB_BAF_V_Osprey_SL_A",
+"UK3CB_BAF_V_Osprey_SL_B",
+"UK3CB_BAF_V_Osprey_SL_C",
+"UK3CB_BAF_V_Osprey_SL_D",
+"UK3CB_BAF_V_Osprey_Lite",
+"UK3CB_BAF_V_Pilot_A"
 ];
 
 genHelmets = [
-	"rhsusf_patrolcap_ucp",
-	"rhs_Booniehat_ucp",
-	"rhsusf_mich_helmet_marpatwd",
-	"rhsusf_mich_helmet_marpatwd_headset",
-	"rhsusf_mich_helmet_marpatd",
-	"rhsusf_mich_helmet_marpatd_headset",
-	"rhsusf_mich_helmet_marpatwd_alt",
-	"rhsusf_mich_helmet_marpatwd_alt_headset",
-	"rhsusf_mich_helmet_marpatd_alt",
-	"rhsusf_mich_helmet_marpatd_alt_headset",
-	"rhsusf_mich_helmet_marpatwd_norotos",
-	"rhsusf_mich_helmet_marpatwd_norotos_headset",
-	"rhsusf_mich_helmet_marpatd_norotos",
-	"rhsusf_mich_helmet_marpatd_norotos_headset",
-	"rhsusf_mich_helmet_marpatwd_norotos_arc",
-	"rhsusf_mich_helmet_marpatwd_norotos_arc_headset",
-	"rhsusf_mich_helmet_marpatd_norotos_arc",
-	"rhsusf_mich_helmet_marpatd_norotos_arc_headset",
-	"rhsusf_lwh_helmet_marpatd",
-	"rhsusf_lwh_helmet_marpatd_ess",
-	"rhsusf_lwh_helmet_marpatd_headset",
-	"rhsusf_lwh_helmet_marpatwd",
-	"rhsusf_lwh_helmet_marpatwd_ess",
-	"rhsusf_lwh_helmet_marpatwd_headset",
-	"rhs_Booniehat_marpatwd"
+"UK3CB_BAF_H_Mk7_Camo_A",
+"UK3CB_BAF_H_Mk7_Camo_B",
+"UK3CB_BAF_H_Mk7_Camo_C",
+"UK3CB_BAF_H_Mk7_Camo_D",
+"UK3CB_BAF_H_Mk7_Camo_E",
+"UK3CB_BAF_H_Mk7_Camo_F",
+"UK3CB_BAF_H_Mk7_Camo_ESS_A",
+"UK3CB_BAF_H_Mk7_Camo_ESS_B",
+"UK3CB_BAF_H_Mk7_Camo_ESS_C",
+"UK3CB_BAF_H_Mk7_Camo_ESS_D",
+"UK3CB_BAF_H_Mk7_Camo_CESS_A",
+"UK3CB_BAF_H_Mk7_Camo_CESS_B",
+"UK3CB_BAF_H_Mk7_Camo_CESS_C",
+"UK3CB_BAF_H_Mk7_Camo_CESS_D",
+"UK3CB_BAF_H_Mk7_HiVis",
+"UK3CB_BAF_H_Mk7_Net_A",
+"UK3CB_BAF_H_Mk7_Net_B",
+"UK3CB_BAF_H_Mk7_Net_C",
+"UK3CB_BAF_H_Mk7_Net_D",
+"UK3CB_BAF_H_Mk7_Net_ESS_A",
+"UK3CB_BAF_H_Mk7_Net_ESS_B",
+"UK3CB_BAF_H_Mk7_Net_ESS_C",
+"UK3CB_BAF_H_Mk7_Net_ESS_D",
+"UK3CB_BAF_H_Mk7_Net_CESS_A",
+"UK3CB_BAF_H_Mk7_Net_CESS_B",
+"UK3CB_BAF_H_Mk7_Net_CESS_C",
+"UK3CB_BAF_H_Mk7_Net_CESS_D",
+"UK3CB_BAF_H_Mk7_Scrim_A",
+"UK3CB_BAF_H_Mk7_Scrim_B",
+"UK3CB_BAF_H_Mk7_Scrim_C",
+"UK3CB_BAF_H_Mk7_Scrim_D",
+"UK3CB_BAF_H_Mk7_Scrim_E",
+"UK3CB_BAF_H_Mk7_Scrim_F",
+"UK3CB_BAF_H_Mk7_Scrim_ESS_A",
+"UK3CB_BAF_H_Mk7_Scrim_ESS_B",
+"UK3CB_BAF_H_Mk7_Scrim_ESS_C",
+"UK3CB_BAF_H_Mk7_Win_A",
+"UK3CB_BAF_H_Mk7_Win_ESS_A",
+"UK3CB_BAF_H_Boonie_MTP_PRR"
+
 ];
 
 // Equipment unlocked by default
@@ -315,24 +352,21 @@ if (activeGREF) then {
 	];
 } else {
 	unlockedWeapons = [
-	"rhs_weap_makarov_pm",
-	"rhs_weap_savz61",
-	"rhs_weap_kar98k",
-	"rhs_weap_m38"
+	"hgun_Pistol_heavy_02_F",
+	"UK3CB_BAF_L91A1"
+
 ];
 
 // Standard rifles for AI are picked from this array. Add only rifles.
 unlockedRifles = [
-	"rhs_weap_savz61",
-	"rhs_weap_kar98k",
-	"rhs_weap_m38"
+	"UK3CB_BAF_L91A1"
+
 ];
 
 unlockedMagazines = [
-	"rhs_mag_9x18_8_57N181S",
-	"rhsgref_5Rnd_762x54_m38",
-	"rhsgref_5Rnd_792x57_kar98k",
-	"rhsgref_20rnd_765x17_vz61"
+	"6Rnd_45ACP_Cylinder",
+	"UK3CB_BAF_9_30Rnd"
+
 
 ];
 };
@@ -401,14 +435,12 @@ unlockedItems = [
 	"U_B_survival_uniform",
 	"U_OrestesBody",
 	"G_Bandanna_khk",
-	"V_BandollierB_khk",
-	"rhsgref_uniform_para_ttsko_oxblood",
-	"rhsgref_uniform_flecktarn",
-	"rhsgref_uniform_tigerstripe"
+	"V_BandollierB_khk"
+
 ];
 
 unlockedBackpacks = [
-	"rhs_assault_umbts"
+	"UK3CB_BAF_B_Kitbag_OLI"
 ];
 
 unlockedOptics = [];
