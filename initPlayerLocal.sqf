@@ -198,7 +198,11 @@ if (_isJip) then {
 		    if (isMultiplayer) then {
 		    	HC_comandante synchronizeObjectsAdd [player];
 				player synchronizeObjectsAdd [HC_comandante];
-				if (!(serverName in servidoresOficiales) OR (enableRestart)) then {[] execVM "UI\startMenu.sqf"};
+				if (!(serverName in servidoresOficiales) OR (enableRestart)) then {
+					[] execVM "UI\startMenu.sqf";
+				} else {
+					[] remoteExec ["AS_fnc_autoStart",2];
+				};
 				diag_log "Antistasi MP Client. Client finished";
 		    } else {
 		    	miembros = [];
