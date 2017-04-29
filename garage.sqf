@@ -104,7 +104,9 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 
 		[] spawn {
 			sleep 15;
-			{deleteVehicle _x} forEach eph_chems;
+			if (count eph_chems > 0) then {
+				{deleteVehicle _x} forEach eph_chems;
+			};
 			eph_chems = nil;
 		};
 
