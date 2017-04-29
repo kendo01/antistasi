@@ -51,7 +51,6 @@ if (isMultiplayer) then {
 
 waitUntil {sleep 3; (server getVariable ["campQRF", false]) OR {!(_targetMarker in campsFIA)}};
 
-// success if camp is still alive
 if (_targetMarker in campsFIA) then {
 	_tsk = ["DEF_Camp",[side_blue,civilian],[format [_tskDesc, _campName, _airportName], format [_tskTitle, _campName],_targetMarker],_targetPosition,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
 	[0,3] remoteExec ["prestige",2];
@@ -62,7 +61,7 @@ if (_targetMarker in campsFIA) then {
 	_tsk = ["DEF_Camp",[side_blue,civilian],[format [_tskDesc, _campName, _airportName], format [_tskTitle, _campName],_targetMarker],_targetPosition,"FAILED",5,true,true,"Defend"] call BIS_fnc_setTask;
 };
 
-server setVariable ["campQRF", false, false];
+server setVariable ["campQRF", false, true];
+server setVariable ["active_campQRF", false, true];
 
-// no need to despawn troops, it's done through the QRF script
 [1200,_tsk] spawn borrarTask;
