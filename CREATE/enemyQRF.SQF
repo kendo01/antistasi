@@ -12,7 +12,7 @@ parameters
 
 If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise it'll be ground forces in MRAPs/trucks.
 */
-params ["_orig", "_dest", "_mrk", "_duration", "_composition", "_size", ["_source", ""], ["_external", false]];
+params ["_orig", "_dest", "_mrk", "_duration", "_composition", "_size", ["_source", ""], ["_varName", ""]];
 
 // FIA bases/airports
 _bases = bases arrayIntersect mrkAAF;
@@ -200,11 +200,9 @@ if (_type == "air") then {
 		// if the QRF is dispatched to an FIA camp, provide the group
 		if (_source == "campQRF") then {
 			if (_size == "large") then {
-				server setVariable ["campQRF", [_grpDis1,_grpDis2], true];
 				[format ["DefCamp -- QRF -- group 1: %1; group 2: %2", _grpDis1, _grpDis2, server getVariable ["campQRF", "none"]]] remoteExec ["AS_fnc_logOutput", 2];
 			}
 			else {
-				server setVariable ["campQRF", [_grpDis2], true];
 				[format ["DefCamp -- QRF -- group 1: %1", _grpDis2, server getVariable ["campQRF", "none"]]] remoteExec ["AS_fnc_logOutput", 2];
 			};
 		};
@@ -247,7 +245,7 @@ else {
 
 	// small delay to allow for AI pathfinding shenanigans
 	if (_composition == "mixed") then {
-		sleep 25;
+		sleep 15;
 	};
 
 	if ((_composition == "transport") || (_composition == "mixed")) then {
@@ -255,7 +253,6 @@ else {
 		_dist = 200 min ([_mrk] call sizeMarker);
 		_dist = -1 * ((400 - _dist) / 10);
 		_dist = _dist max (-35);
-		diag_log format ["dist: %1", _dist];
 		_landpos1 = [_dest, _posRoad, _dist] call findSafeRoadToUnload;
 
 		// second vehicle
@@ -296,23 +293,23 @@ else {
 
 {_x allowDamage true} forEach _vehiculos;
 
-if !(_external) then {
-	waitUntil {sleep 10; (dateToNumber date > _endTime) or ({alive _x} count _soldados == 0)};
+waitUntil {sleep 10; (dateToNumber date > _endTime) or ({alive _x AND !captive _x} count _soldados == 0)};
 
-	// remove the remains
-	{
-		_soldado = _x;
-		waitUntil {sleep 1; {_x distance _soldado < distanciaSPWN} count (allPlayers - hcArray) == 0};
-		deleteVehicle _soldado;
-	} forEach _soldados;
-
-	{deleteGroup _x} forEach _grupos;
-
-	{
-		_vehiculo = _x;
-		waitUntil {sleep 1; {_x distance _vehiculo < distanciaSPWN/2} count (allPlayers - hcArray) == 0};
-		deleteVehicle _x
-	} forEach _vehiculos;
-} else {
-	[_soldados, _grupos, _vehiculos]
+if !(_varName isEqualTo "") then {
+	server setVariable [_varName,true,true];
 };
+
+// remove the remains
+{
+	_soldado = _x;
+	waitUntil {sleep 1; {_x distance _soldado < distanciaSPWN} count (allPlayers - hcArray) == 0};
+	deleteVehicle _soldado;
+} forEach _soldados;
+
+{deleteGroup _x} forEach _grupos;
+
+{
+	_vehiculo = _x;
+	waitUntil {sleep 1; {_x distance _vehiculo < distanciaSPWN/2} count (allPlayers - hcArray) == 0};
+	deleteVehicle _x
+} forEach _vehiculos;
