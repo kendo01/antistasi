@@ -30,6 +30,7 @@ closeMarkersUpdating = 0;
 altVersion = "";
 enableRestart = true;
 status_templatesLoaded = false;
+activeJNA = ((["AS_param_useJNA", 0] call BIS_fnc_getParamValue) == 1);
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
