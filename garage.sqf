@@ -2,7 +2,6 @@ params [["_isPersonalGarage",false,[false]]];
 [false,false] params ["_enemiesNearby","_noSpace"];
 private ["_type"];
 
-if (_isPersonalGarage AND !([player] call isMember)) exitWith {hint "You cannot access the garage as you are a guest on this server"};
 if (player != player getVariable "owner") exitWith {hint "You cannot access the garage while you are controlling AI"};
 
 {
