@@ -51,12 +51,12 @@ if (isClass (configFile >> "CfgPatches" >> "javelinTest")) then {
 [] call AS_fnc_setupGearDB;
 
 /*
- 	RHS detection/initialisation
+ 	Mod detection/initialisation
  	- SQM defines whether FIA is BLUFOR or GUER
  	- RHS USAF replaces NATO
  	- RHS AFRF replaces AAF/CSAT
 */
-[] call AS_fnc_detectRHS;
+[] call AS_fnc_detectMods;
 waitUntil {status_templatesLoaded};
 
 /*

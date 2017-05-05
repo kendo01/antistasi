@@ -57,7 +57,7 @@ class CfgFunctions {
 			class deployMinefield {};
 			class getMarkerInfo {};
 			class setupGearDB {};
-			class detectRHS {};
+			class detectMods {};
 			class detectACE {};
 			class moveObject {};
 			class respawnPetros {};
