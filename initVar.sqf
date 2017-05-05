@@ -31,10 +31,6 @@ static_playerSide = "B";
 enableRestart = true;
 status_templatesLoaded = false;
 activeJNA = (("AS_param_useJNA" call BIS_fnc_getParamValue) == 1);
-if (activeJNA) then {
-	jna_dataList = [[],[],[],[],[],[],[],[],[],[],[["ItemMap",40]],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-};
-
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
 AS_customGroups = false;
