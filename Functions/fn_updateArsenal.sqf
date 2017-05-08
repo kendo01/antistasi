@@ -245,7 +245,6 @@ if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 	if (count _weapons != count _weaponCargo) then {
 		clearWeaponCargoGlobal caja;
 		{caja addWeaponCargoGlobal [_x,1]} forEach _weaponCargo;
-		unlockedRifles = unlockedweapons -  gear_sidearms -  gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
 	};
 
 	if (count _backpacks != count _backpackCargo) then {
@@ -264,9 +263,15 @@ if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
 	};
 };
 
-unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
-publicVariable "unlockedWeapons";
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; 
+{
+	if ((getText (configFile >> "CfgWeapons" >> _x >> "useAsBinocular")) isEqualTo 1) then {
+		unlockedRifles = unlockedRifles - [_x];
+	};
+} forEach unlockedRifles;
+
 publicVariable "unlockedRifles";
+publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
 publicVariable "unlockedOptics";
 publicVariable "unlockedBackpacks";

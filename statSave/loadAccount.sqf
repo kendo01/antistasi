@@ -91,7 +91,13 @@ petros allowdamage false;
 ["AS_destroyedZones"] call fn_LoadStat;
 //===========================================================================
 
-unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; 
+{
+	if ((getText (configFile >> "CfgWeapons" >> _x >> "useAsBinocular")) isEqualTo 1) then {
+		unlockedRifles = unlockedRifles - [_x];
+	};
+} forEach unlockedRifles;
+publicVariable "unlockedRifles";
 
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 
