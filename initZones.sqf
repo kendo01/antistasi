@@ -1,4 +1,4 @@
-private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList","_possibleCities"];
+private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList","_possibleCities","_city"];
 
 AS_destroyedZones = [];
 forcedSpawn = [];
@@ -92,14 +92,15 @@ if (worldName != "Bornholm") then {
 	_possibleCities = nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter","NameLocal"], worldSize/1.414];
 };
 {
-    _name = [text _x, true] call AS_fnc_location;
+	_city = _x;
+    _name = [text _city, true] call AS_fnc_location;
     if ((_name != "") and !(_name in _blackList)) then {
-        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
-        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
+        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> _name >> "radiusA");
+        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> _name >> "radiusB");
         _size = [_sizeX, _sizeY] select (_sizeX < _sizeY);
         if (_size < 200) then {_size = 200};
 
-        _pos = getPos _x;
+        _pos = getPos _city;
         _roads = [];
         _numCiv = 0;
         if (worldName != "Altis") then {
@@ -121,7 +122,7 @@ if (worldName != "Bornholm") then {
 
         _numVeh = round (_numCiv / 3);
         _nroads = count _roads;
-        _nearRoadsFinalSorted = [_roads, [], { _pos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+        _nearRoadsFinalSorted = [_roads, [], { _pos distance _city }, "ASCEND"] call BIS_fnc_sortBy;
 		if (count _nearRoadsFinalSorted > 0) then {_pos = _nearRoadsFinalSorted select 0};
         _mrk = createmarker [format ["%1", _name], _pos];
         _mrk setMarkerSize [_size, _size];
@@ -129,7 +130,7 @@ if (worldName != "Bornholm") then {
         _mrk setMarkerBrush "SOLID";
         _mrk setMarkerColor IND_marker_colour;
         _mrk setMarkerText _name;
-        _mrk setMarkerAlpha 0;
+        _mrk setMarkerAlpha 1;
         ciudades pushBack _name;
         spawner setVariable [_name,false,true];
         _dmrk = createMarker [format ["Dum%1",_name], _pos];
