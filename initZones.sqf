@@ -130,7 +130,7 @@ if (worldName != "Bornholm") then {
         _mrk setMarkerBrush "SOLID";
         _mrk setMarkerColor IND_marker_colour;
         _mrk setMarkerText _name;
-        _mrk setMarkerAlpha 1;
+        _mrk setMarkerAlpha 0;
         ciudades pushBack _name;
         spawner setVariable [_name,false,true];
         _dmrk = createMarker [format ["Dum%1",_name], _pos];
