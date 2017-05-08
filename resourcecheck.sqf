@@ -15,6 +15,12 @@ while {true} do
 	_popAAF = 0;
 	_bonusAAF = 1;
 	_bonusFIA = 1;
+	
+	_coefHR = 20000;
+	if !(isNil "defaultPopulation") then {
+		_coefHR = defaultPopulation * 3;
+	};
+	
 	{
 	_ciudad = _x;
 	_recAddCiudadOPFOR = 0;
@@ -43,7 +49,7 @@ while {true} do
 		{
 		_recAddCiudadOPFOR = ((_numciv * _multiplicandorec*(_prestigeOPFOR / 100)) /3);
 		_recAddCiudadBLUFOR = ((_numciv * _multiplicandorec*(_prestigeBLUFOR / 100))/3);
-		_hrAddCiudad = (_numciv * (_prestigeBLUFOR / 20000));
+		_hrAddCiudad = (_numciv * (_prestigeBLUFOR / _coefHR));
 		if (_ciudad in mrkFIA) then
 			{
 			_recAddCiudadOPFOR = (_recAddCiudadOPFOR/2);
