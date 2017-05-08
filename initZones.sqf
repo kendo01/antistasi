@@ -1,4 +1,4 @@
-private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList"];
+private ["_allMarkers","_sizeX","_sizeY","_size","_name","_pos","_roads","_numCiv","_roadsProv","_roadcon","_numVeh","_nroads","_nearRoadsFinalSorted","_mrk","_dmrk","_info","_antennaArray","_antenna","_bankArray","_bank","_blackList","_possibleCities","_city"];
 
 AS_destroyedZones = [];
 forcedSpawn = [];
@@ -33,7 +33,7 @@ safeDistance_garrison = 500;
 safeDistance_fasttravel = 500;
 
 // Blacklist of locations not be used as towns
-_blackList = ["Giswil","sagonisi","hill12"];
+_blackList = ["for_Giswil","sagonisi","hill12"];
 
 call {
     if (worldName == "Altis") exitWith {
@@ -47,9 +47,6 @@ call {
     };
     if (worldName == "Bornholm") exitWith {
         call compile preprocessFileLineNumbers "Worlds\BornholmData.sqf";
-    };
-	if (worldName == "xcam_taunus") exitWith {
-        call compile preprocessFileLineNumbers "Worlds\xcam_taunusData.sqf";
     };
 };
 
@@ -89,15 +86,21 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
 {_x setMarkerAlpha 0} forEach seaMarkers;
 
 // Detect cities, set their population to the number of houses within their city limits, create a database of roads, set number of civilian vehicles to spawn with regards to number of roads. Pre-defined for Altis.
+if (worldName != "Bornholm") then {
+	_possibleCities = nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], worldSize/1.414];
+} else {
+	_possibleCities = nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter","NameLocal"], worldSize/1.414];
+};
 {
-    _name = [text _x, true] call AS_fnc_location;
+	_city = _x;
+    _name = [text _city, true] call AS_fnc_location;
     if ((_name != "") and !(_name in _blackList)) then {
-        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
-        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusB");
+        _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> _name >> "radiusA");
+        _sizeY = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> _name >> "radiusB");
         _size = [_sizeX, _sizeY] select (_sizeX < _sizeY);
         if (_size < 200) then {_size = 200};
 
-        _pos = getPos _x;
+        _pos = getPos _city;
         _roads = [];
         _numCiv = 0;
         if (worldName != "Altis") then {
@@ -119,7 +122,7 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
 
         _numVeh = round (_numCiv / 3);
         _nroads = count _roads;
-        _nearRoadsFinalSorted = [_roads, [], { _pos distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+        _nearRoadsFinalSorted = [_roads, [], { _pos distance _city }, "ASCEND"] call BIS_fnc_sortBy;
 		if (count _nearRoadsFinalSorted > 0) then {_pos = _nearRoadsFinalSorted select 0};
         _mrk = createmarker [format ["%1", _name], _pos];
         _mrk setMarkerSize [_size, _size];
@@ -139,7 +142,7 @@ marcadores = power + bases + aeropuertos + recursos + fabricas + puestos + puert
         _info = [_numCiv, _numVeh, prestigeOPFOR,prestigeBLUFOR];
         server setVariable [_name,_info,true];
     };
-} foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], worldSize/1.414]);
+} foreach _possibleCities;
 
 // Detect named mountaintops and automatically add them as zones to spawn a watchpost at. If your map has a shortage of named mountains, place markers within the SQM, with incremental names starting with "mtn_1" for automatic watchpost placement or "mtn_comp_1" for positions with pre-defined compositions.
 {
@@ -191,7 +194,7 @@ if (worldName in ["Altis","Bornholm","Tanoa"]) then {
         _pos = getMarkerPos _loc;
         _dmrk = createMarker [format ["Dum%1",_loc], _pos];
         _dmrk setMarkerShape "ICON";
-        if !(_loc in (aeropuertos+bases)) then {_dmrk setMarkerColor IND_marker_colour};
+        _dmrk setMarkerColor IND_marker_colour;
         [_loc] call AS_fnc_createRoadblocks;
         garrison setVariable [_loc,[],true];
         _dmrk setMarkerType _type;

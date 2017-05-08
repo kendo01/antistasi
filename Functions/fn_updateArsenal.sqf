@@ -78,12 +78,13 @@ if (count _addedMagazines > 0) then {
 	if ((atMine in _addedMagazines) OR (apMine in _addedMagazines)) then {
 		if (activeBE) then {["unl_wpn"] remoteExec ["fnc_BE_XP", 2]};
 	};
-
-	// XLA fixed arsenal
-	if (activeXLA) then {
-		[caja,_addedMagazines,true,false] call XLA_fnc_addVirtualMagazineCargo;
-	} else {
-		[caja,_addedMagazines,true,false] call BIS_fnc_addVirtualMagazineCargo;
+	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
+		// XLA fixed arsenal
+		if (activeXLA) then {
+			[caja,_addedMagazines,true,false] call XLA_fnc_addVirtualMagazineCargo;
+		} else {
+			[caja,_addedMagazines,true,false] call BIS_fnc_addVirtualMagazineCargo;
+		};
 	};
 	publicVariable "unlockedMagazines";
 };
@@ -99,12 +100,13 @@ for "_i" from 0 to (count _magazines) - 1 do {
 if (count _addedWeapons > 0) then {
 	lockedWeapons = lockedWeapons - _addedWeapons;
 	if (activeBE) then {["unl_wpn", count _addedWeapons] remoteExec ["fnc_BE_XP", 2]};
-
-	// XLA fixed arsenal
-	if (activeXLA) then {
-		[caja,_addedWeapons,true,false] call XLA_fnc_addVirtualWeaponCargo;
-	} else {
-		[caja,_addedWeapons,true,false] call BIS_fnc_addVirtualWeaponCargo;
+	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
+		// XLA fixed arsenal
+		if (activeXLA) then {
+			[caja,_addedWeapons,true,false] call XLA_fnc_addVirtualWeaponCargo;
+		} else {
+			[caja,_addedWeapons,true,false] call BIS_fnc_addVirtualWeaponCargo;
+		};
 	};
 	publicVariable "unlockedWeapons";
 	[_addedWeapons] spawn AS_fnc_weaponsCheck;
@@ -148,12 +150,13 @@ _addedBackpacks = [];
 
 if (count _addedBackpacks > 0) then {
 	genBackpacks = genBackpacks - _addedBackpacks;
-
-	// XLA fixed arsenal
-	if (activeXLA) then {
-		[caja,_addedBackpacks,true,false] call XLA_fnc_addVirtualBackpackCargo;
-	} else {
-		[caja,_addedBackpacks,true,false] call BIS_fnc_addVirtualBackpackCargo;
+	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
+		// XLA fixed arsenal
+		if (activeXLA) then {
+			[caja,_addedBackpacks,true,false] call XLA_fnc_addVirtualBackpackCargo;
+		} else {
+			[caja,_addedBackpacks,true,false] call BIS_fnc_addVirtualBackpackCargo;
+		};
 	};
 	unlockedBackpacks = unlockedBackpacks + _addedBackpacks;
 	publicVariable "unlockedBackpacks";
@@ -176,7 +179,7 @@ _addedItems = [];
 	if !(_item in unlockedItems) then {
 		_itemReq = ["items"] call AS_fnc_getUnlockRequirement;
 		if !(_item in genItems) then {_itemReq = _itemReq + 10};
-		if ((_item in genVests) OR (_item in genOptics) OR (_item in genHelmets)) then {_itemReq = ["vests"] call AS_fnc_getUnlockRequirement;};
+		if ((_item in genVests) || (_item in genOptics)) then {_itemReq = ["vests"] call AS_fnc_getUnlockRequirement;};
 		if ({_x == _item} count _items >= _itemReq) then {
 			_addedItems pushBackUnique _item;
 			unlockedItems pushBackUnique _item;
@@ -218,11 +221,13 @@ if ((activeACE) && ("ItemGPS" in unlockedItems)) then {
 };
 
 if (count _addedItems >0) then {
-	// XLA fixed arsenal
-	if (activeXLA) then {
-		[caja,_addedItems,true,false] call XLA_fnc_addVirtualItemCargo;
-	} else {
-		[caja,_addedItems,true,false] call BIS_fnc_addVirtualItemCargo;
+	if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
+		// XLA fixed arsenal
+		if (activeXLA) then {
+			[caja,_addedItems,true,false] call XLA_fnc_addVirtualItemCargo;
+		} else {
+			[caja,_addedItems,true,false] call BIS_fnc_addVirtualItemCargo;
+		};
 	};
 	publicVariable "unlockedItems";
 };
@@ -236,30 +241,37 @@ for "_i" from 0 to (count _items) - 1 do {
 	};
 };
 
-if (count _weapons != count _weaponCargo) then {
-	clearWeaponCargoGlobal caja;
-	{caja addWeaponCargoGlobal [_x,1]} forEach _weaponCargo;
-	unlockedRifles = unlockedweapons -  gear_sidearms -  gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
+if (("AS_virtualArsenal" call BIS_fnc_getParamValue) == 1) then {
+	if (count _weapons != count _weaponCargo) then {
+		clearWeaponCargoGlobal caja;
+		{caja addWeaponCargoGlobal [_x,1]} forEach _weaponCargo;
+	};
+
+	if (count _backpacks != count _backpackCargo) then {
+		clearBackpackCargoGlobal caja;
+		{caja addBackpackCargoGlobal [_x,1]} forEach _backpackCargo;
+	};
+
+	if (count _magazines != count _magazineCargo) then {
+		clearMagazineCargoGlobal caja;
+		{caja addMagazineCargoGlobal [_x,1]} forEach _magazineCargo;
+	};
+
+	if (count _items != count _itemCargo) then {
+		clearItemCargoGlobal caja;
+		{caja addItemCargoGlobal [_x,1]} forEach _itemCargo;
+	};
 };
 
-if (count _backpacks != count _backpackCargo) then {
-	clearBackpackCargoGlobal caja;
-	{caja addBackpackCargoGlobal [_x,1]} forEach _backpackCargo;
-};
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; 
+{
+	if ((getText (configFile >> "CfgWeapons" >> _x >> "useAsBinocular")) isEqualTo 1) then {
+		unlockedRifles = unlockedRifles - [_x];
+	};
+} forEach unlockedRifles;
 
-if (count _magazines != count _magazineCargo) then {
-	clearMagazineCargoGlobal caja;
-	{caja addMagazineCargoGlobal [_x,1]} forEach _magazineCargo;
-};
-
-if (count _items != count _itemCargo) then {
-	clearItemCargoGlobal caja;
-	{caja addItemCargoGlobal [_x,1]} forEach _itemCargo;
-};
-
-unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns; publicVariable "unlockedRifles";
-publicVariable "unlockedWeapons";
 publicVariable "unlockedRifles";
+publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
 publicVariable "unlockedOptics";
 publicVariable "unlockedBackpacks";
