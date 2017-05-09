@@ -198,7 +198,7 @@ if (_isJip) then {
 		    if (isMultiplayer) then {
 		    	HC_comandante synchronizeObjectsAdd [player];
 				player synchronizeObjectsAdd [HC_comandante];
-				if (!(serverName in servidoresOficiales) OR (enableRestart)) then {
+				if (!(serverName in servidoresOficiales) OR (server getVariable ["enableRestart", false])) then {
 					[] execVM "UI\startMenu.sqf";
 				} else {
 					[] remoteExec ["AS_fnc_autoStart",2];
