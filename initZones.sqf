@@ -122,7 +122,7 @@ if (worldName != "Bornholm") then {
 
         _numVeh = round (_numCiv / 3);
         _nroads = count _roads;
-        _nearRoadsFinalSorted = [_roads, [], { _pos distance _city }, "ASCEND"] call BIS_fnc_sortBy;
+        _nearRoadsFinalSorted = [_roads, [], {_pos distance _x}, "ASCEND"] call BIS_fnc_sortBy;
 		if (count _nearRoadsFinalSorted > 0) then {_pos = _nearRoadsFinalSorted select 0};
         _mrk = createmarker [format ["%1", _name], _pos];
         _mrk setMarkerSize [_size, _size];
