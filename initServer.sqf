@@ -36,7 +36,7 @@ if !(activeJNA) then {
 diag_log "Antistasi MP Server. Arsenal config finished";
 [[petros,"hint","Server Init Completed"],"commsMP"] call BIS_fnc_MP;
 
-addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDisconnect;false}];
+addMissionEventHandler ["HandleDisconnect",{[_this select 0, _this select 3, _this select 2] call onPlayerDisconnect;false}];
 
 Slowhand = objNull;
 maxPlayers = playableSlotsNumber west;
@@ -69,11 +69,10 @@ HCciviles = 2;
 HCgarrisons = 2;
 HCattack = 2;
 if (count hcArray > 0) then {
-    HCciviles = hcArray select 0;
     HCattack = hcArray select 0;
     diag_log "Antistasi MP Server. Headless Client 1 detected";
     if (count hcArray > 1) then {
-        HCattack = hcArray select 1;
+        HCciviles = hcArray select 1;
         diag_log "Antistasi MP Server. Headless Client 2 detected";
         if (count hcArray > 2) then {
             HCgarrisons = hcArray select 2;
@@ -90,9 +89,9 @@ publicVariable "hcArray";
 if !(activeJNA) then {
     caja addEventHandler ["ContainerOpened", {
         params ["_container","_unit"];
-        if (not([_unit] call isMember)) then {
+        if !([_unit] call isMember) then {
             _unit setPos position petros;
-            [localize "STR_HINTS_INIT_NOTMEMBER_INV"] remoteExecCall ["hint", _jugador];
+            [localize "STR_HINTS_INIT_NOTMEMBER_INV"] remoteExecCall ["hint", _unit];
         };
     }];
 };
