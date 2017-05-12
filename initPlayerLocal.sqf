@@ -104,7 +104,7 @@ if (!activeACE) then {
 
 gameMenu = (findDisplay 46) displayAddEventHandler ["KeyDown",AS_fnc_keyDownMain];
 
-call AS_fnc_initPlayerEH;
+[false] call AS_fnc_initPlayerEH;
 
 if (isMultiplayer) then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
@@ -156,7 +156,7 @@ if (_isJip) then {
 
 			if (!(_nearestMarker in colinas) AND !(_nearestMarker in controles)) then {
 				if (_nearestMarker in mrkAAF) then {
-					_x addAction [localize "STR_ACT_TAKEFLAG", {[[_this select 0, _this select 1],"mrkWIN"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+					_x addAction [localize "STR_ACT_TAKEFLAG", {[_this select 0, _this select 1] remoteExec ["mrkWIN",2]},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				} else {
 					_x addAction [localize "STR_ACT_RECRUITUNIT", {nul=[] execVM "Dialogs\unit_recruit.sqf";;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 					_x addAction [localize "STR_ACT_BUYVEHICLE", {createDialog "vehicle_option";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
@@ -281,3 +281,5 @@ cajaVeh addAction ["Get Funky!",{[] spawn AS_fnc_switchUniformTexture},nil,0,fal
 [player] call cleanGear;
 [player] spawn rankCheck;
 [player] spawn localSupport;
+
+player setVariable ["VCOM_FiredTimeHearing", diag_tickTime, false];

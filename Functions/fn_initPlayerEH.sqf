@@ -1,3 +1,4 @@
+params [["_respawning", false]];
 
 // Remove undercover status if player fires weapons near hostiles, plus a chance to be reported in towns with high enemy support levels
 player addEventHandler ["FIRED", {
@@ -73,30 +74,23 @@ player addEventHandler ["WeaponAssembled",{
 // Despawn bags of disassembled statics
 player addEventHandler ["WeaponDisassembled", {
 	params ["_object","_bagOne","_bagTwo"];
+	cursorTarget setOwner (owner _object);
 	staticsToSave = staticsToSave - [cursorTarget];
 	publicVariable "staticsToSave";
-	[_bagOne] spawn VEHinit;
-	[_bagTwo] spawn VEHinit;
+	{
+		[_x] spawn VEHinit;
+		_x setPos (_object modelToWorld [0,-1,0]);
+	} forEach [_bagOne,_bagTwo];
 }];
 
-// Prevent players from getting into other players' personal vehicles, activate undercover if it's a civilian vehicle, add loading action if it's a truck
-player addEventHandler ["GetInMan", {
-	params ["_unit","_position","_vehicle"];
-	[false] params ["_exit"];
-	private ["_owner"];
+if !(_respawning) then {
+	// Activate undercover if it's a civilian vehicle, add loading action if it's a truck
+	player addEventHandler ["GetInMan", {
+		params ["_unit","_position","_vehicle"];
+		private ["_owner"];
 
-	if (isMultiplayer) then {
-		_owner = _vehicle getVariable ["duenyo",getPlayerUID player];
-		if (_owner != (getPlayerUID player)) then {
-			if ({getPlayerUID _x == _owner} count (units group player) == 0) then {
-				hint localize "STR_HINTS_EH_VEH_GROUP";
-				moveOut _unit;
-				_exit = true;
-			};
-		};
-	};
+		_vehicle setVariable ["BLUFORSpawn",true,true];
 
-	if (!_exit) then {
 		if (((typeOf _vehicle) in CIV_vehicles) OR ((typeOf _vehicle) == civHeli)) then {
 			if !(_vehicle in reportedVehs) then {
 				[] spawn undercover;
@@ -107,20 +101,22 @@ player addEventHandler ["GetInMan", {
 			if !(typeOf _vehicle in ["C_Van_01_fuel_F","I_Truck_02_fuel_F","B_G_Van_01_fuel_F"]) then {
 				if (_this select 1 == "driver") then {
 					_EHid = _unit addAction [localize "STR_ACT_LOADAMMOBOX", "Municion\transfer.sqf",nil,0,false,true];
-					_unit setVariable ["eh_transferID", _EHid, true];
+						_unit setVariable ["eh_transferID", _EHid, true];
 				};
 			};
 		};
-	};
-}];
+	}];
 
-// Remove the loading action
-player addEventHandler ["GetOutMan",{
-	if !((player getVariable ["eh_transferID", -1]) == -1) then {
-		player removeaction (player getVariable "eh_transferID");
-		player setVariable ["eh_transferID", nil, true];
-	};
-}];
+	// Remove the loading action
+	player addEventHandler ["GetOutMan",{
+		params ["_unit","_position","_vehicle"];
+		if !((player getVariable ["eh_transferID", -1]) == -1) then {
+			player removeaction (player getVariable "eh_transferID");
+			player setVariable ["eh_transferID", nil, true];
+		};
+		_vehicle setVariable ["BLUFORSpawn",false,true];
+	}];
+};
 
 // If Jeroen's arsenal isn't active, display unlock requirements
 if !(activeJNA) then {
