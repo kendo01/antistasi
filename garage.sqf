@@ -1,5 +1,5 @@
 params [["_isPersonalGarage",false,[false]]];
-[false,false] params ["_enemiesNearby","_noSpace"];
+[false,false,[]] params ["_enemiesNearby","_noSpace","_eph_chems"];
 private ["_type"];
 
 if (player != player getVariable "owner") exitWith {hint "You cannot access the garage while you are controlling AI"};
@@ -10,7 +10,10 @@ if (player != player getVariable "owner") exitWith {hint "You cannot access the 
 
 if (_enemiesNearby) exitWith {Hint "You cannot manage the garage with enemies nearby"};
 
-vehInGarageShow = [vehInGarage, personalGarage] select _isPersonalGarage;
+vehInGarageShow = vehInGarage;
+if (isMultiplayer) then {
+	vehInGarageShow = [vehInGarage, personalGarage] select _isPersonalGarage;
+};
 
 if (count vehInGarageShow == 0) exitWith {hintC "The garage is empty"};
 
@@ -33,12 +36,11 @@ garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
 garageVeh allowDamage false;
 garageVeh enableSimulationGlobal false;
 
-eph_chems = [];
 if ((count (server getVariable ["obj_vehiclePad",[]]) > 0) AND (sunOrMoon < 1)) then {
 	private ["_spawnPos"];
 	for "_i" from 0 to 330 step 30 do {
 		_spawnPos = [garagePos, 5, _i] call BIS_Fnc_relPos;
-		eph_chems pushBack ("Chemlight_blue" createVehicle _spawnPos);
+		_eph_chems pushBack ("Chemlight_blue" createVehicle _spawnPos);
 	};
 };
 
@@ -101,12 +103,13 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 		camDestroy Cam;
 		(findDisplay 46) displayRemoveEventHandler ["KeyDown", garageKeys];
 
-		[] spawn {
-			sleep 15;
-			if (count eph_chems > 0) then {
-				{deleteVehicle _x} forEach eph_chems;
+		if (count _eph_chems > 0) then {
+			[_eph_chems] spawn {
+				params ["_chems"];
+				sleep 15;
+				{deleteVehicle _x} forEach _chems;
+				_chems = nil;
 			};
-			eph_chems = nil;
 		};
 
 		if (!_exit) then {
@@ -133,7 +136,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 				garageVeh setVariable ["duenyo",getPlayerUID player,true];
 			};
 
-			if (garageVeh isKindOf "StaticWeapon") then {staticsToSave = staticsToSave + [garageVeh]; publicVariable "staticsToSave"};
+			if (garageVeh isKindOf "StaticWeapon") then {[garageVeh, {_this setOwner 2; staticsToSave pushBackUnique _this; publicVariable "staticsToSave"}] remoteExec ["call", 2]};
 			clearMagazineCargoGlobal garageVeh;
 			clearWeaponCargoGlobal garageVeh;
 			clearItemCargoGlobal garageVeh;
