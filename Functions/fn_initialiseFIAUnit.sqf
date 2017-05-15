@@ -84,7 +84,6 @@ call {
 
 	if (_unitType == guer_sol_R_L) exitWith {
 		if (_forcedType == "AA") then {
-			diag_log "AA hired";
 			[_unit,true,true,true,true] call randomRifle;
 			removeBackpackGlobal _unit;
 			_unit addBackpackGlobal guer_gear_BP;
