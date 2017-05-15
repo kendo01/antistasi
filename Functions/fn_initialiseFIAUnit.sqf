@@ -1,4 +1,7 @@
-params ["_unit"];
+params [
+	"_unit",
+	["_forcedType", "", []]
+];
 private ["_skill","_skillFIA","_aiming","_spotD","_spotT","_cour","_comm","_aimingSh","_aimingSp","_reload","_unitType","_skillSet"];
 
 [_unit] call initRevive;
@@ -24,7 +27,7 @@ _unitType = typeOf _unit;
 _skillSet = 0;
 
 if !("ItemRadio" in unlockedItems) then {
-	if ((_unit != leader _unit) && (_unitType != guer_sol_UN)) then {_unit unlinkItem "ItemRadio"};
+	if ((_unit != leader _unit) AND (_unitType != guer_sol_UN)) then {_unit unlinkItem "ItemRadio"};
 };
 
 call {
@@ -80,8 +83,17 @@ call {
 	};
 
 	if (_unitType == guer_sol_R_L) exitWith {
-		[_unit,true,true,true,true] call randomRifle;
-		_skillSet = 1;
+		if (_forcedType == "AA") then {
+			diag_log "AA hired";
+			[_unit,true,true,true,true] call randomRifle;
+			removeBackpackGlobal _unit;
+			_unit addBackpackGlobal guer_gear_BP;
+			[_unit, genAALaunchers select 0, 2, AAmissile] call BIS_fnc_addWeapon;
+			_unit addMagazines [AAmissile, 1];
+		} else {
+			[_unit,true,true,true,true] call randomRifle;
+			_skillSet = 1;
+		};
 	};
 
 	if (_unitType == guer_sol_UN) exitWith {
