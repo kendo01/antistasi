@@ -57,19 +57,37 @@ if !(activeAFRF) then {
 	0-2: civilian vehicles
 	3-10: military vehicles and statics
 	*/
-	vfs = [
-		"C_Offroad_01_F",
-		"C_Van_01_transport_F",
-		"C_Heli_Light_01_civil_F",
-		"B_G_Quadbike_01_F",
-		"B_G_Offroad_01_F",
-		"B_G_Van_01_transport_F",
-		"B_G_Offroad_01_armed_F",
-		"B_HMG_01_high_F",
-		"B_G_Mortar_01_F",
-		"B_static_AT_F",
-		"B_static_AA_F"
-	];
+
+	if (worldname == "Tanoa") then {
+		vfs = [
+			"C_Offroad_02_unarmed_F_green",
+			"C_Van_01_transport_F",
+			"C_Heli_Light_01_civil_F",
+			"I_G_Quadbike_01_F",
+			"I_C_Offroad_02_unarmed_F",
+			"I_C_Van_01_transport_F",
+			"I_G_Offroad_01_armed_F",
+			"I_HMG_01_high_F",
+			"I_G_Mortar_01_F",
+			"I_static_AT_F",
+			"I_static_AA_F"
+			];
+
+	} else {
+		vfs = [
+			"C_Offroad_01_F",
+			"C_Van_01_transport_F",
+			"C_Heli_Light_01_civil_F",
+			"B_G_Quadbike_01_F",
+			"B_G_Offroad_01_F",
+			"B_G_Van_01_transport_F",
+			"B_G_Offroad_01_armed_F",
+			"B_HMG_01_high_F",
+			"B_G_Mortar_01_F",
+			"B_static_AT_F",
+			"B_static_AA_F"
+		];
+	};
 
 	guer_gear_vestAdv = "V_PlateCarrierIAGL_oli";
 	guer_gear_vestMedic = "";
@@ -93,6 +111,10 @@ if !(activeAFRF) then {
 	guer_gear_BP_Medic = "";
 	guer_gear_BP_Engineer = "";
 } else {
+	guer_veh_truck = "rhs_gaz66o_msv";
+	guer_veh_offroad = "rhs_uaz_open_MSV_01";
+	guer_veh_technical_AT = "rhsgref_ins_g_uaz_spg9";
+
 	guer_stat_mortar = "rhsgref_ins_g_2b14";
 	guer_stat_MGH = "rhsgref_ins_g_DSHKM";
 	guer_stat_AT = "rhsgref_ins_g_SPG9M";
