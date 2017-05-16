@@ -150,6 +150,8 @@ class CfgFunctions {
 			class JNA_dropPercentage {};
 			class JNA_classifyItem {};
 			class JNA_setupGear {};
+			class JNA_checkAvailability {};
+			class JNA_removeAIGear {};
 		};
 	};
 };
