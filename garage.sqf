@@ -1,8 +1,7 @@
 params [["_isPersonalGarage",false,[false]]];
 [false,false,[]] params ["_enemiesNearby","_noSpace","_eph_chems"];
-private ["_isPersonalGarage","_enemiesNearby","_type"];
+private ["_type"];
 
-if (_isPersonalGarage AND !([player] call isMember)) exitWith {hint "You cannot access the garage as you are a guest on this server"};
 if (player != player getVariable "owner") exitWith {hint "You cannot access the garage while you are controlling AI"};
 
 {
@@ -11,7 +10,10 @@ if (player != player getVariable "owner") exitWith {hint "You cannot access the 
 
 if (_enemiesNearby) exitWith {Hint "You cannot manage the garage with enemies nearby"};
 
-vehInGarageShow = [vehInGarage, personalGarage] select _isPersonalGarage;
+vehInGarageShow = vehInGarage;
+if (isMultiplayer) then {
+	vehInGarageShow = [vehInGarage, personalGarage] select _isPersonalGarage;
+};
 
 if (count vehInGarageShow == 0) exitWith {hintC "The garage is empty"};
 
@@ -101,11 +103,13 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 		camDestroy Cam;
 		(findDisplay 46) displayRemoveEventHandler ["KeyDown", garageKeys];
 
-		[_eph_chems] spawn {
-			params ["_chems"];
-			sleep 15;
-			{deleteVehicle _x} forEach _chems;
-			_chems = nil;
+		if (count _eph_chems > 0) then {
+			[_eph_chems] spawn {
+				params ["_chems"];
+				sleep 15;
+				{deleteVehicle _x} forEach _chems;
+				_chems = nil;
+			};
 		};
 
 		if (!_exit) then {
