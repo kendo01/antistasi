@@ -61,7 +61,7 @@ specialVarLoads =
 
 /*
 	Variables that are loaded, but do not require special procedures
-	["smallCAmrk","mrkAAF","mrkFIA","destroyedCities","distanciaSPWN","civPerc","minimoFPS","AS_destroyedZones","jna_dataList","vehInGarage"]
+	["smallCAmrk","mrkAAF","mrkFIA","destroyedCities","distanciaSPWN","civPerc","minimoFPS","AS_destroyedZones","jna_dataList","vehInGarage","respawningRBs"]
 */
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
@@ -417,12 +417,7 @@ fn_setData = {
 				} forEach _varvalue;
 			};
 			if(_varname == 'jna_dataList') exitWith {
-				_firstPart = _varvalue select [0,18];
-				_secondPart = _varvalue select [18,10];
-
-				_fullArray = _firstPart + _secondPart;
-				_fullArray set [26,_varvalue select 26];
-				jna_dataList = +_fullArray;
+				jna_dataList = +_varvalue;
 			};
 		};
 	} else {

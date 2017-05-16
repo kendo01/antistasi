@@ -6,9 +6,6 @@ if (isServer) then {
 };
 
 if (!isDedicated) then {
-	/*{player removeMagazine _x} forEach magazines player;
-	{player removeWeaponGlobal _x} forEach weapons player;
-	removeBackpackGlobal player;*/
 	if ("ItemGPS" in (assignedItems player)) then {player unlinkItem "ItemGPS"};
 	if ((!activeTFAR) AND ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
 
@@ -16,7 +13,6 @@ if (!isDedicated) then {
 
 	if (isMultiplayer) then {
 		_UID = getPlayerUID player;
-		diag_log (server getVariable ["campaign_playerList",[]]);
 		if (_UID in (server getVariable ["campaign_playerList",[]])) then {
 			["gear_goggles",_UID] call fn_loadPlayerData;
 			["gear_vest",_UID] call fn_loadPlayerData;
@@ -88,23 +84,38 @@ petros allowdamage false;
 ["idleBases"] call fn_loadData;
 ["AS_destroyedZones"] call fn_loadData; publicVariable "AS_destroyedZones";
 ["jna_dataList"] call fn_loadData; publicVariable "jna_dataList";
+["respawningRBs"] call fn_loadData;
 
 ["unlockedItems"] call fn_loadData; publicVariable "unlockedOptics";
 ["unlockedMagazines"] call fn_loadData; publicVariable "unlockedMagazines";
 ["unlockedWeapons"] call fn_loadData; publicVariable "unlockedWeapons";
 ["unlockedBackpacks"] call fn_loadData; publicVariable "unlockedBackpacks";
+
+unlockedRifles = unlockedweapons - gear_sidearms - gear_missileLaunchers - gear_rocketLaunchers - gear_sniperRifles - gear_machineGuns;
 {
 	if ((getText (configFile >> "CfgWeapons" >> _x >> "useAsBinocular")) isEqualTo 1) then {
 		unlockedRifles = unlockedRifles - [_x];
 	};
-} forEach unlockedRifles; 
+} forEach unlockedRifles;
 publicVariable "unlockedRifles";
 
 //===========================================================================
 
-
-
 _markers = mrkFIA + mrkAAF + campsFIA;
+
+_roadblocks = [];
+if (count respawningRBs > 0) then {
+	{
+		_marker = _x select 0;
+		_respawnTime = _x select 1;
+		if ((dateToNumber date < _respawnTime) AND {([_markers, getMarkerPos _marker] call BIS_fnc_nearestPosition) in mrkAAF}) then {
+			diag_log format ["RB loaded, %1 will respawn at %2", _marker, _respawnTime];
+			mrkFIA pushBackUnique _marker;
+			_roadblocks pushBackUnique _marker;
+			[_marker, _respawnTime] spawn AS_fnc_respawnRoadblock;
+		};
+	} forEach respawningRBs;
+};
 
 {
 	_position = getMarkerPos _x;
@@ -115,7 +126,7 @@ _markers = mrkFIA + mrkAAF + campsFIA;
 	} else {
 		mrkAAF = mrkAAF + [_x];
 	};
-} forEach controles;
+} forEach (controles - _roadblocks);
 
 {
 	if (!(_x in mrkAAF) AND !(_x in mrkFIA) AND (_x != "FIA_HQ")) then {mrkAAF pushBackUnique _x};
@@ -263,6 +274,10 @@ if !(activeJNA) then {
 ASA3_saveLoaded = true;
 placementDone = true; publicVariable 'placementDone';
 diag_log "Antistasi: Server sided Persistent Load done";
+
+[] remoteExec ["AS_fnc_setupZones",2];
+
+sleep 120;
 
 sleep 25;
 ["tasks"] call fn_loadData;

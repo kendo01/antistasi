@@ -170,6 +170,7 @@ flag_savingServer = false;
 flag_chopForest = false;
 misiones = [];
 revelar = false;
+respawningRBs = [];
 
 vehInGarage = ["C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",guer_veh_quad,guer_veh_quad,guer_veh_quad]; // initial motorpool
 destroyedBuildings = []; publicVariable "destroyedBuildings";
