@@ -54,8 +54,6 @@ guer_flag = "Flag_FIA_F";
 
 guer_soldierArray = [guer_sol_RFL,guer_sol_R_L,guer_sol_UN,guer_sol_AR,guer_sol_MED,guer_sol_ENG,guer_sol_EXP,guer_sol_GL,guer_sol_TL,guer_sol_AM,guer_sol_MRK,guer_sol_LAT,guer_sol_SL,guer_sol_OFF,guer_sol_SN,guer_sol_AA];
 
-guer_vehicleArray = [guer_veh_quad,guer_veh_technical,guer_stat_MGH,guer_veh_offroad,guer_veh_truck,guer_veh_dinghy,guer_stat_mortar,guer_stat_AT,guer_stat_AA,guer_veh_engineer];
-
 // ===== GEAR ===== \\
 guer_radio_TFAR = "tf_anprc148jem";
 if !(activeGREF) then {
@@ -65,37 +63,35 @@ if !(activeGREF) then {
 	3-10: military vehicles and statics
 	*/
 
-if (worldname == "Tanoa") then {
-	vfs = [
-		"C_Offroad_02_unarmed_F_green",
-		"C_Van_01_transport_F",
-		"C_Heli_Light_01_civil_F",
-		"I_G_Quadbike_01_F",
-		"I_C_Offroad_02_unarmed_F",
-		"I_C_Van_01_transport_F",
-		"I_G_Offroad_01_armed_F",
-		"I_HMG_01_high_F",
-		"I_G_Mortar_01_F",
-		"I_static_AT_F",
-		"I_static_AA_F"
+	if (worldname == "Tanoa") then {
+		vfs = [
+			"C_Offroad_02_unarmed_F_green",
+			"C_Van_01_transport_F",
+			"C_Heli_Light_01_civil_F",
+			"I_G_Quadbike_01_F",
+			"I_C_Offroad_02_unarmed_F",
+			"I_C_Van_01_transport_F",
+			"I_G_Offroad_01_armed_F",
+			"I_HMG_01_high_F",
+			"I_G_Mortar_01_F",
+			"I_static_AT_F",
+			"I_static_AA_F"
 		];
-
-		} else {
-
-	vfs = [
-		"C_Offroad_01_F",
-		"C_Van_01_transport_F",
-		"C_Heli_Light_01_civil_F",
-		"I_G_Quadbike_01_F",
-		"I_G_Offroad_01_F",
-		"I_G_Van_01_transport_F",
-		"I_G_Offroad_01_armed_F",
-		"I_HMG_01_high_F",
-		"I_G_Mortar_01_F",
-		"I_static_AT_F",
-		"I_static_AA_F"
-	];
-};
+	} else {
+		vfs = [
+			"C_Offroad_01_F",
+			"C_Van_01_transport_F",
+			"C_Heli_Light_01_civil_F",
+			"I_G_Quadbike_01_F",
+			"I_G_Offroad_01_F",
+			"I_G_Van_01_transport_F",
+			"I_G_Offroad_01_armed_F",
+			"I_HMG_01_high_F",
+			"I_G_Mortar_01_F",
+			"I_static_AT_F",
+			"I_static_AA_F"
+		];
+	};
 
 	guer_gear_vestAdv = "V_PlateCarrierIAGL_oli";
 	guer_gear_vestMedic = "";
@@ -138,10 +134,10 @@ if (worldname == "Tanoa") then {
 		"rhs_uaz_open_MSV_01",
 		"rhs_gaz66o_msv",
 		"I_G_Offroad_01_armed_F",
-		"rhs_DSHKM_ins",
-		"rhs_2b14_82mm_msv",
-		"rhs_Metis_9k115_2_vdv",
-		"RHS_ZU23_VDV",
+		"rhsgref_ins_g_DSHKM",
+		"rhsgref_ins_g_2b14",
+		"rhsgref_ins_g_SPG9M",
+		"rhsgref_ins_g_ZU23",
 		"rhs_bmd1_chdkz",
 		"rhs_gaz66_r142_vdv"
 	];
