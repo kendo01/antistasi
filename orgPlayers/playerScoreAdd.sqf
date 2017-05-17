@@ -1,32 +1,30 @@
-//if (!isMultiplayer) exitWith {};
+params [
+	["_points", 0, [0]],
+	"_player",
+	["_isSilent", false, [true]]
+];
 
-private ["_puntos","_jugador","_puntosJ","_dineroJ"];
-_puntos = _this select 0;
-_jugador = _this select 1;
-_notification = true;
+private ["_currentPoints","_currentMoney","_text"];
 
-if (!isPlayer _jugador) exitWith {};
+if (!isPlayer _player) exitWith {};
 
-if (count _this > 2) then {_notification = false};
-
-//if (rank _jugador == "COLONEL") exitWith {};
-_jugador = _jugador getVariable ["owner",_jugador];
-//if (typeName _jugador == typeName "") exitWith {diag_log format ["Antistasi Error: Intento de asignar puntos a un %1 siendo en realidad %2",_jugador, _this select 1]};
+_player = _player getVariable ["owner",_player];
 if (isMultiplayer) exitWith {
-	_puntosJ = _jugador getVariable ["score",0];
-	_dineroJ = _jugador getVariable ["dinero",0];
-	if (_puntos > 0) then {
-		_dineroJ = _dineroJ + (_puntos * 10);
-		_jugador setVariable ["dinero",_dineroJ,true];
-		_texto = format ["<br/><br/><br/><br/><br/><br/>Money +%1 €",_puntos*10];
-		if (_notification) then {
-			[petros,"income",_texto] remoteExec ["commsMP",_jugador];
+	_currentPoints = _player getVariable ["score",0];
+	_currentMoney = _player getVariable ["dinero",0];
+	if (_points > 0) then {
+		_currentMoney = _currentMoney + (_points * 10);
+		_player setVariable ["dinero",_currentMoney,true];
+		_text = format ["<br/><br/><br/><br/><br/><br/>Money +%1 €",_points*10];
+		if !(_isSilent) then {
+			[petros,"income",_text] remoteExec ["commsMP",_player];
 		};
 	};
-	_puntos = _puntos + _puntosJ;
-	_jugador setVariable ["score",_puntos,true];
+	_points = _points + _currentPoints;
+	_player setVariable ["score",_points,true];
 };
 
-if (_puntos > 0) then {
-	[0,(_puntos * 5)] remoteExec ["resourcesFIA",2];
+if (_points > 0) then {
+	_currentMoney = server getVariable ["resourcesFIA", 0];
+	server setVariable ["resourcesFIA", _currentMoney + (_points * 5), true];
 };
