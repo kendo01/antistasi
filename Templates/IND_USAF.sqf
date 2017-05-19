@@ -77,7 +77,7 @@ vehFuel = 			["rhsusf_M978A4_BKIT_usarmy_d","rhsusf_M978A4_usarmy_d"]; // fuel t
 vehLead = 			["rhsusf_M1117_D"]; // lead vehicle for convoys, preferably armed MRAP/car
 standardMRAP = 		["rhsusf_rg33_d","rhsusf_m1025_d"]; // default transport MRAP/car
 vehTruckBox = 		["rhsusf_M977A4_REPAIR_usarmy_d"]; // repair truck or at least a prop
-vehPatrolBoat = 	["I_Boat_Armed_01_minigun_F"];
+vehPatrolBoat = 	["B_Boat_Armed_01_minigun_F"];
 
 vehTruckAA = 		"rhs_gaz66_zu23_msv";
 guer_vehicleArray pushBackUnique vehTruckAA;
