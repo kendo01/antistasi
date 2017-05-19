@@ -45,11 +45,11 @@ if ({alive _x} count units _group == 0) then {
 	deleteMarker _marker;
 };
 
-waitUntil {sleep 5; !(spawner getVariable _marker) OR !(_marker in campsFIA)};
+waitUntil {sleep 1; !(spawner getVariable _marker) OR !(_marker in campsFIA)};
 
 {deleteVehicle _x} forEach units _group;
 deleteGroup _group;
 
 _fire inflame false;
-sleep 2;
+sleep 0.5;
 {deleteVehicle _x} forEach _objs;

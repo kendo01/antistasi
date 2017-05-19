@@ -64,4 +64,4 @@ if ((({alive _x} count _allSoldiers == 0) OR ({fleeing _x} count _allSoldiers ==
 
 waitUntil {sleep 1; !(spawner getVariable _marker)};
 
-[_allGroups, _allSoldiers, []] spawn AS_fnc_despawnUnits;
+[_allGroups, _allSoldiers, [], !_isHostile] spawn AS_fnc_despawnUnits;
