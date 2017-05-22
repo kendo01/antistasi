@@ -12,9 +12,9 @@ if (_tipo == "delete") exitWith {
 	hint format ["Deleting %1", _txt];
 	_coste = 0;
 	_hr = 0;
-	_formato = ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup);
+	_tipogrupo = ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup);
 	if !(typeName _tipogrupo == "ARRAY") then {
-		_tipogrupo = [_formato] call groupComposition;
+		_tipogrupo = [_tipogrupo] call groupComposition;
 	};
 	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _tipogrupo;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
