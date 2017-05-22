@@ -1095,6 +1095,13 @@
 			<Key ID="STR_TSK_BEMP_DEL_NONE">
 				<Original>No emplacement nearby.</Original>
 			</Key>
+			
+			<Key ID="STR_TSK_EMP_CAMP">
+				<Original>Camp Setup</Original>
+			</Key>
+			<Key ID="STR_TSKDESC_EMP_CAMP">
+				<Original>We are sending a team to establish a camp. Send and cover the team until reaches it's destination.</Original>
+			</Key>
 		</Container>
 	</Package>
 
