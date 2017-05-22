@@ -1,114 +1,117 @@
 if (!isServer) exitWith {};
 
-private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_unidades","_formato"];
+params [
+	["_action", "delete", [""]],
+	"_position",
 
-_tipo = _this select 0;
-_posicionTel = _this select 1;
+	["_cost", 0],
+	["_hr", 0],
+	["_nameOptions", campNames - usedCN],
+	["_tskTitle", localize "STR_TSK_EMP_CAMP"],
+	["_tskDesc", localize "STR_TSKDESC_EMP_CAMP"]
+];
 
-if (_tipo == "delete") exitWith {
-	_mrk = [campsFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	_txt = markerText _mrk;
-	hint format ["Deleting %1", _txt];
-	_coste = 0;
-	_hr = 0;
-	_formato = ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup);
-	if !(typeName _tipogrupo == "ARRAY") then {
-		_tipogrupo = [_formato] call groupComposition;
+private ["_zone", "_groupType", "_campName", "_endTime", "_group", "_truck", "_driver", "_tempGroup", "_crate", "_owner"];
+
+#define DURATION 60
+
+if (_action == "delete") exitWith {
+	_zone = [campsFIA,_position] call BIS_fnc_nearestPosition;
+	hint format ["Deleting %1", markerText _zone];
+
+	_groupType = ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup);
+	if !(typeName _groupType == "ARRAY") then {
+		_groupType = [_groupType] call groupComposition;
 	};
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _tipogrupo;
-	[_hr,_coste] remoteExec ["resourcesFIA",2];
-	deleteMarker _mrk;
-	campsFIA = campsFIA - [_mrk]; publicVariable "campsFIA";
-	campList = campList - [[_mrk, _txt]]; publicVariable "campList";
-	usedCN = usedCN - [_txt]; publicVariable "usedCN";
-	diag_log format ["deleting: %1", [_txt]];
-	marcadores = marcadores - [_mrk]; publicVariable "marcadores";
+
+	{
+		_cost = _cost + (server getVariable [_x, 100]);
+		_hr = _hr + 1;
+	} forEach _groupType;
+
+	[_hr, _cost] remoteExec ["resourcesFIA", 2];
+	campsFIA = campsFIA - [_zone]; publicVariable "campsFIA";
+	campList = campList - [[_zone, markerText _zone]]; publicVariable "campList";
+	usedCN = usedCN - [markerText _zone]; publicVariable "usedCN";
+	marcadores = marcadores - [_zone]; publicVariable "marcadores";
+	deleteMarker _zone;
 };
 
-_nameOptions = campNames - usedCN;
-_texto = selectRandom _nameOptions;
-_tipoVeh = guer_veh_truck;
+_zone = createMarker [format ["FIACamp%1", random 1000], _position];
+_zone setMarkerShape "ICON";
 
-_mrk = createMarker [format ["FIACamp%1", random 1000], _posicionTel];
-_mrk setMarkerShape "ICON";
+_endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + DURATION];
+_endTime = dateToNumber _endTime;
 
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + 60];
-_fechalimnum = dateToNumber _fechalim;
-
-_tsk = ["campsFIA",[side_blue,civilian],["We are sending a team to establish a camp. Send and cover the team until reaches it's destination.","Camp Setup",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
+_tsk = ["campsFIA", [side_blue, civilian], [_tskDesc, _tskTitle, _zone], _position, "CREATED", 5, true, true, "Move"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
 
-_tam = 10;
-while {true} do {
-	_roads = getMarkerPos guer_respawn nearRoads _tam;
-	if (count _roads < 1) then {_tam = _tam + 10};
-	if (count _roads > 0) exitWith {};
-};
-_road = _roads select 0;
-_pos = position _road findEmptyPosition [1,30,guer_veh_truck];
+([getMarkerPos guer_respawn, _position] call AS_fnc_findRoadspot) params ["_spawnPos", "_spawnDir"];
+_spawnPos = ([_spawnPos, getMarkerPos guer_respawn] select (count _spawnPos == 0)) findEmptyPosition [1, 50, guer_veh_truck];
 
-_camion = guer_veh_truck createVehicle _pos;
-_grupo = [getMarkerPos guer_respawn, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
-_grupo setGroupId ["Watch"];
+_group = createGroup side_blue;
+_truck = guer_veh_truck createVehicle _spawnPos;
+_truck setDir _spawnDir;
+_driver = _group createUnit [guer_sol_R_L, _spawnPos, [], 0, "FORM"];
+_driver assignAsDriver _truck;
+_driver moveInDriver _truck;
+_group selectLeader _driver;
+_driver action ["engineOn", _truck];
+
+_tempGroup = [getMarkerPos guer_respawn, side_blue, ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup)] call BIS_Fnc_spawnGroup;
 {
-	_x moveInCargo _camion;
-} forEach units _grupo;
+	_x moveInCargo _truck;
+} forEach (units _tempGroup);
 
-_driver = ([_pos, 0, guer_sol_R_L, _grupo] call bis_fnc_spawnvehicle) select 0;
-_driver assignAsDriver _camion;
-_driver moveInDriver _camion;
+(units _tempGroup) joinsilent _group;
 
-{[_x] call AS_fnc_initialiseFIAUnit;} forEach units _grupo;
+{[_x] call AS_fnc_initialiseFIAUnit;} forEach units _group;
 
-[_grupo] spawn dismountFIA;
+_group setGroupId ["Watch"];
+[_group] spawn dismountFIA;
 
-leader _grupo setBehaviour "SAFE";
-Slowhand hcSetGroup [_grupo];
-_grupo setVariable ["isHCgroup", true, true];
+leader _group setBehaviour "SAFE";
+Slowhand hcSetGroup [_group];
+_group setVariable ["isHCgroup", true, true];
 
-_driver action ["engineOn", _camion];
-_grupo selectLeader _driver;
+_crate = "Box_FIA_Support_F" createVehicle _spawnPos;
+_crate attachTo [_truck,[0.0,-1.4,0.5]];
 
-_crate = "Box_FIA_Support_F" createVehicle _pos;
-_crate attachTo [_camion,[0.0,-1.2,0.5]];
+waitUntil {sleep 1; ({alive _x} count units _group == 0) OR {{(alive _x) AND {_x distance _position < 10}} count units _group > 0} OR {dateToNumber date > _endTime}};
 
-waitUntil {sleep 1; ({alive _x} count units _grupo == 0) or ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) or (dateToNumber date > _fechalimnum)};
-
-if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) then {
-	if (isPlayer leader _grupo) then {
-		_owner = (leader _grupo) getVariable ["owner",leader _grupo];
-		(leader _grupo) remoteExec ["removeAllActions",leader _grupo];
-		_owner remoteExec ["selectPlayer",leader _grupo];
-		(leader _grupo) setVariable ["owner",_owner,true];
+if ({(alive _x) AND {_x distance _position < 10}} count units _group > 0) then {
+	if (isPlayer leader _group) then {
+		_owner = (leader _group) getVariable ["owner",leader _group];
+		(leader _group) remoteExec ["removeAllActions",leader _group];
+		_owner remoteExec ["selectPlayer",leader _group];
+		(leader _group) setVariable ["owner",_owner,true];
 		{[_x] joinsilent group _owner} forEach units group _owner;
 		[group _owner, _owner] remoteExec ["selectLeader", _owner];
 		"" remoteExec ["hint",_owner];
-		waitUntil {!(isPlayer leader _grupo)};
+		waitUntil {!(isPlayer leader _group)};
 	};
-	campsFIA = campsFIA + [_mrk]; publicVariable "campsFIA";
-	campList = campList + [[_mrk, _texto]]; publicVariable "campList";
-	marcadores = marcadores + [_mrk];
+
+	_campName = selectRandom _nameOptions;
+	campsFIA = campsFIA + [_zone]; publicVariable "campsFIA";
+	campList = campList + [[_zone, _campName]]; publicVariable "campList";
+	mrkFIA = mrkFIA + [_zone]; publicVariable "mrkFIA";
+	marcadores = marcadores + [_zone];
 	publicVariable "marcadores";
-	spawner setVariable [_mrk,false,true];
-	_tsk = ["campsFIA",[side_blue,civilian],["We are sending a team to establish a camp. Send and cover the team until reaches it's destination.","Camp Setup",_mrk],_posicionTel,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
-	_mrk setMarkerType "loc_bunker";
-	_mrk setMarkerColor "ColorOrange";
-	_mrk setMarkerText _texto;
-	usedCN pushBack _texto;
-}
-else {
-	_tsk = ["campsFIA",[side_blue,civilian],["We are sending a team to establish a camp. Send and cover the team until reaches it's destination.","Camp Setup",_mrk],_posicionTel,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
+	spawner setVariable [_zone,false,true];
+	_tsk = ["campsFIA", [side_blue, civilian], [_tskDesc, _tskTitle, _zone], _position, "SUCCEEDED", 5, true, true, "Move"] call BIS_fnc_setTask;
+	_zone setMarkerType "loc_bunker";
+	_zone setMarkerColor "ColorOrange";
+	_zone setMarkerText _campName;
+	usedCN pushBack _campName;
+} else {
+	_tsk = ["campsFIA", [side_blue, civilian], [_tskDesc, _tskTitle, _zone], _position, "FAILED", 5, true, true, "Move"] call BIS_fnc_setTask;
 	sleep 3;
-	deleteMarker _mrk;
+	deleteMarker _zone;
 };
 
-Slowhand hcRemoveGroup _grupo;
-{deleteVehicle _x} forEach units _grupo;
-deleteVehicle _camion;
-deleteGroup _grupo;
-_crate enableSimulationGlobal false;
-_crate hideObjectGlobal true;
+Slowhand hcRemoveGroup _group;
+{deleteVehicle _x} forEach ((units _group) + [_truck, _crate]);
+deleteGroup _group;
 sleep 15;
 
 [0,_tsk] spawn borrarTask;

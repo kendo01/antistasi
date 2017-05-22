@@ -1,15 +1,25 @@
-private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_exists","_posicionTel","_tipogrupo","_resourcesFIA","_hrFIA"];
+params [
+	["_action", "create", [""]],
 
-if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
+	["_markers", mrkAAF],
+	["_maxCamps", 4],
+	["_permission", true],
+	["_text", "Error in permission system, module ft."],
+	["_position", []],
+	["_mapPos", []],
+	["_cost", 500],
+	["_hr", 0],
+	["_groupType", [guer_grp_sniper, "guer"] call AS_fnc_pickGroup]
+];
 
-_tipo = _this select 0;
-_marcadores = mrkAAF;
-_maxCamps = 3;
+private ["_zone"];
+
+if !([player] call hasRadio) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
+
+_action = toLower _action;
 
 // BE module
-_permission = true;
-_text = "Error in permission system, module ft.";
-if ((activeBE) && (_tipo == "create")) then {
+if ((activeBE) AND {_action isEqualTo "create"}) then {
 	_permission = ["camp"] call fnc_BE_permission;
 	_text = "We cannot maintain any additional camps.";
 	_maxCamps = 100;
@@ -20,9 +30,9 @@ if !(_permission) exitWith {hint _text};
 
 openMap true;
 posicionTel = [];
-if (_tipo == "create") then {hint "Click on the position you wish to establish the camp."};
-if (_tipo == "delete") then {hint "Click on the camp to abandon a camp."};
-if (_tipo == "rename") then {hint "Click on the camp to rename a camp."};
+if (_action isEqualTo "create") then {hint "Click on the position you wish to establish the camp."};
+if (_action isEqualTo "delete") then {hint "Click on the camp to abandon a camp."};
+if (_action isEqualTo "rename") then {hint "Click on the camp to rename a camp."};
 
 onMapSingleClick "posicionTel = _pos;";
 
@@ -34,73 +44,60 @@ if (!visibleMap) exitWith {};
 if (getMarkerPos guer_respawn distance posicionTel < 100) exitWith {hint "Location is too close to base"; openMap false;};
 
 openMap false;
-_posicionTel = posicionTel;
-_pos = [];
+_mapPos = posicionTel;
 
-if ((_tipo == "delete") and (count campsFIA < 1)) exitWith {hint "No camps to abandon."};
-if ((_tipo == "delete") and ({(alive _x) and (!captive _x) and ((side _x == side_green) or (side _x == side_red)) and (_x distance _posicionTel < 500)} count allUnits > 0)) exitWith {hint "You cannot delete a camp while enemies are near it."};
+if ((_action isEqualTo "delete") AND {count campsFIA < 1}) exitWith {hint "No camps to abandon."};
+if ((_action isEqualTo "delete") AND ({(alive _x) AND {!captive _x} AND ((side _x == side_green) OR (side _x == side_red)) AND {_x distance _mapPos < 500}} count allUnits > 0)) exitWith {hint "You cannot delete a camp while enemies are near it."};
+if ((_action == "create") AND {count campsFIA >= _maxCamps}) exitWith {hint format ["You can only sustain a maximum of %1 camps.", _maxCamps]};
 
-_coste = 500;
-_hr = 0;
-
-if ((_tipo == "create") && (count campsFIA > _maxCamps)) exitWith {hint "You can only sustain a maximum of four camps."};
-
-if (_tipo == "create") then {
-	_tipogrupo = guer_grp_sniper;
-	_formato = ([guer_grp_sniper, "guer"] call AS_fnc_pickGroup);
-	if !(typeName _tipogrupo == "ARRAY") then {
-		_tipogrupo = [_formato] call groupComposition;
+if (_action isEqualTo "create") then {
+	if !(typeName _groupType == "ARRAY") then {
+		_groupType = [_groupType] call groupComposition;
 	};
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _tipogrupo;
+	{
+		_cost = _cost + (server getVariable [_x, 100]);
+		_hr = _hr + 1;
+	} forEach _groupType;
 };
 
-_txt = "";
-_break = false;
-while {(_tipo == "delete") && !(_break)} do {
-	scopeName "loop1";
-	_mrk = [campsFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	if (_posicionTel distance _pos > 50) exitWith {_break = true; _txt = "No camp nearby.";};
-	breakOut "loop1";
+if (_action isEqualTo "delete") exitWith {
+	_zone = [campsFIA, _mapPos] call BIS_fnc_nearestPosition;
+	_position = getMarkerPos _zone;
+	if (_position distance _mapPos > 50) then {
+		openMap false;
+		hint "No camp nearby.";
+	} else {
+		[_action, _position] remoteExec ["establishCamp", 2];
+	};
 };
 
-while {(_tipo == "rename")} do {
-	scopeName "loop2";
-	_mrk = [campsFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	if (_posicionTel distance _pos > 50) exitWith {_break = true; _txt = "No camp nearby.";};
+if (_action isEqualTo "rename") exitWith {
+	_zone = [campsFIA, _mapPos] call BIS_fnc_nearestPosition;
+	_position = getMarkerPos _zone;
+	if (_position distance _mapPos > 50) then {
+		openMap false;
+		hint "No camp nearby.";
+	} else {
+		createDialog "rCamp_Dialog";
 
-	createDialog "rCamp_Dialog";
+		((uiNamespace getVariable "rCamp") displayCtrl 1400) ctrlSetText cName;
 
-	((uiNamespace getVariable "rCamp") displayCtrl 1400) ctrlSetText cName;
-
-	waitUntil {dialog};
-	waitUntil {!dialog};
-	if (cName == "") exitWith {_break = true; _txt = "No name entered...";};
-	_mrk setMarkerText cName;
-	for "_i" from 0 to (count campList - 1) do {
-		if ((campList select _i) select 0 == _mrk) then {
-			(campList select _i) set [1, cName];
+		waitUntil {dialog};
+		waitUntil {!dialog};
+		if (cName == "") exitWith {hint "No name entered..."};
+		_zone setMarkerText cName;
+		for "_i" from 0 to (count campList - 1) do {
+			if ((campList select _i) select 0 == _zone) then {
+				(campList select _i) set [1, cName];
+			};
 		};
+		publicVariable "campList";
+		cName = "";
+		hint "Camp renamed";
 	};
-	publicVariable "campList";
-	cName = "";
-	hint "Camp renamed";
-	breakOut "loop2";
 };
 
-if (_break) exitWith {openMap false; hint _txt;};
+if (((server getVariable ["resourcesFIA", 0]) < _cost) OR {server getVariable ["hr", 0] < _hr}) exitWith {hint format ["You lack of resources to build this camp. \n %1 HR and %2 € needed",_hr,_cost]};
 
-_resourcesFIA = server getVariable "resourcesFIA";
-_hrFIA = server getVariable "hr";
-
-if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo == "create")) exitWith {hint format ["You lack of resources to build this camp. \n %1 HR and %2 € needed",_hr,_coste]};
-
-if (_tipo == "create") then {
-	[-_hr,-_coste] remoteExec ["resourcesFIA",2];
-};
-
-if (_tipo != "rename") then {
-	[[_tipo,_posicionTel],"establishCamp"] call BIS_fnc_MP;
-};
-
+[-_hr,-_cost] remoteExec ["resourcesFIA", 2];
+[_action, _mapPos] remoteExec ["establishCamp", 2];
