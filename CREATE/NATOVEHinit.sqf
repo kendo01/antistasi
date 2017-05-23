@@ -8,7 +8,7 @@ clearMagazineCargoGlobal _veh;
 clearWeaponCargoGlobal _veh;
 clearItemCargoGlobal _veh;
 clearBackpackCargoGlobal _veh;
-_veh lock 3;
+[_veh, true] remoteExec ["AS_fnc_lockVehicle", [0,-2] select isDedicated, true];
 _veh addEventHandler ["GetIn",
 	{
 	_unit = _this select 2;
@@ -22,6 +22,3 @@ if ((count crew _veh) > 0) then
 	{
 	[_veh] spawn VEHdespawner
 	};
-
-
-
