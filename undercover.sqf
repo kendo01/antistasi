@@ -50,12 +50,12 @@ _fnc_displayGear = {
 
 call {
 	// Enemies nearby
-	if ({((side _x == side_red) OR (side _x == side_green)) AND (_x distance player < safeDistance_undercover)} count allUnits > 0) exitWith {
+	if ({((side _x == side_red) OR {side _x == side_green}) AND (_x distance player < safeDistance_undercover)} count allUnits > 0) exitWith {
 		_reason = format [localize "STR_HINTS_UND_ENEMY_DIST",safeDistance_undercover];
 	};
 
 	// Known to nearby enemies
-	if ({((side _x == side_red) OR (side _x == side_green)) AND ((_x knowsAbout player > 1.4) AND (_X distance player < (1.5*safeDistance_undercover)))} count allUnits > 0) exitWith {
+	if ({((side _x == side_red) OR {side _x == side_green}) AND ((_x knowsAbout player > 1.4) AND (_X distance player < (1.5*safeDistance_undercover)))} count allUnits > 0) exitWith {
 		_reason = format [localize "STR_HINTS_UND_ENEMY_KNOW",safeDistance_undercover];
 	};
 
@@ -216,6 +216,15 @@ while {_reason == ""} do {
 			} else {
 				_reason = localize "STR_HINTS_UND_CMP_GEAR";
 			};
+			breakTo "main";
+		};
+
+		_base = [_milThreatGround,_player] call BIS_fnc_nearestPosition;
+		_size = [_base] call sizeMarker;
+		// Too close to an enemy facility
+		if ((_player distance getMarkerPos _base) and (_base in mrkAAF)) then {
+			_reason = localize "STR_HINTS_UND_CMP_FAC";
+			_spotted = true;
 			breakTo "main";
 		};
 
