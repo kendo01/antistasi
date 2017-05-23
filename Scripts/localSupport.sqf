@@ -26,6 +26,7 @@ private ["_cities" ,"_location", "_data", "_prestigeOPFOR", "_prestigeBLUFOR", "
 #define CGREEN "#1DA81D"
 
 {
+	_cityNames pushBack (getText (configfile >> "CfgWorlds" >> worldName >> "Names" >> _x >> "name"));
 } forEach ciudades;
 
 _fnc_getName = {
