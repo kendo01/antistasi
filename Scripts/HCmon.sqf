@@ -1,12 +1,6 @@
 if (!isServer and hasInterface) exitWith {};
 
-params [
-	["_countHCs", count (entities "HeadlessClient_F"), [0]]
-];
-
-private ["_fnc_reset"];
-
-_fnc_reset = {
+AS_fnc_resetHCs = {
 	hcArray = [];
 
 	if ((!isnil "HC1") AND {!isNull HC1}) then {hcArray pushBackUnique HC1};
@@ -43,10 +37,14 @@ _fnc_reset = {
 };
 
 while {true} do {
-	if (_countHCs != count (entities "HeadlessClient_F")) then {
-		[] call _fnc_reset;
+	call {
+		if (objNull in hcArray) exitWith {
+			[] call AS_fnc_resetHCs;
+		};
 
-		_countHCs = count (entities "HeadlessClient_F");
+		if (count hcArray != count (entities "HeadlessClient_F")) exitWith {
+			[] call AS_fnc_resetHCs;
+		};
 	};
 
 	sleep 30;
