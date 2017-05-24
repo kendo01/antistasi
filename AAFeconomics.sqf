@@ -62,7 +62,7 @@ if (_enemyFunds > (PRICE_REPAIR*_coefficient)) then {
 if (_progressFIA == 0) exitWith {resourcesIsChanging = false};
 
 // buy planes
-if (((planesAAFcurrent < planesAAFmax) AND {helisAAFcurrent > 3}) AND {_progressFIA > THRES_PLANES}) then {
+if ((planesAAFcurrent < planesAAFmax) AND {helisAAFcurrent > 3} AND {_progressFIA > THRES_PLANE}) then {
 	if (_enemyFunds > (PRICE_PLANE*_coefficient)) then {
 		indAirForce = indAirForce + planes;
 		indAirForce = indAirForce arrayIntersect indAirForce;
@@ -76,7 +76,7 @@ if (((planesAAFcurrent < planesAAFmax) AND {helisAAFcurrent > 3}) AND {_progress
 };
 
 // buy tanks
-if (((tanksAAFcurrent < tanksAAFmax) AND {APCAAFcurrent > 3}) AND {_progressFIA > THRES_TANKS} AND {planesAAFcurrent != 0}) then {
+if ((tanksAAFcurrent < tanksAAFmax) AND {APCAAFcurrent > 3} AND {_progressFIA > THRES_TANK} AND {planesAAFcurrent != 0}) then {
 	if (_enemyFunds > (PRICE_TANK*_coefficient)) then {
 		enemyMotorpool = enemyMotorpool + vehTank;
 		enemyMotorpool = enemyMotorpool arrayIntersect enemyMotorpool;
@@ -90,7 +90,7 @@ if (((tanksAAFcurrent < tanksAAFmax) AND {APCAAFcurrent > 3}) AND {_progressFIA 
 };
 
 // buy gunships
-if (((helisAAFcurrent < helisAAFmax) AND {{helisAAFcurrent < 4} OR {planesAAFcurrent > 3}}) AND {_progressFIA > THRES_GUNSHIP}) then {
+if ((helisAAFcurrent < helisAAFmax) AND {_progressFIA > THRES_GUNSHIP} AND {(helisAAFcurrent < 4) OR {planesAAFcurrent > 3}}) then {
 	if (_enemyFunds > (PRICE_GUNSHIP*_coefficient)) then {
 		indAirForce = indAirForce + heli_armed;
 		indAirForce = indAirForce arrayIntersect indAirForce;
@@ -104,7 +104,7 @@ if (((helisAAFcurrent < helisAAFmax) AND {{helisAAFcurrent < 4} OR {planesAAFcur
 };
 
 // buy APCs/IFVs
-if ((APCAAFcurrent < APCAAFmax) AND {{tanksAAFcurrent > 2} or {APCAAFcurrent < 4}} AND {_progressFIA > THRES_APC}) then {
+if ((APCAAFcurrent < APCAAFmax) AND {_progressFIA > THRES_APC} AND {(tanksAAFcurrent > 2) or {APCAAFcurrent < 4}}) then {
 	if (_enemyFunds > (PRICE_APC*_coefficient)) then {
 		enemyMotorpool = enemyMotorpool + vehAPC + vehIFV;
 		enemyMotorpool = enemyMotorpool arrayIntersect enemyMotorpool;
