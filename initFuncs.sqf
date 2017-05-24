@@ -189,6 +189,7 @@ cleanGear = compile preProcessFileLineNumbers "OrgPlayers\cleanGear.sqf";
 localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";
 petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf";
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
+HCmon = compile preprocessFileLineNumbers "Scripts\HCmon.sqf"; 
 
 ACErespawn = compile preProcessFileLineNumbers "Revive\ACErespawn.sqf";
 
