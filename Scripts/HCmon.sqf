@@ -1,84 +1,53 @@
-if ((!isServer) or (count hcArray == 0)) exitWith {};
+if (!isServer and hasInterface) exitWith {};
 
-private _initialHCs =+ hcArray;
-private _numHCs = count (entities "HeadlessClient_F");
-private _currentHCs = [];
-private _text = "To facilitate a smoother transition, please leave the spawn radius of all units. You have three minutes.";
+params [
+	["_countHCs", count (entities "HeadlessClient_F"), [0]]
+];
 
-_reset = {
+private ["_fnc_reset"];
+
+_fnc_reset = {
+	hcArray = [];
+
+	if ((!isnil "HC1") AND {!isNull HC1}) then {hcArray pushBackUnique HC1};
+	if ((!isnil "HC2") AND {!isNull HC2}) then {hcArray pushBackUnique HC2};
+	if ((!isnil "HC3") AND {!isNull HC3}) then {hcArray pushBackUnique HC3};
+
 	HCciviles = 2;
 	HCgarrisons = 2;
 	HCattack = 2;
-	hcArray = entities "HeadlessClient_F";
+
 	if (count hcArray > 0) then {
-		HCciviles = hcArray select 0;
-		HCgarrisons = hcArray select 0;
-		HCattack = hcArray select 0;
-		diag_log "Antistasi MP Server. Headless Client 1 detected";
-		if (count hcArray > 1) then {
-		   	HCciviles = hcArray select 1;
-		    HCattack = hcArray select 1;
-		    diag_log "Antistasi MP Server. Headless Client 2 detected";
-		    if (count hcArray > 2) then {
-		    	HCciviles = hcArray select 2;
-		    	diag_log "Antistasi MP Server. Headless Client 3 detected";
-		    };
-		};
+	    HCattack = hcArray select 0;
+	    (format ["Attack module assigned to %1", hcArray select 0]) remoteExec ["systemChat", Slowhand];
+	    diag_log "Antistasi MP Server: Headless Client 1 detected";
+	    if (count hcArray > 1) then {
+	        HCciviles = hcArray select 1;
+	        (format ["Civilian module assigned to %1", hcArray select 1]) remoteExec ["systemChat", Slowhand];
+	        diag_log "Antistasi MP Server: Headless Client 2 detected";
+	        if (count hcArray > 2) then {
+	            HCgarrisons = hcArray select 2;
+	            (format ["Garrison module assigned to %1", hcArray select 2]) remoteExec ["systemChat", Slowhand];
+	            diag_log "Antistasi MP Server: Headless Client 3 detected";
+	        };
+	    };
+	} else {
+		"All modules assigned to the server" remoteExec ["systemChat", Slowhand];
+	    diag_log "No headless clients detected.";
 	};
+
 	publicVariable "HCciviles";
 	publicVariable "HCgarrisons";
 	publicVariable "HCattack";
 	publicVariable "hcArray";
 };
 
-_addHC = {
-	call {
-		if (count _currentHCs == 1) exitWith {
-			hcArray = entities "HeadlessClient_F";
-			HCciviles = hcArray select 0;
-			HCgarrisons = hcArray select 0;
-			HCattack = hcArray select 0;
-		};
-		if (count _currentHCs == 2) exitWith {
-			{
-				if !(_x in hcArray) then {hcArray pushBack _x};
-			} forEach _currentHCs;
-		   	HCciviles = hcArray select 1;
-		    HCattack = hcArray select 1;
-		};
-		if (count _currentHCs == 3) exitWith {
-			{
-				if !(_x in hcArray) then {hcArray pushBack _x};
-			} forEach _currentHCs;
-			HCciviles = hcArray select 2;
-		};
-	};
-};
-
 while {true} do {
-	_currentHCs = entities "HeadlessClient_F";
+	if (_countHCs != count (entities "HeadlessClient_F")) then {
+		[] call _fnc_reset;
 
-	if (!(count _currentHCs == _numHCs) && _currentHCs < 4) then {
-		if (count _currentHCs > _numHCs) then {
-			if (count _currentHCs > count _initialHCs) then {
-				_text = format ["A new client has connected. %1", _text];
-				[petros,"hint",_text] remoteExec ["commsMP", Slowhand];
-				sleep 180;
-				0 = [] call _addHC;
-			} else {
-				_text = format ["A headless client has reconnected. %1", _text];
-				[petros,"hint",_text] remoteExec ["commsMP", Slowhand];
-				sleep 180;
-				0 = [] call _reset;
-			};
-			_numHCs =+ _currentHCs;
-		} else {
-			_text = format ["A headless client has lost connection. %1", _text];
-			[petros,"hint",_text] remoteExec ["commsMP", Slowhand];
-			sleep 180;
-			0 = [] call _reset;
-		};
-
+		_countHCs = count (entities "HeadlessClient_F");
 	};
-	sleep 60;
+
+	sleep 30;
 };

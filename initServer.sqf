@@ -102,3 +102,5 @@ publicVariable "dedicatedServer";
 
 serverInitDone = true; publicVariable "serverInitDone";
 diag_log "Antistasi MP Server. serverInitDone set to true.";
+
+activeHCmon = [] spawn HCmon;
