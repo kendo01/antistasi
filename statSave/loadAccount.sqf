@@ -104,6 +104,7 @@ publicVariable "unlockedRifles";
 _markers = mrkFIA + mrkAAF + campsFIA;
 
 _roadblocks = [];
+respawningRBs = respawningRBs - [-1];
 if (count respawningRBs > 0) then {
 	{
 		_marker = _x select 0;
