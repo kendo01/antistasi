@@ -73,9 +73,8 @@ Devin setunitpos "up";
 
 {
 	call {
-		if (str typeof _x find "Land_PlasticCase_01_medium_F" > -1) exitWith {expCrate = _x; [expCrate] call emptyCrate;};
-		if (str typeof _x find "Box_Syndicate_Wps_F" > -1) exitWith { [_x] call emptyCrate;};
-		if (str typeof _x find "Box_IED_Exp_F" > -1) exitWith { [_x] call emptyCrate;};
+		if (str typeof _x find "Box_Syndicate_Wps_F" > -1) exitWith {expCrate = _x; [expCrate] call emptyCrate};
+		if (str typeof _x find "Box_IED_Exp_F" > -1) exitWith { [_x] call emptyCrate};
 	};
 } forEach _objs;
 
