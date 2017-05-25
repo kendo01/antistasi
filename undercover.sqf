@@ -222,7 +222,7 @@ while {_reason == ""} do {
 		_base = [_milThreatGround,_player] call BIS_fnc_nearestPosition;
 		_size = [_base] call sizeMarker;
 		// Too close to an enemy facility
-		if ((_player distance getMarkerPos _base) and (_base in mrkAAF)) then {
+		if ((_player distance getMarkerPos _base < _size) and (_base in mrkAAF)) then {
 			_reason = localize "STR_HINTS_UND_CMP_FAC";
 			_spotted = true;
 			breakTo "main";
